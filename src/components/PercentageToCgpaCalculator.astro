@@ -6,7 +6,7 @@ interface Props {
 const { idPrefix = 'pct2cgpa' } = Astro.props;
 ---
 
-<div id={`${idPrefix}-calculator-panel`} class="calculator-panel">
+<div id={`${idPrefix}-calculator-panel`} class="calc-component-root">
   <!-- Live Result Card -->
   <div class="geist-card geist-card-floating" style="padding: 1.75rem; margin-bottom: 1.5rem; background: linear-gradient(180deg, var(--color-canvas-elevated) 0%, var(--color-canvas-subtle) 100%);">
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; align-items: center;">
