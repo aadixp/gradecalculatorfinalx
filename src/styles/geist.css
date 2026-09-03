@@ -1007,20 +1007,20 @@ html.dark .hero-mesh {
     display: none !important;
   }
 
-  /* Compact, visually balanced square-style cards */
+  /* Compact, content-fitted cards on mobile */
   .mobile-card-row {
     display: grid !important;
     grid-template-columns: repeat(6, 1fr) !important;
-    gap: 0.625rem 0.5rem !important;
-    padding: 1rem 1.125rem !important;
+    gap: 0.5rem 0.5rem !important;
+    padding: 0.875rem 1rem !important;
     background: var(--color-canvas-subtle) !important;
     border: 1px solid var(--color-hairline) !important;
     border-radius: var(--radius-md) !important;
-    margin-bottom: 0.875rem !important;
+    margin-bottom: 0.75rem !important;
     box-shadow: var(--shadow-whisper);
-    /* Balanced square proportion, flexible with content without fixed height */
-    min-height: clamp(180px, 54vw, 240px);
-    align-content: space-between;
+    height: auto !important;
+    min-height: 0 !important;
+    align-content: start !important;
     box-sizing: border-box !important;
     transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
   }
@@ -1094,7 +1094,7 @@ html.dark .hero-mesh {
   .mobile-card-row .td-drop {
     grid-column: 1 / 7 !important;
     grid-row: 3 !important;
-    padding-top: 0.5rem !important;
+    padding-top: 0.4rem !important;
     border-top: 1px solid var(--color-hairline-soft) !important;
     display: flex !important;
     align-items: center;
@@ -1128,8 +1128,124 @@ html.dark .hero-mesh {
   .mobile-card-row .td-gpa-type {
     grid-column: 1 / 7 !important;
     grid-row: 3 !important;
-    padding-top: 0.5rem !important;
+    padding-top: 0.4rem !important;
     border-top: 1px solid var(--color-hairline-soft) !important;
+  }
+
+  /* Semester CGPA Compact Card Layout */
+  .mobile-card-row.sem-card-row {
+    padding: 0.75rem 0.875rem !important;
+    gap: 0.45rem 0.5rem !important;
+  }
+
+  .mobile-card-row.sem-card-row .td-cgpa-name {
+    grid-column: 1 / 6 !important;
+    grid-row: 1 !important;
+  }
+
+  .mobile-card-row.sem-card-row .td-cgpa-del {
+    grid-column: 6 / 7 !important;
+    grid-row: 1 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: flex-end !important;
+    padding-bottom: 2px !important;
+  }
+
+  .mobile-card-row.sem-card-row .td-cgpa-del .btn-icon {
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0.35rem !important;
+    border-radius: var(--radius-sm);
+    color: var(--color-mute);
+  }
+
+  .mobile-card-row.sem-card-row .td-cgpa-del .btn-icon:hover {
+    color: var(--color-rose);
+    background: var(--color-rose-soft);
+  }
+
+  .mobile-card-row.sem-card-row .td-cgpa-point {
+    grid-column: 1 / 4 !important;
+    grid-row: 2 !important;
+  }
+
+  .mobile-card-row.sem-card-row .td-cgpa-credits {
+    grid-column: 4 / 7 !important;
+    grid-row: 2 !important;
+  }
+
+  .mobile-card-row.sem-card-row .td-cgpa-pts-earned {
+    grid-column: 1 / 7 !important;
+    grid-row: 3 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding-top: 0.35rem !important;
+    border-top: 1px solid var(--color-hairline-soft) !important;
+    margin-top: 0.15rem !important;
+  }
+
+  .mobile-card-row.sem-card-row .td-cgpa-pts-earned .mobile-input-label {
+    margin-bottom: 0 !important;
+  }
+
+  /* Indian CGPA, SGPA & What-If Subject Cards */
+  .mobile-card-row.subject-card-row {
+    padding: 0.75rem 0.875rem !important;
+    gap: 0.45rem 0.5rem !important;
+  }
+
+  .mobile-card-row.subject-card-row .td-cgpa-name {
+    grid-column: 1 / 6 !important;
+    grid-row: 1 !important;
+  }
+
+  .mobile-card-row.subject-card-row .td-cgpa-del {
+    grid-column: 6 / 7 !important;
+    grid-row: 1 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: flex-end !important;
+    padding-bottom: 2px !important;
+  }
+
+  .mobile-card-row.subject-card-row .td-cgpa-del .btn-icon {
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0.35rem !important;
+    border-radius: var(--radius-sm);
+    color: var(--color-mute);
+  }
+
+  .mobile-card-row.subject-card-row .td-cgpa-del .btn-icon:hover {
+    color: var(--color-rose);
+    background: var(--color-rose-soft);
+  }
+
+  .mobile-card-row.subject-card-row .td-cgpa-grade {
+    grid-column: 1 / 4 !important;
+    grid-row: 2 !important;
+  }
+
+  .mobile-card-row.subject-card-row .td-cgpa-point {
+    grid-column: 4 / 7 !important;
+    grid-row: 2 !important;
+  }
+
+  .mobile-card-row.subject-card-row .td-cgpa-credits {
+    grid-column: 1 / 4 !important;
+    grid-row: 3 !important;
+  }
+
+  .mobile-card-row.subject-card-row .td-cgpa-pts-earned {
+    grid-column: 4 / 7 !important;
+    grid-row: 3 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: flex-end !important;
+    text-align: right !important;
   }
 
   .mobile-input-label {

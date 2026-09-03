@@ -211,7 +211,7 @@ const { idPrefix = 'whatif' } = Astro.props;
 
       hypoCourses.forEach((c, idx) => {
         const tr = document.createElement('tr');
-        tr.className = 'mobile-card-row';
+        tr.className = 'mobile-card-row subject-card-row';
         tr.style.borderBottom = '1px solid var(--color-hairline)';
 
         const pts = (c.point !== null && c.credits !== null) ? ((c.point * c.credits).toFixed(1)) : '--';

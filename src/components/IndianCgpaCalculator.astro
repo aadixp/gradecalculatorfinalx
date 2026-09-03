@@ -172,7 +172,7 @@ const { idPrefix = 'cgpa' } = Astro.props;
 
       subjects.forEach((subj, idx) => {
         const tr = document.createElement('tr');
-        tr.className = 'mobile-card-row';
+        tr.className = 'mobile-card-row subject-card-row';
         tr.style.borderBottom = '1px solid var(--color-hairline)';
 
         const ptsEarned = ((subj.point || 0) * (subj.credits || 0)).toFixed(1);

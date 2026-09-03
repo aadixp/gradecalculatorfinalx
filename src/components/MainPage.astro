@@ -1802,11 +1802,27 @@ const translatePath = useTranslatedPath(lang);
       }
     }
 
+    function scrollToCalculatorSection() {
+      const panelsSection = document.getElementById('main-calculator-section');
+      if (!panelsSection) return;
+
+      const navHeight = 64;
+      const targetY = panelsSection.getBoundingClientRect().top + window.pageYOffset - navHeight;
+
+      window.scrollTo({
+        top: Math.max(0, targetY),
+        behavior: 'smooth'
+      });
+    }
+
     // Attach click listeners to primary tabs
     primaryTabs.forEach(tab => {
       tab.addEventListener('click', () => {
         const target = tab.getAttribute('data-target');
-        if (target) switchTab(target, true);
+        if (target) {
+          switchTab(target, true);
+          scrollToCalculatorSection();
+        }
       });
     });
 
@@ -1816,12 +1832,7 @@ const translatePath = useTranslatedPath(lang);
         const target = card.getAttribute('data-target');
         if (target) {
           switchTab(target, true);
-          if (window.innerWidth < 768) {
-            const panelsSection = document.getElementById('main-calculator-section');
-            if (panelsSection) {
-              panelsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-          }
+          scrollToCalculatorSection();
         }
       });
     });
@@ -1849,18 +1860,17 @@ const translatePath = useTranslatedPath(lang);
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const tabKey = (link as HTMLElement).dataset.tab;
-        if (tabKey === 'weighted') switchTab('calculator-weighted');
-        if (tabKey === 'final') switchTab('calculator-final');
-        if (tabKey === 'gpa') switchTab('calculator-gpa');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (tabKey === 'weighted') switchTab('calculator-weighted', true);
+        if (tabKey === 'final') switchTab('calculator-final', true);
+        if (tabKey === 'gpa') switchTab('calculator-gpa', true);
+        scrollToCalculatorSection();
       });
     });
 
     // Jump to Final Exam button inside Weighted Calculator
     document.getElementById('jump-to-final-btn')?.addEventListener('click', () => {
-      switchTab('calculator-final');
-      window.location.hash = '#final';
-      window.scrollTo({ top: 200, behavior: 'smooth' });
+      switchTab('calculator-final', true);
+      scrollToCalculatorSection();
     });
 
     // Course Selector Change

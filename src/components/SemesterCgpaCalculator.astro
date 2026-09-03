@@ -155,7 +155,7 @@ const { idPrefix = 'semcgpa' } = Astro.props;
 
       semesters.forEach((sem, idx) => {
         const tr = document.createElement('tr');
-        tr.className = 'mobile-card-row';
+        tr.className = 'mobile-card-row sem-card-row';
         tr.style.borderBottom = '1px solid var(--color-hairline)';
 
         const pts = (sem.sgpa !== null && sem.credits !== null) ? ((sem.sgpa * sem.credits).toFixed(1)) : '--';
