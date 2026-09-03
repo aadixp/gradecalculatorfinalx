@@ -1883,18 +1883,12 @@ const translatePath = useTranslatedPath(lang);
       renderGpaTable();
     });
 
-    // Add Course Profile Button
-    document.getElementById('add-course-profile-btn')?.addEventListener('click', () => {
-      const name = prompt('Enter Course Name (e.g. Organic Chemistry, MATH 201):', 'New Course');
-      if (name && name.trim()) {
-        const newCourse = createDefaultCourse(name.trim());
-        courses[newCourse.id] = newCourse;
-        activeCourseId = newCourse.id;
-        saveToLocalStorage();
-        renderCourseSelector();
-        renderWeightedTable();
-        renderGpaTable();
-      }
+    // Global Course Change / Creation Listener
+    window.addEventListener('gradecalc:course-changed', () => {
+      loadInitialState();
+      renderCourseSelector();
+      renderWeightedTable();
+      renderGpaTable();
     });
 
     // Mode Toggle (Percent vs Points)

@@ -1,0 +1,263 @@
+---
+// src/components/CourseModal.astro
+---
+
+<!-- Course Profile Creation Modal -->
+<div id="course-profile-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="course-modal-title">
+  <div class="modal-panel" style="max-width: 440px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem;">
+      <div>
+        <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;">Course Profiles</span>
+        <h3 id="course-modal-title" class="heading-md" style="font-size: 1.15rem;">Create New Course</h3>
+        <p style="font-size: 0.8125rem; color: var(--color-mute); margin-top: 0.25rem;">
+          Add a course profile to maintain independent grades, syllabus weights, and GPA tracks.
+        </p>
+      </div>
+      <button id="close-course-modal-btn" type="button" class="btn btn-ghost btn-icon" aria-label="Close modal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <form id="create-course-form" onsubmit="return false;">
+      <div style="margin-bottom: 1.25rem;">
+        <label for="new-course-name-input" style="display: block; font-size: 0.8125rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.35rem;">
+          Course Name or Code
+        </label>
+        <input
+          id="new-course-name-input"
+          type="text"
+          class="form-input"
+          placeholder="e.g. Organic Chemistry, MATH 201, CS 50"
+          required
+          autocomplete="off"
+          style="width: 100%; font-size: 0.875rem;"
+        />
+        <p style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.35rem;">
+          Stored client-side in your browser with 100% data privacy.
+        </p>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; align-items: center; gap: 0.5rem; padding-top: 0.75rem; border-top: 1px solid var(--color-hairline);">
+        <button id="cancel-course-modal-btn" type="button" class="btn btn-secondary">
+          Cancel
+        </button>
+        <button id="confirm-create-course-btn" type="submit" class="btn btn-primary" style="font-weight: 600;">
+          Create Course
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const STORAGE_KEY_COURSES = 'gradecalc_courses_v3';
+    const STORAGE_KEY_ACTIVE = 'gradecalc_active_course_v3';
+
+    const uid = () => Math.random().toString(36).substring(2, 9);
+
+    function createDefaultCourse(name = 'Math 101') {
+      return {
+        id: uid(),
+        name: name,
+        inputMode: 'percentage',
+        assignments: [
+          { id: uid(), name: 'Homework Assignments', score: 95, maxPoints: 100, weight: 20, dropLowest: false },
+          { id: uid(), name: 'Quizzes (Drop Lowest)', score: 88, maxPoints: 100, weight: 15, dropLowest: true },
+          { id: uid(), name: 'Midterm Exam', score: 84, maxPoints: 100, weight: 25, dropLowest: false },
+          { id: uid(), name: 'Problem Sets', score: 92, maxPoints: 100, weight: 15, dropLowest: false },
+          { id: uid(), name: 'Final Exam', score: null, maxPoints: 100, weight: 25, dropLowest: false },
+        ],
+        whatIfWeight: 25,
+        whatIfScore: 85,
+        finalExam: {
+          currentGrade: 87.5,
+          targetGrade: 90.0,
+          weight: 25
+        },
+        gpaCourses: [
+          { id: uid(), title: name, grade: 'A', credits: 4, type: 'standard' },
+          { id: uid(), title: 'Elective Course', grade: 'A-', credits: 3, type: 'standard' },
+        ],
+        priorGpa: {
+          gpa: 3.50,
+          credits: 30
+        },
+        targetGrad: {
+          targetGpa: 3.75,
+          remainingCredits: 45
+        }
+      };
+    }
+
+    function getStoredCourses(): Record<string, any> {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_COURSES);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object' && Object.keys(parsed).length > 0) {
+            return parsed;
+          }
+        }
+      } catch (e) {
+        console.warn('Error reading courses from storage', e);
+      }
+      const def = createDefaultCourse('Default Course');
+      const initCourses = { [def.id]: def };
+      try {
+        localStorage.setItem(STORAGE_KEY_COURSES, JSON.stringify(initCourses));
+        localStorage.setItem(STORAGE_KEY_ACTIVE, def.id);
+      } catch (e) {}
+      return initCourses;
+    }
+
+    function getActiveCourseId(courses: Record<string, any>): string {
+      const storedActive = localStorage.getItem(STORAGE_KEY_ACTIVE);
+      if (storedActive && courses[storedActive]) {
+        return storedActive;
+      }
+      const firstId = Object.keys(courses)[0];
+      if (firstId) {
+        try {
+          localStorage.setItem(STORAGE_KEY_ACTIVE, firstId);
+        } catch (e) {}
+        return firstId;
+      }
+      return 'default';
+    }
+
+    function syncHeaderCourseSelector() {
+      const sel = document.getElementById('course-selector') as HTMLSelectElement | null;
+      const tag = document.getElementById('active-profile-tag');
+      const printCourse = document.getElementById('print-course-name');
+      if (!sel) return;
+
+      const courses = getStoredCourses();
+      const activeId = getActiveCourseId(courses);
+
+      sel.innerHTML = '';
+      for (const [id, c] of Object.entries(courses)) {
+        const opt = document.createElement('option');
+        opt.value = id;
+        opt.textContent = (c as any).name || 'Unnamed Course';
+        if (id === activeId) opt.selected = true;
+        sel.appendChild(opt);
+      }
+
+      const activeCourse = courses[activeId];
+      const activeName = activeCourse ? activeCourse.name : 'Default Course';
+      if (tag) tag.textContent = activeName;
+      if (printCourse) printCourse.textContent = activeName;
+    }
+
+    // Modal elements
+    const modal = document.getElementById('course-profile-modal');
+    const openBtn = document.getElementById('add-course-profile-btn');
+    const closeBtn = document.getElementById('close-course-modal-btn');
+    const cancelBtn = document.getElementById('cancel-course-modal-btn');
+    const form = document.getElementById('create-course-form') as HTMLFormElement | null;
+    const nameInput = document.getElementById('new-course-name-input') as HTMLInputElement | null;
+
+    function openModal() {
+      if (modal) {
+        modal.classList.add('open');
+        if (nameInput) {
+          nameInput.value = '';
+          setTimeout(() => nameInput.focus(), 60);
+        }
+      }
+    }
+
+    function closeModal() {
+      if (modal) {
+        modal.classList.remove('open');
+        if (nameInput) nameInput.value = '';
+      }
+    }
+
+    function handleCreateCourse(e?: Event) {
+      if (e) e.preventDefault();
+      const rawName = nameInput ? nameInput.value.trim() : '';
+      const courseName = rawName || 'New Course';
+
+      const courses = getStoredCourses();
+      const newCourse = createDefaultCourse(courseName);
+      courses[newCourse.id] = newCourse;
+
+      try {
+        localStorage.setItem(STORAGE_KEY_COURSES, JSON.stringify(courses));
+        localStorage.setItem(STORAGE_KEY_ACTIVE, newCourse.id);
+      } catch (err) {
+        console.error('Failed to save course to storage', err);
+      }
+
+      closeModal();
+      syncHeaderCourseSelector();
+
+      // Dispatch global event for MainPage and other listeners
+      window.dispatchEvent(new CustomEvent('gradecalc:course-changed', {
+        detail: { courseId: newCourse.id, course: newCourse, isNew: true }
+      }));
+    }
+
+    // Open on "+" button click
+    openBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openModal();
+    });
+
+    closeBtn?.addEventListener('click', closeModal);
+    cancelBtn?.addEventListener('click', closeModal);
+
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal?.classList.contains('open')) {
+        closeModal();
+      }
+    });
+
+    form?.addEventListener('submit', handleCreateCourse);
+
+    // Course selector change listener in header
+    const sel = document.getElementById('course-selector') as HTMLSelectElement | null;
+    sel?.addEventListener('change', () => {
+      const selectedId = sel.value;
+      const courses = getStoredCourses();
+      if (courses[selectedId]) {
+        try {
+          localStorage.setItem(STORAGE_KEY_ACTIVE, selectedId);
+        } catch (e) {}
+
+        const tag = document.getElementById('active-profile-tag');
+        const printCourse = document.getElementById('print-course-name');
+        if (tag) tag.textContent = courses[selectedId].name;
+        if (printCourse) printCourse.textContent = courses[selectedId].name;
+
+        window.dispatchEvent(new CustomEvent('gradecalc:course-changed', {
+          detail: { courseId: selectedId, course: courses[selectedId], isNew: false }
+        }));
+      }
+    });
+
+    // Listen for storage changes from other tabs
+    window.addEventListener('storage', (e) => {
+      if (e.key === STORAGE_KEY_COURSES || e.key === STORAGE_KEY_ACTIVE) {
+        syncHeaderCourseSelector();
+      }
+    });
+
+    // Initial sync
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', syncHeaderCourseSelector);
+    } else {
+      syncHeaderCourseSelector();
+    }
+  })();
+</script>

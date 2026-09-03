@@ -3,6 +3,7 @@
 import '../styles/geist.css';
 import LanguagePicker from '../components/LanguagePicker.astro';
 import CalculatorsMenu from '../components/CalculatorsMenu.astro';
+import CourseModal from '../components/CourseModal.astro';
 import { getLangFromUrl, useTranslations, useTranslatedPath, getAlternateUrls } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 
@@ -440,6 +441,9 @@ const ogLocales: Record<string, string> = {
 				</div>
 			</div>
 		</footer>
+
+		<!-- Course Creation Modal -->
+		<CourseModal />
 
 		<!-- Theme Toggle & Shared Scripts -->
 		<script>
