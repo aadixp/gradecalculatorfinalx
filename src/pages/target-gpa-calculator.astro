@@ -1,0 +1,105 @@
+---
+// src/pages/target-gpa-calculator.astro
+import Layout from '../layouts/Layout.astro';
+import TargetGpaCalculator from '../components/TargetGpaCalculator.astro';
+---
+
+<Layout
+  title="Target GPA Calculator | Plan Required Term GPA (4.0 & 5.0 Scales)"
+  description="Calculate the exact GPA required in remaining credit hours to graduate with your goal GPA. Supports US standard 4.0 and weighted 5.0 honors/AP scales."
+>
+  <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
+    <!-- Breadcrumbs -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
+        <a href="/" style="color: var(--color-mute); text-decoration: none;">Home</a>
+        <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
+        <span style="color: var(--color-ink); font-weight: 500;">Target GPA Calculator</span>
+      </nav>
+      <div style="display: flex; gap: 0.5rem;">
+        <a href="/target-cgpa-calculator" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;">
+          Indian Target CGPA &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.5rem;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;">US Degree Graduation Strategy</span>
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;">
+        Target GPA Calculator
+      </h1>
+      <p style="font-size: 1.05rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6; max-width: 780px;">
+        Determine the exact grade point average required across remaining college or high school semesters to achieve your graduation goal, qualify for Latin Honors (Cum Laude, Magna, Summa), or maintain scholarship eligibility.
+      </p>
+    </header>
+
+    <!-- Interactive Calculator -->
+    <section style="margin-bottom: 3rem;">
+      <TargetGpaCalculator idPrefix="page-targetgpa" />
+    </section>
+
+    <!-- Guide & Formula Section -->
+    <article class="geist-card" style="padding: 2.25rem 2rem; line-height: 1.75; color: var(--color-body); margin-bottom: 2rem;">
+      <h2 class="heading-md" style="color: var(--color-ink); font-size: 1.35rem; margin-bottom: 1rem;">
+        The Mathematics of Target GPA
+      </h2>
+      <p style="margin-bottom: 1rem;">
+        Because cumulative GPA is a credit-weighted average of all graded terms, raising an established GPA becomes increasingly difficult as your completed credit total grows. The formula to calculate your <strong>Required Future Term GPA</strong> is:
+      </p>
+      <div style="background: var(--color-canvas-subtle); padding: 1rem 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline); font-family: var(--font-mono); font-size: 0.875rem; margin-bottom: 1.25rem;">
+        Required Term GPA = [Target &times; Total Credits - Current &times; Completed Credits] &divide; Remaining Credits
+      </div>
+
+      <h3 class="heading-md" style="font-size: 1.15rem; color: var(--color-ink); margin-bottom: 0.75rem;">
+        Latin Honors Benchmarks (Typical US Universities)
+      </h3>
+      <ul style="padding-left: 1.25rem; margin-bottom: 1rem;">
+        <li><strong>Summa Cum Laude:</strong> 3.90 &ndash; 4.00 GPA (Highest Honors)</li>
+        <li><strong>Magna Cum Laude:</strong> 3.75 &ndash; 3.89 GPA (High Honors)</li>
+        <li><strong>Cum Laude:</strong> 3.65 &ndash; 3.74 GPA (Honors)</li>
+        <li><strong>Dean’s List Cutoff:</strong> Typically 3.50+ term GPA</li>
+      </ul>
+    </article>
+
+    <!-- FAQs -->
+    <section class="faq-card" style="margin-bottom: 3rem;">
+      <h2 class="heading-md" style="margin-bottom: 1.25rem; color: var(--color-ink);">
+        Frequently Asked Questions
+      </h2>
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="faq-item">
+          <div class="faq-question">What is the difference between unweighted 4.0 and weighted 5.0 scales?</div>
+          <div class="faq-answer">
+            An unweighted 4.0 scale treats all classes equally with 'A' capped at 4.0. A weighted 5.0 scale awards an extra full grade point (up to 5.0 for an A) for advanced coursework such as Advanced Placement (AP), International Baccalaureate (IB), or Honors courses.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">How does course retaking affect my target GPA?</div>
+          <div class="faq-answer">
+            If your university has a grade forgiveness or replacement policy, replacing a low grade directly substitutes the old quality points without adding to the completed credit count, offering the fastest mathematical lift to your cumulative GPA.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Links -->
+    <section>
+      <h3 class="heading-md" style="margin-bottom: 1rem; color: var(--color-ink);">Related Calculators</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+        <a href="/target-cgpa-calculator" class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">Target CGPA Planner</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Goal planner for Indian 10.0 scale.</p>
+        </a>
+        <a href="/grade-converter" class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">Grade Converter</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Compare US 4.0, 5.0, and Indian 10.0 scales.</p>
+        </a>
+        <a href="/final-exam-calculator" class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">Final Exam Target</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Calculate needed final exam mark.</p>
+        </a>
+      </div>
+    </section>
+  </div>
+</Layout>

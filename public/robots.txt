@@ -1,0 +1,11 @@
+# Robots.txt for GradeCalculatorFinalX
+# https://gradecalculatorfinalx.com/robots.txt
+
+User-agent: *
+Allow: /
+Disallow: /404.html
+Disallow: /500.html
+
+# XML Sitemap
+Sitemap: https://gradecalculatorfinalx.com/sitemap-index.xml
+Sitemap: https://gradecalculatorfinalx.com/sitemap.xml

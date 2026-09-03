@@ -1,0 +1,278 @@
+---
+// src/pages/final-exam-calculator.astro
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Final Exam Grade Calculator | What Do I Need on the Final?"
+  description="Calculate the exact score you need on your final exam to pass your class or achieve an A, B, or C. Interactive formula calculator with letter grade target matrix."
+>
+  <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
+    <!-- Breadcrumbs -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
+        <a href="/" style="color: var(--color-mute); text-decoration: none;">Home</a>
+        <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
+        <span style="color: var(--color-ink); font-weight: 500;">Final Exam Target Calculator</span>
+      </nav>
+      <div style="display: flex; gap: 0.5rem;">
+        <a href="/weighted-grade-calculator" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;">
+          Weighted Grade &rarr;
+        </a>
+        <a href="/gpa-calculator" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;">
+          GPA Calculator &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.5rem;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;">High-Stakes Exam Strategy</span>
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;">
+        Final Exam Grade Calculator
+      </h1>
+      <p style="font-size: 1.05rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6; max-width: 780px;">
+        Find out exactly what score you need on your final exam to secure your target course grade. Enter your current grade, desired final grade, and exam weight to plan your study schedule with confidence.
+      </p>
+    </header>
+
+    <!-- Interactive Final Exam Calculator Card -->
+    <section class="geist-card" style="padding: 2rem; margin-bottom: 2.5rem;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; align-items: start;">
+        <!-- Left: Input Form -->
+        <div>
+          <h3 class="heading-md" style="font-size: 1.15rem; margin-bottom: 1.25rem; color: var(--color-ink);">Course &amp; Exam Inputs</h3>
+          
+          <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+            <div>
+              <label for="fec-current" style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.4rem;">
+                Current Course Grade (%)
+              </label>
+              <input type="number" id="fec-current" class="form-input form-input-mono" value="84.5" min="0" max="150" step="0.1" style="width: 100%; padding: 0.6rem 0.75rem;" placeholder="e.g. 84.5" />
+              <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;">Your average grade before the final exam.</span>
+            </div>
+
+            <div>
+              <label for="fec-target" style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.4rem;">
+                Desired Target Grade (%)
+              </label>
+              <input type="number" id="fec-target" class="form-input form-input-mono" value="90.0" min="0" max="150" step="0.1" style="width: 100%; padding: 0.6rem 0.75rem;" placeholder="e.g. 90.0" />
+              <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;">The overall final grade you want to achieve (e.g. 90% for an A).</span>
+            </div>
+
+            <div>
+              <label for="fec-weight" style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.4rem;">
+                Final Exam Weight (%)
+              </label>
+              <input type="number" id="fec-weight" class="form-input form-input-mono" value="25.0" min="1" max="100" step="0.5" style="width: 100%; padding: 0.6rem 0.75rem;" placeholder="e.g. 25" />
+              <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;">Percentage weight of the final exam in your course syllabus.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Results & Target Matrix -->
+        <div style="background: var(--color-canvas-subtle); padding: 1.75rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline);">
+          <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;">Required Exam Score</span>
+          <div style="display: flex; align-items: baseline; gap: 0.5rem; margin-top: 0.25rem;">
+            <span id="fec-result-pct" class="display-xl" style="color: var(--color-ink); font-feature-settings: 'tnum';">106.5%</span>
+          </div>
+
+          <div id="fec-badge" class="badge badge-amber" style="margin-top: 0.75rem; font-size: 0.875rem; padding: 0.35rem 0.75rem; display: inline-block;">
+            Requires Extra Credit
+          </div>
+
+          <p id="fec-explanation" style="font-size: 0.875rem; color: var(--color-body); margin-top: 1rem; line-height: 1.5;">
+            To achieve <strong>90.0%</strong> overall, you need at least <strong>106.5%</strong> on the final exam.
+          </p>
+
+          <!-- Target Scenario Table -->
+          <div style="margin-top: 1.5rem; border-top: 1px solid var(--color-hairline); padding-top: 1.25rem;">
+            <span style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-mute); display: block; margin-bottom: 0.75rem;">
+              Score Scenarios Across Common Letter Grades
+            </span>
+            <div style="display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.8125rem;">
+              <div style="display: flex; justify-content: space-between; padding: 0.35rem 0; border-bottom: 1px solid var(--color-hairline-soft);">
+                <span>For an A (93%):</span>
+                <strong id="fec-scen-a" style="font-family: var(--font-mono); color: var(--color-ink);">--%</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 0.35rem 0; border-bottom: 1px solid var(--color-hairline-soft);">
+                <span>For an A- (90%):</span>
+                <strong id="fec-scen-am" style="font-family: var(--font-mono); color: var(--color-ink);">--%</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 0.35rem 0; border-bottom: 1px solid var(--color-hairline-soft);">
+                <span>For a B (83%):</span>
+                <strong id="fec-scen-b" style="font-family: var(--font-mono); color: var(--color-ink);">--%</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 0.35rem 0; border-bottom: 1px solid var(--color-hairline-soft);">
+                <span>For a C (73%):</span>
+                <strong id="fec-scen-c" style="font-family: var(--font-mono); color: var(--color-ink);">--%</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 0.35rem 0;">
+                <span>To Pass (60%):</span>
+                <strong id="fec-scen-pass" style="font-family: var(--font-mono); color: var(--color-ink);">--%</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Guide & Formula Section -->
+    <article class="geist-card" style="padding: 2.25rem 2rem; line-height: 1.75; color: var(--color-body); margin-bottom: 2rem;">
+      <h2 class="heading-md" style="color: var(--color-ink); font-size: 1.35rem; margin-bottom: 1rem;">
+        The Final Exam Target Formula
+      </h2>
+      <p style="margin-bottom: 1rem;">
+        Your final course grade is a weighted sum composed of two components: work completed to date, and the final exam itself.
+      </p>
+      <div style="background: var(--color-canvas-subtle); padding: 1rem 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline); font-family: var(--font-mono); font-size: 0.875rem; margin-bottom: 1.25rem;">
+        Final Grade = Current Grade &times; (1 - W) + Final Exam Score &times; W
+      </div>
+      <p style="margin-bottom: 1rem;">
+        Solving this equation algebraically for the <strong>Final Exam Score</strong> gives the target formula:
+      </p>
+      <div style="background: var(--color-canvas-subtle); padding: 1rem 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline); font-family: var(--font-mono); font-size: 0.875rem; margin-bottom: 1.25rem; color: var(--color-blue);">
+        Required Exam Score = [Target Grade - Current Grade &times; (1 - W)] &divide; W
+      </div>
+      <p style="margin-bottom: 1rem;">
+        Where <strong>W</strong> represents the final exam weight expressed as a decimal (e.g., 25% weight = 0.25).
+      </p>
+
+      <h3 class="heading-md" style="font-size: 1.15rem; color: var(--color-ink); margin-bottom: 0.75rem;">
+        Step-by-Step Calculation Example
+      </h3>
+      <p style="margin-bottom: 0.75rem;">
+        Suppose your current average is <strong>82.0%</strong>, your final exam is worth <strong>30%</strong> (W = 0.30), and your goal is an <strong>A- (90.0%)</strong>:
+      </p>
+      <ol style="padding-left: 1.25rem; margin-bottom: 1rem;">
+        <li>Calculate current points retained: <code>82.0 &times; (1 - 0.30) = 82.0 &times; 0.70 = 57.4 points</code></li>
+        <li>Subtract retained points from target: <code>90.0 - 57.4 = 32.6 points needed</code></li>
+        <li>Divide by the exam's weight: <code>32.6 &divide; 0.30 = 108.67%</code></li>
+      </ol>
+      <p>
+        Because 108.67% is above 100%, securing an A- without extra credit is impossible. However, aiming for a <strong>B+ (87%)</strong> only requires: <code>(87.0 - 57.4) &divide; 0.30 = 98.67%</code>.
+      </p>
+    </article>
+
+    <!-- FAQs -->
+    <section class="faq-card" style="margin-bottom: 3rem;">
+      <h2 class="heading-md" style="margin-bottom: 1.25rem; color: var(--color-ink);">
+        Frequently Asked Questions
+      </h2>
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="faq-item">
+          <div class="faq-question">What does a negative required score mean?</div>
+          <div class="faq-answer">
+            A negative required score (e.g. -15%) means you have mathematically already clinched your target grade. Even if you received a 0% on the final exam, your existing accumulated points exceed your desired course mark.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">Can I still pass if I failed the midterm?</div>
+          <div class="faq-answer">
+            Yes, if the final exam carries sufficient weight. Use this calculator to enter your current low standing and a target passing grade (such as 60% or 70%) to see the exact mark you need to recover.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Links -->
+    <section>
+      <h3 class="heading-md" style="margin-bottom: 1rem; color: var(--color-ink);">Related Calculators</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+        <a href="/weighted-grade-calculator" class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">Weighted Grade Calculator</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Calculate current course grade across categories.</p>
+        </a>
+        <a href="/gpa-calculator" class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">GPA Calculator</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Calculate cumulative college GPA.</p>
+        </a>
+        <a href="/target-gpa-calculator" class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">Target GPA Planner</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Plan future GPA for Latin Honors.</p>
+        </a>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<script>
+  function calcFinal() {
+    const currentInput = document.getElementById('fec-current') as HTMLInputElement | null;
+    const targetInput = document.getElementById('fec-target') as HTMLInputElement | null;
+    const weightInput = document.getElementById('fec-weight') as HTMLInputElement | null;
+
+    const current = parseFloat(currentInput?.value || '0');
+    const target = parseFloat(targetInput?.value || '0');
+    const weight = parseFloat(weightInput?.value || '0');
+
+    const resultPct = document.getElementById('fec-result-pct');
+    const badge = document.getElementById('fec-badge');
+    const explanation = document.getElementById('fec-explanation');
+
+    if (isNaN(weight) || weight <= 0) {
+      if (resultPct) resultPct.textContent = 'Invalid Weight';
+      return;
+    }
+
+    const w = weight / 100;
+    const required = (target - current * (1 - w)) / w;
+
+    if (resultPct) {
+      resultPct.textContent = `${required.toFixed(1)}%`;
+    }
+
+    if (badge) {
+      if (required <= 0) {
+        badge.className = 'badge badge-emerald';
+        badge.textContent = 'Already Guaranteed (Pass Secure)';
+      } else if (required <= 70) {
+        badge.className = 'badge badge-emerald';
+        badge.textContent = 'Easily Achievable';
+      } else if (required <= 85) {
+        badge.className = 'badge badge-blue';
+        badge.textContent = 'Moderate Study Required';
+      } else if (required <= 100) {
+        badge.className = 'badge badge-amber';
+        badge.textContent = 'Challenging / High Effort';
+      } else {
+        badge.className = 'badge badge-red';
+        badge.textContent = 'Requires Extra Credit';
+      }
+    }
+
+    if (explanation) {
+      if (required <= 0) {
+        explanation.innerHTML = `Your current standing of <strong>${current.toFixed(1)}%</strong> already locks in your <strong>${target.toFixed(1)}%</strong> target, regardless of the final exam.`;
+      } else {
+        explanation.innerHTML = `To achieve <strong>${target.toFixed(1)}%</strong> overall, you need at least <strong>${required.toFixed(1)}%</strong> on the final exam.`;
+      }
+    }
+
+    // Update scenario benchmarks
+    function getScen(tVal: number): string {
+      const r = (tVal - current * (1 - w)) / w;
+      if (r <= 0) return '0% (Locked)';
+      return `${r.toFixed(1)}%`;
+    }
+
+    const sa = document.getElementById('fec-scen-a');
+    const sam = document.getElementById('fec-scen-am');
+    const sb = document.getElementById('fec-scen-b');
+    const sc = document.getElementById('fec-scen-c');
+    const sp = document.getElementById('fec-scen-pass');
+
+    if (sa) sa.textContent = getScen(93.0);
+    if (sam) sam.textContent = getScen(90.0);
+    if (sb) sb.textContent = getScen(83.0);
+    if (sc) sc.textContent = getScen(73.0);
+    if (sp) sp.textContent = getScen(60.0);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    ['fec-current', 'fec-target', 'fec-weight'].forEach(id => {
+      document.getElementById(id)?.addEventListener('input', calcFinal);
+    });
+    calcFinal();
+  });
+</script>

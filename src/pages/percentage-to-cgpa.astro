@@ -1,0 +1,108 @@
+---
+// src/pages/percentage-to-cgpa.astro
+import Layout from '../layouts/Layout.astro';
+import PercentageToCgpaCalculator from '../components/PercentageToCgpaCalculator.astro';
+---
+
+<Layout
+  title="Percentage to CGPA Calculator | Convert Marks % to 10.0 CGPA"
+  description="Convert your aggregate percentage marks into Indian 10-point CGPA. Supports AICTE, CBSE divisor (9.5), VTU, and Mumbai University reverse conversion rules."
+>
+  <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
+    <!-- Breadcrumbs -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
+        <a href="/" style="color: var(--color-mute); text-decoration: none;">Home</a>
+        <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
+        <span style="color: var(--color-ink); font-weight: 500;">Percentage to CGPA Calculator</span>
+      </nav>
+      <div style="display: flex; gap: 0.5rem;">
+        <a href="/cgpa-to-percentage" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;">
+          CGPA to % &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.5rem;">
+      <span class="mono-eyebrow" style="color: var(--color-cyan); margin-bottom: 0.35rem;">Reverse Equivalence Engine</span>
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;">
+        Percentage to CGPA Calculator
+      </h1>
+      <p style="font-size: 1.05rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6; max-width: 780px;">
+        Convert your overall academic marks percentage into an estimated 10-point CGPA. Ideal for job applications, scholarship forms, and international university submissions requiring GPA reporting.
+      </p>
+    </header>
+
+    <!-- Interactive Calculator -->
+    <section style="margin-bottom: 3rem;">
+      <PercentageToCgpaCalculator idPrefix="page-pct2cgpa" />
+    </section>
+
+    <!-- Guide & Formula Section -->
+    <article class="geist-card" style="padding: 2.25rem 2rem; line-height: 1.75; color: var(--color-body); margin-bottom: 2rem;">
+      <h2 class="heading-md" style="color: var(--color-ink); font-size: 1.35rem; margin-bottom: 1rem;">
+        How Percentage is Converted to CGPA
+      </h2>
+      <p style="margin-bottom: 1rem;">
+        When converting percentage to CGPA under AICTE guidelines, the inverse mathematical operation of division by 9.5 is applied:
+      </p>
+      <div style="background: var(--color-canvas-subtle); padding: 1rem 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline); font-family: var(--font-mono); font-size: 0.875rem; margin-bottom: 1.25rem;">
+        Estimated CGPA = Percentage (%) &divide; 9.5
+      </div>
+      <p style="margin-bottom: 1rem;">
+        For example, a student with <strong>85.5%</strong> aggregate marks:
+      </p>
+      <p style="font-family: var(--font-mono); margin-bottom: 1.25rem; color: var(--color-ink);">
+        CGPA = 85.5 &divide; 9.5 = <strong>9.00 / 10.00</strong> (Grade A+ / Distinction)
+      </p>
+
+      <h3 class="heading-md" style="font-size: 1.15rem; color: var(--color-ink); margin-bottom: 0.75rem;">
+        Important Accuracy Caveat
+      </h3>
+      <p>
+        Because university CGPA is determined by credit-weighted quality points earned on individual subjects, two students with identical total percentage marks could possess slightly different true CGPAs depending on which specific high-credit subjects they scored higher in. This converter provides the standardized statutory benchmark.
+      </p>
+    </article>
+
+    <!-- FAQs -->
+    <section class="faq-card" style="margin-bottom: 3rem;">
+      <h2 class="heading-md" style="margin-bottom: 1.25rem; color: var(--color-ink);">
+        Frequently Asked Questions
+      </h2>
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="faq-item">
+          <div class="faq-question">What CGPA is 75 percent?</div>
+          <div class="faq-answer">
+            Using the standard AICTE formula: <code>75 &divide; 9.5 = 7.89 CGPA</code>. On a direct 10-point scale, 75% equals <code>7.50 CGPA</code>.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">What is 60 percent marks in CGPA?</div>
+          <div class="faq-answer">
+            Using AICTE guidelines: <code>60 &divide; 9.5 = 6.32 CGPA</code>, which signifies First Division in Indian academic standing.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Links -->
+    <section>
+      <h3 class="heading-md" style="margin-bottom: 1rem; color: var(--color-ink);">Related Calculators</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+        <a href="/cgpa-to-percentage" class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">CGPA to Percentage</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Convert CGPA to marks % with AICTE/VTU formulas.</p>
+        </a>
+        <a href="/indian-cgpa-calculator" class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">Indian CGPA Calculator</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Calculate exact credit-weighted CGPA.</p>
+        </a>
+        <a href="/grade-converter" class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">Grade Converter</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Compare US 4.0, 5.0, and Indian 10.0 scales.</p>
+        </a>
+      </div>
+    </section>
+  </div>
+</Layout>

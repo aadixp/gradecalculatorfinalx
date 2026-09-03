@@ -1,0 +1,408 @@
+---
+// src/components/IndianCgpaCalculator.astro
+interface Props {
+  idPrefix?: string;
+}
+const { idPrefix = 'cgpa' } = Astro.props;
+---
+
+<div id={`${idPrefix}-calculator-panel`} class="calculator-panel">
+  <!-- Live Result Summary Card -->
+  <div class="geist-card geist-card-floating" style="padding: 1.5rem; margin-bottom: 1.5rem; background: linear-gradient(180deg, var(--color-canvas-elevated) 0%, var(--color-canvas-subtle) 100%);">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.25rem; align-items: center;">
+      <div>
+        <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;">Cumulative GPA (10.0 Scale)</span>
+        <div style="display: flex; align-items: baseline; gap: 0.75rem;">
+          <span id={`${idPrefix}-result-cgpa`} class="display-xl" style="font-feature-settings: 'tnum';">--</span>
+          <span id={`${idPrefix}-standing-badge`} class="badge badge-blue">Awaiting Input</span>
+        </div>
+        <p style="font-size: 0.875rem; color: var(--color-mute); margin-top: 0.25rem;">
+          Approx. Percentage: <strong style="color: var(--color-ink);" id={`${idPrefix}-result-pct`}>--%</strong>
+          <span style="font-size: 0.75rem;">(AICTE &times; 9.5)</span>
+        </p>
+      </div>
+
+      <!-- Credits & Points Breakdown -->
+      <div class="responsive-col-divider" style="border-left: 1px solid var(--color-hairline); padding-left: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.35rem;">
+          <span style="color: var(--color-mute);">Total Earned Credits:</span>
+          <span id={`${idPrefix}-total-credits`} style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">0</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.5rem;">
+          <span style="color: var(--color-mute);">Total Quality Points:</span>
+          <span id={`${idPrefix}-total-points`} style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">0.0</span>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-mute); background: var(--color-canvas-subtle); padding: 0.35rem 0.5rem; border-radius: var(--radius-xs); border: 1px solid var(--color-hairline);">
+          CGPA = &Sigma;(Grade Point &times; Credits) &divide; &Sigma;Credits
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div style="display: flex; flex-direction: column; gap: 0.5rem; justify-content: center;">
+        <button id={`${idPrefix}-sample-btn`} type="button" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem;">
+          Load Realistic Sample
+        </button>
+        <button id={`${idPrefix}-reset-btn`} type="button" class="btn btn-ghost" style="font-size: 0.8125rem; color: var(--color-mute);">
+          Reset to Blank
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Subject Table Card -->
+  <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem;">
+      <div>
+        <h3 class="heading-md">Subjects & Credit Hours</h3>
+        <p style="font-size: 0.875rem; color: var(--color-mute);">
+          Enter subject names, UGC letter grades (or grade points), and course credit weighting.
+        </p>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <button id={`${idPrefix}-add-subject-btn`} type="button" class="btn btn-secondary" style="font-weight: 600; font-size: 0.8125rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Add Subject
+        </button>
+      </div>
+    </div>
+
+    <!-- Subjects Table -->
+    <div class="mobile-table-card-wrap" style="width: 100%; overflow-x: auto; margin-bottom: 1rem;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="border-bottom: 1px solid var(--color-hairline); text-align: left; font-size: 0.8125rem; color: var(--color-mute);">
+            <th style="padding: 0.5rem 0.75rem; font-weight: 500;">Subject / Course Title</th>
+            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 170px;">Letter Grade</th>
+            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 120px;">Grade Point</th>
+            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 110px;">Credits</th>
+            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 130px; text-align: right;">Credit Points</th>
+            <th style="padding: 0.5rem 0.75rem; width: 44px;"></th>
+          </tr>
+        </thead>
+        <tbody id={`${idPrefix}-tbody`}>
+          <!-- Populated by client script -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Footer summary in table -->
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--color-hairline);">
+      <button id={`${idPrefix}-add-subject-bottom-btn`} type="button" class="btn btn-secondary" style="font-weight: 600;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Add Another Subject
+      </button>
+
+      <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.8125rem;">
+        <span style="color: var(--color-mute);">Total Credits: <strong id={`${idPrefix}-footer-credits`} style="color: var(--color-ink); font-family: var(--font-mono);">0</strong></span>
+        <span style="color: var(--color-mute);">Weighted Points: <strong id={`${idPrefix}-footer-points`} style="color: var(--color-ink); font-family: var(--font-mono);">0.0</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detailed Calculation Breakdown Card -->
+  <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem; background: var(--color-canvas-subtle);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-blue">Formula Breakdown</span>
+        <h4 class="heading-md" style="font-size: 1rem;">Mathematical Step-by-Step Verification</h4>
+      </div>
+    </div>
+
+    <div id={`${idPrefix}-breakdown-text`} style="font-size: 0.875rem; color: var(--color-body); line-height: 1.6;">
+      Enter your subjects and credits above to see the calculation breakdown.
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ idPrefix }}>
+  (function() {
+    const UGC_GRADES = [
+      { letter: 'O', point: 10, label: 'O (Outstanding - 10)' },
+      { letter: 'A+', point: 9, label: 'A+ (Excellent - 9)' },
+      { letter: 'A', point: 8, label: 'A (Very Good - 8)' },
+      { letter: 'B+', point: 7, label: 'B+ (Good - 7)' },
+      { letter: 'B', point: 6, label: 'B (Above Average - 6)' },
+      { letter: 'C', point: 5, label: 'C (Average - 5)' },
+      { letter: 'P', point: 4, label: 'P (Pass - 4)' },
+      { letter: 'F', point: 0, label: 'F (Fail - 0)' },
+      { letter: 'Ab', point: 0, label: 'Ab (Absent - 0)' },
+    ];
+
+    const uid = () => Math.random().toString(36).substring(2, 9);
+
+    const defaultSubjects = [
+      { id: uid(), name: 'Engineering Mathematics', grade: 'O', point: 10, credits: 4 },
+      { id: uid(), name: 'Data Structures & Algorithms', grade: 'A+', point: 9, credits: 4 },
+      { id: uid(), name: 'Computer Organization', grade: 'A', point: 8, credits: 3 },
+      { id: uid(), name: 'Object Oriented Programming', grade: 'A+', point: 9, credits: 4 },
+      { id: uid(), name: 'Digital Electronics', grade: 'B+', point: 7, credits: 3 },
+    ];
+
+    let subjects = JSON.parse(JSON.stringify(defaultSubjects));
+
+    const tbody = document.getElementById(`${idPrefix}-tbody`);
+    const cgpaEl = document.getElementById(`${idPrefix}-result-cgpa`);
+    const pctEl = document.getElementById(`${idPrefix}-result-pct`);
+    const standingBadge = document.getElementById(`${idPrefix}-standing-badge`);
+    const totalCreditsEl = document.getElementById(`${idPrefix}-total-credits`);
+    const totalPointsEl = document.getElementById(`${idPrefix}-total-points`);
+    const footerCreditsEl = document.getElementById(`${idPrefix}-footer-credits`);
+    const footerPointsEl = document.getElementById(`${idPrefix}-footer-points`);
+    const breakdownEl = document.getElementById(`${idPrefix}-breakdown-text`);
+
+    function getStanding(cgpa) {
+      if (cgpa >= 8.5) return { text: 'First Class with Distinction', class: 'badge-green' };
+      if (cgpa >= 6.75) return { text: 'First Class', class: 'badge-blue' };
+      if (cgpa >= 5.75) return { text: 'Higher Second Class', class: 'badge-amber' };
+      if (cgpa >= 5.0) return { text: 'Second Class', class: 'badge-amber' };
+      if (cgpa >= 4.0) return { text: 'Pass Class', class: 'badge-blue' };
+      return { text: 'Remedial / Fail', class: 'badge-red' };
+    }
+
+    function renderRows() {
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      subjects.forEach((subj, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'mobile-card-row';
+        tr.style.borderBottom = '1px solid var(--color-hairline)';
+
+        const ptsEarned = ((subj.point || 0) * (subj.credits || 0)).toFixed(1);
+
+        tr.innerHTML = `
+          <td class="td-cgpa-name" style="padding: 0.5rem 0.75rem;">
+            <span class="mobile-input-label">Subject #${idx + 1}</span>
+            <input type="text" class="form-input subj-name-input" data-id="${subj.id}" value="${subj.name || ''}" placeholder="e.g. Engineering Maths" />
+          </td>
+          <td class="td-cgpa-grade" style="padding: 0.5rem 0.75rem;">
+            <span class="mobile-input-label">Letter Grade</span>
+            <select class="form-select subj-grade-select" data-id="${subj.id}">
+              <option value="">-- Select Grade --</option>
+              ${UGC_GRADES.map(g => `<option value="${g.letter}" ${g.letter === subj.grade ? 'selected' : ''}>${g.label}</option>`).join('')}
+              <option value="custom" ${subj.grade === 'custom' ? 'selected' : ''}>Custom Grade Point</option>
+            </select>
+          </td>
+          <td class="td-cgpa-point" style="padding: 0.5rem 0.75rem;">
+            <span class="mobile-input-label">Grade Point (0-10)</span>
+            <input type="number" step="0.1" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="${subj.id}" value="${subj.point !== null ? subj.point : ''}" placeholder="0-10" />
+          </td>
+          <td class="td-cgpa-credits" style="padding: 0.5rem 0.75rem;">
+            <span class="mobile-input-label">Credits</span>
+            <input type="number" step="0.5" min="0" max="12" class="form-input form-input-mono subj-credits-input" data-id="${subj.id}" value="${subj.credits || ''}" placeholder="Credits" />
+          </td>
+          <td class="td-cgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
+            <span class="mobile-input-label">Weighted Pts</span>
+            <span>${ptsEarned}</span>
+          </td>
+          <td class="td-cgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
+            <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="${subj.id}" title="Remove subject" aria-label="Remove subject">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+
+      calculate();
+    }
+
+    function calculate() {
+      let totalCredits = 0;
+      let totalPoints = 0;
+      const breakdownRows = [];
+
+      subjects.forEach((s) => {
+        const c = Number(s.credits) || 0;
+        const p = s.point !== null && !isNaN(s.point) ? Number(s.point) : null;
+
+        if (c > 0 && p !== null) {
+          totalCredits += c;
+          const weighted = p * c;
+          totalPoints += weighted;
+          breakdownRows.push({
+            name: s.name || 'Subject',
+            point: p,
+            credits: c,
+            weighted: weighted
+          });
+        }
+      });
+
+      if (totalCredits > 0) {
+        const cgpa = totalPoints / totalCredits;
+        const approxPct = (cgpa * 9.5);
+        const standing = getStanding(cgpa);
+
+        if (cgpaEl) cgpaEl.textContent = cgpa.toFixed(2);
+        if (pctEl) pctEl.textContent = `${approxPct.toFixed(2)}%`;
+        if (standingBadge) {
+          standingBadge.textContent = standing.text;
+          standingBadge.className = `badge ${standing.class}`;
+        }
+        if (totalCreditsEl) totalCreditsEl.textContent = totalCredits.toFixed(1);
+        if (totalPointsEl) totalPointsEl.textContent = totalPoints.toFixed(1);
+        if (footerCreditsEl) footerCreditsEl.textContent = totalCredits.toFixed(1);
+        if (footerPointsEl) footerPointsEl.textContent = totalPoints.toFixed(1);
+
+        if (breakdownEl) {
+          const breakdownTable = `
+            <div style="overflow-x: auto; margin-top: 0.75rem;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.8125rem;">
+                <thead>
+                  <tr style="border-bottom: 1px solid var(--color-hairline); text-align: left;">
+                    <th style="padding: 0.4rem 0.5rem;">Subject</th>
+                    <th style="padding: 0.4rem 0.5rem; text-align: center;">Grade Point</th>
+                    <th style="padding: 0.4rem 0.5rem; text-align: center;">Credits</th>
+                    <th style="padding: 0.4rem 0.5rem; text-align: right;">Weighted Points (Grade &times; Credits)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${breakdownRows.map(r => `
+                    <tr style="border-bottom: 1px solid var(--color-hairline-soft);">
+                      <td style="padding: 0.4rem 0.5rem; color: var(--color-ink); font-weight: 500;">${r.name}</td>
+                      <td style="padding: 0.4rem 0.5rem; text-align: center; font-family: var(--font-mono);">${r.point}</td>
+                      <td style="padding: 0.4rem 0.5rem; text-align: center; font-family: var(--font-mono);">${r.credits}</td>
+                      <td style="padding: 0.4rem 0.5rem; text-align: right; font-family: var(--font-mono);">${r.weighted.toFixed(1)}</td>
+                    </tr>
+                  `).join('')}
+                  <tr style="font-weight: 600; color: var(--color-ink); background: var(--color-canvas-hover);">
+                    <td style="padding: 0.5rem;">Total / Calculation:</td>
+                    <td style="padding: 0.5rem; text-align: center;">--</td>
+                    <td style="padding: 0.5rem; text-align: center; font-family: var(--font-mono);">${totalCredits.toFixed(1)}</td>
+                    <td style="padding: 0.5rem; text-align: right; font-family: var(--font-mono);">${totalPoints.toFixed(1)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="margin-top: 0.75rem; font-size: 0.8125rem; font-family: var(--font-mono);">
+              <strong>Final CGPA</strong> = Total Weighted Quality Points (${totalPoints.toFixed(1)}) &divide; Total Credits (${totalCredits.toFixed(1)}) = <strong>${cgpa.toFixed(2)}</strong> / 10.0
+            </p>
+          `;
+          breakdownEl.innerHTML = breakdownTable;
+        }
+      } else {
+        if (cgpaEl) cgpaEl.textContent = '--';
+        if (pctEl) pctEl.textContent = '--%';
+        if (standingBadge) {
+          standingBadge.textContent = 'Awaiting Input';
+          standingBadge.className = 'badge badge-blue';
+        }
+        if (totalCreditsEl) totalCreditsEl.textContent = '0';
+        if (totalPointsEl) totalPointsEl.textContent = '0.0';
+        if (footerCreditsEl) footerCreditsEl.textContent = '0';
+        if (footerPointsEl) footerPointsEl.textContent = '0.0';
+        if (breakdownEl) {
+          breakdownEl.textContent = 'Add subjects, select grades and enter credit hours to view the weighted breakdown.';
+        }
+      }
+    }
+
+    // Input delegations
+    tbody?.addEventListener('input', (e) => {
+      const target = e.target;
+      const id = target.getAttribute('data-id');
+      if (!id) return;
+      const s = subjects.find(x => x.id === id);
+      if (!s) return;
+
+      if (target.classList.contains('subj-name-input')) {
+        s.name = target.value;
+      } else if (target.classList.contains('subj-point-input')) {
+        s.point = target.value === '' ? null : Math.min(10, Math.max(0, parseFloat(target.value) || 0));
+        // Match grade dropdown
+        const matched = UGC_GRADES.find(g => g.point === s.point);
+        s.grade = matched ? matched.letter : 'custom';
+        const select = tbody.querySelector(`.subj-grade-select[data-id="${id}"]`);
+        if (select) select.value = s.grade;
+      } else if (target.classList.contains('subj-credits-input')) {
+        s.credits = target.value === '' ? null : parseFloat(target.value) || 0;
+      }
+
+      // Update row points earned text
+      const ptsCell = target.closest('tr')?.querySelector('.td-cgpa-pts-earned span:not(.mobile-input-label)');
+      if (ptsCell) {
+        ptsCell.textContent = ((s.point || 0) * (s.credits || 0)).toFixed(1);
+      }
+
+      calculate();
+    });
+
+    tbody?.addEventListener('change', (e) => {
+      const target = e.target;
+      const id = target.getAttribute('data-id');
+      if (!id) return;
+      const s = subjects.find(x => x.id === id);
+      if (!s) return;
+
+      if (target.classList.contains('subj-grade-select')) {
+        const val = target.value;
+        s.grade = val;
+        const matched = UGC_GRADES.find(g => g.letter === val);
+        if (matched) {
+          s.point = matched.point;
+          const pointInput = tbody.querySelector(`.subj-point-input[data-id="${id}"]`);
+          if (pointInput) pointInput.value = matched.point.toString();
+        }
+        const ptsCell = target.closest('tr')?.querySelector('.td-cgpa-pts-earned span:not(.mobile-input-label)');
+        if (ptsCell) {
+          ptsCell.textContent = ((s.point || 0) * (s.credits || 0)).toFixed(1);
+        }
+        calculate();
+      }
+    });
+
+    tbody?.addEventListener('click', (e) => {
+      const btn = e.target.closest('.delete-subj-btn');
+      if (!btn) return;
+      const id = btn.getAttribute('data-id');
+      if (!id) return;
+      subjects = subjects.filter(x => x.id !== id);
+      renderRows();
+    });
+
+    // Add subject
+    const addFn = () => {
+      subjects.push({
+        id: uid(),
+        name: '',
+        grade: 'A',
+        point: 8,
+        credits: 3
+      });
+      renderRows();
+    };
+    document.getElementById(`${idPrefix}-add-subject-btn`)?.addEventListener('click', addFn);
+    document.getElementById(`${idPrefix}-add-subject-bottom-btn`)?.addEventListener('click', addFn);
+
+    // Sample data
+    document.getElementById(`${idPrefix}-sample-btn`)?.addEventListener('click', () => {
+      subjects = JSON.parse(JSON.stringify(defaultSubjects));
+      renderRows();
+    });
+
+    // Reset
+    document.getElementById(`${idPrefix}-reset-btn`)?.addEventListener('click', () => {
+      subjects = [
+        { id: uid(), name: '', grade: '', point: null, credits: null },
+        { id: uid(), name: '', grade: '', point: null, credits: null },
+        { id: uid(), name: '', grade: '', point: null, credits: null },
+      ];
+      renderRows();
+    });
+
+    // Initial load
+    renderRows();
+  })();
+</script>

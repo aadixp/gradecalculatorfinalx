@@ -1,0 +1,95 @@
+---
+// src/pages/grade-converter.astro
+import Layout from '../layouts/Layout.astro';
+import GradeConverter from '../components/GradeConverter.astro';
+---
+
+<Layout
+  title="Academic Grade Converter & Equivalence Matrix | US 4.0, 5.0 & Indian 10.0"
+  description="Convert grades across US 4.0, US 5.0 (Honors/AP), Indian UGC 10.0 CGPA, and Percentage. Features interactive conversion calculator and international equivalence matrix."
+>
+  <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
+    <!-- Breadcrumbs -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
+        <a href="/" style="color: var(--color-mute); text-decoration: none;">Home</a>
+        <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
+        <span style="color: var(--color-ink); font-weight: 500;">Grade Converter Matrix</span>
+      </nav>
+      <div style="display: flex; gap: 0.5rem;">
+        <a href="/cgpa-to-percentage" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;">
+          CGPA to % &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.5rem;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;">Cross-System Academic Conversion</span>
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;">
+        Grade Converter &amp; Equivalence Table
+      </h1>
+      <p style="font-size: 1.05rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6; max-width: 780px;">
+        Convert academic performance metrics between the US 4.0 GPA scale, US 5.0 weighted Honors/AP scale, Indian UGC 10-point CGPA scale, and percentage benchmarks. Designed for study-abroad applications, WES evaluations, and international graduate admissions.
+      </p>
+    </header>
+
+    <!-- Interactive Calculator -->
+    <section style="margin-bottom: 3rem;">
+      <GradeConverter idPrefix="page-gradeconv" />
+    </section>
+
+    <!-- Guide & Formula Section -->
+    <article class="geist-card" style="padding: 2.25rem 2rem; line-height: 1.75; color: var(--color-body); margin-bottom: 2rem;">
+      <h2 class="heading-md" style="color: var(--color-ink); font-size: 1.35rem; margin-bottom: 1rem;">
+        Understanding International Grading Conversion
+      </h2>
+      <p style="margin-bottom: 1rem;">
+        International credential evaluators like <strong>WES (World Education Services)</strong> and university admissions committees evaluate international transcripts within the context of their native grading system rather than through naive direct linear scaling.
+      </p>
+      <p style="margin-bottom: 1rem;">
+        For instance, in the Indian university framework, a score of 70% or an 8.0 CGPA denotes First Class with Distinction, whereas in a US university an unweighted 70% equates to a 'C-' (1.70 GPA). Our conversion matrix incorporates standard WES and AACRAO equivalency guidelines to provide realistic academic conversions.
+      </p>
+    </article>
+
+    <!-- FAQs -->
+    <section class="faq-card" style="margin-bottom: 3rem;">
+      <h2 class="heading-md" style="margin-bottom: 1.25rem; color: var(--color-ink);">
+        Frequently Asked Questions
+      </h2>
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="faq-item">
+          <div class="faq-question">What US GPA is an Indian 8.0 CGPA equivalent to?</div>
+          <div class="faq-answer">
+            Under standard WES credential evaluation guidelines for Indian engineering and arts degrees, an 8.0/10.0 CGPA (First Class with Distinction) typically converts to approximately a <strong>3.50 to 3.70 US GPA</strong> on a 4.0 scale.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">Do US universities convert CGPA directly (e.g. 8.0 &times; 0.4 = 3.2)?</div>
+          <div class="faq-answer">
+            No. Direct linear scaling is an error because the grading distributions and pass cutoffs in India (40% pass) and the US (60% or 70% pass) are entirely different. Evaluating agencies map subject grades based on percentile distribution in the awarding country.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Links -->
+    <section>
+      <h3 class="heading-md" style="margin-bottom: 1rem; color: var(--color-ink);">Related Calculators</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+        <a href="/indian-cgpa-calculator" class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">Indian CGPA Calculator</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Calculate credit-weighted UGC 10.0 CGPA.</p>
+        </a>
+        <a href="/target-gpa-calculator" class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">Target GPA Planner</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Plan future US term GPA targets.</p>
+        </a>
+        <a href="/cgpa-to-percentage" class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">CGPA to Percentage</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Convert CGPA to marks % with AICTE formulas.</p>
+        </a>
+      </div>
+    </section>
+  </div>
+</Layout>

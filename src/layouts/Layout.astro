@@ -1,0 +1,491 @@
+---
+// src/layouts/Layout.astro
+import '../styles/geist.css';
+import LanguagePicker from '../components/LanguagePicker.astro';
+import CalculatorsMenu from '../components/CalculatorsMenu.astro';
+import { getLangFromUrl, useTranslations, useTranslatedPath, getAlternateUrls } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+	title?: string;
+	description?: string;
+	lang?: Lang;
+}
+
+const urlLang = getLangFromUrl(Astro.url);
+const currentLang = Astro.props.lang || urlLang;
+const t = useTranslations(currentLang);
+const translatePath = useTranslatedPath(currentLang);
+
+const {
+	title = t('site.title'),
+	description = t('site.description'),
+} = Astro.props;
+
+const alternateUrls = getAlternateUrls(Astro.url.pathname);
+const canonicalUrl = currentLang === 'en'
+	? `https://gradecalculatorfinalx.com${Astro.url.pathname === '/' ? '/' : Astro.url.pathname}`
+	: `https://gradecalculatorfinalx.com${Astro.url.pathname.endsWith('/') ? Astro.url.pathname : Astro.url.pathname + '/'}`;
+
+const ogLocales: Record<string, string> = {
+	en: 'en_US',
+	es: 'es_ES',
+	ja: 'ja_JP',
+	fr: 'fr_FR',
+	de: 'de_DE',
+	pt: 'pt_PT',
+	ko: 'ko_KR',
+	it: 'it_IT',
+};
+---
+
+<!doctype html>
+<html lang={currentLang} class="dark">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+		<meta name="apple-mobile-web-app-title" content="GradeCalc" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="keywords" content={t('site.keywords')} />
+		<link rel="canonical" href={canonicalUrl} />
+		<meta name="robots" content="index, follow" />
+		<link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+		
+		<!-- Multilingual Hreflang Markup for Search Engine Discovery -->
+		{alternateUrls.map((alt) => (
+			<link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+		))}
+		
+		<!-- Open Graph / Social -->
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="GradeCalculatorFinalX" />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:locale" content={ogLocales[currentLang] || 'en_US'} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content="https://gradecalculatorfinalx.com/favicon-96x96.png" />
+		
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content="https://gradecalculatorfinalx.com/favicon-96x96.png" />
+
+		<!-- JSON-LD Structured Data: WebApplication & FAQPage -->
+		<script type="application/ld+json" is:inline>
+		{
+			"@context": "https://schema.org",
+			"@graph": [
+				{
+					"@type": "WebApplication",
+					"name": "GradeCalculatorFinalX",
+					"url": "https://gradecalculatorfinalx.com/",
+					"description": "Free online grade calculator final, weighted grade calculator, final exam target planner, and semester GPA calculator.",
+					"applicationCategory": "EducationalApplication",
+					"operatingSystem": "All",
+					"offers": {
+						"@type": "Offer",
+						"price": "0",
+						"priceCurrency": "USD"
+					},
+					"featureList": [
+						"Weighted Grade Calculator with percentage and points modes",
+						"Final Exam Grade Calculator with required score breakdown",
+						"Semester and Cumulative GPA Planner",
+						"Drop lowest score category support",
+						"Custom academic grading scale presets"
+					]
+				},
+				{
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "How does a what if grade calculator work?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "A what if grade calculator allows you to test hypothetical scores on upcoming tests, homework assignments, or projects to see how they will impact your overall course percentage before receiving your final grades."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What grade was I in year calculator?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "A what grade was I in year calculator determines what school grade level you were in during any specific academic calendar year by calculating backwards from your high school graduation year or forwards from kindergarten."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "How does what is my grade calculator determine my score?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "A what is my grade calculator computes your current cumulative grade percentage by multiplying every completed assignment score by its category weight and dividing by the total active weight percentage."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "How to use whats my grade calculator?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Using our whats my grade calculator is simple: enter your assignment scores and syllabus category weights (e.g. homework 20%, midterms 30%, labs 20%) to view your current class standing and GPA."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "How much will my grade drop calculator: How much will my grade drop if I fail a test?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Our how much will my grade drop calculator computes the exact decrease in your course mark based on the exam's syllabus weight: Drop = (Current Grade - New Score) * (Weight / 100)."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What will my grade be calculator: How can I forecast my final mark?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "A what will my grade be calculator projects your final course grade by combining your completed assignment marks with projected scores on remaining exams and semester assignments."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What grade do I need calculator: How do I find my required exam score?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "A what grade do I need calculator determines the exact minimum score you must achieve on an upcoming test or assignment to reach or maintain your desired overall class percentage."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What grade do I need on my final calculator?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Our what grade do I need on my final calculator uses the formula: Required Score = (Target Grade - Current Grade * (1 - Final Weight)) / Final Weight to show the exact exam score required for every letter grade."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What is my final grade calculator: How is the final semester grade determined?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "A what is my final grade calculator calculates your finalized course mark after all coursework, midterms, and final exam results are entered, mapping your overall score to a letter grade."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What would my grade be calculator: Can I simulate different grade outcomes?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes, our what would my grade be calculator lets you test multiple scenarios, such as scoring 85% versus 95% on a midterm, to see the resulting class letter grade in real time."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "How much would my grade drop calculator: How do low quiz scores affect my grade?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "A how much would my grade drop calculator shows the reduction in your total class standing from low quiz scores, factoring in any drop-lowest policies active on your syllabus."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "How much will my grade go up calculator: How do high test scores raise my mark?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "A how much will my grade go up calculator measures how high scores or extra credit improve your average: Increase = (New Score - Current Grade) * (Assignment Weight / Total Active Weight)."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "How to use the grade what if calculator?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Use the grade what if calculator slider to adjust hypothetical score percentages and weights, instantly observing the simulated impact on your class grade."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What grade will I get calculator: How is my letter grade predicted?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "A what grade will I get calculator compares your earned points and remaining syllabus weight against your school's grading scale (Standard US 4.0, 10-Point Simple, or custom thresholds)."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What will my grade be after this test calculator?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Our what will my grade be after this test calculator combines your current standing with your expected test score and the test's weight to show your new class average immediately."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "How much will my grade go down calculator: How do incomplete assignments affect grades?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "A how much will my grade go down calculator calculates the exact percentage decrease caused by missing assignments, late penalties, or zero scores."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "How does the what if final grade calculator work?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "A what if final grade calculator tests multiple final exam score scenarios (such as 70%, 80%, 90%) and displays the resulting overall class grade in an interactive scenario matrix."
+							}
+						}
+					]
+				}
+			]
+		}
+		</script>
+		
+		<!-- Google Fonts for Geist & Geist Mono -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+		<!-- Inline script for early theme restoration to prevent flashing -->
+		<script is:inline>
+			(function() {
+				try {
+					const savedTheme = localStorage.getItem('gradecalc_theme');
+					if (savedTheme === 'light') {
+						document.documentElement.classList.remove('dark');
+					} else if (savedTheme === 'dark') {
+						document.documentElement.classList.add('dark');
+					} else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+						document.documentElement.classList.remove('dark');
+					}
+				} catch (e) {}
+			})();
+		</script>
+	</head>
+	<body>
+		<!-- Header / Navigation Bar -->
+		<header class="site-header">
+			<div class="container site-header-inner">
+				<!-- Logo & Course Name -->
+				<div class="header-left-group">
+					<a href={translatePath('/')} class="header-brand">
+						<div class="header-brand-icon">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+								<path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+							</svg>
+						</div>
+						<span class="header-brand-title">{t('nav.brand')}</span>
+					</a>
+
+					<span class="header-divider">/</span>
+
+					<!-- Active Course Selector -->
+					<div class="header-course-wrap">
+						<select id="course-selector" class="header-course-select" aria-label="Select Course Profile">
+							<option value="default">Default Course</option>
+						</select>
+						<button id="add-course-profile-btn" type="button" class="header-course-add-btn" title="Create New Course" aria-label="Add Course">
+							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+								<line x1="12" y1="5" x2="12" y2="19"></line>
+								<line x1="5" y1="12" x2="19" y2="12"></line>
+							</svg>
+						</button>
+					</div>
+				</div>
+
+				<!-- Right Action Controls -->
+				<div class="header-actions-group">
+					<!-- Calculators Menu -->
+					<CalculatorsMenu />
+
+					<!-- Scale Button -->
+					<button id="open-scale-modal-btn" type="button" class="header-action-btn" title="Grading Scale Cutoffs" aria-label="Grading Scale Cutoffs">
+						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M12 20v-6M6 20V10M18 20V4"></path>
+						</svg>
+						<span class="header-btn-label">{t('nav.scale')}</span>
+					</button>
+
+					<!-- Share Button -->
+					<button id="share-state-btn" type="button" class="header-action-btn" title="Copy Shareable Link" aria-label="Copy Shareable Link">
+						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+							<polyline points="16 6 12 2 8 6"></polyline>
+							<line x1="12" y1="2" x2="12" y2="15"></line>
+						</svg>
+						<span class="share-btn-text header-btn-label">{t('nav.share')}</span>
+					</button>
+
+					<!-- Print Button -->
+					<button id="print-report-btn" type="button" class="header-action-btn header-print-btn" title="Print Grade Audit" aria-label="Print Grade Audit">
+						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<polyline points="6 9 6 2 18 2 18 9"></polyline>
+							<path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+							<rect x="6" y="14" width="12" height="8"></rect>
+						</svg>
+						<span class="header-btn-label">{t('nav.print')}</span>
+					</button>
+
+					<!-- Language Selector -->
+					<LanguagePicker />
+
+					<!-- Theme Switcher -->
+					<button id="theme-toggle-btn" type="button" class="header-action-btn icon-only" title="Toggle Theme" aria-label="Toggle Theme">
+						<svg id="theme-sun-icon" style="display: none;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="12" cy="12" r="5"></circle>
+							<line x1="12" y1="1" x2="12" y2="3"></line>
+							<line x1="12" y1="21" x2="12" y2="23"></line>
+							<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+							<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+							<line x1="1" y1="12" x2="3" y2="12"></line>
+							<line x1="21" y1="12" x2="23" y2="12"></line>
+							<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+							<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+						</svg>
+						<svg id="theme-moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+						</svg>
+					</button>
+				</div>
+			</div>
+		</header>
+
+		<!-- Print Header (Hidden on screen, shown in print) -->
+		<div class="print-only" style="display: none; padding: 1.5rem 0; border-bottom: 2px solid #000; margin-bottom: 1.5rem;">
+			<div style="display: flex; justify-content: space-between; align-items: baseline;">
+				<div style="font-size: 1.5rem; font-weight: bold;">Academic Grade Audit Report</div>
+				<span style="font-size: 0.875rem; color: #555;">Generated via GradeCalc</span>
+			</div>
+			<div style="margin-top: 0.5rem; font-size: 0.875rem; color: #333;">
+				<span>Date: <span id="print-date"></span></span> | 
+				<span>Course: <span id="print-course-name">Default Course</span></span>
+			</div>
+		</div>
+
+		<!-- Main Content -->
+		<main style="flex: 1; position: relative;">
+			<slot />
+		</main>
+
+		<!-- Footer -->
+		<footer class="site-footer">
+			<div class="container">
+				<div class="site-footer-grid">
+					<div class="site-footer-brand">
+						<div class="site-footer-brand-title">
+							<div class="site-footer-brand-icon">
+								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+								</svg>
+							</div>
+							<span>GradeCalculatorFinalX</span>
+						</div>
+						<p class="site-footer-brand-desc">
+							Engineered for accuracy, clarity, and ease. All calculations occur strictly on your device with 100% data privacy and offline capability.
+						</p>
+					</div>
+
+					<div class="site-footer-col site-footer-calc">
+						<h4 class="site-footer-heading">Calculators</h4>
+						<ul class="site-footer-links">
+							<li><a href={translatePath('/#weighted')} class="footer-nav-link" data-tab="weighted">{t('tab.weighted')}</a></li>
+							<li><a href={translatePath('/#final')} class="footer-nav-link" data-tab="final">{t('tab.finalExam')}</a></li>
+							<li><a href={translatePath('/#gpa')} class="footer-nav-link" data-tab="gpa">{t('tab.gpa')}</a></li>
+							<li><a href={translatePath('/indian-cgpa-calculator')} class="footer-nav-link">Indian CGPA (10.0 UGC)</a></li>
+							<li><a href={translatePath('/indian-sgpa-calculator')} class="footer-nav-link">Indian SGPA Calculator</a></li>
+							<li><a href={translatePath('/cgpa-to-percentage')} class="footer-nav-link">CGPA to Percentage</a></li>
+							<li><a href={translatePath('/percentage-to-cgpa')} class="footer-nav-link">Percentage to CGPA</a></li>
+							<li><a href={translatePath('/target-cgpa-calculator')} class="footer-nav-link">Target CGPA Planner</a></li>
+							<li><a href={translatePath('/target-gpa-calculator')} class="footer-nav-link">Target GPA Planner</a></li>
+							<li><a href={translatePath('/grade-converter')} class="footer-nav-link">Grade Conversion Matrix</a></li>
+						</ul>
+					</div>
+
+					<div class="site-footer-col site-footer-trust">
+						<h4 class="site-footer-heading">Platform & Trust</h4>
+						<ul class="site-footer-links">
+							<li><a href={translatePath('/about')}>{t('nav.about')}</a></li>
+							<li><a href={translatePath('/privacy-policy')}>{t('nav.privacy')}</a></li>
+							<li><a href={translatePath('/terms-and-conditions')}>{t('nav.terms')}</a></li>
+							<li><a href={translatePath('/contact')}>{t('nav.contact')}</a></li>
+						</ul>
+					</div>
+
+					<div class="site-footer-col site-footer-formulas">
+						<h4 class="site-footer-heading">Academic Formulas</h4>
+						<p class="site-footer-formulas-desc">
+							Weighted Average = &Sigma; (Score &times; Weight) &divide; &Sigma; (Weight)<br/>
+							Final Required = (Target - Current &times; (1 - W)) &divide; W<br/>
+							Indian CGPA = &Sigma;(Grade Point &times; Credits) &divide; &Sigma;Credits
+						</p>
+					</div>
+				</div>
+
+				<div class="site-footer-bottom">
+					<div class="site-footer-copy">&copy; <span id="current-year">2026</span> GradeCalculatorFinalX. High-performance academic suite.</div>
+					<div class="site-footer-bottom-links">
+						<a href="/about">About</a>
+						<a href="/privacy-policy">Privacy</a>
+						<a href="/terms-and-conditions">Terms</a>
+						<a href="/contact">Contact</a>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+		<!-- Theme Toggle & Shared Scripts -->
+		<script>
+			// Theme Toggle Logic
+			const themeToggleBtn = document.getElementById('theme-toggle-btn');
+			const sunIcon = document.getElementById('theme-sun-icon');
+			const moonIcon = document.getElementById('theme-moon-icon');
+
+			function updateThemeIcons() {
+				const isDark = document.documentElement.classList.contains('dark');
+				if (sunIcon && moonIcon) {
+					if (isDark) {
+						sunIcon.style.display = 'block';
+						moonIcon.style.display = 'none';
+					} else {
+						sunIcon.style.display = 'none';
+						moonIcon.style.display = 'block';
+					}
+				}
+			}
+			updateThemeIcons();
+
+			themeToggleBtn?.addEventListener('click', () => {
+				const isDark = document.documentElement.classList.toggle('dark');
+				localStorage.setItem('gradecalc_theme', isDark ? 'dark' : 'light');
+				updateThemeIcons();
+			});
+
+			// Print date setup
+			const printDateEl = document.getElementById('print-date');
+			if (printDateEl) {
+				printDateEl.textContent = new Date().toLocaleDateString(undefined, {
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric'
+				});
+			}
+
+			// Current year
+			const yearEl = document.getElementById('current-year');
+			if (yearEl) yearEl.textContent = new Date().getFullYear().toString();
+
+			// Print button
+			document.getElementById('print-report-btn')?.addEventListener('click', () => {
+				window.print();
+			});
+		</script>
+	</body>
+</html>

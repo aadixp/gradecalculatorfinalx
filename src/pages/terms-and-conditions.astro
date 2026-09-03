@@ -1,0 +1,128 @@
+---
+// src/pages/terms-and-conditions.astro
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Terms & Conditions | GradeCalculatorFinalX"
+  description="Read the Terms and Conditions of GradeCalculatorFinalX. Academic calculation guidelines, user responsibilities, and service disclaimers."
+>
+  <div class="container" style="max-width: 880px; padding-top: 3rem; padding-bottom: 5rem;">
+    <!-- Breadcrumb & Return to Calculator -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
+        <a href="/" style="color: var(--color-mute); text-decoration: none;">Home</a>
+        <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
+        <span style="color: var(--color-ink); font-weight: 500;">Terms & Conditions</span>
+      </nav>
+      <a href="/" class="btn btn-secondary" style="font-size: 0.8125rem; padding: 0.35rem 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Back to Calculator</span>
+      </a>
+    </div>
+
+    <!-- Page Header -->
+    <header style="margin-bottom: 2.5rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.75rem;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;">Legal & Operational Terms</span>
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.75rem, 4vw, 2.25rem); letter-spacing: -0.02em; margin-top: 0.25rem;">
+        Terms & Conditions
+      </h1>
+      <p style="font-size: 0.875rem; color: var(--color-mute); margin-top: 0.5rem;">
+        Last Updated: September 2, 2026 &bull; Effective Immediately
+      </p>
+    </header>
+
+    <!-- Main Content Card -->
+    <article class="geist-card" style="padding: 2.25rem 2rem; line-height: 1.75; color: var(--color-body);">
+      <div style="display: flex; flex-direction: column; gap: 2.25rem;">
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;">
+            1. Acceptance of Terms
+          </h2>
+          <p style="margin-bottom: 1rem;">
+            By accessing or using <strong>GradeCalculatorFinalX</strong> (located at <strong>gradecalculatorfinalx.com</strong>), you agree to be bound by these Terms and Conditions and all applicable laws and regulations. If you do not agree with any part of these terms, you are prohibited from using or accessing this site.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;">
+            2. Educational & Informational Purpose Disclaimer
+          </h2>
+          <p style="margin-bottom: 1rem;">
+            GradeCalculatorFinalX provides mathematical calculation algorithms for educational, planning, and self-evaluation purposes only.
+          </p>
+          <p style="margin-bottom: 1rem;">
+            <strong>Important Notice:</strong> While our algorithms are rigorously tested and adhere to standard weighted grading formulas, individual school districts, universities, professors, and colleges may employ specialized grading policies, rounding conventions, or curve adjustments.
+          </p>
+          <p>
+            Users are strongly advised to cross-reference calculated results with their official course syllabus, learning management system (e.g. Canvas, Blackboard), and academic registrar. GradeCalculatorFinalX does not issue official academic transcripts or certifications.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;">
+            3. Intellectual Property Rights
+          </h2>
+          <p>
+            The software, user interface design, visual assets, CSS styling, logos, and written content on GradeCalculatorFinalX are the property of GradeCalculatorFinalX and are protected by applicable copyright, trademark, and intellectual property laws. You may use our calculators freely for personal, educational, non-commercial use.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;">
+            4. User Conduct & Acceptable Use
+          </h2>
+          <p style="margin-bottom: 1rem;">
+            You agree to use the service only for lawful purposes. You shall not:
+          </p>
+          <ul style="padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li>Attempt to disrupt, compromise, or overload our hosting servers through automated scraping, denial-of-service (DoS), or malicious scripts.</li>
+            <li>Attempt to reverse-engineer, modify, or create unauthorized commercial derivatives of our proprietary codebase.</li>
+            <li>Misrepresent GradeCalculatorFinalX results as official institutional records.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;">
+            5. Limitation of Liability
+          </h2>
+          <p>
+            In no event shall GradeCalculatorFinalX or its creators be held liable for any direct, indirect, incidental, or consequential damages resulting from the use or inability to use our tools, including but not limited to academic standing discrepancies, scholarship determinations, or graduation qualifications.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;">
+            6. Changes to Terms
+          </h2>
+          <p>
+            We reserve the right to revise or update these Terms and Conditions at any time without prior notice. Continued use of GradeCalculatorFinalX following any changes constitutes your binding acceptance of the updated terms.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;">
+            7. Contact Information
+          </h2>
+          <p>
+            For questions regarding these Terms & Conditions, please contact us via our <a href="/contact" style="color: var(--color-blue); text-decoration: underline;">Contact Us</a> page or email <strong>legal@gradecalculatorfinalx.com</strong>.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Bottom Return Action -->
+    <div style="text-align: center; margin-top: 3rem;">
+      <a href="/" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; padding: 0.65rem 1.25rem;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Return to Grade Calculator</span>
+      </a>
+    </div>
+  </div>
+</Layout>

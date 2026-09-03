@@ -1,0 +1,391 @@
+---
+// src/pages/gpa-calculator.astro
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Cumulative GPA Calculator | High School & College (4.0 & 5.0 Scale)"
+  description="Free cumulative college and high school GPA calculator. Enter courses, credit hours, and letter grades with prior GPA to calculate cumulative GPA."
+>
+  <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
+    <!-- Breadcrumbs -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
+        <a href="/" style="color: var(--color-mute); text-decoration: none;">Home</a>
+        <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
+        <span style="color: var(--color-ink); font-weight: 500;">Cumulative GPA Calculator</span>
+      </nav>
+      <div style="display: flex; gap: 0.5rem;">
+        <a href="/semester-gpa-calculator" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;">
+          Semester GPA &rarr;
+        </a>
+        <a href="/target-gpa-calculator" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;">
+          Target Planner &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.5rem;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;">Academic Degree Standing</span>
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;">
+        Cumulative GPA Calculator
+      </h1>
+      <p style="font-size: 1.05rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6; max-width: 780px;">
+        Calculate your overall cumulative college or high school GPA. Input course credit hours and letter grades, alongside your prior cumulative history, to compute your updated standing and honor tier.
+      </p>
+    </header>
+
+    <!-- Cumulative Setup Card -->
+    <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem; background: var(--color-canvas-subtle);">
+      <h3 class="heading-md" style="font-size: 1.05rem; margin-bottom: 1rem; color: var(--color-ink);">Prior Academic History (Optional)</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+        <div>
+          <label for="cgpa-prior-gpa" style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
+            Prior Cumulative GPA
+          </label>
+          <input type="number" id="cgpa-prior-gpa" class="form-input form-input-mono" value="3.45" min="0" max="5" step="0.01" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.875rem;" placeholder="e.g. 3.45" />
+        </div>
+        <div>
+          <label for="cgpa-prior-credits" style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
+            Prior Completed Credits
+          </label>
+          <input type="number" id="cgpa-prior-credits" class="form-input form-input-mono" value="45" min="0" step="1" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.875rem;" placeholder="e.g. 45" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Results Showcase Card -->
+    <div class="geist-card geist-card-floating" style="padding: 1.5rem; margin-bottom: 1.5rem; background: linear-gradient(180deg, var(--color-canvas-elevated) 0%, var(--color-canvas-subtle) 100%);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; align-items: center;">
+        <div>
+          <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;">Cumulative GPA</span>
+          <div style="display: flex; align-items: baseline; gap: 0.75rem;">
+            <span id="cgpa-total-gpa" class="display-xl" style="font-feature-settings: 'tnum'; color: var(--color-ink);">--</span>
+            <span id="cgpa-honor-badge" class="badge badge-emerald" style="font-size: 0.875rem; padding: 0.25rem 0.65rem;">--</span>
+          </div>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); margin-top: 0.25rem;">
+            Current Term GPA: <strong style="color: var(--color-ink);" id="cgpa-term-gpa">--</strong>
+          </p>
+        </div>
+
+        <div class="responsive-col-divider" style="border-left: 1px solid var(--color-hairline); padding-left: 1.25rem;">
+          <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8125rem;">
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--color-mute);">Total Credits (Career):</span>
+              <strong id="cgpa-career-credits" style="font-family: var(--font-mono); color: var(--color-ink);">0</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--color-mute);">Semester Credits:</span>
+              <strong id="cgpa-term-credits" style="font-family: var(--font-mono); color: var(--color-ink);">0</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--color-mute);">Total Quality Points:</span>
+              <strong id="cgpa-quality-pts" style="font-family: var(--font-mono); color: var(--color-ink);">0.0</strong>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; justify-content: center;">
+          <a href="/target-gpa-calculator" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none; text-align: center;">
+            Plan Future Target GPA &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Table Card -->
+    <div class="geist-card" style="padding: 1.5rem; margin-bottom: 2.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem;">
+        <div>
+          <h3 class="heading-md" style="font-size: 1.15rem; color: var(--color-ink);">Current Term Courses</h3>
+          <p style="font-size: 0.875rem; color: var(--color-mute);">Enter each class, credits, and expected letter grade.</p>
+        </div>
+        <button id="cgpa-reset-btn" type="button" class="btn btn-ghost" style="font-size: 0.8125rem; color: var(--color-mute);">
+          Reset to Sample Data
+        </button>
+      </div>
+
+      <div class="mobile-table-card-wrap" style="overflow-x: auto;">
+        <table class="table" style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--color-hairline); text-align: left;">
+              <th style="padding: 0.6rem 0.5rem;">Course Title</th>
+              <th style="padding: 0.6rem 0.5rem; width: 110px;">Credits</th>
+              <th style="padding: 0.6rem 0.5rem; width: 130px;">Letter Grade</th>
+              <th style="padding: 0.6rem 0.5rem; width: 110px; text-align: right;">Quality Pts</th>
+              <th style="padding: 0.6rem 0.5rem; width: 40px;"></th>
+            </tr>
+          </thead>
+          <tbody id="cgpa-tbody">
+            <!-- Dynamic rows generated by script -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 1rem;">
+        <button id="cgpa-add-course-btn" type="button" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 0.4rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Add Course
+        </button>
+      </div>
+    </div>
+
+    <!-- Guide & Formula Section -->
+    <article class="geist-card" style="padding: 2.25rem 2rem; line-height: 1.75; color: var(--color-body); margin-bottom: 2rem;">
+      <h2 class="heading-md" style="color: var(--color-ink); font-size: 1.35rem; margin-bottom: 1rem;">
+        How Cumulative GPA is Computed
+      </h2>
+      <p style="margin-bottom: 1rem;">
+        Cumulative Grade Point Average (GPA) is calculated by multiplying each course's credit hours by the numeric grade points of the letter grade earned, summing these quality points across all completed college terms, and dividing by total credit hours attempted:
+      </p>
+      <div style="background: var(--color-canvas-subtle); padding: 1rem 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline); font-family: var(--font-mono); font-size: 0.875rem; margin-bottom: 1.25rem; color: var(--color-blue);">
+        Cumulative GPA = (Prior Points + Current Term Points) &divide; (Prior Credits + Current Term Credits)
+      </div>
+
+      <h3 class="heading-md" style="font-size: 1.15rem; color: var(--color-ink); margin-bottom: 0.75rem;">
+        Standard US 4.0 Grade Point Values
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.5rem; font-size: 0.8125rem; margin-bottom: 1.25rem;">
+        <div style="background: var(--color-canvas-subtle); padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline);"><strong>A</strong> = 4.00</div>
+        <div style="background: var(--color-canvas-subtle); padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline);"><strong>A-</strong> = 3.70</div>
+        <div style="background: var(--color-canvas-subtle); padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline);"><strong>B+</strong> = 3.30</div>
+        <div style="background: var(--color-canvas-subtle); padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline);"><strong>B</strong> = 3.00</div>
+        <div style="background: var(--color-canvas-subtle); padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline);"><strong>B-</strong> = 2.70</div>
+        <div style="background: var(--color-canvas-subtle); padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline);"><strong>C+</strong> = 2.30</div>
+        <div style="background: var(--color-canvas-subtle); padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline);"><strong>C</strong> = 2.00</div>
+        <div style="background: var(--color-canvas-subtle); padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline);"><strong>C-</strong> = 1.70</div>
+        <div style="background: var(--color-canvas-subtle); padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline);"><strong>D</strong> = 1.00</div>
+        <div style="background: var(--color-canvas-subtle); padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline);"><strong>F</strong> = 0.00</div>
+      </div>
+    </article>
+
+    <!-- FAQs -->
+    <section class="faq-card" style="margin-bottom: 3rem;">
+      <h2 class="heading-md" style="margin-bottom: 1.25rem; color: var(--color-ink);">
+        Frequently Asked Questions
+      </h2>
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="faq-item">
+          <div class="faq-question">Do Pass/Fail or Audit classes affect cumulative GPA?</div>
+          <div class="faq-answer">
+            No. Pass/Fail and audited courses typically do not carry quality grade points and are excluded from the GPA denominator unless a student fails a course recorded as a non-credit punitive 'F'.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">How does AP or Honors weighting work?</div>
+          <div class="faq-answer">
+            On weighted 5.0 high school scales, an additional 1.0 point is added for AP/IB courses (A = 5.0, B = 4.0) and 0.5 points for Honors courses.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Links -->
+    <section>
+      <h3 class="heading-md" style="margin-bottom: 1rem; color: var(--color-ink);">Related Calculators</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+        <a href="/semester-gpa-calculator" class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">Semester GPA Calculator</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Calculate term GPA for individual semesters.</p>
+        </a>
+        <a href="/target-gpa-calculator" class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">Target GPA Planner</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Calculate future required term GPA.</p>
+        </a>
+        <a href="/grade-converter" class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">Grade Converter</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Compare US 4.0, 5.0, and Indian 10.0 scales.</p>
+        </a>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<script>
+  interface Course {
+    name: string;
+    credits: number;
+    gradeVal: number;
+  }
+
+  const GRADE_MAP: Record<string, number> = {
+    'A': 4.00,
+    'A-': 3.70,
+    'B+': 3.30,
+    'B': 3.00,
+    'B-': 2.70,
+    'C+': 2.30,
+    'C': 2.00,
+    'C-': 1.70,
+    'D+': 1.30,
+    'D': 1.00,
+    'F': 0.00
+  };
+
+  const defaultCourses: Course[] = [
+    { name: 'Calculus I', credits: 4, gradeVal: 4.00 },
+    { name: 'Physics Mechanics', credits: 4, gradeVal: 3.70 },
+    { name: 'Computer Science 101', credits: 3, gradeVal: 4.00 },
+    { name: 'English Composition', credits: 3, gradeVal: 3.30 },
+    { name: 'Physics Laboratory', credits: 1, gradeVal: 4.00 }
+  ];
+
+  let courses: Course[] = JSON.parse(JSON.stringify(defaultCourses));
+
+  function renderTable() {
+    const tbody = document.getElementById('cgpa-tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    courses.forEach((c, idx) => {
+      const tr = document.createElement('tr');
+      tr.style.borderBottom = '1px solid var(--color-hairline-soft)';
+      const pts = c.credits * c.gradeVal;
+
+      let gradeOptions = '';
+      for (const [letter, val] of Object.entries(GRADE_MAP)) {
+        const sel = Math.abs(val - c.gradeVal) < 0.01 ? 'selected' : '';
+        gradeOptions += `<option value="${val}" ${sel}>${letter} (${val.toFixed(2)})</option>`;
+      }
+
+      tr.innerHTML = `
+        <td style="padding: 0.5rem;">
+          <input type="text" class="form-input course-name" data-idx="${idx}" value="${c.name}" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;" />
+        </td>
+        <td style="padding: 0.5rem;">
+          <input type="number" class="form-input form-input-mono course-credits" data-idx="${idx}" value="${c.credits}" min="0.5" step="0.5" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;" />
+        </td>
+        <td style="padding: 0.5rem;">
+          <select class="form-select course-grade" data-idx="${idx}" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;">
+            ${gradeOptions}
+          </select>
+        </td>
+        <td style="padding: 0.5rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
+          ${pts.toFixed(1)}
+        </td>
+        <td style="padding: 0.5rem; text-align: center;">
+          <button type="button" class="btn-remove-course" data-idx="${idx}" style="background: none; border: none; cursor: pointer; color: var(--color-mute); font-size: 1.1rem; line-height: 1;" title="Remove course">&times;</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    attachEvents();
+    recalc();
+  }
+
+  function attachEvents() {
+    document.querySelectorAll('.course-name').forEach(inp => {
+      inp.addEventListener('input', (e) => {
+        const idx = parseInt((e.target as HTMLElement).getAttribute('data-idx') || '0', 10);
+        courses[idx].name = (e.target as HTMLInputElement).value;
+      });
+    });
+    document.querySelectorAll('.course-credits').forEach(inp => {
+      inp.addEventListener('input', (e) => {
+        const idx = parseInt((e.target as HTMLElement).getAttribute('data-idx') || '0', 10);
+        courses[idx].credits = parseFloat((e.target as HTMLInputElement).value) || 0;
+        recalc();
+      });
+    });
+    document.querySelectorAll('.course-grade').forEach(sel => {
+      sel.addEventListener('change', (e) => {
+        const idx = parseInt((e.target as HTMLElement).getAttribute('data-idx') || '0', 10);
+        courses[idx].gradeVal = parseFloat((e.target as HTMLSelectElement).value) || 0;
+        renderTable();
+      });
+    });
+    document.querySelectorAll('.btn-remove-course').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt((e.target as HTMLElement).getAttribute('data-idx') || '0', 10);
+        if (courses.length > 1) {
+          courses.splice(idx, 1);
+          renderTable();
+        }
+      });
+    });
+  }
+
+  function recalc() {
+    const priorGpaInp = document.getElementById('cgpa-prior-gpa') as HTMLInputElement | null;
+    const priorCreditsInp = document.getElementById('cgpa-prior-credits') as HTMLInputElement | null;
+
+    const priorGpa = parseFloat(priorGpaInp?.value || '0') || 0;
+    const priorCredits = parseFloat(priorCreditsInp?.value || '0') || 0;
+
+    let termCredits = 0;
+    let termPoints = 0;
+
+    courses.forEach(c => {
+      if (c.credits > 0) {
+        termCredits += c.credits;
+        termPoints += c.credits * c.gradeVal;
+      }
+    });
+
+    const termGpa = termCredits > 0 ? termPoints / termCredits : 0;
+
+    const careerCredits = priorCredits + termCredits;
+    const priorPoints = priorGpa * priorCredits;
+    const totalPoints = priorPoints + termPoints;
+    const cumulativeGpa = careerCredits > 0 ? totalPoints / careerCredits : 0;
+
+    const totalGpaEl = document.getElementById('cgpa-total-gpa');
+    const termGpaEl = document.getElementById('cgpa-term-gpa');
+    const badgeEl = document.getElementById('cgpa-honor-badge');
+    const careerCreditsEl = document.getElementById('cgpa-career-credits');
+    const termCreditsEl = document.getElementById('cgpa-term-credits');
+    const qualityPtsEl = document.getElementById('cgpa-quality-pts');
+
+    if (totalGpaEl) totalGpaEl.textContent = cumulativeGpa.toFixed(2);
+    if (termGpaEl) termGpaEl.textContent = termGpa.toFixed(2);
+    if (careerCreditsEl) careerCreditsEl.textContent = careerCredits.toString();
+    if (termCreditsEl) termCreditsEl.textContent = termCredits.toString();
+    if (qualityPtsEl) qualityPtsEl.textContent = totalPoints.toFixed(1);
+
+    if (badgeEl) {
+      if (cumulativeGpa >= 3.9) {
+        badgeEl.className = 'badge badge-emerald';
+        badgeEl.textContent = 'Summa Cum Laude';
+      } else if (cumulativeGpa >= 3.75) {
+        badgeEl.className = 'badge badge-emerald';
+        badgeEl.textContent = 'Magna Cum Laude';
+      } else if (cumulativeGpa >= 3.5) {
+        badgeEl.className = 'badge badge-blue';
+        badgeEl.textContent = 'Dean\'s List / Honors';
+      } else if (cumulativeGpa >= 3.0) {
+        badgeEl.className = 'badge badge-blue';
+        badgeEl.textContent = 'Good Standing (B Avg)';
+      } else if (cumulativeGpa >= 2.0) {
+        badgeEl.className = 'badge badge-amber';
+        badgeEl.textContent = 'Satisfactory';
+      } else {
+        badgeEl.className = 'badge badge-red';
+        badgeEl.textContent = 'Academic Warning';
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderTable();
+
+    document.getElementById('cgpa-add-course-btn')?.addEventListener('click', () => {
+      courses.push({
+        name: `Course ${courses.length + 1}`,
+        credits: 3,
+        gradeVal: 4.00
+      });
+      renderTable();
+    });
+
+    document.getElementById('cgpa-reset-btn')?.addEventListener('click', () => {
+      courses = JSON.parse(JSON.stringify(defaultCourses));
+      renderTable();
+    });
+
+    ['cgpa-prior-gpa', 'cgpa-prior-credits'].forEach(id => {
+      document.getElementById(id)?.addEventListener('input', recalc);
+    });
+  });
+</script>

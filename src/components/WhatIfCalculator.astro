@@ -1,0 +1,436 @@
+---
+// src/components/WhatIfCalculator.astro
+interface Props {
+  idPrefix?: string;
+}
+const { idPrefix = 'whatif' } = Astro.props;
+---
+
+<div id={`${idPrefix}-calculator-panel`} class="calculator-panel">
+  <!-- Live What-If Comparison Card -->
+  <div class="geist-card geist-card-floating" style="padding: 1.75rem; margin-bottom: 1.5rem; background: linear-gradient(180deg, var(--color-canvas-elevated) 0%, var(--color-canvas-subtle) 100%);">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; align-items: center;">
+      <!-- Projected New Result -->
+      <div>
+        <span class="mono-eyebrow" style="color: var(--color-cyan); margin-bottom: 0.25rem;">Hypothetical Outcome</span>
+        <div style="margin-top: 0.25rem;">
+          <span style="font-size: 0.8125rem; color: var(--color-mute); display: block;">Simulated New Standing:</span>
+          <div style="display: flex; align-items: baseline; gap: 0.75rem; margin-top: 0.25rem;">
+            <span id={`${idPrefix}-projected-val`} class="display-xl" style="font-feature-settings: 'tnum';">--</span>
+            <span id={`${idPrefix}-delta-badge`} class="badge badge-green">+0.00</span>
+          </div>
+        </div>
+        <p id={`${idPrefix}-standing-text`} style="font-size: 0.875rem; color: var(--color-body); margin-top: 0.5rem; line-height: 1.4;">
+          Your score changes in real time as you adjust hypothetical course grades.
+        </p>
+      </div>
+
+      <!-- Comparison Metrics -->
+      <div class="responsive-col-divider" style="border-left: 1px solid var(--color-hairline); padding-left: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.35rem; color: var(--color-mute);">
+          <span>Current Baseline:</span>
+          <strong id={`${idPrefix}-baseline-display`} style="color: var(--color-ink); font-family: var(--font-mono);">--</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.35rem; color: var(--color-mute);">
+          <span>Hypothetical Term Credits:</span>
+          <strong id={`${idPrefix}-hypo-credits`} style="color: var(--color-ink); font-family: var(--font-mono);">0</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; color: var(--color-mute);">
+          <span>New Cumulative Credits:</span>
+          <strong id={`${idPrefix}-new-total-credits`} style="color: var(--color-ink); font-family: var(--font-mono);">0</strong>
+        </div>
+      </div>
+
+      <!-- Quick Action -->
+      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <button id={`${idPrefix}-optimistic-btn`} type="button" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem;">
+          Best-Case Scenario (Straight A/O)
+        </button>
+        <button id={`${idPrefix}-conservative-btn`} type="button" class="btn btn-ghost" style="font-size: 0.8125rem; color: var(--color-mute);">
+          Average Scenario (B+/A)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Baseline Settings Card -->
+  <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+    <h3 class="heading-md" style="margin-bottom: 1rem;">1. Current Academic Baseline</h3>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.25rem;">
+      <!-- Grading Scale Mode -->
+      <div>
+        <label for={`${idPrefix}-scale-mode`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
+          Grading System:
+        </label>
+        <select id={`${idPrefix}-scale-mode`} class="form-select">
+          <option value="indian10" selected>Indian 10.0 CGPA Scale</option>
+          <option value="us4">US 4.0 GPA Scale</option>
+          <option value="us5">US 5.0 Weighted Scale (AP/Honors)</option>
+        </select>
+      </div>
+
+      <!-- Current Score -->
+      <div>
+        <label for={`${idPrefix}-base-score`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
+          Current Cumulative Score:
+        </label>
+        <input id={`${idPrefix}-base-score`} type="number" step="0.01" min="0" max="10" class="form-input form-input-mono" value="8.10" placeholder="e.g. 8.10" />
+      </div>
+
+      <!-- Prior Credits -->
+      <div>
+        <label for={`${idPrefix}-base-credits`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
+          Earned Credit Hours to Date:
+        </label>
+        <input id={`${idPrefix}-base-credits`} type="number" step="0.5" min="0" max="250" class="form-input form-input-mono" value="68" placeholder="e.g. 68" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Hypothetical Courses Card -->
+  <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem;">
+      <div>
+        <h3 class="heading-md">2. Simulated Upcoming Courses</h3>
+        <p style="font-size: 0.875rem; color: var(--color-mute);">
+          Test what happens to your overall standing when you earn higher or lower grades.
+        </p>
+      </div>
+
+      <button id={`${idPrefix}-add-row-btn`} type="button" class="btn btn-secondary" style="font-weight: 600; font-size: 0.8125rem;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Add Hypothetical Course
+      </button>
+    </div>
+
+    <div class="mobile-table-card-wrap" style="width: 100%; overflow-x: auto; margin-bottom: 1rem;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="border-bottom: 1px solid var(--color-hairline); text-align: left; font-size: 0.8125rem; color: var(--color-mute);">
+            <th style="padding: 0.5rem 0.75rem; font-weight: 500;">Simulated Course</th>
+            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 170px;">Hypothetical Grade</th>
+            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 120px;">Grade Point</th>
+            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 110px;">Credits</th>
+            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 120px; text-align: right;">Weighted Points</th>
+            <th style="padding: 0.5rem 0.75rem; width: 44px;"></th>
+          </tr>
+        </thead>
+        <tbody id={`${idPrefix}-tbody`}>
+          <!-- Populated by script -->
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--color-hairline);">
+      <button id={`${idPrefix}-add-bottom-btn`} type="button" class="btn btn-secondary" style="font-weight: 600;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Add Another Course
+      </button>
+
+      <button id={`${idPrefix}-clear-btn`} type="button" class="btn btn-ghost" style="color: var(--color-mute); font-size: 0.8125rem;">
+        Clear All Simulated Courses
+      </button>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ idPrefix }}>
+  (function() {
+    const uid = () => Math.random().toString(36).substring(2, 9);
+
+    const UGC_INDIAN = [
+      { letter: 'O', point: 10, label: 'O (10)' },
+      { letter: 'A+', point: 9, label: 'A+ (9)' },
+      { letter: 'A', point: 8, label: 'A (8)' },
+      { letter: 'B+', point: 7, label: 'B+ (7)' },
+      { letter: 'B', point: 6, label: 'B (6)' },
+      { letter: 'C', point: 5, label: 'C (5)' },
+      { letter: 'P', point: 4, label: 'P (4)' },
+      { letter: 'F', point: 0, label: 'F (0)' },
+    ];
+
+    const US_4 = [
+      { letter: 'A', point: 4.0, label: 'A (4.0)' },
+      { letter: 'A-', point: 3.7, label: 'A- (3.7)' },
+      { letter: 'B+', point: 3.3, label: 'B+ (3.3)' },
+      { letter: 'B', point: 3.0, label: 'B (3.0)' },
+      { letter: 'B-', point: 2.7, label: 'B- (2.7)' },
+      { letter: 'C+', point: 2.3, label: 'C+ (2.3)' },
+      { letter: 'C', point: 2.0, label: 'C (2.0)' },
+      { letter: 'D', point: 1.0, label: 'D (1.0)' },
+      { letter: 'F', point: 0.0, label: 'F (0.0)' },
+    ];
+
+    const US_5 = [
+      { letter: 'A+ / AP A', point: 5.0, label: 'AP A (5.0)' },
+      { letter: 'A', point: 4.5, label: 'Honors A (4.5)' },
+      { letter: 'A (Reg)', point: 4.0, label: 'Regular A (4.0)' },
+      { letter: 'B+ / AP B', point: 4.0, label: 'AP B (4.0)' },
+      { letter: 'B', point: 3.5, label: 'Honors B (3.5)' },
+      { letter: 'B (Reg)', point: 3.0, label: 'Regular B (3.0)' },
+      { letter: 'C', point: 2.0, label: 'C (2.0)' },
+      { letter: 'F', point: 0.0, label: 'F (0.0)' },
+    ];
+
+    let hypoCourses = [
+      { id: uid(), name: 'Advanced Course 1', grade: 'O', point: 10, credits: 4 },
+      { id: uid(), name: 'Elective Subject', grade: 'A+', point: 9, credits: 3 },
+      { id: uid(), name: 'Laboratory Practical', grade: 'O', point: 10, credits: 2 },
+    ];
+
+    const scaleModeSelect = document.getElementById(`${idPrefix}-scale-mode`);
+    const baseScoreInput = document.getElementById(`${idPrefix}-base-score`);
+    const baseCreditsInput = document.getElementById(`${idPrefix}-base-credits`);
+    const tbody = document.getElementById(`${idPrefix}-tbody`);
+
+    const projectedVal = document.getElementById(`${idPrefix}-projected-val`);
+    const deltaBadge = document.getElementById(`${idPrefix}-delta-badge`);
+    const standingText = document.getElementById(`${idPrefix}-standing-text`);
+    const baselineDisplay = document.getElementById(`${idPrefix}-baseline-display`);
+    const hypoCreditsEl = document.getElementById(`${idPrefix}-hypo-credits`);
+    const newTotalCreditsEl = document.getElementById(`${idPrefix}-new-total-credits`);
+
+    function getActiveGrades() {
+      const mode = scaleModeSelect?.value || 'indian10';
+      if (mode === 'us4') return US_4;
+      if (mode === 'us5') return US_5;
+      return UGC_INDIAN;
+    }
+
+    function renderRows() {
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      const grades = getActiveGrades();
+
+      hypoCourses.forEach((c, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'mobile-card-row';
+        tr.style.borderBottom = '1px solid var(--color-hairline)';
+
+        const pts = (c.point !== null && c.credits !== null) ? ((c.point * c.credits).toFixed(1)) : '--';
+
+        tr.innerHTML = `
+          <td class="td-cgpa-name" style="padding: 0.5rem 0.75rem;">
+            <span class="mobile-input-label">Course #${idx + 1}</span>
+            <input type="text" class="form-input hypo-name-input" data-id="${c.id}" value="${c.name || ''}" placeholder="Course Title" />
+          </td>
+          <td class="td-cgpa-grade" style="padding: 0.5rem 0.75rem;">
+            <span class="mobile-input-label">Grade</span>
+            <select class="form-select hypo-grade-select" data-id="${c.id}">
+              ${grades.map(g => `<option value="${g.letter}" ${g.letter === c.grade ? 'selected' : ''}>${g.label}</option>`).join('')}
+              <option value="custom" ${c.grade === 'custom' ? 'selected' : ''}>Custom Point</option>
+            </select>
+          </td>
+          <td class="td-cgpa-point" style="padding: 0.5rem 0.75rem;">
+            <span class="mobile-input-label">Points</span>
+            <input type="number" step="0.1" min="0" max="10" class="form-input form-input-mono hypo-point-input" data-id="${c.id}" value="${c.point !== null ? c.point : ''}" placeholder="Pts" />
+          </td>
+          <td class="td-cgpa-credits" style="padding: 0.5rem 0.75rem;">
+            <span class="mobile-input-label">Credits</span>
+            <input type="number" step="0.5" min="0" max="20" class="form-input form-input-mono hypo-credits-input" data-id="${c.id}" value="${c.credits !== null ? c.credits : ''}" placeholder="Credits" />
+          </td>
+          <td class="td-cgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
+            <span class="mobile-input-label">Points</span>
+            <span>${pts}</span>
+          </td>
+          <td class="td-cgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
+            <button type="button" class="btn btn-ghost btn-icon delete-hypo-btn" data-id="${c.id}" title="Remove course" aria-label="Remove course">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+
+      calculate();
+    }
+
+    function calculate() {
+      const baseScore = parseFloat(baseScoreInput?.value || '0');
+      const baseCredits = parseFloat(baseCreditsInput?.value || '0');
+
+      if (baselineDisplay) baselineDisplay.textContent = `${baseScore.toFixed(2)} (${baseCredits.toFixed(1)} cr)`;
+
+      let hypoCredits = 0;
+      let hypoPoints = 0;
+
+      hypoCourses.forEach(c => {
+        const cr = Number(c.credits) || 0;
+        const pt = c.point !== null && !isNaN(c.point) ? Number(c.point) : 0;
+        if (cr > 0) {
+          hypoCredits += cr;
+          hypoPoints += (cr * pt);
+        }
+      });
+
+      if (hypoCreditsEl) hypoCreditsEl.textContent = hypoCredits.toFixed(1);
+
+      const totalCredits = baseCredits + hypoCredits;
+      if (newTotalCreditsEl) newTotalCreditsEl.textContent = totalCredits.toFixed(1);
+
+      if (totalCredits > 0) {
+        const totalPoints = (baseScore * baseCredits) + hypoPoints;
+        const projected = totalPoints / totalCredits;
+        const delta = projected - baseScore;
+
+        if (projectedVal) projectedVal.textContent = projected.toFixed(2);
+
+        if (deltaBadge) {
+          const sign = delta > 0 ? '+' : '';
+          deltaBadge.textContent = `${sign}${delta.toFixed(2)}`;
+          if (delta > 0.005) {
+            deltaBadge.className = 'badge badge-green';
+          } else if (delta < -0.005) {
+            deltaBadge.className = 'badge badge-red';
+          } else {
+            deltaBadge.className = 'badge badge-blue';
+          }
+        }
+
+        if (standingText) {
+          if (delta > 0.005) {
+            standingText.textContent = `Your cumulative standing will increase by ${delta.toFixed(2)} points to ${projected.toFixed(2)}.`;
+          } else if (delta < -0.005) {
+            standingText.textContent = `Your cumulative standing will decline by ${Math.abs(delta).toFixed(2)} points to ${projected.toFixed(2)}.`;
+          } else {
+            standingText.textContent = `Your cumulative standing will hold steady at ${projected.toFixed(2)}.`;
+          }
+        }
+      } else {
+        if (projectedVal) projectedVal.textContent = '--';
+        if (deltaBadge) deltaBadge.textContent = '+0.00';
+      }
+    }
+
+    scaleModeSelect?.addEventListener('change', () => {
+      const mode = scaleModeSelect.value;
+      if (mode === 'indian10') {
+        if (baseScoreInput) { baseScoreInput.max = '10'; baseScoreInput.value = '8.10'; }
+        hypoCourses.forEach(c => { c.grade = 'O'; c.point = 10; });
+      } else if (mode === 'us4') {
+        if (baseScoreInput) { baseScoreInput.max = '4.0'; baseScoreInput.value = '3.45'; }
+        hypoCourses.forEach(c => { c.grade = 'A'; c.point = 4.0; });
+      } else if (mode === 'us5') {
+        if (baseScoreInput) { baseScoreInput.max = '5.0'; baseScoreInput.value = '4.20'; }
+        hypoCourses.forEach(c => { c.grade = 'A+ / AP A'; c.point = 5.0; });
+      }
+      renderRows();
+    });
+
+    baseScoreInput?.addEventListener('input', calculate);
+    baseCreditsInput?.addEventListener('input', calculate);
+
+    tbody?.addEventListener('input', (e) => {
+      const target = e.target;
+      const id = target.getAttribute('data-id');
+      if (!id) return;
+      const c = hypoCourses.find(x => x.id === id);
+      if (!c) return;
+
+      if (target.classList.contains('hypo-name-input')) {
+        c.name = target.value;
+      } else if (target.classList.contains('hypo-point-input')) {
+        c.point = target.value === '' ? null : parseFloat(target.value) || 0;
+      } else if (target.classList.contains('hypo-credits-input')) {
+        c.credits = target.value === '' ? null : parseFloat(target.value) || 0;
+      }
+
+      const ptsCell = target.closest('tr')?.querySelector('.td-cgpa-pts-earned span:not(.mobile-input-label)');
+      if (ptsCell) {
+        ptsCell.textContent = ((c.point || 0) * (c.credits || 0)).toFixed(1);
+      }
+
+      calculate();
+    });
+
+    tbody?.addEventListener('change', (e) => {
+      const target = e.target;
+      const id = target.getAttribute('data-id');
+      if (!id) return;
+      const c = hypoCourses.find(x => x.id === id);
+      if (!c) return;
+
+      if (target.classList.contains('hypo-grade-select')) {
+        const val = target.value;
+        c.grade = val;
+        const grades = getActiveGrades();
+        const matched = grades.find(g => g.letter === val);
+        if (matched) {
+          c.point = matched.point;
+          const pInput = tbody.querySelector(`.hypo-point-input[data-id="${id}"]`);
+          if (pInput) pInput.value = matched.point.toString();
+        }
+        const ptsCell = target.closest('tr')?.querySelector('.td-cgpa-pts-earned span:not(.mobile-input-label)');
+        if (ptsCell) {
+          ptsCell.textContent = ((c.point || 0) * (c.credits || 0)).toFixed(1);
+        }
+        calculate();
+      }
+    });
+
+    tbody?.addEventListener('click', (e) => {
+      const btn = e.target.closest('.delete-hypo-btn');
+      if (!btn) return;
+      const id = btn.getAttribute('data-id');
+      if (!id) return;
+      hypoCourses = hypoCourses.filter(x => x.id !== id);
+      renderRows();
+    });
+
+    const addFn = () => {
+      const grades = getActiveGrades();
+      const topGrade = grades[0] || { letter: 'A', point: 4.0 };
+      hypoCourses.push({
+        id: uid(),
+        name: `Hypothetical Subject ${hypoCourses.length + 1}`,
+        grade: topGrade.letter,
+        point: topGrade.point,
+        credits: 3
+      });
+      renderRows();
+    };
+
+    document.getElementById(`${idPrefix}-add-row-btn`)?.addEventListener('click', addFn);
+    document.getElementById(`${idPrefix}-add-bottom-btn`)?.addEventListener('click', addFn);
+
+    document.getElementById(`${idPrefix}-clear-btn`)?.addEventListener('click', () => {
+      hypoCourses = [];
+      renderRows();
+    });
+
+    // Best case: set all grades to top grade
+    document.getElementById(`${idPrefix}-optimistic-btn`)?.addEventListener('click', () => {
+      const grades = getActiveGrades();
+      const top = grades[0];
+      hypoCourses.forEach(c => {
+        c.grade = top.letter;
+        c.point = top.point;
+      });
+      renderRows();
+    });
+
+    // Average case: set all grades to middle grade
+    document.getElementById(`${idPrefix}-conservative-btn`)?.addEventListener('click', () => {
+      const grades = getActiveGrades();
+      const mid = grades[Math.floor(grades.length / 2)] || grades[0];
+      hypoCourses.forEach(c => {
+        c.grade = mid.letter;
+        c.point = mid.point;
+      });
+      renderRows();
+    });
+
+    renderRows();
+  })();
+</script>

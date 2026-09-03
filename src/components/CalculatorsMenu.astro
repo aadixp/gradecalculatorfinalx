@@ -1,0 +1,149 @@
+---
+// src/components/CalculatorsMenu.astro
+import { getLangFromUrl, useTranslatedPath } from '../i18n/utils';
+
+const currentLang = getLangFromUrl(Astro.url);
+const translatePath = useTranslatedPath(currentLang);
+---
+
+<div class="calc-menu-wrap">
+  <div class="calc-menu-inner" title="All Calculators">
+    <!-- Grid/Menu Icon -->
+    <svg class="calc-menu-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="3" y="3" width="7" height="7"></rect>
+      <rect x="14" y="3" width="7" height="7"></rect>
+      <rect x="14" y="14" width="7" height="7"></rect>
+      <rect x="3" y="14" width="7" height="7"></rect>
+    </svg>
+
+    <!-- Desktop Label -->
+    <span class="calc-menu-text calc-menu-desktop">Calculators</span>
+
+    <!-- Dropdown Chevron Icon -->
+    <svg class="calc-menu-chevron" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+
+    <!-- Accessible Native Dropdown Overlay -->
+    <select id="site-calculators-select" class="calc-menu-select-overlay" aria-label="Browse all calculators">
+      <option value="" disabled selected>Select a Calculator...</option>
+      <optgroup label="Core Calculators">
+        <option value={translatePath('/weighted-grade-calculator')}>Weighted Grade Calculator</option>
+        <option value={translatePath('/final-exam-calculator')}>Final Exam Target Calculator</option>
+        <option value={translatePath('/gpa-calculator')}>Cumulative GPA Calculator</option>
+        <option value={translatePath('/semester-gpa-calculator')}>Semester GPA Calculator</option>
+      </optgroup>
+      <optgroup label="Indian Grading (10-Point UGC)">
+        <option value={translatePath('/indian-cgpa-calculator')}>Indian CGPA Calculator (UGC 10.0)</option>
+        <option value={translatePath('/indian-sgpa-calculator')}>Indian SGPA Calculator (Semester)</option>
+        <option value={translatePath('/cgpa-to-percentage')}>CGPA to Percentage Calculator</option>
+        <option value={translatePath('/percentage-to-cgpa')}>Percentage to CGPA Calculator</option>
+      </optgroup>
+      <optgroup label="Planning & Equivalences">
+        <option value={translatePath('/target-cgpa-calculator')}>Target CGPA Calculator</option>
+        <option value={translatePath('/target-gpa-calculator')}>Target GPA Calculator (US 4.0/5.0)</option>
+        <option value={translatePath('/grade-converter')}>Grade Conversion Table & Scale</option>
+      </optgroup>
+    </select>
+  </div>
+</div>
+
+<script>
+  const calcSelect = document.getElementById('site-calculators-select') as HTMLSelectElement | null;
+  calcSelect?.addEventListener('change', (e) => {
+    const target = e.target as HTMLSelectElement;
+    if (target && target.value) {
+      window.location.href = target.value;
+    }
+  });
+</script>
+
+<style>
+  .calc-menu-wrap {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .calc-menu-inner {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    background: var(--color-canvas-subtle);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-sm);
+    padding: 0 0.5rem;
+    gap: 0.35rem;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast), background-color var(--transition-fast);
+  }
+
+  .calc-menu-inner:hover {
+    border-color: var(--color-hairline-strong);
+    background: var(--color-canvas-elevated);
+  }
+
+  .calc-menu-icon {
+    color: var(--color-mute);
+    flex-shrink: 0;
+    pointer-events: none;
+  }
+
+  .calc-menu-text {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-ink);
+    white-space: nowrap;
+    pointer-events: none;
+    line-height: 1;
+  }
+
+  .calc-menu-chevron {
+    color: var(--color-mute);
+    flex-shrink: 0;
+    pointer-events: none;
+  }
+
+  .calc-menu-select-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+    z-index: 2;
+  }
+
+  .calc-menu-select-overlay optgroup {
+    font-weight: 700;
+    color: var(--color-mute);
+    background: var(--color-canvas-elevated, #111111);
+  }
+
+  .calc-menu-select-overlay option {
+    font-weight: normal;
+    background: var(--color-canvas-elevated, #111111);
+    color: var(--color-ink, #ffffff);
+    padding: 6px;
+  }
+
+  @media (max-width: 600px) {
+    .calc-menu-desktop {
+      display: none !important;
+    }
+    .calc-menu-inner {
+      height: 30px;
+      padding: 0 0.35rem;
+      gap: 0.25rem;
+    }
+  }
+</style>

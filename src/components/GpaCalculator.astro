@@ -1,0 +1,135 @@
+---
+// src/components/GpaCalculator.astro
+---
+
+<div id="calculator-gpa" class="calculator-panel" style="display: none;">
+  <!-- Results Display -->
+  <div class="geist-card geist-card-floating" style="padding: 1.5rem; margin-bottom: 1.5rem; background: linear-gradient(180deg, var(--color-canvas-elevated) 0%, var(--color-canvas-subtle) 100%);">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; align-items: center;">
+      <!-- Semester GPA -->
+      <div>
+        <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;">Semester Grade</span>
+        <div style="display: flex; align-items: baseline; gap: 0.5rem; margin-top: 0.25rem;">
+          <span id="gpa-semester-val" class="display-xl" style="font-feature-settings: 'tnum';">--</span>
+          <span id="gpa-standing-badge" class="badge badge-green">Dean's List</span>
+        </div>
+        <p style="font-size: 0.8125rem; color: var(--color-mute); margin-top: 0.25rem;">
+          Current Term Credits: <strong id="gpa-semester-credits" style="color: var(--color-ink);">0</strong>
+        </p>
+      </div>
+
+      <!-- Cumulative GPA -->
+      <div class="responsive-col-divider" style="border-left: 1px solid var(--color-hairline); padding-left: 1.25rem;">
+        <span class="mono-eyebrow" style="color: var(--color-violet); margin-bottom: 0.25rem;">Cumulative Academic standing</span>
+        <div style="display: flex; align-items: baseline; gap: 0.5rem; margin-top: 0.25rem;">
+          <span id="gpa-cumulative-val" class="heading-lg" style="font-size: 2.25rem; font-feature-settings: 'tnum';">--</span>
+        </div>
+        <p style="font-size: 0.8125rem; color: var(--color-mute); margin-top: 0.25rem;">
+          Total Combined Credits: <strong id="gpa-total-credits" style="color: var(--color-ink);">0</strong>
+        </p>
+      </div>
+
+      <!-- Quick Actions -->
+      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <button id="toggle-prior-gpa-btn" type="button" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem;">
+          Prior Cumulative GPA Settings
+        </button>
+        <button id="toggle-target-gpa-btn" type="button" class="btn btn-ghost" style="font-size: 0.8125rem;">
+          Target Graduation Goal Planner &rarr;
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Prior GPA Drawer -->
+  <div id="prior-gpa-drawer" class="geist-card" style="padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; background: var(--color-canvas-subtle); display: none;">
+    <h4 class="heading-md" style="font-size: 1rem; margin-bottom: 0.75rem;">Prior Cumulative GPA Integration</h4>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+      <div>
+        <label for="prior-gpa-input" style="display: block; font-size: 0.8125rem; color: var(--color-mute); margin-bottom: 0.25rem;">
+          Prior Cumulative GPA:
+        </label>
+        <input id="prior-gpa-input" type="number" step="0.01" min="0" max="5.0" class="form-input form-input-mono" placeholder="e.g. 3.65" />
+      </div>
+      <div>
+        <label for="prior-credits-input" style="display: block; font-size: 0.8125rem; color: var(--color-mute); margin-bottom: 0.25rem;">
+          Prior Credit Hours Completed:
+        </label>
+        <input id="prior-credits-input" type="number" step="0.5" min="0" max="250" class="form-input form-input-mono" placeholder="e.g. 45" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Target Graduation Goal Drawer -->
+  <div id="target-gpa-drawer" class="geist-card" style="padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; background: var(--color-canvas-subtle); display: none;">
+    <h4 class="heading-md" style="font-size: 1rem; margin-bottom: 0.75rem;">Graduation GPA Target Planner</h4>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; align-items: flex-end;">
+      <div>
+        <label for="target-grad-gpa" style="display: block; font-size: 0.8125rem; color: var(--color-mute); margin-bottom: 0.25rem;">
+          Target Cumulative GPA (e.g. 3.80):
+        </label>
+        <input id="target-grad-gpa" type="number" step="0.01" min="0" max="5.0" class="form-input form-input-mono" placeholder="e.g. 3.80" />
+      </div>
+      <div>
+        <label for="remaining-credits" style="display: block; font-size: 0.8125rem; color: var(--color-mute); margin-bottom: 0.25rem;">
+          Remaining Credits to Graduate:
+        </label>
+        <input id="remaining-credits" type="number" step="1" min="1" max="150" class="form-input form-input-mono" placeholder="e.g. 30" />
+      </div>
+      <div style="background: var(--color-canvas-elevated); padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline);">
+        <span style="font-size: 0.75rem; color: var(--color-mute); display: block;">Required Future Avg GPA:</span>
+        <span id="target-gpa-req-val" style="font-size: 1.25rem; font-weight: 700; color: var(--color-ink); font-family: var(--font-mono);">--</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Course Rows Table -->
+  <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;">
+      <div>
+        <h3 class="heading-md">Courses this Semester</h3>
+        <p style="font-size: 0.875rem; color: var(--color-mute);">
+          Select letter grades, credit hours, and course weighting (AP / Honors).
+        </p>
+      </div>
+
+      <div style="display: flex; gap: 0.5rem;">
+        <button id="gpa-sample-btn" type="button" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem;">
+          Load Sample Semester
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-table-card-wrap" style="width: 100%; overflow-x: auto; margin-bottom: 1rem;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="border-bottom: 1px solid var(--color-hairline); text-align: left; font-size: 0.8125rem; color: var(--color-mute);">
+            <th style="padding: 0.5rem 0.75rem; font-weight: 500;">Course Title</th>
+            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 140px;">Grade</th>
+            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 110px;">Credits</th>
+            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 140px;">Course Type</th>
+            <th style="padding: 0.5rem 0.75rem; width: 48px;"></th>
+          </tr>
+        </thead>
+        <tbody id="gpa-rows-container">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Actions -->
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--color-hairline);">
+      <button id="add-course-row-btn" type="button" class="btn btn-secondary" style="font-weight: 600;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Add Course
+      </button>
+
+      <button id="clear-courses-btn" type="button" class="btn btn-ghost" style="color: var(--color-mute); font-size: 0.8125rem;">
+        Clear All Courses
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,191 @@
+---
+import { languages, type Lang } from '../i18n/ui';
+import { getLangFromUrl, useTranslatedPath } from '../i18n/utils';
+
+const currentLang = getLangFromUrl(Astro.url);
+const translatePath = useTranslatedPath(currentLang);
+const currentPath = Astro.url.pathname;
+
+const shortCodes: Record<Lang, string> = {
+  en: 'EN',
+  es: 'ES',
+  ja: 'JA',
+  fr: 'FR',
+  de: 'DE',
+  pt: 'PT',
+  ko: 'KO',
+  it: 'IT',
+};
+---
+
+<div class="lang-picker-wrap">
+  <div class="lang-picker-inner" title="Change Language">
+    <!-- Globe Icon -->
+    <svg class="lang-globe-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="2" y1="12" x2="22" y2="12"></line>
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+    </svg>
+
+    <!-- Desktop Label (Full Language Name) -->
+    <span class="lang-text lang-text-desktop">{languages[currentLang]}</span>
+
+    <!-- Mobile Label (2-Letter ISO Code) -->
+    <span class="lang-text lang-text-mobile" style="display: none;">{shortCodes[currentLang]}</span>
+
+    <!-- Dropdown Chevron Icon -->
+    <svg class="lang-chevron-icon" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+
+    <!-- Native Accessible Select covering the trigger button -->
+    <select id="site-language-select" class="lang-select-overlay" aria-label="Change language">
+      {Object.entries(languages).map(([code, name]) => {
+        const langCode = code as Lang;
+        const targetUrl = translatePath(currentPath, langCode);
+        return (
+          <option value={targetUrl} selected={langCode === currentLang}>
+            {name}
+          </option>
+        );
+      })}
+    </select>
+  </div>
+</div>
+
+<script>
+  const langSelect = document.getElementById('site-language-select') as HTMLSelectElement | null;
+  langSelect?.addEventListener('change', (e) => {
+    const target = e.target as HTMLSelectElement;
+    if (target && target.value) {
+      window.location.href = target.value;
+    }
+  });
+</script>
+
+<style>
+  .lang-picker-wrap {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .lang-picker-inner {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    background: var(--color-canvas-subtle);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-sm);
+    padding: 0 0.5rem;
+    gap: 0.35rem;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast), background-color var(--transition-fast);
+  }
+
+  .lang-picker-inner:hover {
+    border-color: var(--color-hairline-strong);
+    background: var(--color-canvas-elevated);
+  }
+
+  .lang-globe-icon {
+    color: var(--color-mute);
+    flex-shrink: 0;
+    pointer-events: none;
+  }
+
+  .lang-text {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-ink);
+    white-space: nowrap;
+    pointer-events: none;
+    line-height: 1;
+  }
+
+  .lang-text-desktop {
+    display: inline;
+  }
+
+  .lang-text-mobile {
+    display: none;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .lang-chevron-icon {
+    color: var(--color-mute);
+    flex-shrink: 0;
+    pointer-events: none;
+  }
+
+  /* The select overlays the button completely: 0px visually, 100% functional on click/touch */
+  .lang-select-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+    z-index: 2;
+  }
+
+  .lang-select-overlay option {
+    background: var(--color-canvas-elevated, #111111);
+    color: var(--color-ink, #ffffff);
+  }
+
+  /* Mobile Responsive Adjustments */
+  @media (max-width: 520px) {
+    .lang-picker-inner {
+      height: 30px;
+      padding: 0 0.35rem;
+      gap: 0.25rem;
+    }
+
+    .lang-text-desktop {
+      display: none !important;
+    }
+
+    .lang-text-mobile {
+      display: inline !important;
+    }
+
+    .lang-globe-icon {
+      width: 12px;
+      height: 12px;
+    }
+
+    .lang-chevron-icon {
+      width: 8px;
+      height: 8px;
+    }
+  }
+
+  /* Extra Small Mobile (340px and below) */
+  @media (max-width: 340px) {
+    .lang-picker-inner {
+      width: 30px;
+      padding: 0;
+      gap: 0;
+    }
+
+    .lang-text-mobile {
+      display: none !important;
+    }
+
+    .lang-chevron-icon {
+      display: none !important;
+    }
+  }
+</style>

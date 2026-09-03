@@ -1,0 +1,61 @@
+---
+// src/pages/500.astro
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="500 - Server Error | GradeCalculatorFinalX"
+  description="An unexpected server error occurred. Please refresh the page or return to the Grade Calculator homepage."
+>
+  <div class="container" style="max-width: 760px; padding: 4rem 1.5rem 6rem 1.5rem; text-align: center;">
+    <!-- Error Status Badge -->
+    <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: var(--color-canvas-subtle); border: 1px solid var(--color-hairline); border-radius: var(--radius-full); padding: 0.35rem 0.85rem; margin-bottom: 1.5rem;">
+      <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-rose); display: inline-block;"></span>
+      <span style="font-size: 0.8125rem; font-family: var(--font-mono); font-weight: 500; color: var(--color-mute); letter-spacing: 0.05em;">HTTP 500 &bull; SERVER ERROR</span>
+    </div>
+
+    <!-- Big Code Display -->
+    <div style="font-size: clamp(4.5rem, 12vw, 7.5rem); font-weight: 800; line-height: 1; letter-spacing: -0.05em; color: var(--color-ink); margin-bottom: 0.5rem; font-family: var(--font-sans);">
+      500
+    </div>
+
+    <!-- Page Heading -->
+    <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.5rem, 3.5vw, 2rem); margin-bottom: 0.75rem;">
+      Unexpected Server Error
+    </h1>
+
+    <p style="font-size: 1rem; color: var(--color-body); line-height: 1.6; max-width: 520px; margin: 0 auto 2.25rem auto;">
+      Something unexpected occurred on our end while processing your request. Please try refreshing or return to the calculator.
+    </p>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3.5rem;">
+      <button onclick="window.location.reload()" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.65rem 1.35rem;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 4v6h-6"></path>
+          <path d="M1 20v-6h6"></path>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+        </svg>
+        <span>Reload Page</span>
+      </button>
+
+      <a href="/" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; padding: 0.65rem 1.25rem;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Return to Grade Calculator</span>
+      </a>
+    </div>
+
+    <!-- Information Card -->
+    <div class="geist-card" style="padding: 1.75rem; text-align: left; background: var(--color-canvas-subtle);">
+      <h2 style="font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-ink); margin-bottom: 0.5rem;">
+        Data Safety Notice
+      </h2>
+      <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.5; margin: 0;">
+        All grade entries, course configurations, and custom scales are securely stored in your browser's local cache. Reloading or navigating back to the homepage will safely preserve your existing course data.
+      </p>
+    </div>
+  </div>
+</Layout>

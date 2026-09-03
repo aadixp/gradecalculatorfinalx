@@ -1,0 +1,346 @@
+---
+// src/pages/semester-gpa-calculator.astro
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Semester GPA Calculator | Calculate Term Grade Point Average"
+  description="Calculate your college semester GPA quickly and accurately. Enter course credit hours and letter grades to find your term GPA and quality points."
+>
+  <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
+    <!-- Breadcrumbs -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
+        <a href="/" style="color: var(--color-mute); text-decoration: none;">Home</a>
+        <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
+        <span style="color: var(--color-ink); font-weight: 500;">Semester GPA Calculator</span>
+      </nav>
+      <div style="display: flex; gap: 0.5rem;">
+        <a href="/gpa-calculator" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;">
+          Cumulative GPA &rarr;
+        </a>
+        <a href="/target-gpa-calculator" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;">
+          Target GPA &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.5rem;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;">Term Academic Evaluation</span>
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;">
+        Semester GPA Calculator
+      </h1>
+      <p style="font-size: 1.05rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6; max-width: 780px;">
+        Quickly calculate your grade point average for a single college semester or quarter. Enter your courses, credit weightings, and letter grades to find your term GPA and Dean’s List standing.
+      </p>
+    </header>
+
+    <!-- Results Card -->
+    <div class="geist-card geist-card-floating" style="padding: 1.5rem; margin-bottom: 1.5rem; background: linear-gradient(180deg, var(--color-canvas-elevated) 0%, var(--color-canvas-subtle) 100%);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; align-items: center;">
+        <div>
+          <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;">Term Grade Point Average</span>
+          <div style="display: flex; align-items: baseline; gap: 0.75rem;">
+            <span id="sgpa-val" class="display-xl" style="font-feature-settings: 'tnum'; color: var(--color-ink);">--</span>
+            <span id="sgpa-badge" class="badge badge-emerald" style="font-size: 0.875rem; padding: 0.25rem 0.65rem;">--</span>
+          </div>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); margin-top: 0.25rem;">
+            Academic Standing: <strong style="color: var(--color-ink);" id="sgpa-standing">--</strong>
+          </p>
+        </div>
+
+        <div class="responsive-col-divider" style="border-left: 1px solid var(--color-hairline); padding-left: 1.25rem;">
+          <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8125rem;">
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--color-mute);">Total Term Credits:</span>
+              <strong id="sgpa-credits" style="font-family: var(--font-mono); color: var(--color-ink);">0</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--color-mute);">Total Quality Points:</span>
+              <strong id="sgpa-points" style="font-family: var(--font-mono); color: var(--color-ink);">0.0</strong>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; justify-content: center;">
+          <a href="/gpa-calculator" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none; text-align: center;">
+            Combine into Cumulative GPA &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Courses Table Card -->
+    <div class="geist-card" style="padding: 1.5rem; margin-bottom: 2.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem;">
+        <div>
+          <h3 class="heading-md" style="font-size: 1.15rem; color: var(--color-ink);">Semester Courses</h3>
+          <p style="font-size: 0.875rem; color: var(--color-mute);">Add your classes for this term.</p>
+        </div>
+        <button id="sgpa-reset-btn" type="button" class="btn btn-ghost" style="font-size: 0.8125rem; color: var(--color-mute);">
+          Reset to Sample Data
+        </button>
+      </div>
+
+      <div class="mobile-table-card-wrap" style="overflow-x: auto;">
+        <table class="table" style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--color-hairline); text-align: left;">
+              <th style="padding: 0.6rem 0.5rem;">Course</th>
+              <th style="padding: 0.6rem 0.5rem; width: 110px;">Credits</th>
+              <th style="padding: 0.6rem 0.5rem; width: 140px;">Grade</th>
+              <th style="padding: 0.6rem 0.5rem; width: 110px; text-align: right;">Quality Pts</th>
+              <th style="padding: 0.6rem 0.5rem; width: 40px;"></th>
+            </tr>
+          </thead>
+          <tbody id="sgpa-tbody">
+            <!-- Rendered by script -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 1rem;">
+        <button id="sgpa-add-row-btn" type="button" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 0.4rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Add Course
+        </button>
+      </div>
+    </div>
+
+    <!-- Guide & Formula Section -->
+    <article class="geist-card" style="padding: 2.25rem 2rem; line-height: 1.75; color: var(--color-body); margin-bottom: 2rem;">
+      <h2 class="heading-md" style="color: var(--color-ink); font-size: 1.35rem; margin-bottom: 1rem;">
+        The Semester GPA Calculation Formula
+      </h2>
+      <p style="margin-bottom: 1rem;">
+        Your term Grade Point Average is computed by taking the total quality points earned during the semester and dividing by the total semester credit hours:
+      </p>
+      <div style="background: var(--color-canvas-subtle); padding: 1rem 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline); font-family: var(--font-mono); font-size: 0.875rem; margin-bottom: 1.25rem; color: var(--color-blue);">
+        Semester GPA = &Sigma;(Course Credit &times; Grade Points) &divide; Total Semester Credits
+      </div>
+      <p>
+        For instance, taking a 4-credit course and earning an 'A' yields 16.0 quality points. A 3-credit course with a 'B' yields 9.0 quality points. Totaling 25.0 points across 7 credits gives a term GPA of <strong>3.57</strong>.
+      </p>
+    </article>
+
+    <!-- FAQs -->
+    <section class="faq-card" style="margin-bottom: 3rem;">
+      <h2 class="heading-md" style="margin-bottom: 1.25rem; color: var(--color-ink);">
+        Frequently Asked Questions
+      </h2>
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="faq-item">
+          <div class="faq-question">What is Dean’s List cutoff?</div>
+          <div class="faq-answer">
+            At most North American universities, students taking at least 12 graded credit hours with a semester GPA of <strong>3.50 or higher</strong> qualify for the Dean’s Honor List.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">What is considered academic probation?</div>
+          <div class="faq-answer">
+            Typically, earning a semester GPA below <strong>2.00</strong> places a college student on academic warning or probation, requiring a recovery plan for subsequent semesters.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Links -->
+    <section>
+      <h3 class="heading-md" style="margin-bottom: 1rem; color: var(--color-ink);">Related Calculators</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+        <a href="/gpa-calculator" class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">Cumulative GPA Calculator</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Combine multiple semesters with prior GPA.</p>
+        </a>
+        <a href="/target-gpa-calculator" class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">Target GPA Planner</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Plan future term targets for honors.</p>
+        </a>
+        <a href="/weighted-grade-calculator" class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">Weighted Grade Calculator</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Calculate individual course grades.</p>
+        </a>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<script>
+  interface Course {
+    name: string;
+    credits: number;
+    gradeVal: number;
+  }
+
+  const GRADE_MAP: Record<string, number> = {
+    'A': 4.00,
+    'A-': 3.70,
+    'B+': 3.30,
+    'B': 3.00,
+    'B-': 2.70,
+    'C+': 2.30,
+    'C': 2.00,
+    'C-': 1.70,
+    'D+': 1.30,
+    'D': 1.00,
+    'F': 0.00
+  };
+
+  const defaultCourses: Course[] = [
+    { name: 'Organic Chemistry', credits: 4, gradeVal: 3.70 },
+    { name: 'Calculus II', credits: 4, gradeVal: 4.00 },
+    { name: 'Economics 101', credits: 3, gradeVal: 3.30 },
+    { name: 'History Seminar', credits: 3, gradeVal: 3.70 },
+    { name: 'Chemistry Lab', credits: 1, gradeVal: 4.00 }
+  ];
+
+  let courses: Course[] = JSON.parse(JSON.stringify(defaultCourses));
+
+  function renderTable() {
+    const tbody = document.getElementById('sgpa-tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    courses.forEach((c, idx) => {
+      const tr = document.createElement('tr');
+      tr.style.borderBottom = '1px solid var(--color-hairline-soft)';
+      const pts = c.credits * c.gradeVal;
+
+      let gradeOptions = '';
+      for (const [letter, val] of Object.entries(GRADE_MAP)) {
+        const sel = Math.abs(val - c.gradeVal) < 0.01 ? 'selected' : '';
+        gradeOptions += `<option value="${val}" ${sel}>${letter} (${val.toFixed(2)})</option>`;
+      }
+
+      tr.innerHTML = `
+        <td style="padding: 0.5rem;">
+          <input type="text" class="form-input course-name" data-idx="${idx}" value="${c.name}" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;" />
+        </td>
+        <td style="padding: 0.5rem;">
+          <input type="number" class="form-input form-input-mono course-credits" data-idx="${idx}" value="${c.credits}" min="0.5" step="0.5" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;" />
+        </td>
+        <td style="padding: 0.5rem;">
+          <select class="form-select course-grade" data-idx="${idx}" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;">
+            ${gradeOptions}
+          </select>
+        </td>
+        <td style="padding: 0.5rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
+          ${pts.toFixed(1)}
+        </td>
+        <td style="padding: 0.5rem; text-align: center;">
+          <button type="button" class="btn-remove-course" data-idx="${idx}" style="background: none; border: none; cursor: pointer; color: var(--color-mute); font-size: 1.1rem; line-height: 1;" title="Remove course">&times;</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    attachEvents();
+    recalc();
+  }
+
+  function attachEvents() {
+    document.querySelectorAll('.course-name').forEach(inp => {
+      inp.addEventListener('input', (e) => {
+        const idx = parseInt((e.target as HTMLElement).getAttribute('data-idx') || '0', 10);
+        courses[idx].name = (e.target as HTMLInputElement).value;
+      });
+    });
+    document.querySelectorAll('.course-credits').forEach(inp => {
+      inp.addEventListener('input', (e) => {
+        const idx = parseInt((e.target as HTMLElement).getAttribute('data-idx') || '0', 10);
+        courses[idx].credits = parseFloat((e.target as HTMLInputElement).value) || 0;
+        recalc();
+      });
+    });
+    document.querySelectorAll('.course-grade').forEach(sel => {
+      sel.addEventListener('change', (e) => {
+        const idx = parseInt((e.target as HTMLElement).getAttribute('data-idx') || '0', 10);
+        courses[idx].gradeVal = parseFloat((e.target as HTMLSelectElement).value) || 0;
+        renderTable();
+      });
+    });
+    document.querySelectorAll('.btn-remove-course').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt((e.target as HTMLElement).getAttribute('data-idx') || '0', 10);
+        if (courses.length > 1) {
+          courses.splice(idx, 1);
+          renderTable();
+        }
+      });
+    });
+  }
+
+  function recalc() {
+    let termCredits = 0;
+    let termPoints = 0;
+
+    courses.forEach(c => {
+      if (c.credits > 0) {
+        termCredits += c.credits;
+        termPoints += c.credits * c.gradeVal;
+      }
+    });
+
+    const termGpa = termCredits > 0 ? termPoints / termCredits : 0;
+
+    const gpaEl = document.getElementById('sgpa-val');
+    const badgeEl = document.getElementById('sgpa-badge');
+    const standingEl = document.getElementById('sgpa-standing');
+    const creditsEl = document.getElementById('sgpa-credits');
+    const pointsEl = document.getElementById('sgpa-points');
+
+    if (gpaEl) gpaEl.textContent = termGpa.toFixed(2);
+    if (creditsEl) creditsEl.textContent = termCredits.toString();
+    if (pointsEl) pointsEl.textContent = termPoints.toFixed(1);
+
+    if (badgeEl) {
+      if (termGpa >= 3.8) {
+        badgeEl.className = 'badge badge-emerald';
+        badgeEl.textContent = 'Highest Honors';
+      } else if (termGpa >= 3.5) {
+        badgeEl.className = 'badge badge-emerald';
+        badgeEl.textContent = 'Dean\'s List';
+      } else if (termGpa >= 3.0) {
+        badgeEl.className = 'badge badge-blue';
+        badgeEl.textContent = 'Good Standing';
+      } else if (termGpa >= 2.0) {
+        badgeEl.className = 'badge badge-amber';
+        badgeEl.textContent = 'Satisfactory';
+      } else {
+        badgeEl.className = 'badge badge-red';
+        badgeEl.textContent = 'Academic Warning';
+      }
+    }
+
+    if (standingEl) {
+      if (termGpa >= 3.5) {
+        standingEl.textContent = 'Dean\'s List Eligibility (High Academic Achievement)';
+      } else if (termGpa >= 3.0) {
+        standingEl.textContent = 'Good Academic Standing (Competitive for Graduate Study)';
+      } else if (termGpa >= 2.0) {
+        standingEl.textContent = 'Satisfactory Progress';
+      } else {
+        standingEl.textContent = 'Below Minimum Graduation Threshold';
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderTable();
+
+    document.getElementById('sgpa-add-row-btn')?.addEventListener('click', () => {
+      courses.push({
+        name: `Course ${courses.length + 1}`,
+        credits: 3,
+        gradeVal: 4.00
+      });
+      renderTable();
+    });
+
+    document.getElementById('sgpa-reset-btn')?.addEventListener('click', () => {
+      courses = JSON.parse(JSON.stringify(defaultCourses));
+      renderTable();
+    });
+  });
+</script>

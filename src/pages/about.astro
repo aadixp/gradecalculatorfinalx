@@ -1,0 +1,121 @@
+---
+// src/pages/about.astro
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="About Us | GradeCalculatorFinalX - Free Academic Grade Planner"
+  description="Learn about GradeCalculatorFinalX, our mission to simplify grade calculations, and how our free, privacy-first tools empower students and educators worldwide."
+>
+  <div class="container" style="max-width: 880px; padding-top: 3rem; padding-bottom: 5rem;">
+    <!-- Breadcrumb & Return to Calculator -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
+        <a href="/" style="color: var(--color-mute); text-decoration: none;">Home</a>
+        <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
+        <span style="color: var(--color-ink); font-weight: 500;">About Us</span>
+      </nav>
+      <a href="/" class="btn btn-secondary" style="font-size: 0.8125rem; padding: 0.35rem 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Back to Calculator</span>
+      </a>
+    </div>
+
+    <!-- Page Header -->
+    <header style="margin-bottom: 2.5rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.75rem;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;">Our Story & Mission</span>
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.75rem, 4vw, 2.25rem); letter-spacing: -0.02em; margin-top: 0.25rem;">
+        About GradeCalculatorFinalX
+      </h1>
+      <p style="font-size: 1rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6;">
+        Empowering high school, college, and university students with mathematically verified, private, and intuitive academic calculation tools.
+      </p>
+    </header>
+
+    <!-- Main Content Card -->
+    <article class="geist-card" style="padding: 2.25rem 2rem; line-height: 1.75; color: var(--color-body);">
+      <div style="display: flex; flex-direction: column; gap: 2.25rem;">
+        <!-- Mission -->
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;">
+            Our Mission
+          </h2>
+          <p style="margin-bottom: 1rem;">
+            At <strong>GradeCalculatorFinalX</strong> (gradecalculatorfinalx.com), our mission is straightforward: to eliminate the anxiety and guesswork from academic grading. Every semester, millions of students find themselves navigating complex syllabi, weighted assignment categories, and high-stakes final exams without clear visibility into where they truly stand.
+          </p>
+          <p>
+            We built GradeCalculatorFinalX as a free, modern, open-access academic suite that provides immediate clarity. By turning algebraic grade formulas into responsive, interactive tools, we help students focus their valuable time on studying and mastering material rather than stressing over manual calculations.
+          </p>
+        </div>
+
+        <!-- Why We Built This -->
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;">
+            Why We Built GradeCalculatorFinalX
+          </h2>
+          <p style="margin-bottom: 1rem;">
+            Traditional grade calculation often involves cumbersome spreadsheets, broken calculators, or ad-filled websites that compromise user experience. We wanted to build something fundamentally better:
+          </p>
+          <ul style="padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem;">
+            <li><strong>Complete Privacy:</strong> All calculations, profiles, and score simulations run client-side directly in your browser. We never sell or store your grades on external servers.</li>
+            <li><strong>Full Course Support:</strong> Seamlessly toggle between percentage-weighted categories and total points systems, with automatic handling for dropped lowest scores.</li>
+            <li><strong>Final Exam Target Planning:</strong> Instantly discover the exact score needed on your final exam across every letter grade benchmark (A, B, C, Passing).</li>
+            <li><strong>Semester & Cumulative GPA:</strong> Track multiple courses simultaneously with support for Standard 4.0, Honors (+0.5), and AP/College (+1.0) quality points.</li>
+          </ul>
+        </div>
+
+        <!-- Academic Integrity & Mathematical Precision -->
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;">
+            Mathematical Precision You Can Rely On
+          </h2>
+          <p style="margin-bottom: 1rem;">
+            Our calculation engines are mathematically verified against accredited North American and international university grading rubrics:
+          </p>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+            <div style="background: var(--color-canvas-subtle); border: 1px solid var(--color-hairline); border-radius: var(--radius-sm); padding: 1.25rem;">
+              <h3 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.35rem;">Weighted Category Engine</h3>
+              <p style="font-size: 0.8125rem; color: var(--color-mute); margin: 0;">
+                Calculates weighted sums normalized against active course weight, ensuring ongoing semesters reflect accurate current standings.
+              </p>
+            </div>
+
+            <div style="background: var(--color-canvas-subtle); border: 1px solid var(--color-hairline); border-radius: var(--radius-sm); padding: 1.25rem;">
+              <h3 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.35rem;">Target Exam Solver</h3>
+              <p style="font-size: 0.8125rem; color: var(--color-mute); margin: 0;">
+                Uses algebraic inverse weighting to compute required final exam scores, flagging mathematical feasibility and extra-credit requirements.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Educational Community -->
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;">
+            Built for Students, Educators, and Academic Advisors
+          </h2>
+          <p style="margin-bottom: 1rem;">
+            GradeCalculatorFinalX is widely used by high school seniors, college freshmen, STEM majors, and graduate students. Academic advisors and teachers regularly recommend our What-If simulation slider during midterm advising to help students understand what scores are mathematically needed to achieve academic honors or maintain scholarship eligibility.
+          </p>
+          <p>
+            Have ideas for new features, additional grading presets, or institutional partnerships? We would love to hear from you. Visit our <a href="/contact" style="color: var(--color-blue); text-decoration: underline;">Contact Us</a> page to reach out directly.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Bottom Return Action -->
+    <div style="text-align: center; margin-top: 3rem;">
+      <a href="/" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; padding: 0.65rem 1.25rem;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Return to Grade Calculator</span>
+      </a>
+    </div>
+  </div>
+</Layout>
