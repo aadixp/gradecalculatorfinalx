@@ -10,7 +10,15 @@ import type { Lang } from '../i18n/ui';
 interface Props {
 	title?: string;
 	description?: string;
+	canonical?: string;
 	lang?: Lang;
+	breadcrumbs?: Array<{ name: string; item: string }>;
+	faqSchema?: Array<{ question: string; answer: string }>;
+	softwareSchema?: {
+		name: string;
+		description: string;
+		applicationCategory?: string;
+	};
 }
 
 const urlLang = getLangFromUrl(Astro.url);
@@ -21,12 +29,16 @@ const translatePath = useTranslatedPath(currentLang);
 const {
 	title = t('site.title'),
 	description = t('site.description'),
+	canonical,
+	breadcrumbs,
+	faqSchema,
+	softwareSchema
 } = Astro.props;
 
 const alternateUrls = getAlternateUrls(Astro.url.pathname);
-const canonicalUrl = currentLang === 'en'
+const canonicalUrl = canonical || (currentLang === 'en'
 	? `https://gradecalculatorfinalx.com${Astro.url.pathname === '/' ? '/' : Astro.url.pathname}`
-	: `https://gradecalculatorfinalx.com${Astro.url.pathname.endsWith('/') ? Astro.url.pathname : Astro.url.pathname + '/'}`;
+	: `https://gradecalculatorfinalx.com${Astro.url.pathname.endsWith('/') ? Astro.url.pathname : Astro.url.pathname + '/'}`);
 
 const ogLocales: Record<string, string> = {
 	en: 'en_US',
@@ -89,17 +101,32 @@ const ogLocales: Record<string, string> = {
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content="https://gradecalculatorfinalx.com/favicon-96x96.png" />
 
-		<!-- JSON-LD Structured Data: WebApplication & FAQPage -->
-		<script type="application/ld+json" is:inline>
-		{
+		<!-- JSON-LD Structured Data -->
+		<script type="application/ld+json" is:inline set:html={JSON.stringify({
 			"@context": "https://schema.org",
 			"@graph": [
 				{
-					"@type": "WebApplication",
+					"@type": "Organization",
+					"@id": "https://gradecalculatorfinalx.com/#organization",
 					"name": "GradeCalculatorFinalX",
 					"url": "https://gradecalculatorfinalx.com/",
-					"description": "Free online grade calculator final, weighted grade calculator, final exam target planner, and semester GPA calculator.",
-					"applicationCategory": "EducationalApplication",
+					"logo": "https://gradecalculatorfinalx.com/favicon-96x96.png"
+				},
+				{
+					"@type": "WebSite",
+					"@id": "https://gradecalculatorfinalx.com/#website",
+					"name": "GradeCalculatorFinalX",
+					"url": "https://gradecalculatorfinalx.com/",
+					"publisher": {
+						"@id": "https://gradecalculatorfinalx.com/#organization"
+					}
+				},
+				{
+					"@type": softwareSchema ? "SoftwareApplication" : "WebApplication",
+					"name": softwareSchema?.name || title,
+					"url": canonicalUrl,
+					"description": softwareSchema?.description || description,
+					"applicationCategory": softwareSchema?.applicationCategory || "EducationalApplication",
 					"operatingSystem": "All",
 					"offers": {
 						"@type": "Offer",
@@ -107,157 +134,40 @@ const ogLocales: Record<string, string> = {
 						"priceCurrency": "USD"
 					},
 					"featureList": [
-						"Weighted Grade Calculator with percentage and points modes",
-						"Final Exam Grade Calculator with required score breakdown",
-						"Semester and Cumulative GPA Planner",
-						"Drop lowest score category support",
-						"Custom academic grading scale presets"
+						"Weighted Coursework Grade Calculator",
+						"Final Exam Required Score Planner",
+						"College & High School GPA Calculator (4.0 & 5.0 Scales)",
+						"Indian CGPA & SGPA Calculator (UGC & AICTE CBCS 10.0 Scale)",
+						"Semester-wise Multi-Term CGPA Calculator",
+						"CGPA to Percentage and Percentage to CGPA Conversion",
+						"Target GPA & Target CGPA Goal Planning",
+						"Academic Grade Equivalence Matrix"
 					]
 				},
-				{
+				...(breadcrumbs && breadcrumbs.length > 0 ? [{
+					"@type": "BreadcrumbList",
+					"itemListElement": breadcrumbs.map((b, idx) => ({
+						"@type": "ListItem",
+						"position": idx + 1,
+						"name": b.name,
+						"item": b.item.startsWith('http') ? b.item : `https://gradecalculatorfinalx.com${b.item === '/' ? '/' : (b.item.endsWith('/') ? b.item : b.item)}`
+					}))
+				}] : []),
+				...(faqSchema && faqSchema.length > 0 ? [{
 					"@type": "FAQPage",
-					"mainEntity": [
-						{
-							"@type": "Question",
-							"name": "How does a what if grade calculator work?",
-							"acceptedAnswer": {
-								"@type": "Answer",
-								"text": "A what if grade calculator allows you to test hypothetical scores on upcoming tests, homework assignments, or projects to see how they will impact your overall course percentage before receiving your final grades."
-							}
-						},
-						{
-							"@type": "Question",
-							"name": "What grade was I in year calculator?",
-							"acceptedAnswer": {
-								"@type": "Answer",
-								"text": "A what grade was I in year calculator determines what school grade level you were in during any specific academic calendar year by calculating backwards from your high school graduation year or forwards from kindergarten."
-							}
-						},
-						{
-							"@type": "Question",
-							"name": "How does what is my grade calculator determine my score?",
-							"acceptedAnswer": {
-								"@type": "Answer",
-								"text": "A what is my grade calculator computes your current cumulative grade percentage by multiplying every completed assignment score by its category weight and dividing by the total active weight percentage."
-							}
-						},
-						{
-							"@type": "Question",
-							"name": "How to use whats my grade calculator?",
-							"acceptedAnswer": {
-								"@type": "Answer",
-								"text": "Using our whats my grade calculator is simple: enter your assignment scores and syllabus category weights (e.g. homework 20%, midterms 30%, labs 20%) to view your current class standing and GPA."
-							}
-						},
-						{
-							"@type": "Question",
-							"name": "How much will my grade drop calculator: How much will my grade drop if I fail a test?",
-							"acceptedAnswer": {
-								"@type": "Answer",
-								"text": "Our how much will my grade drop calculator computes the exact decrease in your course mark based on the exam's syllabus weight: Drop = (Current Grade - New Score) * (Weight / 100)."
-							}
-						},
-						{
-							"@type": "Question",
-							"name": "What will my grade be calculator: How can I forecast my final mark?",
-							"acceptedAnswer": {
-								"@type": "Answer",
-								"text": "A what will my grade be calculator projects your final course grade by combining your completed assignment marks with projected scores on remaining exams and semester assignments."
-							}
-						},
-						{
-							"@type": "Question",
-							"name": "What grade do I need calculator: How do I find my required exam score?",
-							"acceptedAnswer": {
-								"@type": "Answer",
-								"text": "A what grade do I need calculator determines the exact minimum score you must achieve on an upcoming test or assignment to reach or maintain your desired overall class percentage."
-							}
-						},
-						{
-							"@type": "Question",
-							"name": "What grade do I need on my final calculator?",
-							"acceptedAnswer": {
-								"@type": "Answer",
-								"text": "Our what grade do I need on my final calculator uses the formula: Required Score = (Target Grade - Current Grade * (1 - Final Weight)) / Final Weight to show the exact exam score required for every letter grade."
-							}
-						},
-						{
-							"@type": "Question",
-							"name": "What is my final grade calculator: How is the final semester grade determined?",
-							"acceptedAnswer": {
-								"@type": "Answer",
-								"text": "A what is my final grade calculator calculates your finalized course mark after all coursework, midterms, and final exam results are entered, mapping your overall score to a letter grade."
-							}
-						},
-						{
-							"@type": "Question",
-							"name": "What would my grade be calculator: Can I simulate different grade outcomes?",
-							"acceptedAnswer": {
-								"@type": "Answer",
-								"text": "Yes, our what would my grade be calculator lets you test multiple scenarios, such as scoring 85% versus 95% on a midterm, to see the resulting class letter grade in real time."
-							}
-						},
-						{
-							"@type": "Question",
-							"name": "How much would my grade drop calculator: How do low quiz scores affect my grade?",
-							"acceptedAnswer": {
-								"@type": "Answer",
-								"text": "A how much would my grade drop calculator shows the reduction in your total class standing from low quiz scores, factoring in any drop-lowest policies active on your syllabus."
-							}
-						},
-						{
-							"@type": "Question",
-							"name": "How much will my grade go up calculator: How do high test scores raise my mark?",
-							"acceptedAnswer": {
-								"@type": "Answer",
-								"text": "A how much will my grade go up calculator measures how high scores or extra credit improve your average: Increase = (New Score - Current Grade) * (Assignment Weight / Total Active Weight)."
-							}
-						},
-						{
-							"@type": "Question",
-							"name": "How to use the grade what if calculator?",
-							"acceptedAnswer": {
-								"@type": "Answer",
-								"text": "Use the grade what if calculator slider to adjust hypothetical score percentages and weights, instantly observing the simulated impact on your class grade."
-							}
-						},
-						{
-							"@type": "Question",
-							"name": "What grade will I get calculator: How is my letter grade predicted?",
-							"acceptedAnswer": {
-								"@type": "Answer",
-								"text": "A what grade will I get calculator compares your earned points and remaining syllabus weight against your school's grading scale (Standard US 4.0, 10-Point Simple, or custom thresholds)."
-							}
-						},
-						{
-							"@type": "Question",
-							"name": "What will my grade be after this test calculator?",
-							"acceptedAnswer": {
-								"@type": "Answer",
-								"text": "Our what will my grade be after this test calculator combines your current standing with your expected test score and the test's weight to show your new class average immediately."
-							}
-						},
-						{
-							"@type": "Question",
-							"name": "How much will my grade go down calculator: How do incomplete assignments affect grades?",
-							"acceptedAnswer": {
-								"@type": "Answer",
-								"text": "A how much will my grade go down calculator calculates the exact percentage decrease caused by missing assignments, late penalties, or zero scores."
-							}
-						},
-						{
-							"@type": "Question",
-							"name": "How does the what if final grade calculator work?",
-							"acceptedAnswer": {
-								"@type": "Answer",
-								"text": "A what if final grade calculator tests multiple final exam score scenarios (such as 70%, 80%, 90%) and displays the resulting overall class grade in an interactive scenario matrix."
-							}
+					"mainEntity": faqSchema.map(f => ({
+						"@type": "Question",
+						"name": f.question,
+						"acceptedAnswer": {
+							"@type": "Answer",
+							"text": f.answer
 						}
-					]
-				}
+					}))
+				}] : [])
 			]
-		}
-		</script>
+		})} />
+
+		<slot name="head" />
 		
 		<!-- Google Fonts for Geist & Geist Mono -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />

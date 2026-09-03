@@ -15,8 +15,8 @@ export const defaultLang: Lang = 'en';
 
 export const ui = {
   en: {
-    'site.title': 'Grade Calculator Final - Weighted & Final Exam Calculator',
-    'site.description': 'Free online grade calculator final, weighted grade calculator, and final exam target planner. Real-time calculations with syllabus weights, drop lowest policies, and GPA forecasting.',
+    'site.title': 'Grade Calculator - Online Weighted Grade, Final Exam & GPA Suite',
+    'site.description': 'Free online grade calculator to compute weighted coursework averages, final exam target scores, college semester GPA, and Indian 10-point CGPA. 100% private.',
     'site.keywords': 'grade calculator final, grade calculator finalx, grade calculator, final grade calculator, weighted grade calculator, test grade calculator, semester grade calculator, grade calculator with weights, college grade calculator, class grade calculator, easy grade calculator, average grade calculator, exam grade calculator, grade calculator points, finals grade calculator, final exam grade calculator, grade calculator college, grade calculator test, overall grade calculator, assignment grade calculator, course grade calculator',
     'nav.brand': 'GradeCalc',
     'nav.scale': 'Scale',

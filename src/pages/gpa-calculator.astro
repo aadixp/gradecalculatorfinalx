@@ -1,11 +1,42 @@
 ---
 // src/pages/gpa-calculator.astro
 import Layout from '../layouts/Layout.astro';
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Cumulative GPA Calculator', item: '/gpa-calculator' }
+];
+
+const faqSchema = [
+  {
+    question: "Do Pass/Fail or Audit classes affect cumulative GPA?",
+    answer: "No. Pass/Fail and audited courses typically do not carry quality grade points and are excluded from the GPA denominator unless a student receives a punitive non-credit 'F'."
+  },
+  {
+    question: "How does AP or Honors weighting work on a 5.0 scale?",
+    answer: "On weighted 5.0 high school scales, an additional 1.0 point is added for AP/IB courses (A = 5.0, B = 4.0) and 0.5 points for Honors courses."
+  },
+  {
+    question: "How is cumulative college GPA calculated from quality points?",
+    answer: "Cumulative GPA is calculated by multiplying each course's credit hours by the numeric grade points (e.g. 4.0 for A, 3.0 for B) to determine quality points, summing all quality points, and dividing by total completed credit hours."
+  },
+  {
+    question: "How do I calculate cumulative GPA with prior college credits?",
+    answer: "Enter your prior cumulative GPA and total completed credit hours in the top setup card. The calculator automatically combines your historical quality points with your new semester coursework."
+  }
+];
 ---
 
 <Layout
-  title="Cumulative GPA Calculator | High School & College (4.0 & 5.0 Scale)"
-  description="Free cumulative college and high school GPA calculator. Enter courses, credit hours, and letter grades with prior GPA to calculate cumulative GPA."
+  title="Cumulative GPA Calculator | College & High School (4.0 & 5.0 Scale)"
+  description="Calculate cumulative college and high school GPA with our free GPA calculator. Enter courses, credits, letter grades, and prior GPA to forecast your academic standing."
+  breadcrumbs={breadcrumbs}
+  faqSchema={faqSchema}
+  softwareSchema={{
+    name: "Cumulative GPA Calculator",
+    description: "Cumulative GPA calculator for college and high school students supporting unweighted 4.0 and weighted 5.0 scales.",
+    applicationCategory: "EducationalApplication"
+  }}
 >
   <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
     <!-- Breadcrumbs -->
@@ -173,9 +204,23 @@ import Layout from '../layouts/Layout.astro';
           </div>
         </div>
         <div class="faq-item">
-          <div class="faq-question">How does AP or Honors weighting work?</div>
+          <div class="faq-question">How does AP or Honors weighting work on a 5.0 scale?</div>
           <div class="faq-answer">
             On weighted 5.0 high school scales, an additional 1.0 point is added for AP/IB courses (A = 5.0, B = 4.0) and 0.5 points for Honors courses.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">How is cumulative college GPA calculated from quality points?</div>
+          <div class="faq-answer">
+            Cumulative GPA is calculated by multiplying each course's credit hours by the numeric grade points (e.g. 4.0 for A, 3.0 for B) to determine quality points, summing all quality points, and dividing by total completed credit hours.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">How do I calculate cumulative GPA with prior college credits?</div>
+          <div class="faq-answer">
+            Enter your prior cumulative GPA and total completed credit hours in the top setup card. The calculator automatically combines your historical quality points with your new semester coursework.
           </div>
         </div>
       </div>

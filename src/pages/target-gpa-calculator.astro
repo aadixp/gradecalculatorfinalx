@@ -2,11 +2,42 @@
 // src/pages/target-gpa-calculator.astro
 import Layout from '../layouts/Layout.astro';
 import TargetGpaCalculator from '../components/TargetGpaCalculator.astro';
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Target GPA Calculator', item: '/target-gpa-calculator' }
+];
+
+const faqSchema = [
+  {
+    question: "What is the difference between unweighted 4.0 and weighted 5.0 scales?",
+    answer: "An unweighted 4.0 scale treats all classes equally with 'A' capped at 4.0. A weighted 5.0 scale awards an extra full grade point (up to 5.0 for an A) for advanced coursework such as Advanced Placement (AP), International Baccalaureate (IB), or Honors courses."
+  },
+  {
+    question: "How does course retaking affect my target GPA?",
+    answer: "If your university has a grade forgiveness or replacement policy, replacing a low grade directly substitutes the old quality points without adding to the completed credit count, offering the fastest mathematical lift to your cumulative GPA."
+  },
+  {
+    question: "Can I raise my GPA from 2.5 to 3.5 in one semester?",
+    answer: "Raising GPA from 2.5 to 3.5 in a single semester is only possible if you have completed very few credits (such as your first freshman semester). If you already have 60+ completed credits, the mathematical maximum gain in one 15-credit semester of straight A's (4.0) is roughly 0.30 points."
+  },
+  {
+    question: "How many credit hours do I need to raise my GPA?",
+    answer: "The number of credit hours needed depends on your target. Use our calculator to input your current GPA and completed credits to see the required semester GPA across your planned remaining credits."
+  }
+];
 ---
 
 <Layout
-  title="Target GPA Calculator | Plan Required Term GPA (4.0 & 5.0 Scales)"
-  description="Calculate the exact GPA required in remaining credit hours to graduate with your goal GPA. Supports US standard 4.0 and weighted 5.0 honors/AP scales."
+  title="Target GPA Calculator | Calculate Required Future Semester GPA (4.0 & 5.0)"
+  description="Determine the exact GPA you must earn in remaining credit hours to hit your target graduation GPA. Supports 4.0 unweighted and 5.0 weighted AP/Honors grading scales."
+  breadcrumbs={breadcrumbs}
+  faqSchema={faqSchema}
+  softwareSchema={{
+    name: "Target GPA Calculator",
+    description: "Future term GPA planner and graduation target calculator for college and high school students.",
+    applicationCategory: "EducationalApplication"
+  }}
 >
   <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
     <!-- Breadcrumbs -->
@@ -78,6 +109,20 @@ import TargetGpaCalculator from '../components/TargetGpaCalculator.astro';
           <div class="faq-question">How does course retaking affect my target GPA?</div>
           <div class="faq-answer">
             If your university has a grade forgiveness or replacement policy, replacing a low grade directly substitutes the old quality points without adding to the completed credit count, offering the fastest mathematical lift to your cumulative GPA.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Can I raise my GPA from 2.5 to 3.5 in one semester?</div>
+          <div class="faq-answer">
+            Raising GPA from 2.5 to 3.5 in a single semester is only possible if you have completed very few credits (such as your first freshman semester). If you already have 60+ completed credits, the mathematical maximum gain in one 15-credit semester of straight A's (4.0) is roughly 0.30 points.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">How many credit hours do I need to raise my GPA?</div>
+          <div class="faq-answer">
+            The number of credit hours needed depends on your target. Use our calculator to input your current GPA and completed credits to see the required semester GPA across your planned remaining credits.
           </div>
         </div>
       </div>

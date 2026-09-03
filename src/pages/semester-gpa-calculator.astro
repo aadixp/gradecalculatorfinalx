@@ -1,11 +1,42 @@
 ---
 // src/pages/semester-gpa-calculator.astro
 import Layout from '../layouts/Layout.astro';
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Semester GPA Calculator', item: '/semester-gpa-calculator' }
+];
+
+const faqSchema = [
+  {
+    question: "What is the Dean's List cutoff GPA?",
+    answer: "At most North American universities, students taking at least 12 graded credit hours with a semester GPA of 3.50 or higher qualify for the Dean's Honor List."
+  },
+  {
+    question: "What semester GPA is considered academic probation?",
+    answer: "Typically, earning a semester GPA below 2.00 places a college student on academic warning or probation, requiring an academic recovery plan for subsequent semesters."
+  },
+  {
+    question: "How do I calculate semester GPA from credit hours and letter grades?",
+    answer: "Multiply the numeric grade points for each letter grade (e.g. A = 4.0, B = 3.0) by the course credit hours to get quality points. Add all quality points together and divide by total semester credit hours."
+  },
+  {
+    question: "What is the difference between Semester GPA and Cumulative GPA?",
+    answer: "Semester GPA (term GPA) evaluates only the coursework taken during one specific term or quarter, whereas Cumulative GPA combines all completed courses across your entire college career."
+  }
+];
 ---
 
 <Layout
   title="Semester GPA Calculator | Calculate Term Grade Point Average"
-  description="Calculate your college semester GPA quickly and accurately. Enter course credit hours and letter grades to find your term GPA and quality points."
+  description="Calculate your college semester GPA quickly and accurately. Enter course credit hours and letter grades to find your term GPA, quality points, and Dean's List status."
+  breadcrumbs={breadcrumbs}
+  faqSchema={faqSchema}
+  softwareSchema={{
+    name: "Semester GPA Calculator",
+    description: "Term GPA and quality points calculator for college and high school semesters.",
+    applicationCategory: "EducationalApplication"
+  }}
 >
   <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
     <!-- Breadcrumbs -->
@@ -140,6 +171,20 @@ import Layout from '../layouts/Layout.astro';
           <div class="faq-question">What is considered academic probation?</div>
           <div class="faq-answer">
             Typically, earning a semester GPA below <strong>2.00</strong> places a college student on academic warning or probation, requiring a recovery plan for subsequent semesters.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">How do I calculate semester GPA from credit hours and letter grades?</div>
+          <div class="faq-answer">
+            Multiply the numeric grade points for each letter grade (e.g. A = 4.0, B = 3.0) by the course credit hours to get quality points. Add all quality points together and divide by total semester credit hours.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">What is the difference between Semester GPA and Cumulative GPA?</div>
+          <div class="faq-answer">
+            Semester GPA (term GPA) evaluates only the coursework taken during one specific term or quarter, whereas Cumulative GPA combines all completed courses across your entire college career.
           </div>
         </div>
       </div>

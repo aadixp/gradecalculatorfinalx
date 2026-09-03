@@ -2,11 +2,42 @@
 // src/pages/indian-sgpa-calculator.astro
 import Layout from '../layouts/Layout.astro';
 import IndianSgpaCalculator from '../components/IndianSgpaCalculator.astro';
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Indian SGPA Calculator', item: '/indian-sgpa-calculator' }
+];
+
+const faqSchema = [
+  {
+    question: "What happens if I fail (get an 'F' grade) in a subject?",
+    answer: "An 'F' (Fail) carries 0 grade points. The course's registered credits remain in the denominator, which severely lowers your SGPA for that semester. When you clear the subject in a supplementary examination, your updated grade point replaces the 0 in subsequent CGPA recalculations."
+  },
+  {
+    question: "How can I combine multiple semester SGPAs into a single CGPA?",
+    answer: "Use our Semester-wise CGPA Calculator to input your individual SGPAs from Semester 1 through Semester 8 alongside their respective credit totals."
+  },
+  {
+    question: "What is the difference between SGPA and Semester GPA?",
+    answer: "SGPA (Semester Grade Point Average) is the terminology used in Indian universities under the UGC 10-point CBCS scale, whereas 'Semester GPA' typically refers to the US 4.0 or 5.0 scale used in American and international colleges."
+  },
+  {
+    question: "Can SGPA be converted into marks percentage directly?",
+    answer: "Yes, under the standard AICTE guideline, approximate percentage is calculated as SGPA * 9.5, though official semester marksheets issued by specific universities (such as VTU or Mumbai University) may specify custom conversion rules."
+  }
+];
 ---
 
 <Layout
-  title="Indian SGPA Calculator | Semester Grade Point Average (CBCS)"
-  description="Free Indian SGPA calculator for university and engineering students. Calculate semester grade point average with UGC 10-point letter grades and course credits."
+  title="Indian SGPA Calculator | Semester Grade Point Average (CBCS 10-Point)"
+  description="Calculate your semester grade point average (SGPA) for Indian colleges and universities. Free CBCS-compliant 10-point scale calculator with course credits and letter grades."
+  breadcrumbs={breadcrumbs}
+  faqSchema={faqSchema}
+  softwareSchema={{
+    name: "Indian SGPA Calculator",
+    description: "Semester Grade Point Average (SGPA) calculator under the UGC 10-point Choice Based Credit System (CBCS).",
+    applicationCategory: "EducationalApplication"
+  }}
 >
   <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
     <!-- Breadcrumbs -->
@@ -95,6 +126,20 @@ import IndianSgpaCalculator from '../components/IndianSgpaCalculator.astro';
           <div class="faq-question">How can I combine multiple semester SGPAs into a single CGPA?</div>
           <div class="faq-answer">
             Use our <a href="/semester-cgpa-calculator" style="color: var(--color-blue); text-decoration: underline;">Semester-wise CGPA Calculator</a> to input your individual SGPAs from Semester 1 through Semester 8 alongside their respective credit totals.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">What is the difference between SGPA and Semester GPA?</div>
+          <div class="faq-answer">
+            <strong>SGPA (Semester Grade Point Average)</strong> is the standard terminology used across Indian universities under the UGC 10-point CBCS scale, whereas "Semester GPA" typically refers to the 4.0 or 5.0 scale used in US and international colleges.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Can SGPA be converted into marks percentage directly?</div>
+          <div class="faq-answer">
+            Yes, under the standard AICTE guideline, approximate percentage is calculated as <code>SGPA &times; 9.5</code>, though official semester marksheets issued by specific universities (such as VTU or Mumbai University) may specify custom conversion rules.
           </div>
         </div>
       </div>

@@ -1,11 +1,42 @@
 ---
 // src/pages/final-exam-calculator.astro
 import Layout from '../layouts/Layout.astro';
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Final Exam Calculator', item: '/final-exam-calculator' }
+];
+
+const faqSchema = [
+  {
+    question: "What does a negative required score mean?",
+    answer: "A negative required score means you have mathematically already clinched your target grade. Even if you received a 0% on the final exam, your existing accumulated points exceed your desired course mark."
+  },
+  {
+    question: "Can I still pass if I failed the midterm?",
+    answer: "Yes, if the final exam carries sufficient weight. Use this calculator to enter your current low standing and a target passing grade (such as 60% or 70%) to see the exact mark you need to recover."
+  },
+  {
+    question: "What score do I need on my final exam to get an A?",
+    answer: "Enter your current grade percentage, set your target to 90.0% (or 93.0% for a solid A), and input your final exam's weight percentage from your syllabus. The calculator displays your exact required score instantly."
+  },
+  {
+    question: "How much does a final exam worth 20% or 30% affect my overall grade?",
+    answer: "A 20% final exam controls up to 20 percentage points of your final mark, while a 30% final controls nearly a third of your grade. For example, on a 30% final, every 10% change in your exam score moves your overall course grade by 3 full percentage points."
+  }
+];
 ---
 
 <Layout
-  title="Final Exam Grade Calculator | What Do I Need on the Final?"
+  title="Final Exam Calculator | What Score Do I Need on My Final Exam?"
   description="Calculate the exact score you need on your final exam to pass your class or achieve an A, B, or C. Interactive formula calculator with letter grade target matrix."
+  breadcrumbs={breadcrumbs}
+  faqSchema={faqSchema}
+  softwareSchema={{
+    name: "Final Exam Grade Calculator",
+    description: "Required final exam score planner and scenario analysis matrix for high school and university students.",
+    applicationCategory: "EducationalApplication"
+  }}
 >
   <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
     <!-- Breadcrumbs -->
@@ -170,6 +201,20 @@ import Layout from '../layouts/Layout.astro';
           <div class="faq-question">Can I still pass if I failed the midterm?</div>
           <div class="faq-answer">
             Yes, if the final exam carries sufficient weight. Use this calculator to enter your current low standing and a target passing grade (such as 60% or 70%) to see the exact mark you need to recover.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">What score do I need on my final exam to get an A?</div>
+          <div class="faq-answer">
+            Enter your current grade percentage, set your target to 90.0% (or 93.0% for a solid A), and input your final exam's weight percentage from your syllabus. The calculator displays your exact required score instantly.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">How much does a final exam worth 20% or 30% affect my overall grade?</div>
+          <div class="faq-answer">
+            A 20% final exam controls up to 20 percentage points of your final mark, while a 30% final controls nearly a third of your grade. For example, on a 30% final, every 10% change in your exam score moves your overall course grade by 3 full percentage points.
           </div>
         </div>
       </div>

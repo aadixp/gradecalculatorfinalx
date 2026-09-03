@@ -2,11 +2,42 @@
 // src/pages/grade-converter.astro
 import Layout from '../layouts/Layout.astro';
 import GradeConverter from '../components/GradeConverter.astro';
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Grade Converter', item: '/grade-converter' }
+];
+
+const faqSchema = [
+  {
+    question: "What US GPA is an Indian 8.0 CGPA equivalent to?",
+    answer: "Under standard WES credential evaluation guidelines for Indian engineering and arts degrees, an 8.0/10.0 CGPA (First Class with Distinction) typically converts to approximately a 3.50 to 3.70 US GPA on a 4.0 scale."
+  },
+  {
+    question: "Do US universities convert CGPA directly (e.g. 8.0 * 0.4 = 3.2)?",
+    answer: "No. Direct linear scaling is an error because the grading distributions and pass cutoffs in India (40% pass) and the US (60% or 70% pass) are entirely different. Evaluating agencies map subject grades based on percentile distribution in the awarding country."
+  },
+  {
+    question: "What is the difference between a 4.0 and 5.0 GPA scale?",
+    answer: "A standard unweighted 4.0 GPA scale treats all courses equally with an 'A' worth 4.0 points. A 5.0 weighted scale awards an additional full point (5.0 for an 'A') to reflect the rigor of Advanced Placement (AP), International Baccalaureate (IB), or Honors courses."
+  },
+  {
+    question: "How does WES evaluate Indian 10-point CGPA for US MS/MBA admissions?",
+    answer: "WES (World Education Services) calculates a course-by-course US GPA by converting each individual subject mark/grade from your Indian transcripts into a US letter grade (A, B, C) and weighting it by credit hours, rather than using a single blanket conversion on your final CGPA."
+  }
+];
 ---
 
 <Layout
-  title="Academic Grade Converter & Equivalence Matrix | US 4.0, 5.0 & Indian 10.0"
-  description="Convert grades across US 4.0, US 5.0 (Honors/AP), Indian UGC 10.0 CGPA, and Percentage. Features interactive conversion calculator and international equivalence matrix."
+  title="Academic Grade Converter | US 4.0, 5.0 & Indian 10.0 Scale Matrix"
+  description="Convert academic grades and GPA across US 4.0, US 5.0 (Honors/AP), Indian 10.0 UGC CGPA, and Percentage marks. Complete cross-equivalence comparison table."
+  breadcrumbs={breadcrumbs}
+  faqSchema={faqSchema}
+  softwareSchema={{
+    name: "Academic Grade Converter",
+    description: "International academic grade conversion calculator and equivalence matrix for US 4.0, US 5.0, and Indian UGC 10.0 CGPA scales.",
+    applicationCategory: "EducationalApplication"
+  }}
 >
   <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
     <!-- Breadcrumbs -->
@@ -68,6 +99,20 @@ import GradeConverter from '../components/GradeConverter.astro';
           <div class="faq-question">Do US universities convert CGPA directly (e.g. 8.0 &times; 0.4 = 3.2)?</div>
           <div class="faq-answer">
             No. Direct linear scaling is an error because the grading distributions and pass cutoffs in India (40% pass) and the US (60% or 70% pass) are entirely different. Evaluating agencies map subject grades based on percentile distribution in the awarding country.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">What is the difference between a 4.0 and 5.0 GPA scale?</div>
+          <div class="faq-answer">
+            A standard unweighted 4.0 GPA scale treats all courses equally with an 'A' worth 4.0 points. A 5.0 weighted scale awards an additional full point (5.0 for an 'A') to reflect the rigor of Advanced Placement (AP), International Baccalaureate (IB), or Honors courses.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">How does WES evaluate Indian 10-point CGPA for US MS/MBA admissions?</div>
+          <div class="faq-answer">
+            WES (World Education Services) calculates a course-by-course US GPA by converting each individual subject mark/grade from your Indian transcripts into a US letter grade (A, B, C) and weighting it by credit hours, rather than using a single blanket conversion on your final CGPA.
           </div>
         </div>
       </div>

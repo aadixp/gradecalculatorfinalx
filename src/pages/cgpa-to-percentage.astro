@@ -2,11 +2,42 @@
 // src/pages/cgpa-to-percentage.astro
 import Layout from '../layouts/Layout.astro';
 import CgpaToPercentageCalculator from '../components/CgpaToPercentageCalculator.astro';
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'CGPA to Percentage Calculator', item: '/cgpa-to-percentage' }
+];
+
+const faqSchema = [
+  {
+    question: "Why does AICTE multiply CGPA by 9.5 instead of 10?",
+    answer: "Statistical research on multi-year student cohorts revealed that the average marks percentage of students scoring 10.0 CGPA approximated 95%, rather than 100%. Therefore, AICTE and CBSE selected 9.5 as an equitable normalizing constant."
+  },
+  {
+    question: "How is First Class with Distinction determined from CGPA in Indian universities?",
+    answer: "In most Indian universities, a CGPA of 8.50 or above (or 75% aggregate marks) constitutes First Class with Distinction, provided the degree was completed without active academic arrears."
+  },
+  {
+    question: "Which formula should I use for campus placements (TCS, Infosys, Wipro, Accenture)?",
+    answer: "Unless your university transcript explicitly states a custom formula (e.g. VTU or Mumbai University), major IT recruiters and campus placement cells accept the AICTE standard formula: Percentage = CGPA * 9.5."
+  },
+  {
+    question: "What is the Mumbai University and VTU formula for converting CGPA to percentage?",
+    answer: "VTU and Mumbai University engineering faculties conventionally use: Percentage = (CGPA - 0.75) * 10. Always verify the back of your official marksheet for department-specific guidelines."
+  }
+];
 ---
 
 <Layout
-  title="CGPA to Percentage Calculator | AICTE, VTU, Mumbai Univ, Anna Univ"
-  description="Convert your 10-point CGPA into marks percentage. Compare official conversion formulas across AICTE (9.5x), VTU, Mumbai University, Anna University, and custom institutional rules."
+  title="CGPA to Percentage Calculator | 10-Point Indian University Scale"
+  description="Convert 10-point CGPA into marks percentage instantly. Compare official conversion formulas for AICTE (9.5x), VTU, Mumbai University, Anna University, and CBSE."
+  breadcrumbs={breadcrumbs}
+  faqSchema={faqSchema}
+  softwareSchema={{
+    name: "CGPA to Percentage Calculator",
+    description: "Multi-formula Indian 10.0 CGPA to percentage marks converter with AICTE, VTU, and Mumbai University rules.",
+    applicationCategory: "EducationalApplication"
+  }}
 >
   <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
     <!-- Breadcrumbs -->
@@ -89,6 +120,20 @@ import CgpaToPercentageCalculator from '../components/CgpaToPercentageCalculator
           <div class="faq-question">How is First Class with Distinction determined from CGPA?</div>
           <div class="faq-answer">
             In most Indian universities, a CGPA of <strong>8.5 or above</strong> (or 75% aggregate marks) constitutes First Class with Distinction, provided the degree was completed without active academic arrears.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Which formula should I use for campus placements (TCS, Infosys, Wipro, Accenture)?</div>
+          <div class="faq-answer">
+            Unless your university transcript explicitly states a custom formula (such as VTU or Mumbai University), major IT recruiters and campus placement cells accept the AICTE standard formula: <code>Percentage = CGPA &times; 9.5</code>.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">What is the Mumbai University and VTU formula for converting CGPA to percentage?</div>
+          <div class="faq-answer">
+            VTU and Mumbai University engineering faculties conventionally use: <code>Percentage = (CGPA - 0.75) &times; 10</code>. Always verify the back of your official marksheet for department-specific guidelines.
           </div>
         </div>
       </div>

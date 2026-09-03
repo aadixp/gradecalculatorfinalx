@@ -2,11 +2,42 @@
 // src/pages/percentage-to-cgpa.astro
 import Layout from '../layouts/Layout.astro';
 import PercentageToCgpaCalculator from '../components/PercentageToCgpaCalculator.astro';
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Percentage to CGPA Calculator', item: '/percentage-to-cgpa' }
+];
+
+const faqSchema = [
+  {
+    question: "What CGPA is 75 percent?",
+    answer: "Using the standard AICTE formula: 75 / 9.5 = 7.89 CGPA. On a direct 10-point scale, 75% equals 7.50 CGPA."
+  },
+  {
+    question: "What is 60 percent marks in CGPA?",
+    answer: "Using AICTE guidelines: 60 / 9.5 = 6.32 CGPA, which signifies First Division in Indian academic standing."
+  },
+  {
+    question: "What is 70 percent marks in 10-point CGPA?",
+    answer: "Using the AICTE 9.5 divisor rule, 70% corresponds to 7.37 CGPA (70 / 9.5). Under a direct 10.0 scale, 70% is 7.00 CGPA."
+  },
+  {
+    question: "How do I convert percentage to VTU CGPA?",
+    answer: "Using the reverse of VTU's formula [Percentage = (CGPA - 0.75) * 10], the formula is: CGPA = (Percentage / 10) + 0.75. For example, 75% equals (75 / 10) + 0.75 = 8.25 VTU CGPA."
+  }
+];
 ---
 
 <Layout
   title="Percentage to CGPA Calculator | Convert Marks % to 10.0 CGPA"
-  description="Convert your aggregate percentage marks into Indian 10-point CGPA. Supports AICTE, CBSE divisor (9.5), VTU, and Mumbai University reverse conversion rules."
+  description="Convert aggregate marks percentage into Indian 10-point CGPA. Supports standard AICTE 9.5 divisor, VTU, Mumbai University, and general grade point conversion."
+  breadcrumbs={breadcrumbs}
+  faqSchema={faqSchema}
+  softwareSchema={{
+    name: "Percentage to CGPA Calculator",
+    description: "Convert marks percentage to 10-point Indian CGPA with AICTE, CBSE, and VTU conversion standards.",
+    applicationCategory: "EducationalApplication"
+  }}
 >
   <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
     <!-- Breadcrumbs -->
@@ -81,6 +112,20 @@ import PercentageToCgpaCalculator from '../components/PercentageToCgpaCalculator
           <div class="faq-question">What is 60 percent marks in CGPA?</div>
           <div class="faq-answer">
             Using AICTE guidelines: <code>60 &divide; 9.5 = 6.32 CGPA</code>, which signifies First Division in Indian academic standing.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">What is 70 percent marks in 10-point CGPA?</div>
+          <div class="faq-answer">
+            Using the AICTE 9.5 divisor rule, 70% corresponds to <code>7.37 CGPA</code> (70 &divide; 9.5). Under a direct 10.0 scale, 70% is <code>7.00 CGPA</code>.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">How do I convert percentage to VTU CGPA?</div>
+          <div class="faq-answer">
+            Using the reverse of VTU's formula [<code>Percentage = (CGPA - 0.75) &times; 10</code>], the reverse formula is: <code>CGPA = (Percentage &divide; 10) + 0.75</code>. For example, 75% equals <code>(75 &divide; 10) + 0.75 = 8.25 VTU CGPA</code>.
           </div>
         </div>
       </div>

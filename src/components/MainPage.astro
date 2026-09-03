@@ -23,12 +23,85 @@ interface Props {
 const { lang = 'en' } = Astro.props;
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
+
+const homepageFaqs = [
+  {
+    question: "How does a what if grade calculator work?",
+    answer: "A what if grade calculator allows you to test hypothetical scores on upcoming tests, homework assignments, or projects to see how they will impact your overall course percentage before receiving your final grades."
+  },
+  {
+    question: "What grade was I in year calculator?",
+    answer: "A what grade was I in year calculator determines what school grade level you were in during any specific academic calendar year by calculating backwards from your high school graduation year or forwards from kindergarten."
+  },
+  {
+    question: "How does what is my grade calculator determine my score?",
+    answer: "A what is my grade calculator computes your current cumulative grade percentage by multiplying every completed assignment score by its category weight and dividing by the total active weight percentage."
+  },
+  {
+    question: "How to use whats my grade calculator?",
+    answer: "Using our whats my grade calculator is simple: enter your assignment scores and syllabus category weights (e.g. homework 20%, midterms 30%, labs 20%) to view your current class standing and GPA."
+  },
+  {
+    question: "How much will my grade drop calculator: What if I fail an exam?",
+    answer: "Our how much will my grade drop calculator computes the exact decrease in your course mark based on the exam's syllabus weight: Drop = (Current Grade - New Score) * (Weight / 100)."
+  },
+  {
+    question: "How does a what will my grade be calculator forecast final marks?",
+    answer: "A what will my grade be calculator projects your final course grade by combining your completed assignment marks with projected scores on remaining exams and semester assignments."
+  },
+  {
+    question: "How does a what grade do i need calculator find target scores?",
+    answer: "A what grade do i need calculator determines the exact minimum score you must achieve on an upcoming test or assignment to reach or maintain your desired overall class percentage."
+  },
+  {
+    question: "How to use the what grade do i need on my final calculator?",
+    answer: "Our what grade do i need on my final calculator uses the formula: Required Score = (Target Grade - Current Grade * (1 - Final Weight)) / Final Weight to show the exact exam score required for every letter grade."
+  },
+  {
+    question: "How does a what is my final grade calculator calculate the end mark?",
+    answer: "A what is my final grade calculator calculates your finalized course mark after all coursework, midterms, and final exam results are entered, mapping your overall score to a letter grade."
+  },
+  {
+    question: "Can a what would my grade be calculator simulate different scores?",
+    answer: "Yes, our what would my grade be calculator lets you test multiple scenarios, such as scoring 85% versus 95% on a midterm, to see the resulting class letter grade in real time."
+  },
+  {
+    question: "How much would my grade drop calculator: How do low quiz scores impact standing?",
+    answer: "A how much would my grade drop calculator shows the reduction in your total class standing from low quiz scores, factoring in any drop-lowest policies active on your syllabus."
+  },
+  {
+    question: "How much will my grade go up calculator: How do high scores raise your mark?",
+    answer: "A how much will my grade go up calculator measures how high scores or extra credit improve your average: Increase = (New Score - Current Grade) * (Assignment Weight / Total Active Weight)."
+  },
+  {
+    question: "How to use the grade what if calculator slider?",
+    answer: "Use the grade what if calculator slider to adjust hypothetical score percentages and weights, instantly observing the simulated impact on your class grade."
+  },
+  {
+    question: "How does a what grade will i get calculator predict my letter grade?",
+    answer: "A what grade will i get calculator compares your earned points and remaining syllabus weight against your school's grading scale (Standard US 4.0, 10-Point Simple, or custom thresholds)."
+  },
+  {
+    question: "How to use the what will my grade be after this test calculator?",
+    answer: "Our what will my grade be after this test calculator combines your current standing with your expected test score and the test's weight to show your new class average immediately."
+  },
+  {
+    question: "How much will my grade go down calculator: What happens with missed assignments?",
+    answer: "A how much will my grade go down calculator calculates the exact percentage decrease caused by missing assignments, late penalties, or zero scores."
+  },
+  {
+    question: "How does the what if final grade calculator work?",
+    answer: "A what if final grade calculator tests multiple final exam score scenarios (such as 70%, 80%, 90%) and displays the resulting overall class grade in an interactive scenario matrix."
+  }
+];
 ---
 
 <Layout
   title={t('site.title')}
   description={t('site.description')}
   lang={lang}
+  breadcrumbs={[{ name: 'Home', item: '/' }]}
+  faqSchema={homepageFaqs}
 >
   <!-- Hero Section with Vercel Mesh Glow -->
   <section style="position: relative; padding: 3rem 0 2.5rem; text-align: center;">

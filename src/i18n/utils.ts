@@ -28,10 +28,16 @@ export function useTranslatedPath(lang: Lang) {
     }
     const cleanPath = segments.length ? `/${segments.join('/')}` : '';
 
-    if (targetLang === defaultLang) {
-      return cleanPath || '/';
+    // If this is a dedicated subpage (e.g. /about, /indian-cgpa-calculator),
+    // it only exists at the English route, so return it directly.
+    if (cleanPath && cleanPath !== '/') {
+      return cleanPath;
     }
-    return `/${targetLang}${cleanPath || '/'}`;
+
+    if (targetLang === defaultLang) {
+      return '/';
+    }
+    return `/${targetLang}/`;
   };
 }
 
@@ -45,26 +51,37 @@ export function getAlternateUrls(path: string, baseUrl = 'https://gradecalculato
 
   const alternates: { hreflang: string; href: string }[] = [];
 
-  // Default English route
+  // If this is a dedicated subpage, only the canonical English version exists
+  if (cleanPath && cleanPath !== '/') {
+    alternates.push({
+      hreflang: 'en',
+      href: `${baseUrl}${cleanPath}`,
+    });
+    alternates.push({
+      hreflang: 'x-default',
+      href: `${baseUrl}${cleanPath}`,
+    });
+    return alternates;
+  }
+
+  // Root homepage alternates across all supported languages
   alternates.push({
     hreflang: 'en',
-    href: `${baseUrl}${cleanPath || '/'}`,
+    href: `${baseUrl}/`,
   });
 
-  // Other locales
   (Object.keys(languages) as Lang[]).forEach((l) => {
     if (l !== defaultLang) {
       alternates.push({
         hreflang: l,
-        href: `${baseUrl}/${l}${cleanPath ? cleanPath : '/'}`,
+        href: `${baseUrl}/${l}/`,
       });
     }
   });
 
-  // x-default points to default English route
   alternates.push({
     hreflang: 'x-default',
-    href: `${baseUrl}${cleanPath || '/'}`,
+    href: `${baseUrl}/`,
   });
 
   return alternates;

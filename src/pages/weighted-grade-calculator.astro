@@ -1,11 +1,42 @@
 ---
 // src/pages/weighted-grade-calculator.astro
 import Layout from '../layouts/Layout.astro';
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Weighted Grade Calculator', item: '/weighted-grade-calculator' }
+];
+
+const faqSchema = [
+  {
+    question: "What is a weighted grade and how is it calculated?",
+    answer: "A weighted grade calculates your overall course mark by multiplying each assignment score by its assigned syllabus weight percentage, summing the weighted totals, and dividing by the total active weight percentage."
+  },
+  {
+    question: "What should I do if some weights sum to more than 100%?",
+    answer: "If extra credit assignments raise your total weight above 100%, the formula still divides by total weight or keeps extra credit as bonus points. Use the 'Normalize Weights to 100%' button if your syllabus weights accidentally exceed 100%."
+  },
+  {
+    question: "How does the calculator handle incomplete semester weights (less than 100%)?",
+    answer: "During mid-semester, completed assignments rarely total 100%. Our calculator automatically normalizes your grade by dividing accumulated points by the active completed weight so your standing is accurate rather than falsely depressed."
+  },
+  {
+    question: "Can I enter letter grades instead of numeric percentages?",
+    answer: "Yes! For course-level college GPA calculations where whole courses are assigned letter grades (A, B, C), use our College GPA Calculator."
+  }
+];
 ---
 
 <Layout
-  title="Weighted Grade Calculator | Calculate Class & Coursework Average"
-  description="Free weighted grade calculator for high school and college courses. Calculate your current class percentage with weighted homework, quizzes, midterms, and labs."
+  title="Weighted Grade Calculator | Calculate Weighted Average & Coursework"
+  description="Calculate your weighted course grade percentage easily. Enter assignment categories, scores, and syllabus weight percentages with automatic normalization."
+  breadcrumbs={breadcrumbs}
+  faqSchema={faqSchema}
+  softwareSchema={{
+    name: "Weighted Grade Calculator",
+    description: "Online weighted course grade calculator supporting syllabus percentage weights, point totals, and weight normalization.",
+    applicationCategory: "EducationalApplication"
+  }}
 >
   <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
     <!-- Breadcrumbs -->
@@ -139,11 +170,26 @@ import Layout from '../layouts/Layout.astro';
       </h2>
       <div style="display: flex; flex-direction: column; gap: 1rem;">
         <div class="faq-item">
+          <div class="faq-question">What is a weighted grade and how is it calculated?</div>
+          <div class="faq-answer">
+            A weighted grade calculates your overall course mark by multiplying each assignment score by its assigned syllabus weight percentage, summing the weighted totals, and dividing by the total active weight percentage.
+          </div>
+        </div>
+
+        <div class="faq-item">
           <div class="faq-question">What should I do if some weights sum to more than 100%?</div>
           <div class="faq-answer">
             If extra credit assignments raise your total weight above 100%, the formula still divides by total weight or keeps extra credit as bonus points. Use the "Normalize Weights to 100%" button if your syllabus weights accidentally exceed 100%.
           </div>
         </div>
+
+        <div class="faq-item">
+          <div class="faq-question">How does the calculator handle incomplete semester weights (less than 100%)?</div>
+          <div class="faq-answer">
+            During mid-semester, completed assignments rarely total 100%. Our calculator automatically normalizes your grade by dividing accumulated points by the active completed weight so your standing is accurate rather than falsely depressed.
+          </div>
+        </div>
+
         <div class="faq-item">
           <div class="faq-question">Can I enter letter grades instead of numeric percentages?</div>
           <div class="faq-answer">

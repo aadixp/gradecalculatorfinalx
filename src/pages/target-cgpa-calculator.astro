@@ -2,11 +2,42 @@
 // src/pages/target-cgpa-calculator.astro
 import Layout from '../layouts/Layout.astro';
 import TargetCgpaCalculator from '../components/TargetCgpaCalculator.astro';
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Target CGPA Calculator', item: '/target-cgpa-calculator' }
+];
+
+const faqSchema = [
+  {
+    question: "Can I raise my CGPA from 7.0 to 8.5 in my final year?",
+    answer: "It depends on completed versus remaining credits. If you have completed 120 credits at 7.0 and have 40 credits left, reaching 8.5 would require an impossible SGPA of 13.0. However, with more remaining credits in earlier terms, raising your CGPA is achievable with consistent 9.0+ SGPA terms."
+  },
+  {
+    question: "What if my required SGPA is lower than 0?",
+    answer: "A required SGPA of 0 or below indicates that your target CGPA is mathematically secured. Even with minimal passing grades in remaining courses, your cumulative average cannot drop below your goal."
+  },
+  {
+    question: "How can I strategically improve my CGPA in Indian engineering colleges?",
+    answer: "Focus intensely on high-credit subjects (such as 4-credit core theory courses, major projects, and multi-credit laboratory electives). Because CGPA is credit-weighted, earning an O or A+ in a 4-credit subject elevates your cumulative average far more than doing well in a 1-credit or 2-credit course."
+  },
+  {
+    question: "How does the Target CGPA Calculator handle remaining credits?",
+    answer: "The calculator takes your current cumulative CGPA and completed credits, compares them with your desired graduation target, and computes the exact average SGPA required across all remaining credits before degree completion."
+  }
+];
 ---
 
 <Layout
-  title="Target CGPA Calculator | Plan Required Future SGPA"
-  description="Calculate the exact future SGPA average needed across remaining credits to graduate with your target CGPA. Includes feasibility matrix and impossible target warnings."
+  title="Target CGPA Calculator | Required Future SGPA Planner (10-Point Scale)"
+  description="Calculate the exact future SGPA average needed across remaining credits to graduate with your target CGPA. Includes feasibility analysis, impossible target alerts, and goal planning."
+  breadcrumbs={breadcrumbs}
+  faqSchema={faqSchema}
+  softwareSchema={{
+    name: "Target CGPA Calculator",
+    description: "Required future semester SGPA planner and academic feasibility calculator for Indian 10-point degree programs.",
+    applicationCategory: "EducationalApplication"
+  }}
 >
   <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
     <!-- Breadcrumbs -->
@@ -78,6 +109,20 @@ import TargetCgpaCalculator from '../components/TargetCgpaCalculator.astro';
           <div class="faq-question">What if my required SGPA is lower than 0?</div>
           <div class="faq-answer">
             A required SGPA of 0 or below indicates that your target CGPA is mathematically secured. Even with 0 grade points in remaining courses, your cumulative average cannot drop below the target.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">How can I strategically improve my CGPA in Indian engineering colleges?</div>
+          <div class="faq-answer">
+            Focus intensely on high-credit subjects (such as 4-credit core theory courses, major projects, and multi-credit laboratory electives). Because CGPA is credit-weighted, earning an O or A+ in a 4-credit subject elevates your cumulative average far more than doing well in a 1-credit or 2-credit course.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">How does the Target CGPA Calculator handle remaining credits?</div>
+          <div class="faq-answer">
+            The calculator takes your current cumulative CGPA and completed credits, compares them with your desired graduation target, and computes the exact average SGPA required across all remaining credits before degree completion.
           </div>
         </div>
       </div>

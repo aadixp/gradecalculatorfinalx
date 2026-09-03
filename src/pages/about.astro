@@ -6,6 +6,10 @@ import Layout from '../layouts/Layout.astro';
 <Layout
   title="About Us | GradeCalculatorFinalX - Free Academic Grade Planner"
   description="Learn about GradeCalculatorFinalX, our mission to simplify grade calculations, and how our free, privacy-first tools empower students and educators worldwide."
+  breadcrumbs={[
+    { name: 'Home', item: '/' },
+    { name: 'About Us', item: '/about' }
+  ]}
 >
   <div class="container" style="max-width: 880px; padding-top: 3rem; padding-bottom: 5rem;">
     <!-- Breadcrumb & Return to Calculator -->

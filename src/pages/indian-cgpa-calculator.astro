@@ -2,11 +2,46 @@
 // src/pages/indian-cgpa-calculator.astro
 import Layout from '../layouts/Layout.astro';
 import IndianCgpaCalculator from '../components/IndianCgpaCalculator.astro';
+
+const breadcrumbs = [
+  { name: 'Home', item: '/' },
+  { name: 'Indian CGPA Calculator', item: '/indian-cgpa-calculator' }
+];
+
+const faqSchema = [
+  {
+    question: "What is the difference between SGPA and CGPA in Indian universities?",
+    answer: "SGPA (Semester Grade Point Average) reflects your academic performance within a single semester, whereas CGPA (Cumulative Grade Point Average) represents your cumulative credit-weighted performance across all completed semesters up to that point."
+  },
+  {
+    question: "How do I convert my Indian 10-point CGPA into marks percentage?",
+    answer: "Under the standard AICTE and CBSE benchmark, percentage is calculated as CGPA * 9.5. However, specific universities like Mumbai University, VTU, or Anna University mandate custom institutional formulas on their marksheets. Use our CGPA to Percentage Calculator to evaluate specific university rules."
+  },
+  {
+    question: "Is an 8.0 CGPA considered good in Indian universities?",
+    answer: "Yes. In virtually all Indian universities and engineering institutes, an 8.0 CGPA places a student in First Class or First Class with Distinction, comfortably meeting eligibility cutoffs for campus placements, GATE, CAT, UPSC, and overseas graduate admissions."
+  },
+  {
+    question: "How is CGPA calculated for engineering students (BTech, BE)?",
+    answer: "For BTech and BE engineering students under CBCS, CGPA is calculated by multiplying each course's credit hours by the grade point earned (10 for O down to 0 for F), summing the total quality points, and dividing by total registered credits across all semesters."
+  },
+  {
+    question: "Can an Indian 10-point CGPA be directly converted to a US 4.0 GPA scale?",
+    answer: "A direct linear division (CGPA / 2.5) is inaccurate because Indian grading criteria and grade distributions differ significantly from the US 4.0 system. Credential evaluators like WES or university admissions evaluate each course mark individually. Check our Grade Converter for standard equivalence ranges."
+  }
+];
 ---
 
 <Layout
-  title="Indian CGPA Calculator (10-Point Scale) | UGC & AICTE Compliant"
-  description="Free Indian CGPA calculator for engineering, arts, science, and university degree programs. Calculate credit-weighted CGPA based on the UGC 10-point letter grading system."
+  title="Indian CGPA Calculator (10-Point Scale) | UGC & AICTE CBCS Compliant"
+  description="Free Indian CGPA calculator for university and engineering students (BTech, BE, BCA, MCA). Calculate credit-weighted 10-point CGPA based on the UGC & AICTE CBCS letter grading system."
+  breadcrumbs={breadcrumbs}
+  faqSchema={faqSchema}
+  softwareSchema={{
+    name: "Indian CGPA Calculator (10-Point Scale)",
+    description: "Credit-weighted 10-point CGPA calculator compliant with UGC, AICTE, and Indian university CBCS guidelines.",
+    applicationCategory: "EducationalApplication"
+  }}
 >
   <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
     <!-- Breadcrumbs -->
@@ -173,6 +208,20 @@ import IndianCgpaCalculator from '../components/IndianCgpaCalculator.astro';
           <div class="faq-question">Is an 8.0 CGPA good in India?</div>
           <div class="faq-answer">
             Yes. In virtually all Indian universities, an 8.0 CGPA places a student safely in <strong>First Class</strong> or <strong>First Class with Distinction</strong>, comfortably meeting the eligibility cutoffs for campus placements, GATE, CAT, UPSC, and overseas graduate admissions.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">How is CGPA calculated for engineering students (BTech, BE)?</div>
+          <div class="faq-answer">
+            For BTech and BE engineering students under CBCS, CGPA is calculated by multiplying each course's credit hours by the grade point earned (10 for O down to 0 for F), summing the total quality points, and dividing by total registered credits across all semesters.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Can an Indian 10-point CGPA be directly converted to a US 4.0 GPA scale?</div>
+          <div class="faq-answer">
+            A direct linear division (CGPA &divide; 2.5) is inaccurate because Indian grading criteria and grade distributions differ significantly from the US 4.0 system. Credential evaluators like WES or university admissions evaluate each course mark individually. Check our <a href="/grade-converter" style="color: var(--color-blue); text-decoration: underline;">Grade Converter</a> for standard equivalence ranges.
           </div>
         </div>
       </div>
