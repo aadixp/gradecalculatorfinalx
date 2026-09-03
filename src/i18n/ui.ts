@@ -28,7 +28,7 @@ export const ui = {
     'nav.contact': 'Contact Us',
     'nav.selectLang': 'Select language',
     'hero.badge': 'Academic Term 2026',
-    'hero.title': 'Grade Calculator Final',
+    'hero.title': 'Grade Calculator',
     'hero.subtitle': 'Calculate your course standing, simulate what-if test scores, and discover the exact final exam score needed to achieve your desired target grade.',
     'tab.weighted': 'Weighted Coursework',
     'tab.finalExam': 'Final Exam Target',
