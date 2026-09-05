@@ -72,17 +72,10 @@ export function getAlternateUrls(pathOrUrl: string, baseUrl = 'https://gradecalc
 
   const alternates: { hreflang: string; href: string }[] = [];
 
-  // If this is a dedicated subpage, only the canonical English version exists
+  // Dedicated subpages only exist in English without alternate language equivalents.
+  // Per Google Search guidelines, standalone monolingual pages must not declare hreflang annotations.
   if (cleanPath && cleanPath !== '/') {
-    alternates.push({
-      hreflang: 'en',
-      href: `${baseUrl}${cleanPath}`,
-    });
-    alternates.push({
-      hreflang: 'x-default',
-      href: `${baseUrl}${cleanPath}`,
-    });
-    return alternates;
+    return [];
   }
 
   // Root homepage alternates across all supported languages
