@@ -37,7 +37,7 @@ const {
 
 const alternateUrls = getAlternateUrls(Astro.url.pathname);
 const canonicalUrl = canonical || (currentLang === 'en'
-	? `https://gradecalculatorfinalx.com${Astro.url.pathname === '/' ? '/' : Astro.url.pathname}`
+	? `https://gradecalculatorfinalx.com${Astro.url.pathname === '/' ? '/' : (Astro.url.pathname.endsWith('/') ? Astro.url.pathname : Astro.url.pathname + '/')}`
 	: `https://gradecalculatorfinalx.com${Astro.url.pathname.endsWith('/') ? Astro.url.pathname : Astro.url.pathname + '/'}`);
 
 const ogLocales: Record<string, string> = {
@@ -353,10 +353,10 @@ const ogLocales: Record<string, string> = {
 				<div class="site-footer-bottom">
 					<div class="site-footer-copy">&copy; <span id="current-year">2026</span> GradeCalculatorFinalX. High-performance academic suite.</div>
 					<div class="site-footer-bottom-links">
-						<a href="/about">About</a>
-						<a href="/privacy-policy">Privacy</a>
-						<a href="/terms-and-conditions">Terms</a>
-						<a href="/contact">Contact</a>
+						<a href="/about/">About</a>
+						<a href="/privacy-policy/">Privacy</a>
+						<a href="/terms-and-conditions/">Terms</a>
+						<a href="/contact/">Contact</a>
 					</div>
 				</div>
 			</div>

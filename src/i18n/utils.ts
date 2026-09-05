@@ -26,9 +26,9 @@ export function useTranslatedPath(lang: Lang) {
     if (segments[0] && segments[0] in languages) {
       segments.shift();
     }
-    const cleanPath = segments.length ? `/${segments.join('/')}` : '';
+    const cleanPath = segments.length ? `/${segments.join('/')}/` : '';
 
-    // If this is a dedicated subpage (e.g. /about, /indian-cgpa-calculator),
+    // If this is a dedicated subpage (e.g. /about/, /indian-cgpa-calculator/),
     // it only exists at the English route, so return it directly.
     if (cleanPath && cleanPath !== '/') {
       return cleanPath;
@@ -47,7 +47,7 @@ export function getAlternateUrls(path: string, baseUrl = 'https://gradecalculato
   if (segments[0] && segments[0] in languages) {
     segments.shift();
   }
-  const cleanPath = segments.length ? `/${segments.join('/')}` : '';
+  const cleanPath = segments.length ? `/${segments.join('/')}/` : '';
 
   const alternates: { hreflang: string; href: string }[] = [];
 
