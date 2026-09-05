@@ -35,10 +35,10 @@ const {
 	softwareSchema
 } = Astro.props;
 
-const alternateUrls = getAlternateUrls(Astro.url.pathname);
 const canonicalUrl = canonical || (currentLang === 'en'
 	? `https://gradecalculatorfinalx.com${Astro.url.pathname === '/' ? '/' : (Astro.url.pathname.endsWith('/') ? Astro.url.pathname : Astro.url.pathname + '/')}`
 	: `https://gradecalculatorfinalx.com${Astro.url.pathname.endsWith('/') ? Astro.url.pathname : Astro.url.pathname + '/'}`);
+const alternateUrls = getAlternateUrls(canonicalUrl);
 
 const ogLocales: Record<string, string> = {
 	en: 'en_US',

@@ -41,7 +41,28 @@ export function useTranslatedPath(lang: Lang) {
   };
 }
 
-export function getAlternateUrls(path: string, baseUrl = 'https://gradecalculatorfinalx.com') {
+export function getAlternateUrls(pathOrUrl: string, baseUrl = 'https://gradecalculatorfinalx.com') {
+  let path = pathOrUrl;
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    try {
+      path = new URL(path).pathname;
+    } catch {
+      // fallback
+    }
+  }
+
+  // Error pages and redirect aliases should not declare hreflang annotations
+  if (
+    path.includes('/404') ||
+    path.includes('/500') ||
+    path === '/privacy' ||
+    path === '/privacy/' ||
+    path === '/terms' ||
+    path === '/terms/'
+  ) {
+    return [];
+  }
+
   // Strip any existing language prefix
   const segments = path.split('/').filter(Boolean);
   if (segments[0] && segments[0] in languages) {
