@@ -36,7 +36,7 @@ console.log('Title:   ', getTitle(ja));
 console.log('Desc:    ', getDesc(ja));
 
 const expectedTitle = "Final Grade Calculator - Weighted Grades, Final Exam & GPA";
-const expectedDesc = "Free online grade calculator for weighted grades, final exam targets, GPA, CGPA, and what-if scenarios. Calculate your current grade, find the score you need on your final exam to reach your target grade, and explore what-if scenarios.";
+const expectedDesc = "Final Grade Calculator for weighted grades, final exam targets, GPA, CGPA, and what-if scenarios. Calculate your current grade and target final exam score.";
 
 const decodeHtml = (str) => str ? str.replace(/&amp;/g, '&') : str;
 

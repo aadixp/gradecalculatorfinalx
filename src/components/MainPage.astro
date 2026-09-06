@@ -26,7 +26,7 @@ interface Props {
 const {
   lang = 'en',
   title = (lang === 'en' ? 'Final Grade Calculator - Weighted Grades, Final Exam & GPA' : undefined),
-  description = (lang === 'en' ? 'Free online grade calculator for weighted grades, final exam targets, GPA, CGPA, and what-if scenarios. Calculate your current grade, find the score you need on your final exam to reach your target grade, and explore what-if scenarios.' : undefined)
+  description = (lang === 'en' ? 'Final Grade Calculator for weighted grades, final exam targets, GPA, CGPA, and what-if scenarios. Calculate your current grade and target final exam score.' : undefined)
 } = Astro.props;
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
