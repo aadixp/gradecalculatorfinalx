@@ -74,6 +74,13 @@ https.get('https://gradecalculatorfinalx.com/', (res) => {
     console.log('Desc:    ', liveDesc);
     console.log('og:title:', liveOgTitle);
 
+    const titleTagMatch = liveHtml.match(/<title[^>]*>[\s\S]*?<\/title>/i);
+    const descTagMatch = liveHtml.match(/<meta\s+name=["']description["']\s+content=["'][^"']*["']\s*\/?>/i);
+
+    console.log('\n=== EXACT LIVE PRODUCTION RENDERED TAGS ===');
+    console.log('Title Tag: ', titleTagMatch ? titleTagMatch[0] : 'NOT FOUND');
+    console.log('Meta Desc: ', descTagMatch ? descTagMatch[0] : 'NOT FOUND');
+
     if (decodeHtml(liveTitle) !== expectedTitle) {
       console.error(`FAIL: Live title mismatch! Expected "${expectedTitle}", got "${liveTitle}"`);
       process.exit(1);
