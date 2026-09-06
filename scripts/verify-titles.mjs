@@ -57,4 +57,31 @@ if (decodeHtml(getOgDesc(en)) !== expectedDesc) {
   process.exit(1);
 }
 
-console.log('\n✅ ALL TITLE & META CHECKS PASSED!');
+console.log('\n✅ ALL LOCAL BUILD TITLE & META CHECKS PASSED!');
+
+import https from 'https';
+
+https.get('https://gradecalculatorfinalx.com/', (res) => {
+  let liveHtml = '';
+  res.on('data', chunk => liveHtml += chunk);
+  res.on('end', () => {
+    const liveTitle = getTitle(liveHtml);
+    const liveDesc = getDesc(liveHtml);
+    const liveOgTitle = getOgTitle(liveHtml);
+
+    console.log('\n=== LIVE PRODUCTION HOMEPAGE ===');
+    console.log('Title:   ', liveTitle);
+    console.log('Desc:    ', liveDesc);
+    console.log('og:title:', liveOgTitle);
+
+    if (decodeHtml(liveTitle) !== expectedTitle) {
+      console.error(`FAIL: Live title mismatch! Expected "${expectedTitle}", got "${liveTitle}"`);
+      process.exit(1);
+    }
+    if (decodeHtml(liveDesc) !== expectedDesc) {
+      console.error(`FAIL: Live desc mismatch! Expected "${expectedDesc}", got "${liveDesc}"`);
+      process.exit(1);
+    }
+    console.log('\n🎉 LIVE PRODUCTION HOMEPAGE CONFIRMED EXACTLY MATCHING!');
+  });
+});
