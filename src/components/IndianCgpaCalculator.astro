@@ -511,6 +511,125 @@ const { idPrefix = 'cgpa' } = Astro.props;
       text-align: center;
     }
   }
+
+  /* Quick Semester CGPA Cards (View 2) */
+  :global(.quick-sem-card-row .sem-sgpa-input) {
+    max-width: 200px;
+  }
+  :global(.quick-sem-card-row .sem-credits-input) {
+    max-width: 220px;
+  }
+
+  @media (max-width: 680px) {
+    :global(.mobile-card-row.quick-sem-card-row) {
+      display: grid !important;
+      grid-template-columns: repeat(12, 1fr) !important;
+      column-gap: 0.75rem !important;
+      row-gap: 0.625rem !important;
+      padding: 0.875rem 1rem !important;
+      background: var(--color-canvas-subtle) !important;
+      border: 1px solid var(--color-hairline) !important;
+      border-radius: var(--radius-md) !important;
+      margin-bottom: 0.75rem !important;
+      box-shadow: var(--shadow-whisper) !important;
+      box-sizing: border-box !important;
+      align-content: start !important;
+    }
+
+    :global(.mobile-card-row.quick-sem-card-row .td-quick-sem-name) {
+      grid-column: 1 / 11 !important;
+      grid-row: 1 !important;
+      display: flex !important;
+      align-items: center !important;
+      min-height: 34px !important;
+      padding: 0 !important;
+      border: none !important;
+    }
+
+    :global(.mobile-card-row.quick-sem-card-row .td-quick-sem-name .quick-sem-title) {
+      font-size: 0.9375rem !important;
+      font-weight: 600 !important;
+      color: var(--color-ink) !important;
+      letter-spacing: -0.01em !important;
+    }
+
+    :global(.mobile-card-row.quick-sem-card-row .td-quick-sem-del) {
+      grid-column: 11 / 13 !important;
+      grid-row: 1 !important;
+      display: flex !important;
+      justify-content: flex-end !important;
+      align-items: center !important;
+      min-height: 34px !important;
+      padding: 0 !important;
+      border: none !important;
+    }
+
+    :global(.mobile-card-row.quick-sem-card-row .td-quick-sem-del .btn-icon) {
+      width: 34px !important;
+      height: 34px !important;
+      padding: 0.35rem !important;
+      border-radius: var(--radius-sm) !important;
+      color: var(--color-mute) !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    :global(.mobile-card-row.quick-sem-card-row .td-quick-sem-del .btn-icon:hover) {
+      color: var(--color-rose) !important;
+      background: var(--color-rose-soft) !important;
+    }
+
+    :global(.mobile-card-row.quick-sem-card-row .td-quick-sem-sgpa) {
+      grid-column: 1 / 6 !important;
+      grid-row: 2 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      padding: 0 !important;
+      border: none !important;
+    }
+
+    :global(.mobile-card-row.quick-sem-card-row .td-quick-sem-credits) {
+      grid-column: 6 / 13 !important;
+      grid-row: 2 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      padding: 0 !important;
+      border: none !important;
+    }
+
+    :global(.mobile-card-row.quick-sem-card-row .td-quick-sem-sgpa .mobile-input-label),
+    :global(.mobile-card-row.quick-sem-card-row .td-quick-sem-credits .mobile-input-label) {
+      min-height: 26px !important;
+      display: flex !important;
+      align-items: flex-end !important;
+      font-size: 0.6875rem !important;
+      color: var(--color-mute) !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.05em !important;
+      margin-bottom: 0.35rem !important;
+      line-height: 1.25 !important;
+      font-weight: 600 !important;
+    }
+
+    :global(.mobile-card-row.quick-sem-card-row .sem-sgpa-input),
+    :global(.mobile-card-row.quick-sem-card-row .sem-credits-input) {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      height: 42px !important;
+      font-size: 16px !important;
+      border-radius: var(--radius-sm) !important;
+    }
+
+    :global(.mobile-card-row.quick-sem-card-row .sem-sgpa-input) {
+      padding: 0.55rem 0.75rem !important;
+    }
+
+    :global(.mobile-card-row.quick-sem-card-row .sem-credits-input) {
+      padding: 0.55rem 0.85rem !important;
+    }
+  }
 </style>
 
 <script define:vars={{ idPrefix }}>
@@ -644,23 +763,22 @@ const { idPrefix = 'cgpa' } = Astro.props;
 
       semesters.forEach((sem, idx) => {
         const trRow = document.createElement('tr');
-        trRow.className = 'mobile-card-row';
+        trRow.className = 'mobile-card-row quick-sem-card-row';
         trRow.style.borderBottom = '1px solid var(--color-hairline)';
 
         trRow.innerHTML = `
-          <td style="padding: 0.5rem 0.75rem; font-weight: 500; color: var(--color-ink);">
-            <span class="mobile-input-label">Semester</span>
-            <span>${sem.name || `Semester ${idx + 1}`}</span>
+          <td class="td-quick-sem-name" style="padding: 0.5rem 0.75rem; font-weight: 500; color: var(--color-ink);">
+            <span class="quick-sem-title">${sem.name || `Semester ${idx + 1}`}</span>
           </td>
-          <td style="padding: 0.5rem 0.75rem;">
+          <td class="td-quick-sem-sgpa" style="padding: 0.5rem 0.75rem;">
             <span class="mobile-input-label">Semester SGPA (0 - 10)</span>
-            <input type="number" step="0.01" min="0" max="10" class="form-input form-input-mono sem-sgpa-input" data-id="${sem.id}" value="${sem.sgpa !== null ? sem.sgpa : ''}" placeholder="e.g. 8.50" style="max-width: 180px;" />
+            <input type="number" step="0.01" min="0" max="10" class="form-input form-input-mono sem-sgpa-input" data-id="${sem.id}" value="${sem.sgpa !== null ? sem.sgpa : ''}" placeholder="e.g. 8.50" />
           </td>
-          <td style="padding: 0.5rem 0.75rem;">
+          <td class="td-quick-sem-credits" style="padding: 0.5rem 0.75rem;">
             <span class="mobile-input-label">Semester Credits (Optional)</span>
-            <input type="number" step="0.5" min="0" max="40" class="form-input form-input-mono sem-credits-input" data-id="${sem.id}" value="${sem.credits !== null && sem.credits !== '' ? sem.credits : ''}" placeholder="Optional (e.g. 22)" style="max-width: 180px;" />
+            <input type="number" step="0.5" min="0" max="40" class="form-input form-input-mono sem-credits-input" data-id="${sem.id}" value="${sem.credits !== null && sem.credits !== '' ? sem.credits : ''}" placeholder="Optional (e.g. 22)" />
           </td>
-          <td style="padding: 0.5rem 0.75rem; text-align: right;">
+          <td class="td-quick-sem-del" style="padding: 0.5rem 0.75rem; text-align: right;">
             ${semesters.length > 1 ? `
               <button type="button" class="btn btn-ghost btn-icon delete-sem-btn" data-id="${sem.id}" title="Remove semester" aria-label="Remove semester">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>

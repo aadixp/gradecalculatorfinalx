@@ -610,6 +610,19 @@ html.dark .hero-mesh {
   transform: scale(1) translateY(0);
 }
 
+/* Mobile-only element hiding on desktop */
+.mobile-input-label {
+  display: none;
+}
+
+.quick-sem-card-row .sem-sgpa-input {
+  max-width: 200px;
+}
+
+.quick-sem-card-row .sem-credits-input {
+  max-width: 220px;
+}
+
 /* ==========================================================================
    Mobile Responsiveness & Adaptive Utilities
    ========================================================================== */
@@ -1188,6 +1201,100 @@ html.dark .hero-mesh {
 
   .mobile-card-row.sem-card-row .td-cgpa-pts-earned .mobile-input-label {
     margin-bottom: 0 !important;
+  }
+
+  /* Quick Semester SGPA/CGPA Input Cards (Indian CGPA View 2) */
+  .mobile-card-row.quick-sem-card-row {
+    grid-template-columns: repeat(12, 1fr) !important;
+    column-gap: 0.75rem !important;
+    row-gap: 0.625rem !important;
+    padding: 0.875rem 1rem !important;
+  }
+
+  .mobile-card-row.quick-sem-card-row .td-quick-sem-name {
+    grid-column: 1 / 11 !important;
+    grid-row: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    min-height: 34px !important;
+  }
+
+  .mobile-card-row.quick-sem-card-row .td-quick-sem-name .quick-sem-title {
+    font-size: 0.9375rem !important;
+    font-weight: 600 !important;
+    color: var(--color-ink) !important;
+    letter-spacing: -0.01em !important;
+  }
+
+  .mobile-card-row.quick-sem-card-row .td-quick-sem-del {
+    grid-column: 11 / 13 !important;
+    grid-row: 1 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    min-height: 34px !important;
+  }
+
+  .mobile-card-row.quick-sem-card-row .td-quick-sem-del .btn-icon {
+    width: 34px !important;
+    height: 34px !important;
+    padding: 0.35rem !important;
+    border-radius: var(--radius-sm);
+    color: var(--color-mute);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-card-row.quick-sem-card-row .td-quick-sem-del .btn-icon:hover {
+    color: var(--color-rose);
+    background: var(--color-rose-soft);
+  }
+
+  .mobile-card-row.quick-sem-card-row .td-quick-sem-sgpa {
+    grid-column: 1 / 6 !important;
+    grid-row: 2 !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .mobile-card-row.quick-sem-card-row .td-quick-sem-credits {
+    grid-column: 6 / 13 !important;
+    grid-row: 2 !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .mobile-card-row.quick-sem-card-row .td-quick-sem-sgpa .mobile-input-label,
+  .mobile-card-row.quick-sem-card-row .td-quick-sem-credits .mobile-input-label {
+    min-height: 26px !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    font-size: 0.6875rem !important;
+    color: var(--color-mute) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    margin-bottom: 0.35rem !important;
+    line-height: 1.25 !important;
+    font-weight: 600 !important;
+  }
+
+  .mobile-card-row.quick-sem-card-row .sem-sgpa-input,
+  .mobile-card-row.quick-sem-card-row .sem-credits-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    height: 42px !important;
+    font-size: 16px !important;
+    border-radius: var(--radius-sm) !important;
+  }
+
+  .mobile-card-row.quick-sem-card-row .sem-sgpa-input {
+    padding: 0.55rem 0.75rem !important;
+  }
+
+  .mobile-card-row.quick-sem-card-row .sem-credits-input {
+    padding: 0.55rem 0.85rem !important;
   }
 
   /* Indian CGPA, SGPA & What-If Subject Cards */
