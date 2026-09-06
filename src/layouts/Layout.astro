@@ -322,9 +322,9 @@ const ogLocales: Record<string, string> = {
 					</p>
 				</div>
 
-				<!-- 2-Column Responsive Cards Grid -->
-				<div class="site-footer-cards-grid">
-					<!-- LEFT COLUMN: CALCULATORS Box -->
+				<!-- Vertically Stacked Cards: Always in Order (Desktop, Tablet & Mobile) -->
+				<div class="site-footer-stack">
+					<!-- 1. CALCULATORS (Full-width card) -->
 					<div class="site-footer-card site-footer-calc-card">
 						<h4 class="site-footer-heading" data-i18n="footer.calcHeading">{t('footer.calcHeading')}</h4>
 						<ul class="site-footer-links">
@@ -338,7 +338,7 @@ const ogLocales: Record<string, string> = {
 						</ul>
 					</div>
 
-					<!-- RIGHT COLUMN: PLATFORM & TRUST Box -->
+					<!-- 2. PLATFORM & TRUST (Full-width card directly BELOW) -->
 					<div class="site-footer-card site-footer-platform-card">
 						<h4 class="site-footer-heading" data-i18n="footer.platformHeading">{t('footer.platformHeading')}</h4>
 						<ul class="site-footer-links">
@@ -348,17 +348,17 @@ const ogLocales: Record<string, string> = {
 							<li><a href={translatePath('/contact')} data-i18n="nav.contact">{t('nav.contact')}</a></li>
 						</ul>
 					</div>
-				</div>
 
-				<!-- FULL-WIDTH SECTION BELOW: ACADEMIC FORMULAS Box -->
-				<div class="site-footer-card site-footer-formula-card">
-					<h4 class="site-footer-heading" data-i18n="footer.formulasHeading">{t('footer.formulasHeading')}</h4>
-					<div class="site-footer-formula-inner">
-						<div class="site-footer-formula-badge-wrap">
-							<span class="site-footer-formula-title" data-i18n="footer.formulaTitle">{t('footer.formulaTitle')}</span>
-							<code class="site-footer-formula-code">&Sigma;(Score &times; Weight) &divide; &Sigma;Weight</code>
+					<!-- 3. ACADEMIC FORMULAS (Full-width card directly BELOW) -->
+					<div class="site-footer-card site-footer-formula-card">
+						<h4 class="site-footer-heading" data-i18n="footer.formulasHeading">{t('footer.formulasHeading')}</h4>
+						<div class="site-footer-formula-inner">
+							<div class="site-footer-formula-badge-wrap">
+								<span class="site-footer-formula-title" data-i18n="footer.formulaTitle">{t('footer.formulaTitle')}</span>
+								<code class="site-footer-formula-code">&Sigma;(Score &times; Weight) &divide; &Sigma;Weight</code>
+							</div>
+							<p class="site-footer-formula-note" data-i18n="footer.formulaNote">{t('footer.formulaNote')}</p>
 						</div>
-						<p class="site-footer-formula-note" data-i18n="footer.formulaNote">{t('footer.formulaNote')}</p>
 					</div>
 				</div>
 

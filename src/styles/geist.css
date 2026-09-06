@@ -1744,12 +1744,12 @@ html.dark .hero-mesh {
   max-width: 600px;
 }
 
-/* 2-Column Cards Grid for Calculators & Platform */
-.site-footer-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  align-items: stretch;
+/* Vertically Stacked Cards Container: Desktop, Tablet & Mobile */
+.site-footer-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  width: 100%;
 }
 
 /* Universal Card style matching formula card aesthetic */
@@ -1905,8 +1905,7 @@ html.dark .hero-mesh {
     gap: 0.35rem;
   }
 
-  .site-footer-cards-grid {
-    grid-template-columns: 1fr;
+  .site-footer-stack {
     gap: 0.75rem;
   }
 
