@@ -29,15 +29,18 @@ export async function onRequest(context) {
     shouldRedirect = true;
   }
 
-  // 4. Ensure lowercase URL path
-  if (targetPath !== targetPath.toLowerCase()) {
+  // Check if request is for a static asset (has a file extension or is under /_astro/ or /styles/)
+  const hasFileExtension = /\.[a-zA-Z0-9]+$/.test(targetPath);
+  const isStaticAsset = hasFileExtension || targetPath.startsWith('/_astro/') || targetPath.startsWith('/styles/');
+
+  // 4. Ensure lowercase URL path (ONLY for page routes, NEVER for static assets like .js, .css, images, or _astro bundles)
+  if (!isStaticAsset && targetPath !== targetPath.toLowerCase()) {
     targetPath = targetPath.toLowerCase();
     shouldRedirect = true;
   }
 
-  // 5. Ensure trailing slash consistency on page routes (ignore static assets with extensions)
-  const hasFileExtension = /\.[a-zA-Z0-9]+$/.test(targetPath);
-  if (!hasFileExtension && !targetPath.endsWith('/')) {
+  // 5. Ensure trailing slash consistency on page routes (skip static assets)
+  if (!isStaticAsset && !targetPath.endsWith('/')) {
     targetPath = targetPath + '/';
     shouldRedirect = true;
   }
@@ -58,6 +61,27 @@ export async function onRequest(context) {
 
   // If no redirect needed, proceed to static asset
   const response = await next();
+
+  // If static asset returned 404, check if it's a case-mismatched or cached _astro bundle request
+  if (response.status === 404 && targetPath.startsWith('/_astro/')) {
+    const requestedLower = targetPath.toLowerCase();
+    const bundleMap = {
+      'gradescale': 'GradeScaleModal.astro_astro_type_script_index_0_lang.BB4LSeDb.js',
+      'layout': 'Layout.astro_astro_type_script_index_0_lang.C3GYNU7h.js',
+      'mainpage': 'MainPage.astro_astro_type_script_index_0_lang.BPeTaIhU.js',
+      'gpapage': 'GpaPage.astro_astro_type_script_index_0_lang.BeieWi0a.js',
+      'weightedpage': 'WeightedPage.astro_astro_type_script_index_0_lang.CoX6eCyi.js',
+    };
+    for (const [key, actualFile] of Object.entries(bundleMap)) {
+      if (requestedLower.includes(key)) {
+        const fixedUrl = new URL(request.url);
+        fixedUrl.pathname = `/_astro/${actualFile}`;
+        if (context.env && context.env.ASSETS) {
+          return context.env.ASSETS.fetch(new Request(fixedUrl, request));
+        }
+      }
+    }
+  }
 
   // Ensure Strict-Transport-Security header is always present on HTTPS responses
   if (!isLocalhost && (targetProtocol === 'https:' || protoHeader === 'https')) {

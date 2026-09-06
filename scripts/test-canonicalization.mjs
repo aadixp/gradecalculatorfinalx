@@ -96,6 +96,18 @@ const testCases = [
     headers: { 'x-forwarded-proto': 'https' },
     expectedStatus: 200,
   },
+  {
+    name: '15. Mixed-case static JS bundle in /_astro/ is NOT forced to lowercase',
+    url: 'https://gradecalculatorfinalx.com/_astro/Layout.astro_astro_type_script_index_0_lang.DFzH7QtN.js',
+    headers: { 'x-forwarded-proto': 'https' },
+    expectedStatus: 200,
+  },
+  {
+    name: '16. Mixed-case static file with extension is NOT forced to lowercase',
+    url: 'https://gradecalculatorfinalx.com/OG-Image-v2.png',
+    headers: { 'x-forwarded-proto': 'https' },
+    expectedStatus: 200,
+  },
 ];
 
 let failed = 0;

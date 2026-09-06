@@ -28,15 +28,18 @@ export default {
       shouldRedirect = true;
     }
 
-    // 4. Enforce lowercase URL paths
-    if (targetPath !== targetPath.toLowerCase()) {
+    // Check if request is for a static asset (has a file extension or is under /_astro/ or /styles/)
+    const hasFileExtension = /\.[a-zA-Z0-9]+$/.test(targetPath);
+    const isStaticAsset = hasFileExtension || targetPath.startsWith("/_astro/") || targetPath.startsWith("/styles/");
+
+    // 4. Enforce lowercase URL paths (ONLY for page routes, NEVER for static assets like .js, .css, images, or _astro bundles)
+    if (!isStaticAsset && targetPath !== targetPath.toLowerCase()) {
       targetPath = targetPath.toLowerCase();
       shouldRedirect = true;
     }
 
-    // 5. Enforce trailing slash consistency for directories and page routes (skip static file extensions)
-    const hasFileExtension = /\.[a-zA-Z0-9]+$/.test(targetPath);
-    if (!hasFileExtension && !targetPath.endsWith("/")) {
+    // 5. Enforce trailing slash consistency for directories and page routes (skip static assets)
+    if (!isStaticAsset && !targetPath.endsWith("/")) {
       targetPath = targetPath + "/";
       shouldRedirect = true;
     }
@@ -56,7 +59,27 @@ export default {
     }
 
     // Serve static asset
-    const response = await env.ASSETS.fetch(request);
+    let response = await env.ASSETS.fetch(request);
+
+    // If static asset returned 404, check if it's a case-mismatched or cached _astro bundle request
+    if (response.status === 404 && targetPath.startsWith('/_astro/')) {
+      const requestedLower = targetPath.toLowerCase();
+      const bundleMap = {
+        'gradescale': 'GradeScaleModal.astro_astro_type_script_index_0_lang.BB4LSeDb.js',
+        'layout': 'Layout.astro_astro_type_script_index_0_lang.C3GYNU7h.js',
+        'mainpage': 'MainPage.astro_astro_type_script_index_0_lang.BPeTaIhU.js',
+        'gpapage': 'GpaPage.astro_astro_type_script_index_0_lang.BeieWi0a.js',
+        'weightedpage': 'WeightedPage.astro_astro_type_script_index_0_lang.CoX6eCyi.js',
+      };
+      for (const [key, actualFile] of Object.entries(bundleMap)) {
+        if (requestedLower.includes(key)) {
+          const fixedUrl = new URL(request.url);
+          fixedUrl.pathname = `/_astro/${actualFile}`;
+          response = await env.ASSETS.fetch(new Request(fixedUrl, request));
+          break;
+        }
+      }
+    }
 
     // Maintain Strict-Transport-Security on all HTTPS responses
     if (!isLocalhost && (targetProtocol === "https:" || protoHeader === "https")) {

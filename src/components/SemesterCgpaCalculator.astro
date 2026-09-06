@@ -300,13 +300,13 @@ const t = useTranslations(currentLang);
       tbody.innerHTML = '';
 
       semesters.forEach((sem, idx) => {
-        const tr = document.createElement('tr');
-        tr.className = 'mobile-card-row sem-card-row';
-        tr.style.borderBottom = '1px solid var(--color-hairline)';
+        const trRow = document.createElement('tr');
+        trRow.className = 'mobile-card-row sem-card-row';
+        trRow.style.borderBottom = '1px solid var(--color-hairline)';
 
         const pts = (sem.sgpa !== null && sem.credits !== null) ? ((sem.sgpa * sem.credits).toFixed(1)) : '--';
 
-        tr.innerHTML = `
+        trRow.innerHTML = `
           <td class="td-cgpa-name" style="padding: 0.5rem 0.75rem;">
             <span class="mobile-input-label">${tr('cgpa.colSemester', 'Semester')} #${idx + 1}</span>
             <input type="text" class="form-input sem-name-input" data-id="${sem.id}" value="${sem.name || `Semester ${idx + 1}`}" placeholder="e.g. Semester 1" />
@@ -333,7 +333,7 @@ const t = useTranslations(currentLang);
           </td>
         `;
 
-        tbody.appendChild(tr);
+        tbody.appendChild(trRow);
       });
 
       calculate();

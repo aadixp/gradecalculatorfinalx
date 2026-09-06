@@ -12,7 +12,6 @@ import TargetCgpaCalculator from './TargetCgpaCalculator.astro';
 import TargetGpaCalculator from './TargetGpaCalculator.astro';
 import WhatIfCalculator from './WhatIfCalculator.astro';
 import GradeConverter from './GradeConverter.astro';
-import GradeScaleModal from './GradeScaleModal.astro';
 import { useTranslations, useTranslatedPath } from '../i18n/utils';
 import { faqs } from '../i18n/faqs';
 import type { Lang } from '../i18n/ui';
@@ -595,9 +594,6 @@ const pageDescription = description || t('site.description');
       </a>
     </div>
   </section>
-
-  <!-- Modal for Scale Configuration -->
-  <GradeScaleModal />
 </Layout>
 
 <!-- Core Application Client Script -->
@@ -1561,7 +1557,7 @@ const pageDescription = description || t('site.description');
   // EVENT LISTENERS & SETUP
   // -------------------------------------------------------------------------
 
-  document.addEventListener('DOMContentLoaded', () => {
+  function initMainPage() {
     loadInitialState();
     renderCourseSelector();
     renderWeightedTable();
@@ -1633,6 +1629,10 @@ const pageDescription = description || t('site.description');
         } else {
           courseBanner.style.display = 'none';
         }
+      }
+
+      if (targetId === 'calculator-indian-sgpa') {
+        window.dispatchEvent(new CustomEvent('gradecalc:sgpa-reset-view'));
       }
 
       if (shouldUpdateHash && TARGET_TO_HASH[targetId]) {
@@ -1978,7 +1978,13 @@ const pageDescription = description || t('site.description');
       const modal = document.getElementById('scale-modal');
       if (modal) modal.style.display = 'flex';
     });
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMainPage);
+  } else {
+    initMainPage();
+  }
 </script>
 
 <style>

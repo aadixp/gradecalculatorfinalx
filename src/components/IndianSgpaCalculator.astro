@@ -2,335 +2,500 @@
 // src/components/IndianSgpaCalculator.astro
 interface Props {
   idPrefix?: string;
+  lang?: string;
 }
 const { idPrefix = 'sgpa' } = Astro.props;
 ---
 
 <div id={`${idPrefix}-calculator-panel`} class="calc-component-root">
-  <!-- Live Result Showcase Card -->
-  <div class="geist-card geist-card-floating" style="padding: 1.5rem; margin-bottom: 1.5rem; background: linear-gradient(180deg, var(--color-canvas-elevated) 0%, var(--color-canvas-subtle) 100%);">
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.25rem; align-items: center;">
-      <div>
-        <span class="mono-eyebrow" style="color: var(--color-emerald); margin-bottom: 0.25rem;">Semester GPA (10.0 Scale)</span>
-        <div style="display: flex; align-items: baseline; gap: 0.75rem;">
-          <span id={`${idPrefix}-result-sgpa`} class="display-xl" style="font-feature-settings: 'tnum';">8.94</span>
-          <span id={`${idPrefix}-standing-badge`} class="badge badge-green">First Class with Distinction</span>
+  <!-- VIEW 1: Initial Option Selector -->
+  <div id={`${idPrefix}-view-selector`} class="sgpa-view-container">
+    <div style="text-align: center; max-width: 640px; margin: 0 auto 2rem auto;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem; display: inline-block;">Indian University 10-Point Grading System</span>
+      <h2 class="heading-lg" style="font-size: clamp(1.4rem, 3.5vw, 1.85rem); margin-bottom: 0.6rem; letter-spacing: -0.02em; color: var(--color-ink);">
+        Choose SGPA Calculation Method
+      </h2>
+      <p style="font-size: 0.9375rem; color: var(--color-mute); line-height: 1.55; margin: 0;">
+        Select your preferred method to calculate your Semester Grade Point Average (SGPA):
+      </p>
+    </div>
+
+    <div class="sgpa-choices-grid">
+      <!-- Option 1: Quick SGPA Calculator -->
+      <div class="sgpa-choice-card" id={`${idPrefix}-card-quick`} role="button" tabindex="0" aria-label="Open Quick SGPA Calculator">
+        <div class="sgpa-choice-header">
+          <div class="sgpa-choice-icon-wrap" style="background: rgba(0, 112, 243, 0.08); color: var(--color-blue);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </div>
+          <span class="badge badge-green">⚡ Beginner Friendly</span>
         </div>
-        <p style="font-size: 0.875rem; color: var(--color-mute); margin-top: 0.25rem;">
-          Approx. Percentage: <strong style="color: var(--color-ink);" id={`${idPrefix}-result-pct`}>84.93%</strong>
-          <span style="font-size: 0.75rem;">(&times; 9.5 Standard)</span>
+
+        <h3 class="sgpa-choice-title">Quick SGPA Calculator</h3>
+        <p class="sgpa-choice-desc">
+          Fast and simple calculation. Just enter your earned total credit points and registered semester credits without typing individual subject details.
         </p>
+
+        <ul class="sgpa-choice-features">
+          <li>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Simple 2-input calculation</span>
+          </li>
+          <li>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Instant Percentage (&times; 9.5) & Division</span>
+          </li>
+          <li>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Ideal for marksheets / grade cards</span>
+          </li>
+        </ul>
+
+        <div class="sgpa-choice-cta">
+          <button type="button" class="btn btn-primary btn-pill" id={`${idPrefix}-btn-choose-quick`} style="width: 100%; justify-content: center;">
+            Quick SGPA Calculator &rarr;
+          </button>
+        </div>
       </div>
 
-      <!-- Credits & Points Breakdown -->
-      <div class="responsive-col-divider" style="border-left: 1px solid var(--color-hairline); padding-left: 1.25rem;">
-        <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.35rem;">
-          <span style="color: var(--color-mute);">Semester Credits Registered:</span>
-          <span id={`${idPrefix}-total-credits`} style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">18.0</span>
+      <!-- Option 2: Calculate SGPA from Subjects -->
+      <div class="sgpa-choice-card" id={`${idPrefix}-card-detailed`} role="button" tabindex="0" aria-label="Open Calculate SGPA from Subjects">
+        <div class="sgpa-choice-header">
+          <div class="sgpa-choice-icon-wrap" style="background: rgba(16, 185, 129, 0.08); color: var(--color-emerald);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <span class="badge badge-blue">📋 Course by Course</span>
         </div>
-        <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.5rem;">
-          <span style="color: var(--color-mute);">Earned Quality Points:</span>
-          <span id={`${idPrefix}-total-points`} style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">161.0</span>
-        </div>
-        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-mute); background: var(--color-canvas-subtle); padding: 0.35rem 0.5rem; border-radius: var(--radius-xs); border: 1px solid var(--color-hairline);">
-          SGPA = &Sigma;(Grade Point &times; Semester Credits) &divide; &Sigma;Credits
-        </div>
-      </div>
 
-      <!-- Actions -->
-      <div style="display: flex; flex-direction: column; gap: 0.5rem; justify-content: center;">
-        <button id={`${idPrefix}-sample-btn`} type="button" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem;">
-          Load Semester Sample
-        </button>
-        <button id={`${idPrefix}-reset-btn`} type="button" class="btn btn-ghost" style="font-size: 0.8125rem; color: var(--color-mute);">
-          Reset to Blank
-        </button>
+        <h3 class="sgpa-choice-title">Calculate SGPA from Subjects</h3>
+        <p class="sgpa-choice-desc">
+          Detailed semester calculation. Enter your Subject Names, UGC Letter Grades (O to F), Grade Points, and Credits for a full breakdown.
+        </p>
+
+        <ul class="sgpa-choice-features">
+          <li>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>UGC 10-Point Letter Grades (O, A+, A, B+...)</span>
+          </li>
+          <li>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Subject, Grade, Point & Credit rows</span>
+          </li>
+          <li>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Add / Remove unlimited subjects</span>
+          </li>
+        </ul>
+
+        <div class="sgpa-choice-cta">
+          <button type="button" class="btn btn-secondary btn-pill" id={`${idPrefix}-btn-choose-detailed`} style="width: 100%; justify-content: center;">
+            Calculate SGPA from Subjects &rarr;
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Subjects Card -->
-  <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem;">
-      <div>
-        <h3 class="heading-md">Current Semester Courses</h3>
+  <!-- VIEW 2: Quick SGPA Calculator -->
+  <div id={`${idPrefix}-view-quick`} class="sgpa-view-container" style="display: none;">
+    <!-- Navigation Bar -->
+    <div class="sgpa-mode-bar">
+      <button type="button" class="btn btn-ghost btn-sm sgpa-back-btn" id={`${idPrefix}-quick-back-btn`}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Choose Calculation Mode
+      </button>
+
+      <div class="sgpa-mode-pills">
+        <button type="button" class="sgpa-mode-pill active" id={`${idPrefix}-quick-pill-quick`}>⚡ Quick SGPA</button>
+        <button type="button" class="sgpa-mode-pill" id={`${idPrefix}-quick-pill-detailed`}>📋 From Subjects</button>
+      </div>
+    </div>
+
+    <!-- Quick Result Card -->
+    <div class="geist-card geist-card-floating" style="padding: 1.5rem; margin-bottom: 1.5rem; background: linear-gradient(180deg, var(--color-canvas-elevated) 0%, var(--color-canvas-subtle) 100%);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.25rem; align-items: center;">
+        <div>
+          <span class="mono-eyebrow" style="color: var(--color-emerald); margin-bottom: 0.25rem;">Semester GPA (10.0 Scale)</span>
+          <div style="display: flex; align-items: baseline; gap: 0.75rem;">
+            <span id={`${idPrefix}-quick-result-sgpa`} class="display-xl" style="font-feature-settings: 'tnum';">8.94</span>
+            <span id={`${idPrefix}-quick-standing-badge`} class="badge badge-green">First Class with Distinction</span>
+          </div>
+          <p style="font-size: 0.875rem; color: var(--color-mute); margin-top: 0.25rem;">
+            Approx. Percentage: <strong style="color: var(--color-ink);" id={`${idPrefix}-quick-result-pct`}>84.93%</strong>
+            <span style="font-size: 0.75rem;">(&times; 9.5 Standard)</span>
+          </p>
+        </div>
+
+        <!-- Credits & Points Breakdown -->
+        <div class="responsive-col-divider" style="border-left: 1px solid var(--color-hairline); padding-left: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.35rem;">
+            <span style="color: var(--color-mute);">Registered Semester Credits:</span>
+            <span id={`${idPrefix}-quick-disp-credits`} style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">18.0</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.5rem;">
+            <span style="color: var(--color-mute);">Earned Quality Points:</span>
+            <span id={`${idPrefix}-quick-disp-points`} style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">161.0</span>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-mute); background: var(--color-canvas-subtle); padding: 0.35rem 0.5rem; border-radius: var(--radius-xs); border: 1px solid var(--color-hairline);">
+            SGPA = Total Quality Points &divide; Semester Credits
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; justify-content: center;">
+          <button id={`${idPrefix}-quick-sample-btn`} type="button" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem;">
+            Load Sample (161 / 18)
+          </button>
+          <button id={`${idPrefix}-quick-reset-btn`} type="button" class="btn btn-ghost" style="font-size: 0.8125rem; color: var(--color-mute);">
+            Reset to Blank
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Inputs Card -->
+    <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+      <div style="margin-bottom: 1.25rem;">
+        <h3 class="heading-md">Quick SGPA Inputs</h3>
         <p style="font-size: 0.875rem; color: var(--color-mute);">
-          Enter courses for this semester to calculate your SGPA.
+          Enter total points and credits directly from your semester marksheet or grade report.
         </p>
       </div>
 
-      <button id={`${idPrefix}-add-subject-btn`} type="button" class="btn btn-secondary" style="font-weight: 600; font-size: 0.8125rem;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-        Add Subject
-      </button>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-bottom: 0.5rem;">
+        <!-- Total Quality Points -->
+        <div>
+          <label for={`${idPrefix}-quick-input-points`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
+            Total Quality / Credit Points Earned
+          </label>
+          <input type="number" step="0.1" min="0" id={`${idPrefix}-quick-input-points`} class="form-input form-input-mono" value="161.0" placeholder="e.g. 161" style="font-size: 1rem; padding: 0.65rem 0.85rem;" />
+          <span style="display: block; font-size: 0.75rem; color: var(--color-mute); margin-top: 0.4rem; line-height: 1.4;">
+            Sum of (Grade Point &times; Subject Credits) &bull; Found on marksheet as 'Total Points' or 'Quality Pts'
+          </span>
+        </div>
+
+        <!-- Total Semester Credits -->
+        <div>
+          <label for={`${idPrefix}-quick-input-credits`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
+            Total Registered Semester Credits
+          </label>
+          <input type="number" step="0.5" min="0.5" id={`${idPrefix}-quick-input-credits`} class="form-input form-input-mono" value="18" placeholder="e.g. 18" style="font-size: 1rem; padding: 0.65rem 0.85rem;" />
+          <span style="display: block; font-size: 0.75rem; color: var(--color-mute); margin-top: 0.4rem; line-height: 1.4;">
+            Total credit hours registered for all subjects this semester (typically between 16 and 26 credits)
+          </span>
+        </div>
+      </div>
     </div>
 
-    <div class="mobile-table-card-wrap" style="width: 100%; overflow-x: auto; margin-bottom: 1rem;">
-      <table style="width: 100%; border-collapse: collapse;">
-        <thead>
-          <tr style="border-bottom: 1px solid var(--color-hairline); text-align: left; font-size: 0.8125rem; color: var(--color-mute);">
-            <th style="padding: 0.5rem 0.75rem; font-weight: 500;">Subject / Paper Name</th>
-            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 170px;">Letter Grade</th>
-            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 120px;">Grade Point</th>
-            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 110px;">Credits</th>
-            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 130px; text-align: right;">Weighted Points</th>
-            <th style="padding: 0.5rem 0.75rem; width: 44px;"></th>
-          </tr>
-        </thead>
-        <tbody id={`${idPrefix}-tbody`}>
-          <tr class="mobile-card-row sgpa-card-row" style="border-bottom: 1px solid var(--color-hairline);">
-            <td class="td-sgpa-name" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Subject #1</span>
-              <input type="text" class="form-input subj-name-input" data-id="isgpa-1" value="Mathematics - III" placeholder="e.g. Mathematics" />
-            </td>
-            <td class="td-sgpa-grade" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Letter Grade</span>
-              <select class="form-select subj-grade-select" data-id="isgpa-1">
-                <option value="O">O (Outstanding - 10)</option>
-                <option value="A+" selected>A+ (Excellent - 9)</option>
-                <option value="A">A (Very Good - 8)</option>
-                <option value="B+">B+ (Good - 7)</option>
-                <option value="B">B (Above Average - 6)</option>
-                <option value="C">C (Average - 5)</option>
-                <option value="P">P (Pass - 4)</option>
-                <option value="F">F (Fail - 0)</option>
-              </select>
-            </td>
-            <td class="td-sgpa-point" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Grade Point</span>
-              <input type="number" step="0.5" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="isgpa-1" value="9" placeholder="9" />
-            </td>
-            <td class="td-sgpa-credits" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Credits</span>
-              <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="isgpa-1" value="4" placeholder="Credits" />
-            </td>
-            <td class="td-sgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
-              <span class="mobile-input-label">Weighted Points</span>
-              <span>36.0</span>
-            </td>
-            <td class="td-sgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
-              <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="isgpa-1" title="Remove subject" aria-label="Remove subject">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </button>
-            </td>
-          </tr>
-          <tr class="mobile-card-row sgpa-card-row" style="border-bottom: 1px solid var(--color-hairline);">
-            <td class="td-sgpa-name" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Subject #2</span>
-              <input type="text" class="form-input subj-name-input" data-id="isgpa-2" value="Design & Analysis of Algorithms" placeholder="e.g. Computer Science" />
-            </td>
-            <td class="td-sgpa-grade" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Letter Grade</span>
-              <select class="form-select subj-grade-select" data-id="isgpa-2">
-                <option value="O" selected>O (Outstanding - 10)</option>
-                <option value="A+">A+ (Excellent - 9)</option>
-                <option value="A">A (Very Good - 8)</option>
-                <option value="B+">B+ (Good - 7)</option>
-                <option value="B">B (Above Average - 6)</option>
-                <option value="C">C (Average - 5)</option>
-                <option value="P">P (Pass - 4)</option>
-                <option value="F">F (Fail - 0)</option>
-              </select>
-            </td>
-            <td class="td-sgpa-point" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Grade Point</span>
-              <input type="number" step="0.5" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="isgpa-2" value="10" placeholder="10" />
-            </td>
-            <td class="td-sgpa-credits" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Credits</span>
-              <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="isgpa-2" value="4" placeholder="Credits" />
-            </td>
-            <td class="td-sgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
-              <span class="mobile-input-label">Weighted Points</span>
-              <span>40.0</span>
-            </td>
-            <td class="td-sgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
-              <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="isgpa-2" title="Remove subject" aria-label="Remove subject">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </button>
-            </td>
-          </tr>
-          <tr class="mobile-card-row sgpa-card-row" style="border-bottom: 1px solid var(--color-hairline);">
-            <td class="td-sgpa-name" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Subject #3</span>
-              <input type="text" class="form-input subj-name-input" data-id="isgpa-3" value="Operating Systems" placeholder="e.g. Systems" />
-            </td>
-            <td class="td-sgpa-grade" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Letter Grade</span>
-              <select class="form-select subj-grade-select" data-id="isgpa-3">
-                <option value="O">O (Outstanding - 10)</option>
-                <option value="A+">A+ (Excellent - 9)</option>
-                <option value="A" selected>A (Very Good - 8)</option>
-                <option value="B+">B+ (Good - 7)</option>
-                <option value="B">B (Above Average - 6)</option>
-                <option value="C">C (Average - 5)</option>
-                <option value="P">P (Pass - 4)</option>
-                <option value="F">F (Fail - 0)</option>
-              </select>
-            </td>
-            <td class="td-sgpa-point" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Grade Point</span>
-              <input type="number" step="0.5" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="isgpa-3" value="8" placeholder="8" />
-            </td>
-            <td class="td-sgpa-credits" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Credits</span>
-              <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="isgpa-3" value="3" placeholder="Credits" />
-            </td>
-            <td class="td-sgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
-              <span class="mobile-input-label">Weighted Points</span>
-              <span>24.0</span>
-            </td>
-            <td class="td-sgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
-              <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="isgpa-3" title="Remove subject" aria-label="Remove subject">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </button>
-            </td>
-          </tr>
-          <tr class="mobile-card-row sgpa-card-row" style="border-bottom: 1px solid var(--color-hairline);">
-            <td class="td-sgpa-name" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Subject #4</span>
-              <input type="text" class="form-input subj-name-input" data-id="isgpa-4" value="Database Management Systems" placeholder="e.g. DBMS" />
-            </td>
-            <td class="td-sgpa-grade" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Letter Grade</span>
-              <select class="form-select subj-grade-select" data-id="isgpa-4">
-                <option value="O">O (Outstanding - 10)</option>
-                <option value="A+" selected>A+ (Excellent - 9)</option>
-                <option value="A">A (Very Good - 8)</option>
-                <option value="B+">B+ (Good - 7)</option>
-                <option value="B">B (Above Average - 6)</option>
-                <option value="C">C (Average - 5)</option>
-                <option value="P">P (Pass - 4)</option>
-                <option value="F">F (Fail - 0)</option>
-              </select>
-            </td>
-            <td class="td-sgpa-point" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Grade Point</span>
-              <input type="number" step="0.5" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="isgpa-4" value="9" placeholder="9" />
-            </td>
-            <td class="td-sgpa-credits" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Credits</span>
-              <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="isgpa-4" value="3" placeholder="Credits" />
-            </td>
-            <td class="td-sgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
-              <span class="mobile-input-label">Weighted Points</span>
-              <span>27.0</span>
-            </td>
-            <td class="td-sgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
-              <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="isgpa-4" title="Remove subject" aria-label="Remove subject">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </button>
-            </td>
-          </tr>
-          <tr class="mobile-card-row sgpa-card-row" style="border-bottom: 1px solid var(--color-hairline);">
-            <td class="td-sgpa-name" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Subject #5</span>
-              <input type="text" class="form-input subj-name-input" data-id="isgpa-5" value="OS & DBMS Lab" placeholder="e.g. Practicals" />
-            </td>
-            <td class="td-sgpa-grade" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Letter Grade</span>
-              <select class="form-select subj-grade-select" data-id="isgpa-5">
-                <option value="O" selected>O (Outstanding - 10)</option>
-                <option value="A+">A+ (Excellent - 9)</option>
-                <option value="A">A (Very Good - 8)</option>
-                <option value="B+">B+ (Good - 7)</option>
-                <option value="B">B (Above Average - 6)</option>
-                <option value="C">C (Average - 5)</option>
-                <option value="P">P (Pass - 4)</option>
-                <option value="F">F (Fail - 0)</option>
-              </select>
-            </td>
-            <td class="td-sgpa-point" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Grade Point</span>
-              <input type="number" step="0.5" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="isgpa-5" value="10" placeholder="10" />
-            </td>
-            <td class="td-sgpa-credits" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Credits</span>
-              <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="isgpa-5" value="2" placeholder="Credits" />
-            </td>
-            <td class="td-sgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
-              <span class="mobile-input-label">Weighted Points</span>
-              <span>20.0</span>
-            </td>
-            <td class="td-sgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
-              <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="isgpa-5" title="Remove subject" aria-label="Remove subject">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </button>
-            </td>
-          </tr>
-          <tr class="mobile-card-row sgpa-card-row" style="border-bottom: 1px solid var(--color-hairline);">
-            <td class="td-sgpa-name" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Subject #6</span>
-              <input type="text" class="form-input subj-name-input" data-id="isgpa-6" value="Environmental Studies" placeholder="e.g. EVS" />
-            </td>
-            <td class="td-sgpa-grade" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Letter Grade</span>
-              <select class="form-select subj-grade-select" data-id="isgpa-6">
-                <option value="O">O (Outstanding - 10)</option>
-                <option value="A+">A+ (Excellent - 9)</option>
-                <option value="A">A (Very Good - 8)</option>
-                <option value="B+" selected>B+ (Good - 7)</option>
-                <option value="B">B (Above Average - 6)</option>
-                <option value="C">C (Average - 5)</option>
-                <option value="P">P (Pass - 4)</option>
-                <option value="F">F (Fail - 0)</option>
-              </select>
-            </td>
-            <td class="td-sgpa-point" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Grade Point</span>
-              <input type="number" step="0.5" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="isgpa-6" value="7" placeholder="7" />
-            </td>
-            <td class="td-sgpa-credits" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Credits</span>
-              <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="isgpa-6" value="2" placeholder="Credits" />
-            </td>
-            <td class="td-sgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
-              <span class="mobile-input-label">Weighted Points</span>
-              <span>14.0</span>
-            </td>
-            <td class="td-sgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
-              <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="isgpa-6" title="Remove subject" aria-label="Remove subject">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--color-hairline);">
-      <button id={`${idPrefix}-add-subject-bottom-btn`} type="button" class="btn btn-secondary" style="font-weight: 600;">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-        Add Another Subject
-      </button>
-
-      <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.8125rem;">
-        <span style="color: var(--color-mute);">Semester Credits: <strong id={`${idPrefix}-footer-credits`} style="color: var(--color-ink); font-family: var(--font-mono);">0</strong></span>
-        <span style="color: var(--color-mute);">Total Points: <strong id={`${idPrefix}-footer-points`} style="color: var(--color-ink); font-family: var(--font-mono);">0.0</strong></span>
+    <!-- Quick Breakdown Card -->
+    <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem; background: var(--color-canvas-subtle);">
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+        <span class="badge badge-green">SGPA Breakdown</span>
+        <h4 class="heading-md" style="font-size: 1rem;">Calculation Breakdown</h4>
+      </div>
+      <div id={`${idPrefix}-quick-breakdown-text`}>
       </div>
     </div>
   </div>
 
-  <!-- Breakdown Card -->
-  <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem; background: var(--color-canvas-subtle);">
-    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
-      <span class="badge badge-green">SGPA Breakdown</span>
-      <h4 class="heading-md" style="font-size: 1rem;">Credit Points Calculation</h4>
+  <!-- VIEW 3: Detailed Subject-based Calculator -->
+  <div id={`${idPrefix}-view-detailed`} class="sgpa-view-container" style="display: none;">
+    <!-- Navigation Bar -->
+    <div class="sgpa-mode-bar">
+      <button type="button" class="btn btn-ghost btn-sm sgpa-back-btn" id={`${idPrefix}-detailed-back-btn`}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Choose Calculation Mode
+      </button>
+
+      <div class="sgpa-mode-pills">
+        <button type="button" class="sgpa-mode-pill" id={`${idPrefix}-detailed-pill-quick`}>⚡ Quick SGPA</button>
+        <button type="button" class="sgpa-mode-pill active" id={`${idPrefix}-detailed-pill-detailed`}>📋 From Subjects</button>
+      </div>
     </div>
-    <div id={`${idPrefix}-breakdown-text`} style="font-size: 0.875rem; color: var(--color-body); line-height: 1.6;">
-      Enter subject grades and credits to see the SGPA computation.
+
+    <!-- Live Result Showcase Card -->
+    <div class="geist-card geist-card-floating" style="padding: 1.5rem; margin-bottom: 1.5rem; background: linear-gradient(180deg, var(--color-canvas-elevated) 0%, var(--color-canvas-subtle) 100%);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.25rem; align-items: center;">
+        <div>
+          <span class="mono-eyebrow" style="color: var(--color-emerald); margin-bottom: 0.25rem;">Semester GPA (10.0 Scale)</span>
+          <div style="display: flex; align-items: baseline; gap: 0.75rem;">
+            <span id={`${idPrefix}-result-sgpa`} class="display-xl" style="font-feature-settings: 'tnum';">8.94</span>
+            <span id={`${idPrefix}-standing-badge`} class="badge badge-green">First Class with Distinction</span>
+          </div>
+          <p style="font-size: 0.875rem; color: var(--color-mute); margin-top: 0.25rem;">
+            Approx. Percentage: <strong style="color: var(--color-ink);" id={`${idPrefix}-result-pct`}>84.93%</strong>
+            <span style="font-size: 0.75rem;">(&times; 9.5 Standard)</span>
+          </p>
+        </div>
+
+        <!-- Credits & Points Breakdown -->
+        <div class="responsive-col-divider" style="border-left: 1px solid var(--color-hairline); padding-left: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.35rem;">
+            <span style="color: var(--color-mute);">Semester Credits Registered:</span>
+            <span id={`${idPrefix}-total-credits`} style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">18.0</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.5rem;">
+            <span style="color: var(--color-mute);">Earned Quality Points:</span>
+            <span id={`${idPrefix}-total-points`} style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">161.0</span>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-mute); background: var(--color-canvas-subtle); padding: 0.35rem 0.5rem; border-radius: var(--radius-xs); border: 1px solid var(--color-hairline);">
+            SGPA = &Sigma;(Grade Point &times; Semester Credits) &divide; &Sigma;Credits
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; justify-content: center;">
+          <button id={`${idPrefix}-sample-btn`} type="button" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem;">
+            Load Semester Sample
+          </button>
+          <button id={`${idPrefix}-reset-btn`} type="button" class="btn btn-ghost" style="font-size: 0.8125rem; color: var(--color-mute);">
+            Reset to Blank
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subjects Card -->
+    <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem;">
+        <div>
+          <h3 class="heading-md">Current Semester Courses</h3>
+          <p style="font-size: 0.875rem; color: var(--color-mute);">
+            Enter courses for this semester to calculate your SGPA.
+          </p>
+        </div>
+
+        <button id={`${idPrefix}-add-subject-btn`} type="button" class="btn btn-secondary" style="font-weight: 600; font-size: 0.8125rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Add Subject
+        </button>
+      </div>
+
+      <div class="mobile-table-card-wrap" style="width: 100%; overflow-x: auto; margin-bottom: 1rem;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--color-hairline); text-align: left; font-size: 0.8125rem; color: var(--color-mute);">
+              <th style="padding: 0.5rem 0.75rem; font-weight: 500;">Subject / Paper Name</th>
+              <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 170px;">Letter Grade</th>
+              <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 120px;">Grade Point</th>
+              <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 110px;">Credits</th>
+              <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 130px; text-align: right;">Weighted Points</th>
+              <th style="padding: 0.5rem 0.75rem; width: 44px;"></th>
+            </tr>
+          </thead>
+          <tbody id={`${idPrefix}-tbody`}>
+            <!-- Rendered dynamically by script -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--color-hairline);">
+        <button id={`${idPrefix}-add-subject-bottom-btn`} type="button" class="btn btn-secondary" style="font-weight: 600;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Add Another Subject
+        </button>
+
+        <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.8125rem;">
+          <span style="color: var(--color-mute);">Semester Credits: <strong id={`${idPrefix}-footer-credits`} style="color: var(--color-ink); font-family: var(--font-mono);">0</strong></span>
+          <span style="color: var(--color-mute);">Total Points: <strong id={`${idPrefix}-footer-points`} style="color: var(--color-ink); font-family: var(--font-mono);">0.0</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Breakdown Card -->
+    <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem; background: var(--color-canvas-subtle);">
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+        <span class="badge badge-green">SGPA Breakdown</span>
+        <h4 class="heading-md" style="font-size: 1rem;">Credit Points Calculation</h4>
+      </div>
+      <div id={`${idPrefix}-breakdown-text`} style="font-size: 0.875rem; color: var(--color-body); line-height: 1.6;">
+        Enter subject grades and credits to see the SGPA computation.
+      </div>
     </div>
   </div>
 </div>
 
+<style>
+  .sgpa-choices-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .sgpa-choice-card {
+    background: var(--color-canvas-elevated);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-lg);
+    padding: 1.85rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    cursor: pointer;
+    transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: var(--shadow-whisper);
+    position: relative;
+    user-select: none;
+  }
+  .sgpa-choice-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-hairline-strong);
+    box-shadow: var(--shadow-float);
+  }
+  .sgpa-choice-card:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+  .sgpa-choice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+  }
+  .sgpa-choice-icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .sgpa-choice-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .sgpa-choice-desc {
+    font-size: 0.875rem;
+    color: var(--color-mute);
+    line-height: 1.55;
+    margin-bottom: 1.25rem;
+  }
+  .sgpa-choice-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    font-size: 0.8125rem;
+    color: var(--color-body);
+    flex-grow: 1;
+  }
+  .sgpa-choice-features li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .sgpa-choice-features li svg {
+    color: var(--color-emerald);
+    flex-shrink: 0;
+  }
+  .sgpa-choice-cta {
+    margin-top: auto;
+  }
+  .sgpa-mode-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+  .sgpa-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-mute);
+    padding: 0.4rem 0.75rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+  }
+  .sgpa-back-btn:hover {
+    color: var(--color-ink);
+    background: var(--color-canvas-subtle);
+  }
+  .sgpa-mode-pills {
+    display: inline-flex;
+    background: var(--color-canvas-subtle);
+    padding: 3px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-hairline);
+    gap: 3px;
+  }
+  .sgpa-mode-pill {
+    padding: 0.35rem 0.85rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-mute);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+  }
+  .sgpa-mode-pill:hover {
+    color: var(--color-ink);
+  }
+  .sgpa-mode-pill.active {
+    background: var(--color-canvas-elevated);
+    color: var(--color-ink);
+    font-weight: 600;
+    box-shadow: var(--shadow-whisper);
+  }
+  @media (max-width: 640px) {
+    .sgpa-choices-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .sgpa-choice-card {
+      padding: 1.5rem 1.25rem;
+    }
+    .sgpa-mode-bar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .sgpa-mode-pills {
+      width: 100%;
+      justify-content: center;
+    }
+    .sgpa-mode-pill {
+      flex: 1;
+      text-align: center;
+    }
+  }
+</style>
+
 <script define:vars={{ idPrefix }}>
   (function() {
+    // -------------------------------------------------------------
+    // Constants & Types
+    // -------------------------------------------------------------
     const UGC_GRADES = [
       { letter: 'O', point: 10, label: 'O (Outstanding - 10)' },
       { letter: 'A+', point: 9, label: 'A+ (Excellent - 9)' },
@@ -345,6 +510,158 @@ const { idPrefix = 'sgpa' } = Astro.props;
 
     const uid = () => Math.random().toString(36).substring(2, 9);
 
+    function getStanding(sgpa) {
+      if (sgpa >= 8.5) return { text: 'First Class with Distinction', class: 'badge-green' };
+      if (sgpa >= 6.75) return { text: 'First Class', class: 'badge-blue' };
+      if (sgpa >= 5.75) return { text: 'Higher Second Class', class: 'badge-amber' };
+      if (sgpa >= 5.0) return { text: 'Second Class', class: 'badge-amber' };
+      if (sgpa >= 4.0) return { text: 'Pass Class', class: 'badge-blue' };
+      return { text: 'Remedial / Fail', class: 'badge-red' };
+    }
+
+    // -------------------------------------------------------------
+    // View Switcher (Selector, Quick, Detailed)
+    // -------------------------------------------------------------
+    const viewSelector = document.getElementById(`${idPrefix}-view-selector`);
+    const viewQuick = document.getElementById(`${idPrefix}-view-quick`);
+    const viewDetailed = document.getElementById(`${idPrefix}-view-detailed`);
+
+    let currentView = 'selector';
+
+    function setView(viewName) {
+      currentView = viewName;
+      if (viewSelector) viewSelector.style.display = viewName === 'selector' ? 'block' : 'none';
+      if (viewQuick) viewQuick.style.display = viewName === 'quick' ? 'block' : 'none';
+      if (viewDetailed) viewDetailed.style.display = viewName === 'detailed' ? 'block' : 'none';
+
+      if (viewName === 'quick') {
+        calcQuick();
+      } else if (viewName === 'detailed') {
+        renderRows();
+      }
+    }
+
+    // Setup Option Selector Card & Button Clicks
+    const cardQuick = document.getElementById(`${idPrefix}-card-quick`);
+    const btnChooseQuick = document.getElementById(`${idPrefix}-btn-choose-quick`);
+    const cardDetailed = document.getElementById(`${idPrefix}-card-detailed`);
+    const btnChooseDetailed = document.getElementById(`${idPrefix}-btn-choose-detailed`);
+
+    const openQuick = (e) => {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      setView('quick');
+    };
+
+    const openDetailed = (e) => {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      setView('detailed');
+    };
+
+    cardQuick?.addEventListener('click', openQuick);
+    btnChooseQuick?.addEventListener('click', openQuick);
+    cardQuick?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openQuick(); }
+    });
+
+    cardDetailed?.addEventListener('click', openDetailed);
+    btnChooseDetailed?.addEventListener('click', openDetailed);
+    cardDetailed?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDetailed(); }
+    });
+
+    // Back Buttons
+    document.getElementById(`${idPrefix}-quick-back-btn`)?.addEventListener('click', () => setView('selector'));
+    document.getElementById(`${idPrefix}-detailed-back-btn`)?.addEventListener('click', () => setView('selector'));
+
+    // Mode Switch Pills
+    document.getElementById(`${idPrefix}-quick-pill-quick`)?.addEventListener('click', () => setView('quick'));
+    document.getElementById(`${idPrefix}-quick-pill-detailed`)?.addEventListener('click', () => setView('detailed'));
+    document.getElementById(`${idPrefix}-detailed-pill-quick`)?.addEventListener('click', () => setView('quick'));
+    document.getElementById(`${idPrefix}-detailed-pill-detailed`)?.addEventListener('click', () => setView('detailed'));
+
+    // -------------------------------------------------------------
+    // Quick SGPA Calculator Logic
+    // -------------------------------------------------------------
+    const qPointsInput = document.getElementById(`${idPrefix}-quick-input-points`);
+    const qCreditsInput = document.getElementById(`${idPrefix}-quick-input-credits`);
+    const qSgpaEl = document.getElementById(`${idPrefix}-quick-result-sgpa`);
+    const qPctEl = document.getElementById(`${idPrefix}-quick-result-pct`);
+    const qStandingBadge = document.getElementById(`${idPrefix}-quick-standing-badge`);
+    const qDispCredits = document.getElementById(`${idPrefix}-quick-disp-credits`);
+    const qDispPoints = document.getElementById(`${idPrefix}-quick-disp-points`);
+    const qBreakdownEl = document.getElementById(`${idPrefix}-quick-breakdown-text`);
+
+    function calcQuick() {
+      const pointsVal = qPointsInput?.value?.trim();
+      const creditsVal = qCreditsInput?.value?.trim();
+
+      const points = pointsVal !== '' && !isNaN(pointsVal) ? parseFloat(pointsVal) : null;
+      const credits = creditsVal !== '' && !isNaN(creditsVal) ? parseFloat(creditsVal) : null;
+
+      if (points !== null && credits !== null && credits > 0 && points >= 0) {
+        const sgpa = points / credits;
+        const approxPct = sgpa * 9.5;
+        const standing = getStanding(sgpa);
+
+        if (qSgpaEl) qSgpaEl.textContent = sgpa.toFixed(2);
+        if (qPctEl) qPctEl.textContent = `${approxPct.toFixed(2)}%`;
+        if (qStandingBadge) {
+          qStandingBadge.textContent = standing.text;
+          qStandingBadge.className = `badge ${standing.class}`;
+        }
+        if (qDispCredits) qDispCredits.textContent = credits.toFixed(1);
+        if (qDispPoints) qDispPoints.textContent = points.toFixed(1);
+
+        if (qBreakdownEl) {
+          qBreakdownEl.innerHTML = `
+            <p style="margin-bottom: 0.5rem; color: var(--color-ink);">
+              <strong>SGPA</strong> = Earned Quality Points (${points.toFixed(1)}) &divide; Registered Credits (${credits.toFixed(1)}) = <strong>${sgpa.toFixed(2)}</strong>
+            </p>
+            <p style="margin-bottom: 0.5rem; color: var(--color-ink);">
+              <strong>Approx. Percentage</strong> = SGPA (${sgpa.toFixed(2)}) &times; 9.5 = <strong>${approxPct.toFixed(2)}%</strong>
+            </p>
+            <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-mute); margin-top: 0.5rem; background: var(--color-canvas); padding: 0.4rem 0.6rem; border-radius: var(--radius-xs); border: 1px solid var(--color-hairline);">
+              Formula: SGPA = Total Grade Points (&Sigma;[C<sub>i</sub> &times; G<sub>i</sub>]) &divide; Total Credits (&Sigma;C<sub>i</sub>)
+            </div>
+          `;
+        }
+      } else {
+        if (qSgpaEl) qSgpaEl.textContent = '--';
+        if (qPctEl) qPctEl.textContent = '--%';
+        if (qStandingBadge) {
+          qStandingBadge.textContent = 'Awaiting Input';
+          qStandingBadge.className = 'badge badge-blue';
+        }
+        if (qDispCredits) qDispCredits.textContent = '0.0';
+        if (qDispPoints) qDispPoints.textContent = '0.0';
+        if (qBreakdownEl) {
+          qBreakdownEl.innerHTML = `
+            <p style="color: var(--color-mute); margin: 0;">
+              Enter both your earned credit points and registered credits to see the computed SGPA, percentage, and division standing.
+            </p>
+          `;
+        }
+      }
+    }
+
+    qPointsInput?.addEventListener('input', calcQuick);
+    qCreditsInput?.addEventListener('input', calcQuick);
+
+    document.getElementById(`${idPrefix}-quick-sample-btn`)?.addEventListener('click', () => {
+      if (qPointsInput) qPointsInput.value = '161.0';
+      if (qCreditsInput) qCreditsInput.value = '18.0';
+      calcQuick();
+    });
+
+    document.getElementById(`${idPrefix}-quick-reset-btn`)?.addEventListener('click', () => {
+      if (qPointsInput) qPointsInput.value = '';
+      if (qCreditsInput) qCreditsInput.value = '';
+      calcQuick();
+    });
+
+    // -------------------------------------------------------------
+    // Detailed Subject-based Calculator Logic (Intact)
+    // -------------------------------------------------------------
     const defaultSubjects = [
       { id: uid(), name: 'Algorithms Design & Analysis', grade: 'O', point: 10, credits: 4 },
       { id: uid(), name: 'Database Management Systems', grade: 'A+', point: 9, credits: 4 },
@@ -366,27 +683,18 @@ const { idPrefix = 'sgpa' } = Astro.props;
     const footerPointsEl = document.getElementById(`${idPrefix}-footer-points`);
     const breakdownEl = document.getElementById(`${idPrefix}-breakdown-text`);
 
-    function getStanding(sgpa) {
-      if (sgpa >= 8.5) return { text: 'First Class with Distinction', class: 'badge-green' };
-      if (sgpa >= 6.75) return { text: 'First Class', class: 'badge-blue' };
-      if (sgpa >= 5.75) return { text: 'Higher Second Class', class: 'badge-amber' };
-      if (sgpa >= 5.0) return { text: 'Second Class', class: 'badge-amber' };
-      if (sgpa >= 4.0) return { text: 'Pass Class', class: 'badge-blue' };
-      return { text: 'Remedial / Fail', class: 'badge-red' };
-    }
-
     function renderRows() {
       if (!tbody) return;
       tbody.innerHTML = '';
 
       subjects.forEach((subj, idx) => {
-        const tr = document.createElement('tr');
-        tr.className = 'mobile-card-row subject-card-row';
-        tr.style.borderBottom = '1px solid var(--color-hairline)';
+        const trRow = document.createElement('tr');
+        trRow.className = 'mobile-card-row subject-card-row';
+        trRow.style.borderBottom = '1px solid var(--color-hairline)';
 
         const ptsEarned = ((subj.point || 0) * (subj.credits || 0)).toFixed(1);
 
-        tr.innerHTML = `
+        trRow.innerHTML = `
           <td class="td-cgpa-name" style="padding: 0.5rem 0.75rem;">
             <span class="mobile-input-label">Subject #${idx + 1}</span>
             <input type="text" class="form-input subj-name-input" data-id="${subj.id}" value="${subj.name || ''}" placeholder="Subject name" />
@@ -421,7 +729,7 @@ const { idPrefix = 'sgpa' } = Astro.props;
           </td>
         `;
 
-        tbody.appendChild(tr);
+        tbody.appendChild(trRow);
       });
 
       calculate();
@@ -430,7 +738,6 @@ const { idPrefix = 'sgpa' } = Astro.props;
     function calculate() {
       let totalCredits = 0;
       let totalPoints = 0;
-      const breakdownRows = [];
 
       subjects.forEach((s) => {
         const c = Number(s.credits) || 0;
@@ -440,12 +747,6 @@ const { idPrefix = 'sgpa' } = Astro.props;
           totalCredits += c;
           const weighted = p * c;
           totalPoints += weighted;
-          breakdownRows.push({
-            name: s.name || 'Subject',
-            point: p,
-            credits: c,
-            weighted: weighted
-          });
         }
       });
 
@@ -467,7 +768,7 @@ const { idPrefix = 'sgpa' } = Astro.props;
 
         if (breakdownEl) {
           breakdownEl.innerHTML = `
-            <p style="margin-bottom: 0.5rem;">
+            <p style="margin-bottom: 0.5rem; color: var(--color-ink);">
               <strong>SGPA</strong> = Total Weighted Quality Points (${totalPoints.toFixed(1)}) &divide; Semester Credits (${totalCredits.toFixed(1)}) = <strong>${sgpa.toFixed(2)}</strong>
             </p>
             <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-mute);">
@@ -579,6 +880,12 @@ const { idPrefix = 'sgpa' } = Astro.props;
       renderRows();
     });
 
-    renderRows();
+    // Listen for tab switch to reset to initial option selector view
+    window.addEventListener('gradecalc:sgpa-reset-view', () => {
+      setView('selector');
+    });
+
+    // Start in Option Selector view
+    setView('selector');
   })();
 </script>

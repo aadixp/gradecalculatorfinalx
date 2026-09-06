@@ -4,6 +4,7 @@ import criticalCss from '../styles/critical.css?raw';
 import LanguagePicker from '../components/LanguagePicker.astro';
 import CalculatorsMenu from '../components/CalculatorsMenu.astro';
 import CourseModal from '../components/CourseModal.astro';
+import GradeScaleModal from '../components/GradeScaleModal.astro';
 import { getLangFromUrl, useTranslations, useTranslatedPath, getAlternateUrls } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 
@@ -428,8 +429,12 @@ const ogLocales: Record<string, string> = {
 		<!-- Course Creation Modal -->
 		<CourseModal />
 
+		<!-- Grade Scale Modal -->
+		<GradeScaleModal />
+
 		<!-- Client i18n Engine & Theme Toggle -->
 		<script>
+			(window as any).__BUILD_ID__ = 'v2.1.2';
 			import { initClientI18n } from '../i18n/client';
 
 			// Initialize client i18n
@@ -478,6 +483,85 @@ const ogLocales: Record<string, string> = {
 			// Print button
 			document.getElementById('print-report-btn')?.addEventListener('click', () => {
 				window.print();
+			});
+
+			// Share button logic
+			const shareBtn = document.getElementById('share-state-btn');
+			shareBtn?.addEventListener('click', async () => {
+				let shareUrl = window.location.href;
+				try {
+					const activeCourseId = localStorage.getItem('gradecalc_active_course_v3');
+					const coursesRaw = localStorage.getItem('gradecalc_courses_v3');
+					if (coursesRaw && activeCourseId) {
+						const courses = JSON.parse(coursesRaw);
+						if (courses[activeCourseId]) {
+							const c = courses[activeCourseId];
+							const payload = {
+								name: c.name,
+								inputMode: c.inputMode || 'percent',
+								assignments: c.assignments || [],
+								whatIfWeight: c.whatIfWeight,
+								whatIfScore: c.whatIfScore,
+								finalExam: c.finalExam
+							};
+							const serialized = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+							const urlObj = new URL(window.location.origin + '/');
+							urlObj.hash = `data=${serialized}`;
+							shareUrl = urlObj.toString();
+						}
+					}
+				} catch (err) {}
+
+				const shareText = shareBtn.querySelector('.share-btn-text') || shareBtn;
+				const origText = shareText.textContent;
+
+				function showCopied() {
+					shareText.textContent = 'Copied!';
+					setTimeout(() => {
+						shareText.textContent = origText;
+					}, 2000);
+				}
+
+				if (navigator.clipboard && navigator.clipboard.writeText) {
+					try {
+						await navigator.clipboard.writeText(shareUrl);
+						showCopied();
+						return;
+					} catch (e) {}
+				}
+
+				// Rock-solid fallback via textarea execCommand (works everywhere without blocking)
+				const textarea = document.createElement('textarea');
+				textarea.value = shareUrl;
+				textarea.setAttribute('readonly', '');
+				textarea.style.position = 'fixed';
+				textarea.style.top = '0';
+				textarea.style.left = '-9999px';
+				textarea.style.fontSize = '12pt';
+				document.body.appendChild(textarea);
+				textarea.focus();
+				textarea.select();
+				textarea.setSelectionRange(0, shareUrl.length);
+				let copied = false;
+				try {
+					copied = document.execCommand('copy');
+				} catch (e) {}
+				document.body.removeChild(textarea);
+
+				if (copied) {
+					showCopied();
+					return;
+				}
+
+				if (navigator.share) {
+					try {
+						await navigator.share({
+							title: document.title,
+							url: shareUrl
+						});
+						return;
+					} catch (e) {}
+				}
 			});
 		</script>
 	</body>
