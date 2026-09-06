@@ -1,9 +1,14 @@
 ---
 // src/components/TargetGpaCalculator.astro
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
 interface Props {
   idPrefix?: string;
+  lang?: any;
 }
-const { idPrefix = 'targetgpa' } = Astro.props;
+const { idPrefix = 'targetgpa', lang } = Astro.props;
+const currentLang = lang || getLangFromUrl(Astro.url);
+const t = useTranslations(currentLang);
 ---
 
 <div id={`${idPrefix}-calculator-panel`} class="calc-component-root">
@@ -11,33 +16,33 @@ const { idPrefix = 'targetgpa' } = Astro.props;
   <div class="geist-card geist-card-floating" style="padding: 1.75rem; margin-bottom: 1.5rem; background: linear-gradient(180deg, var(--color-canvas-elevated) 0%, var(--color-canvas-subtle) 100%);">
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; align-items: center;">
       <div>
-        <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;">US Degree Target GPA</span>
+        <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;" data-i18n="targetgpa.h1">{t('targetgpa.h1')}</span>
         <div style="margin-top: 0.5rem;">
-          <span style="font-size: 0.875rem; color: var(--color-mute); display: block;">Required Future Term GPA:</span>
+          <span style="font-size: 0.875rem; color: var(--color-mute); display: block;" data-i18n="calc.scoreNeededOnFinal">{t('calc.scoreNeededOnFinal')}:</span>
           <div style="display: flex; align-items: baseline; gap: 0.75rem; margin-top: 0.25rem;">
-            <span id={`${idPrefix}-required-gpa`} class="display-xl" style="font-feature-settings: 'tnum';">--</span>
-            <span id={`${idPrefix}-feasibility-badge`} class="badge badge-blue">Ready</span>
+            <span id={`${idPrefix}-required-gpa`} class="display-xl" style="font-feature-settings: 'tnum';">3.91</span>
+            <span id={`${idPrefix}-feasibility-badge`} class="badge badge-amber" data-i18n="status.challenging">{t('status.challenging')}</span>
           </div>
         </div>
         <p id={`${idPrefix}-feasibility-desc`} style="font-size: 0.875rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.4;">
-          Enter your current cumulative GPA and credit counts to calculate your graduation roadmap.
+          3.91 GPA - {t('status.challenging')}
         </p>
       </div>
 
       <!-- Quick Metrics Summary -->
       <div style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); padding: 1.25rem; background: var(--color-canvas-elevated);">
-        <h4 style="font-size: 0.875rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.75rem;">Credit Weight Summary</h4>
+        <h4 style="font-size: 0.875rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.75rem;" data-i18n="calc.weightAccounted">{t('calc.weightAccounted')}</h4>
         <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.35rem; color: var(--color-mute);">
-          <span>Completed Weight:</span>
-          <strong id={`${idPrefix}-completed-pct`} style="color: var(--color-ink);">0%</strong>
+          <span data-i18n="calc.weightCompleted">{t('calc.weightCompleted')}:</span>
+          <strong id={`${idPrefix}-completed-pct`} style="color: var(--color-ink);">53%</strong>
         </div>
         <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.35rem; color: var(--color-mute);">
-          <span>Remaining Weight:</span>
-          <strong id={`${idPrefix}-remaining-pct`} style="color: var(--color-ink);">0%</strong>
+          <span data-i18n="status.remaining">{t('status.remaining')}:</span>
+          <strong id={`${idPrefix}-remaining-pct`} style="color: var(--color-ink);">47%</strong>
         </div>
         <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; color: var(--color-mute);">
-          <span>Total Program Credits:</span>
-          <strong id={`${idPrefix}-total-degree-credits`} style="color: var(--color-ink);">0</strong>
+          <span data-i18n="calc.totalCombinedCredits">{t('calc.totalCombinedCredits')}</span>
+          <strong id={`${idPrefix}-total-degree-credits`} style="color: var(--color-ink);">120.0</strong>
         </div>
       </div>
     </div>
@@ -45,57 +50,57 @@ const { idPrefix = 'targetgpa' } = Astro.props;
 
   <!-- Input Form -->
   <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
-    <h3 class="heading-md" style="margin-bottom: 1.25rem;">GPA Goal Parameters</h3>
+    <h3 class="heading-md" style="margin-bottom: 1.25rem;" data-i18n="calc.targetGoalPlanner">{t('calc.targetGoalPlanner')}</h3>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.25rem;">
       <!-- Scale Select (4.0 or 5.0) -->
       <div>
-        <label for={`${idPrefix}-scale-select`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
-          Grading Scale:
+        <label for={`${idPrefix}-scale-select`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="nav.scale">
+          {t('nav.scale')}:
         </label>
         <select id={`${idPrefix}-scale-select`} class="form-select">
           <option value="4.0" selected>Standard US 4.0 Scale</option>
           <option value="5.0">Weighted Honors / AP 5.0 Scale</option>
         </select>
-        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;">Maximum GPA scale cap.</span>
+        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;" data-i18n="scale.name">{t('scale.name')}</span>
       </div>
 
       <!-- Current GPA -->
       <div>
-        <label for={`${idPrefix}-current-gpa`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
-          Current Cumulative GPA:
+        <label for={`${idPrefix}-current-gpa`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="calc.currentGrade">
+          {t('calc.currentGrade')} (0.00 - 5.00):
         </label>
         <input id={`${idPrefix}-current-gpa`} type="number" step="0.01" min="0" max="5.0" class="form-input form-input-mono" value="3.42" placeholder="e.g. 3.42" />
-        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;">Your official GPA so far.</span>
+        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;" data-i18n="calc.currentGradeHint">{t('calc.currentGradeHint')}</span>
       </div>
 
       <!-- Completed Credits -->
       <div>
-        <label for={`${idPrefix}-completed-credits`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
-          Completed Credit Hours:
+        <label for={`${idPrefix}-completed-credits`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="calc.colCredits">
+          {t('calc.colCredits')}:
         </label>
         <input id={`${idPrefix}-completed-credits`} type="number" step="0.5" min="1" max="250" class="form-input form-input-mono" value="64" placeholder="e.g. 64" />
-        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;">Credits earned to date.</span>
+        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;" data-i18n="calc.coursesCreditsDesc">{t('calc.coursesCreditsDesc')}</span>
       </div>
 
       <!-- Remaining Credits -->
       <div>
-        <label for={`${idPrefix}-remaining-credits`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
-          Remaining Credits:
+        <label for={`${idPrefix}-remaining-credits`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="calc.currentTermCredits">
+          {t('calc.currentTermCredits')}
         </label>
         <input id={`${idPrefix}-remaining-credits`} type="number" step="0.5" min="1" max="150" class="form-input form-input-mono" value="56" placeholder="e.g. 56" />
-        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;">Credits left until graduation.</span>
+        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;" data-i18n="calc.finalWeightHint">{t('calc.finalWeightHint')}</span>
       </div>
 
       <!-- Target GPA -->
       <div>
-        <label for={`${idPrefix}-target-gpa`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
-          Desired Target GPA:
+        <label for={`${idPrefix}-target-gpa`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="calc.finalTarget">
+          {t('calc.finalTarget')}:
         </label>
         <div style="display: flex; gap: 0.5rem;">
           <input id={`${idPrefix}-target-gpa`} type="number" step="0.01" min="0" max="5.0" class="form-input form-input-mono" value="3.65" placeholder="e.g. 3.65" />
           <select id={`${idPrefix}-quick-target`} class="form-select" style="width: auto; min-width: 105px;">
-            <option value="">Preset</option>
+            <option value="" data-i18n="calc.loadPreset">{t('calc.loadPreset')}</option>
             <option value="3.90">Summa (3.90)</option>
             <option value="3.75">Magna (3.75)</option>
             <option value="3.65" selected>Cum Laude (3.65)</option>
@@ -103,30 +108,59 @@ const { idPrefix = 'targetgpa' } = Astro.props;
             <option value="3.00">3.00 GPA</option>
           </select>
         </div>
-        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;">Target cumulative graduating GPA.</span>
+        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;" data-i18n="calc.desiredGradeHint">{t('calc.desiredGradeHint')}</span>
       </div>
     </div>
   </div>
 
   <!-- Feasibility Matrix -->
   <div class="geist-card" style="padding: 1.5rem;">
-    <h3 class="heading-md" style="margin-bottom: 0.5rem;">US Target Honors &amp; GPA Matrix</h3>
-    <p style="font-size: 0.875rem; color: var(--color-mute); margin-bottom: 1rem;">
-      Required performance across major academic honor thresholds.
+    <h3 class="heading-md" style="margin-bottom: 0.5rem;" data-i18n="calc.matrixComparison">{t('calc.matrixComparison')}</h3>
+    <p style="font-size: 0.875rem; color: var(--color-mute); margin-bottom: 1rem;" data-i18n="calc.matrixComparisonDesc">
+      {t('calc.matrixComparisonDesc')}
     </p>
 
     <div style="overflow-x: auto;">
       <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
         <thead>
           <tr style="background: var(--color-canvas-subtle); border-bottom: 1px solid var(--color-hairline); text-align: left;">
-            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Target GPA</th>
-            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Honor Designation</th>
-            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Required Future GPA</th>
-            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Difficulty / Status</th>
+            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);" data-i18n="calc.targetGrade">{t('calc.targetGrade')}</th>
+            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);" data-i18n="calc.equivGpa">{t('calc.equivGpa')}</th>
+            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);" data-i18n="calc.scoreNeededOnFinal">{t('calc.scoreNeededOnFinal')}</th>
+            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);" data-i18n="calc.difficultyStatus">{t('calc.difficultyStatus')}</th>
           </tr>
         </thead>
         <tbody id={`${idPrefix}-matrix-tbody`}>
-          <!-- Populated dynamically -->
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Summa Cum Laude</td>
+            <td style="padding: 0.625rem 0.875rem; color: var(--color-mute); font-family: var(--font-mono);">3.90</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">4.45</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-red">{t('status.extraCredit')}</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Magna Cum Laude</td>
+            <td style="padding: 0.625rem 0.875rem; color: var(--color-mute); font-family: var(--font-mono);">3.75</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">4.13</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-red">{t('status.extraCredit')}</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Cum Laude</td>
+            <td style="padding: 0.625rem 0.875rem; color: var(--color-mute); font-family: var(--font-mono);">3.65</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">3.91</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-amber">{t('status.challenging')}</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Dean's List</td>
+            <td style="padding: 0.625rem 0.875rem; color: var(--color-mute); font-family: var(--font-mono);">3.50</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">3.59</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-blue">{t('status.realistic')}</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">3.00 GPA Benchmark</td>
+            <td style="padding: 0.625rem 0.875rem; color: var(--color-mute); font-family: var(--font-mono);">3.00</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">2.52</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-green">{t('status.comfortable')}</span></td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -149,6 +183,10 @@ const { idPrefix = 'targetgpa' } = Astro.props;
     const remPctEl = document.getElementById(`${idPrefix}-remaining-pct`);
     const totalCredsEl = document.getElementById(`${idPrefix}-total-degree-credits`);
     const matrixTbody = document.getElementById(`${idPrefix}-matrix-tbody`);
+
+    function tr(key, fallback) {
+      return window.__i18n__?.t(key) || fallback;
+    }
 
     function calculate() {
       const maxScale = parseFloat(scaleSelect?.value || '4.0');
@@ -176,35 +214,35 @@ const { idPrefix = 'targetgpa' } = Astro.props;
 
       if (required <= 0) {
         if (badgeEl) {
-          badgeEl.textContent = 'Already Secured';
+          badgeEl.textContent = tr('status.guaranteed', 'Guaranteed');
           badgeEl.className = 'badge badge-green';
         }
-        if (descEl) descEl.textContent = `Even with a 0.00 GPA in remaining courses, your cumulative GPA will stay at or above ${target.toFixed(2)}.`;
+        if (descEl) descEl.textContent = `${tr('status.guaranteed', 'Guaranteed')}: ${current.toFixed(2)} GPA.`;
       } else if (required <= 3.0) {
         if (badgeEl) {
-          badgeEl.textContent = 'Very Achievable';
+          badgeEl.textContent = tr('status.comfortable', 'Comfortable');
           badgeEl.className = 'badge badge-green';
         }
-        if (descEl) descEl.textContent = `You need a ${required.toFixed(2)} GPA average (solid B-range work) across your remaining credits.`;
+        if (descEl) descEl.textContent = `${tr('status.comfortable', 'Comfortable')}: ${required.toFixed(2)} GPA.`;
       } else if (required <= 3.7) {
         if (badgeEl) {
-          badgeEl.textContent = 'Moderate Effort';
+          badgeEl.textContent = tr('status.realistic', 'Realistic Target');
           badgeEl.className = 'badge badge-blue';
         }
-        if (descEl) descEl.textContent = `You need an average GPA of ${required.toFixed(2)} (predominantly A- and B+ grades) to reach your goal.`;
+        if (descEl) descEl.textContent = `${tr('status.realistic', 'Realistic Target')}: ${required.toFixed(2)} GPA.`;
       } else if (required <= maxScale) {
         if (badgeEl) {
-          badgeEl.textContent = 'High Rigor';
+          badgeEl.textContent = tr('status.challenging', 'Challenging Push');
           badgeEl.className = 'badge badge-amber';
         }
-        if (descEl) descEl.textContent = `You need an exceptional ${required.toFixed(2)} average (almost all straight A grades) to reach ${target.toFixed(2)}.`;
+        if (descEl) descEl.textContent = `${tr('status.challenging', 'Challenging Push')}: ${required.toFixed(2)} GPA.`;
       } else {
         if (badgeEl) {
-          badgeEl.textContent = 'Mathematically Impossible';
+          badgeEl.textContent = tr('status.extraCredit', 'Exceeds Maximum');
           badgeEl.className = 'badge badge-red';
         }
         const maxPossible = ((current * completed + maxScale * remaining) / totalCredits).toFixed(2);
-        if (descEl) descEl.textContent = `Even with a perfect ${maxScale.toFixed(1)} in every remaining class, your maximum graduating GPA is ${maxPossible}.`;
+        if (descEl) descEl.textContent = `${tr('status.extraCredit', 'Exceeds Maximum')} (Max: ${maxPossible}).`;
       }
 
       if (matrixTbody) {
@@ -230,19 +268,19 @@ const { idPrefix = 'targetgpa' } = Astro.props;
           let badgeClass = '';
 
           if (req <= 0) {
-            statusText = 'Already Achieved';
+            statusText = tr('status.guaranteed', 'Guaranteed');
             badgeClass = 'badge-green';
           } else if (req <= 3.3) {
-            statusText = 'Comfortable';
+            statusText = tr('status.comfortable', 'Comfortable');
             badgeClass = 'badge-green';
           } else if (req <= 3.7) {
-            statusText = 'Moderate Push';
+            statusText = tr('status.realistic', 'Realistic Target');
             badgeClass = 'badge-blue';
           } else if (req <= maxScale) {
-            statusText = 'High Rigor';
+            statusText = tr('status.challenging', 'Challenging Push');
             badgeClass = 'badge-amber';
           } else {
-            statusText = `Exceeds ${maxScale.toFixed(1)}`;
+            statusText = tr('status.extraCredit', 'Unreachable');
             badgeClass = 'badge-red';
           }
 
@@ -250,7 +288,7 @@ const { idPrefix = 'targetgpa' } = Astro.props;
             <tr style="border-bottom: 1px solid var(--color-hairline-soft);">
               <td style="padding: 0.5rem 0.875rem; font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">${b.gpa.toFixed(2)}</td>
               <td style="padding: 0.5rem 0.875rem; color: var(--color-body);">${b.label}</td>
-              <td style="padding: 0.5rem 0.875rem; font-family: var(--font-mono); font-weight: 600; color: ${req > maxScale ? 'var(--color-red)' : 'var(--color-ink)'};">${req > maxScale ? req.toFixed(2) + ' (Impossible)' : req <= 0 ? '0.00 (Secured)' : req.toFixed(2)}</td>
+              <td style="padding: 0.5rem 0.875rem; font-family: var(--font-mono); font-weight: 600; color: ${req > maxScale ? 'var(--color-red)' : 'var(--color-ink)'};">${req > maxScale ? req.toFixed(2) : req <= 0 ? '0.00' : req.toFixed(2)}</td>
               <td style="padding: 0.5rem 0.875rem;">
                 <span class="badge ${badgeClass}">${statusText}</span>
               </td>

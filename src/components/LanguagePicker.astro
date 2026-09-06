@@ -44,7 +44,7 @@ const shortCodes: Record<Lang, string> = {
         const langCode = code as Lang;
         const targetUrl = translatePath(currentPath, langCode);
         return (
-          <option value={targetUrl} selected={langCode === currentLang}>
+          <option value={targetUrl} data-lang-code={langCode} selected={langCode === currentLang}>
             {name}
           </option>
         );
@@ -58,6 +58,13 @@ const shortCodes: Record<Lang, string> = {
   langSelect?.addEventListener('change', (e) => {
     const target = e.target as HTMLSelectElement;
     if (target && target.value) {
+      const selectedOption = target.options[target.selectedIndex];
+      const langCode = selectedOption?.getAttribute('data-lang-code');
+      if (langCode) {
+        try {
+          localStorage.setItem('gradecalc_lang', langCode);
+        } catch (err) {}
+      }
       window.location.href = target.value;
     }
   });

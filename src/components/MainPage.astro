@@ -14,6 +14,7 @@ import WhatIfCalculator from './WhatIfCalculator.astro';
 import GradeConverter from './GradeConverter.astro';
 import GradeScaleModal from './GradeScaleModal.astro';
 import { useTranslations, useTranslatedPath } from '../i18n/utils';
+import { faqs } from '../i18n/faqs';
 import type { Lang } from '../i18n/ui';
 
 interface Props {
@@ -23,77 +24,7 @@ interface Props {
 const { lang = 'en' } = Astro.props;
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
-
-const homepageFaqs = [
-  {
-    question: "How does a what if grade calculator work?",
-    answer: "A what if grade calculator allows you to test hypothetical scores on upcoming tests, homework assignments, or projects to see how they will impact your overall course percentage before receiving your final grades."
-  },
-  {
-    question: "What grade was I in year calculator?",
-    answer: "A what grade was I in year calculator determines what school grade level you were in during any specific academic calendar year by calculating backwards from your high school graduation year or forwards from kindergarten."
-  },
-  {
-    question: "How does what is my grade calculator determine my score?",
-    answer: "A what is my grade calculator computes your current cumulative grade percentage by multiplying every completed assignment score by its category weight and dividing by the total active weight percentage."
-  },
-  {
-    question: "How to use whats my grade calculator?",
-    answer: "Using our whats my grade calculator is simple: enter your assignment scores and syllabus category weights (e.g. homework 20%, midterms 30%, labs 20%) to view your current class standing and GPA."
-  },
-  {
-    question: "How much will my grade drop calculator: What if I fail an exam?",
-    answer: "Our how much will my grade drop calculator computes the exact decrease in your course mark based on the exam's syllabus weight: Drop = (Current Grade - New Score) * (Weight / 100)."
-  },
-  {
-    question: "How does a what will my grade be calculator forecast final marks?",
-    answer: "A what will my grade be calculator projects your final course grade by combining your completed assignment marks with projected scores on remaining exams and semester assignments."
-  },
-  {
-    question: "How does a what grade do i need calculator find target scores?",
-    answer: "A what grade do i need calculator determines the exact minimum score you must achieve on an upcoming test or assignment to reach or maintain your desired overall class percentage."
-  },
-  {
-    question: "How to use the what grade do i need on my final calculator?",
-    answer: "Our what grade do i need on my final calculator uses the formula: Required Score = (Target Grade - Current Grade * (1 - Final Weight)) / Final Weight to show the exact exam score required for every letter grade."
-  },
-  {
-    question: "How does a what is my final grade calculator calculate the end mark?",
-    answer: "A what is my final grade calculator calculates your finalized course mark after all coursework, midterms, and final exam results are entered, mapping your overall score to a letter grade."
-  },
-  {
-    question: "Can a what would my grade be calculator simulate different scores?",
-    answer: "Yes, our what would my grade be calculator lets you test multiple scenarios, such as scoring 85% versus 95% on a midterm, to see the resulting class letter grade in real time."
-  },
-  {
-    question: "How much would my grade drop calculator: How do low quiz scores impact standing?",
-    answer: "A how much would my grade drop calculator shows the reduction in your total class standing from low quiz scores, factoring in any drop-lowest policies active on your syllabus."
-  },
-  {
-    question: "How much will my grade go up calculator: How do high scores raise your mark?",
-    answer: "A how much will my grade go up calculator measures how high scores or extra credit improve your average: Increase = (New Score - Current Grade) * (Assignment Weight / Total Active Weight)."
-  },
-  {
-    question: "How to use the grade what if calculator slider?",
-    answer: "Use the grade what if calculator slider to adjust hypothetical score percentages and weights, instantly observing the simulated impact on your class grade."
-  },
-  {
-    question: "How does a what grade will i get calculator predict my letter grade?",
-    answer: "A what grade will i get calculator compares your earned points and remaining syllabus weight against your school's grading scale (Standard US 4.0, 10-Point Simple, or custom thresholds)."
-  },
-  {
-    question: "How to use the what will my grade be after this test calculator?",
-    answer: "Our what will my grade be after this test calculator combines your current standing with your expected test score and the test's weight to show your new class average immediately."
-  },
-  {
-    question: "How much will my grade go down calculator: What happens with missed assignments?",
-    answer: "A how much will my grade go down calculator calculates the exact percentage decrease caused by missing assignments, late penalties, or zero scores."
-  },
-  {
-    question: "How does the what if final grade calculator work?",
-    answer: "A what if final grade calculator tests multiple final exam score scenarios (such as 70%, 80%, 90%) and displays the resulting overall class grade in an interactive scenario matrix."
-  }
-];
+const currentFaqs = faqs[lang] || faqs.en;
 ---
 
 <Layout
@@ -101,7 +32,7 @@ const homepageFaqs = [
   description={t('site.description')}
   lang={lang}
   breadcrumbs={[{ name: 'Home', item: '/' }]}
-  faqSchema={homepageFaqs}
+  faqSchema={currentFaqs}
 >
   <!-- Hero Section with Vercel Mesh Glow -->
   <section style="position: relative; padding: 3rem 0 2.5rem; text-align: center;">
@@ -113,15 +44,15 @@ const homepageFaqs = [
       <div style="margin-bottom: 0.75rem;">
         <span class="mono-eyebrow">
           <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--color-blue);"></span>
-          {t('hero.badge')} &bull; V2.0
+          <span data-i18n="hero.badge">{t('hero.badge')}</span> &bull; V2.0
         </span>
       </div>
 
-      <h1 class="display-xl" style="max-width: 860px; margin: 0 auto 1rem; color: var(--color-ink);">
+      <h1 class="display-xl" style="max-width: 860px; margin: 0 auto 1rem; color: var(--color-ink);" data-i18n="hero.title">
         {t('hero.title')}
       </h1>
 
-      <p style="font-size: clamp(1rem, 2vw, 1.125rem); color: var(--color-body); max-width: 680px; margin: 0 auto 2rem; line-height: 1.6;">
+      <p style="font-size: clamp(1rem, 2vw, 1.125rem); color: var(--color-body); max-width: 680px; margin: 0 auto 2rem; line-height: 1.6;" data-i18n="hero.subtitle">
         {t('hero.subtitle')}
       </p>
 
@@ -134,8 +65,8 @@ const homepageFaqs = [
               <line x1="3" y1="9" x2="21" y2="9"></line>
               <line x1="9" y1="21" x2="9" y2="9"></line>
             </svg>
-            <span class="tab-label-full">{t('tab.weighted')}</span>
-            <span class="tab-label-short">Weighted</span>
+            <span class="tab-label-full" data-i18n="tab.weighted">{t('tab.weighted')}</span>
+            <span class="tab-label-short" data-i18n="tab.weighted">Weighted</span>
           </button>
 
           <button type="button" class="tab-btn" data-target="calculator-final" id="tab-final-btn">
@@ -143,8 +74,8 @@ const homepageFaqs = [
               <circle cx="12" cy="12" r="10"></circle>
               <polyline points="12 6 12 12 14 14"></polyline>
             </svg>
-            <span class="tab-label-full">{t('tab.finalExam')}</span>
-            <span class="tab-label-short">Final Exam</span>
+            <span class="tab-label-full" data-i18n="tab.finalExam">{t('tab.finalExam')}</span>
+            <span class="tab-label-short" data-i18n="tab.finalExam">Final Exam</span>
           </button>
 
           <button type="button" class="tab-btn" data-target="calculator-gpa" id="tab-gpa-btn">
@@ -152,8 +83,8 @@ const homepageFaqs = [
               <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
               <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
             </svg>
-            <span class="tab-label-full">{t('tab.gpa')}</span>
-            <span class="tab-label-short">GPA</span>
+            <span class="tab-label-full" data-i18n="tab.gpa">{t('tab.gpa')}</span>
+            <span class="tab-label-short" data-i18n="tab.gpa">GPA</span>
           </button>
         </div>
       </div>
@@ -169,9 +100,9 @@ const homepageFaqs = [
                   <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                   <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                 </svg>
-                Indian Grading &amp; CBCS
+                <span data-i18n="subnav.indianGrading">{t('subnav.indianGrading')}</span>
               </span>
-              <a href="/indian-cgpa-calculator" class="btn-ghost" style="font-size: 0.6875rem; color: var(--color-mute); text-decoration: none;" title="View Indian grading guide">Guide &rarr;</a>
+              <a href={translatePath('/indian-cgpa-calculator')} class="btn-ghost" style="font-size: 0.6875rem; color: var(--color-mute); text-decoration: none;" title="View Indian grading guide"><span data-i18n="subnav.guideLink">{t('subnav.guideLink')}</span></a>
             </div>
             <div class="subnav-calc-grid">
               <button type="button" class="subnav-calc-card" data-target="calculator-indian-cgpa" id="subnav-indian-cgpa-btn">
@@ -182,8 +113,8 @@ const homepageFaqs = [
                   </svg>
                 </div>
                 <div class="subnav-card-content">
-                  <span class="subnav-card-label">Indian CGPA</span>
-                  <span class="subnav-card-desc">UGC 10.0 Scale</span>
+                  <span class="subnav-card-label" data-i18n="subnav.indianCgpa">{t('subnav.indianCgpa')}</span>
+                  <span class="subnav-card-desc" data-i18n="subnav.indianCgpaDesc">{t('subnav.indianCgpaDesc')}</span>
                 </div>
               </button>
 
@@ -197,8 +128,8 @@ const homepageFaqs = [
                   </svg>
                 </div>
                 <div class="subnav-card-content">
-                  <span class="subnav-card-label">Indian SGPA</span>
-                  <span class="subnav-card-desc">Semester Term</span>
+                  <span class="subnav-card-label" data-i18n="subnav.indianSgpa">{t('subnav.indianSgpa')}</span>
+                  <span class="subnav-card-desc" data-i18n="subnav.indianSgpaDesc">{t('subnav.indianSgpaDesc')}</span>
                 </div>
               </button>
 
@@ -211,8 +142,8 @@ const homepageFaqs = [
                   </svg>
                 </div>
                 <div class="subnav-card-content">
-                  <span class="subnav-card-label">Semesters 1-8</span>
-                  <span class="subnav-card-desc">Multi-Term CGPA</span>
+                  <span class="subnav-card-label" data-i18n="subnav.semesters">{t('subnav.semesters')}</span>
+                  <span class="subnav-card-desc" data-i18n="subnav.semestersDesc">{t('subnav.semestersDesc')}</span>
                 </div>
               </button>
 
@@ -226,8 +157,8 @@ const homepageFaqs = [
                   </svg>
                 </div>
                 <div class="subnav-card-content">
-                  <span class="subnav-card-label">CGPA &harr; %</span>
-                  <span class="subnav-card-desc">AICTE / VTU</span>
+                  <span class="subnav-card-label" data-i18n="subnav.cgpaToPct">{t('subnav.cgpaToPct')}</span>
+                  <span class="subnav-card-desc" data-i18n="subnav.cgpaToPctDesc">{t('subnav.cgpaToPctDesc')}</span>
                 </div>
               </button>
             </div>
@@ -241,9 +172,9 @@ const homepageFaqs = [
                   <circle cx="12" cy="12" r="10"></circle>
                   <polyline points="12 6 12 12 14 14"></polyline>
                 </svg>
-                Planning &amp; Tools
+                <span data-i18n="subnav.planningTools">{t('subnav.planningTools')}</span>
               </span>
-              <a href="/target-cgpa-calculator" class="btn-ghost" style="font-size: 0.6875rem; color: var(--color-mute); text-decoration: none;" title="View goal planning tools">Planner &rarr;</a>
+              <a href={translatePath('/target-cgpa-calculator')} class="btn-ghost" style="font-size: 0.6875rem; color: var(--color-mute); text-decoration: none;" title="View goal planning tools"><span data-i18n="subnav.plannerLink">{t('subnav.plannerLink')}</span></a>
             </div>
             <div class="subnav-calc-grid">
               <button type="button" class="subnav-calc-card" data-target="calculator-target-cgpa" id="subnav-target-cgpa-btn">
@@ -257,8 +188,8 @@ const homepageFaqs = [
                   </svg>
                 </div>
                 <div class="subnav-card-content">
-                  <span class="subnav-card-label">Target CGPA</span>
-                  <span class="subnav-card-desc">Required Future SGPA</span>
+                  <span class="subnav-card-label" data-i18n="subnav.targetCgpa">{t('subnav.targetCgpa')}</span>
+                  <span class="subnav-card-desc" data-i18n="subnav.targetCgpaDesc">{t('subnav.targetCgpaDesc')}</span>
                 </div>
               </button>
 
@@ -270,8 +201,8 @@ const homepageFaqs = [
                   </svg>
                 </div>
                 <div class="subnav-card-content">
-                  <span class="subnav-card-label">Target GPA</span>
-                  <span class="subnav-card-desc">US 4.0 &amp; 5.0</span>
+                  <span class="subnav-card-label" data-i18n="subnav.targetGpa">{t('subnav.targetGpa')}</span>
+                  <span class="subnav-card-desc" data-i18n="subnav.targetGpaDesc">{t('subnav.targetGpaDesc')}</span>
                 </div>
               </button>
 
@@ -290,8 +221,8 @@ const homepageFaqs = [
                   </svg>
                 </div>
                 <div class="subnav-card-content">
-                  <span class="subnav-card-label">What-If Sim</span>
-                  <span class="subnav-card-desc">Forecast Grades</span>
+                  <span class="subnav-card-label" data-i18n="subnav.whatIfSim">{t('subnav.whatIfSim')}</span>
+                  <span class="subnav-card-desc" data-i18n="subnav.whatIfSimDesc">{t('subnav.whatIfSimDesc')}</span>
                 </div>
               </button>
 
@@ -306,8 +237,8 @@ const homepageFaqs = [
                   </svg>
                 </div>
                 <div class="subnav-card-content">
-                  <span class="subnav-card-label">Scale Matrix</span>
-                  <span class="subnav-card-desc">Cross-Equivalence</span>
+                  <span class="subnav-card-label" data-i18n="subnav.scaleMatrix">{t('subnav.scaleMatrix')}</span>
+                  <span class="subnav-card-desc" data-i18n="subnav.scaleMatrixDesc">{t('subnav.scaleMatrixDesc')}</span>
                 </div>
               </button>
             </div>
@@ -322,22 +253,22 @@ const homepageFaqs = [
     <!-- Active Course Indicator Banner -->
     <div id="active-course-banner-wrap" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; font-size: 0.8125rem; color: var(--color-mute);">
       <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <span>Current Profile:</span>
+        <span data-i18n="calc.currentProfile">{t('calc.currentProfile')}</span>
         <strong id="active-profile-tag" style="color: var(--color-ink); font-weight: 600;">Math 101</strong>
         <span class="badge badge-blue" id="active-scale-tag" style="cursor: pointer;" title="Click to view/change grading scale">Standard US (4.0)</span>
       </div>
       <div style="display: flex; align-items: center; gap: 0.75rem;">
         <span id="save-status-indicator" style="display: flex; align-items: center; gap: 0.35rem; color: var(--color-emerald); font-family: var(--font-mono); font-size: 0.75rem;">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          Autosaved
+          <span data-i18n="calc.autosaved">{t('calc.autosaved')}</span>
         </span>
       </div>
     </div>
 
     <!-- The 3 Core Calculators -->
-    <WeightedCalculator />
-    <FinalExamCalculator />
-    <GpaCalculator />
+    <WeightedCalculator lang={lang} />
+    <FinalExamCalculator lang={lang} />
+    <GpaCalculator lang={lang} />
 
     <!-- Indian & Planning Calculators -->
     <div id="calculator-indian-cgpa" class="calculator-panel" style="display: none;">
@@ -369,38 +300,38 @@ const homepageFaqs = [
   <!-- Educational & Feature Cards Section -->
   <section class="container" style="max-width: 1040px; margin-bottom: 4rem;">
     <div style="text-align: center; margin-bottom: 2rem;">
-      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;">Academic Guide & Tips</span>
-      <h2 class="heading-lg" style="margin-top: 0.25rem;">How Weighted Grading Works</h2>
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;" data-i18n="calc.guideTitle">{t('calc.guideTitle')}</span>
+      <h2 class="heading-lg" style="margin-top: 0.25rem;" data-i18n="calc.howWeightedWorks">{t('calc.howWeightedWorks')}</h2>
     </div>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
       <div class="geist-card" style="padding: 1.5rem;">
         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
           <div style="width: 28px; height: 28px; border-radius: var(--radius-sm); background: var(--color-canvas-subtle); display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-ink); border: 1px solid var(--color-hairline);">1</div>
-          <h3 style="font-size: 1rem; font-weight: 600; color: var(--color-ink);">Multiply Score by Weight</h3>
+          <h3 style="font-size: 1rem; font-weight: 600; color: var(--color-ink);" data-i18n="edu.step1Title">{t('edu.step1Title')}</h3>
         </div>
-        <p style="font-size: 0.875rem; color: var(--color-body); line-height: 1.5;">
-          Each category (homework, quizzes, exams) carries a fraction of your total grade. If midterms are 30% and you score 90%, you earn 27.0 weighted percentage points toward your total.
+        <p style="font-size: 0.875rem; color: var(--color-body); line-height: 1.5;" data-i18n="edu.step1Desc">
+          {t('edu.step1Desc')}
         </p>
       </div>
 
       <div class="geist-card" style="padding: 1.5rem;">
         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
           <div style="width: 28px; height: 28px; border-radius: var(--radius-sm); background: var(--color-canvas-subtle); display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-ink); border: 1px solid var(--color-hairline);">2</div>
-          <h3 style="font-size: 1rem; font-weight: 600; color: var(--color-ink);">Sum & Normalize</h3>
+          <h3 style="font-size: 1rem; font-weight: 600; color: var(--color-ink);" data-i18n="edu.step2Title">{t('edu.step2Title')}</h3>
         </div>
-        <p style="font-size: 0.875rem; color: var(--color-body); line-height: 1.5;">
-          Sum all earned weighted points and divide by the total active weight. If the semester is still ongoing and only 70% of assignments are completed, our calculator auto-normalizes your grade to show your true current standing.
+        <p style="font-size: 0.875rem; color: var(--color-body); line-height: 1.5;" data-i18n="edu.step2Desc">
+          {t('edu.step2Desc')}
         </p>
       </div>
 
       <div class="geist-card" style="padding: 1.5rem;">
         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
           <div style="width: 28px; height: 28px; border-radius: var(--radius-sm); background: var(--color-canvas-subtle); display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-ink); border: 1px solid var(--color-hairline);">3</div>
-          <h3 style="font-size: 1rem; font-weight: 600; color: var(--color-ink);">Strategic Exam Preparation</h3>
+          <h3 style="font-size: 1rem; font-weight: 600; color: var(--color-ink);" data-i18n="edu.step3Title">{t('edu.step3Title')}</h3>
         </div>
-        <p style="font-size: 0.875rem; color: var(--color-body); line-height: 1.5;">
-          Use the Final Exam Target Planner to calculate the exact minimum mark you need to retain or raise your letter grade. Stop guessing and focus your study energy where it moves the needle most.
+        <p style="font-size: 0.875rem; color: var(--color-body); line-height: 1.5;" data-i18n="edu.step3Desc">
+          {t('edu.step3Desc')}
         </p>
       </div>
     </div>
@@ -413,82 +344,82 @@ const homepageFaqs = [
       <!-- Collapsible Article Body with 100% Crawlable DOM Content -->
       <div id="seo-content-collapse" class="seo-content-collapsed">
         <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.5rem;">
-          <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;">Comprehensive Academic Guide</span>
-          <h2 class="heading-lg" style="color: var(--color-ink); margin-top: 0.25rem; font-size: 1.75rem;">
-            Grade Calculator Final: How to Calculate Your Overall, Weighted, and Final Exam Grades
+          <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;" data-i18n="guide.eyebrow">{t('guide.eyebrow')}</span>
+          <h2 class="heading-lg" style="color: var(--color-ink); margin-top: 0.25rem; font-size: 1.75rem;" data-i18n="guide.title">
+            {t('guide.title')}
           </h2>
-          <p style="font-size: 0.9375rem; color: var(--color-mute); margin-top: 0.5rem;">
-            Everything you need to know about calculating weighted coursework, predicting test scores, and reaching your target semester GPA with GradeCalculatorFinalX.
+          <p style="font-size: 0.9375rem; color: var(--color-mute); margin-top: 0.5rem;" data-i18n="guide.subtitle">
+            {t('guide.subtitle')}
           </p>
         </header>
 
         <div style="display: flex; flex-direction: column; gap: 2rem;">
           <!-- Section 1: Intro -->
           <div>
-            <h3 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;">
-              What is a Grade Calculator Final and How Does It Work?
+            <h3 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="guide.s1Title">
+              {t('guide.s1Title')}
             </h3>
-            <p style="margin-bottom: 1rem;">
-              Staying on top of your academic performance requires knowing exactly where you stand before finals week arrives. A <strong>grade calculator final</strong> is an essential academic utility designed to remove the guesswork from your coursework. Whether you are enrolled in high school, college, or graduate school, understanding your current standings enables you to prioritize study hours, prevent unexpected score drops, and finish the term with confidence.
+            <p style="margin-bottom: 1rem;" data-i18n="guide.s1P1">
+              {t('guide.s1P1')}
             </p>
-            <p>
-              At <strong>Grade Calculator FinalX</strong> (gradecalculatorfinalx.com), our platform combines an intuitive <strong>grade calculator</strong> with an accurate <strong>final grade calculator</strong>. Instead of juggling complex mathematical formulas on scrap paper or dealing with confusing spreadsheets, this <strong>easy grade calculator</strong> processes your syllabus weights, scores, and exam targets in real time.
+            <p data-i18n="guide.s1P2">
+              {t('guide.s1P2')}
             </p>
           </div>
 
           <!-- Section 2: Weighted vs Average -->
           <div>
-            <h3 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;">
-              Weighted Grade Calculator vs. Average Grade Calculator
+            <h3 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="guide.s2Title">
+              {t('guide.s2Title')}
             </h3>
-            <p style="margin-bottom: 1rem;">
-              Many students mistakenly calculate their marks using a simple <strong>average grade calculator</strong>, which treats every single test, homework assignment, and quiz as having equal importance. However, the majority of modern syllabi rely on a weighted category system.
+            <p style="margin-bottom: 1rem;" data-i18n="guide.s2P1">
+              {t('guide.s2P1')}
             </p>
-            <p style="margin-bottom: 1rem;">
-              When using our <strong>weighted grade calculator</strong>, you can use a <strong>grade calculator with weights</strong> to assign proportional importance to different categories:
+            <p style="margin-bottom: 1rem;" data-i18n="guide.s2P2">
+              {t('guide.s2P2')}
             </p>
             <ul style="padding-left: 1.5rem; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
-              <li><strong>Percentage Weighting:</strong> Standard university format where homework might be worth 20%, midterms 30%, and the final exam 50%. Each score is multiplied by its category percentage weight.</li>
-              <li><strong>Total Points System:</strong> If your instructor uses a points-based curriculum, switch seamlessly to <strong>grade calculator points</strong> mode to calculate marks based on points earned divided by total possible points.</li>
-              <li><strong>Drop Lowest Policies:</strong> Many professors allow students to drop their lowest quiz or homework score. Our <strong>assignment grade calculator</strong> handles this automatically so your calculated mark reflects true course policies.</li>
+              <li data-i18n="guide.s2Li1">{t('guide.s2Li1')}</li>
+              <li data-i18n="guide.s2Li2">{t('guide.s2Li2')}</li>
+              <li data-i18n="guide.s2Li3">{t('guide.s2Li3')}</li>
             </ul>
-            <p>
-              By relying on a dedicated <strong>class grade calculator</strong> rather than a basic mean score calculator, you ensure that high-value midterms and laboratory reports receive their proper numerical influence.
+            <p data-i18n="guide.s2P3">
+              {t('guide.s2P3')}
             </p>
           </div>
 
           <!-- Section 3: Final Exam Target -->
           <div>
-            <h3 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;">
-              Using the Final Exam Grade Calculator to Target Your Desired Grade
+            <h3 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="guide.s3Title">
+              {t('guide.s3Title')}
             </h3>
-            <p style="margin-bottom: 1rem;">
-              As the end of the term approaches, the most common question students ask is: <em>"What score do I need on my final exam to get an A?"</em>
+            <p style="margin-bottom: 1rem;" data-i18n="guide.s3P1">
+              {t('guide.s3P1')}
             </p>
-            <p style="margin-bottom: 1rem;">
-              Our built-in <strong>final exam grade calculator</strong> uses the proven algebraic formula:
+            <p style="margin-bottom: 1rem;" data-i18n="guide.s3P2">
+              {t('guide.s3P2')}
             </p>
-            <div style="font-family: var(--font-mono); font-size: 0.875rem; background: var(--color-canvas-subtle); border: 1px solid var(--color-hairline); padding: 0.75rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem; color: var(--color-ink);">
-              Required Final Score = (Desired Overall Grade &minus; Current Class Grade &times; (1 &minus; Final Weight)) / Final Weight
+            <div style="font-family: var(--font-mono); font-size: 0.875rem; background: var(--color-canvas-subtle); border: 1px solid var(--color-hairline); padding: 0.75rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem; color: var(--color-ink);" data-i18n="guide.s3Formula">
+              {t('guide.s3Formula')}
             </div>
-            <p>
-              This <strong>finals grade calculator</strong> compares your current grade against the entire grading scale in an instant Scenario Comparison Matrix. Whether you are using this as an <strong>exam grade calculator</strong> for a single midterm or an <strong>overall grade calculator</strong> for a critical capstone course, the live feasibility badges tell you whether your target is comfortable, challenging, or requires extra credit.
+            <p data-i18n="guide.s3P3">
+              {t('guide.s3P3')}
             </p>
           </div>
 
           <!-- Section 4: College & Semester GPA -->
           <div>
-            <h3 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;">
-              College Grade Calculator & Semester GPA Planning
+            <h3 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="guide.s4Title">
+              {t('guide.s4Title')}
             </h3>
-            <p style="margin-bottom: 1rem;">
-              Beyond calculating individual classes, university and high school students must track their cumulative performance. Our <strong>college grade calculator</strong> and <strong>semester grade calculator</strong> allow you to evaluate multiple courses simultaneously.
+            <p style="margin-bottom: 1rem;" data-i18n="guide.s4P1">
+              {t('guide.s4P1')}
             </p>
-            <p style="margin-bottom: 1rem;">
-              Whether you need a <strong>course grade calculator</strong> for standard 4.0 credit classes, or a <strong>grade calculator college</strong> tool that supports honors (+0.5) and AP (+1.0) weighted quality points, our system calculates semester GPA and projected cumulative GPA side by side.
+            <p style="margin-bottom: 1rem;" data-i18n="guide.s4P2">
+              {t('guide.s4P2')}
             </p>
-            <p>
-              Furthermore, you can use our <strong>test grade calculator</strong> and <strong>grade calculator test</strong> tools to simulate hypothetical quiz or midterm outcomes through the What-If simulation slider. This lets you experiment with potential scores before you even sit for an exam.
+            <p data-i18n="guide.s4P3">
+              {t('guide.s4P3')}
             </p>
           </div>
         </div>
@@ -500,7 +431,7 @@ const homepageFaqs = [
       <!-- Read More / Read Less Toggle Button -->
       <div class="seo-toggle-wrapper">
         <button id="seo-read-more-btn" type="button" class="seo-toggle-btn" aria-expanded="false" aria-controls="seo-content-collapse" data-read-more={t('btn.readMore')} data-read-less={t('btn.readLess')}>
-          <span id="seo-btn-text">{t('btn.readMore')}</span>
+          <span id="seo-btn-text" data-i18n="btn.readMore">{t('btn.readMore')}</span>
           <span id="seo-btn-arrow">&darr;</span>
         </button>
       </div>
@@ -512,230 +443,66 @@ const homepageFaqs = [
   <section id="faq" class="container" style="max-width: 1040px; margin-bottom: 3.5rem;">
     <div class="geist-card faq-card" style="padding: 2.25rem 2rem;">
       <div style="margin-bottom: 1.5rem;">
-        <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;">Student Queries Answered</span>
-        <h3 class="heading-md" style="color: var(--color-ink); margin-top: 0.25rem; font-size: 1.35rem;">
-          Frequently Asked Questions (FAQ)
+        <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;" data-i18n="faq.eyebrow">{t('faq.eyebrow')}</span>
+        <h3 class="heading-md" style="color: var(--color-ink); margin-top: 0.25rem; font-size: 1.35rem;" data-i18n="faq.title">
+          {t('faq.title')}
         </h3>
-        <p style="font-size: 0.875rem; color: var(--color-mute); margin-top: 0.25rem;">
-          Direct answers to the most common grade calculation, what-if forecasting, and final exam questions.
+        <p style="font-size: 0.875rem; color: var(--color-mute); margin-top: 0.25rem;" data-i18n="faq.subtitle">
+          {t('faq.subtitle')}
         </p>
       </div>
 
       <div class="faq-list">
-            <!-- 1. what if grade calculator -->
-            <details class="faq-item" open>
-              <summary class="faq-question">
-                <span>How does a <strong>what if grade calculator</strong> work?</span>
-                <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </summary>
-              <div class="faq-answer">
-                A <strong>what if grade calculator</strong> allows you to test hypothetical scores on upcoming tests, homework assignments, or projects to see how they will impact your overall course percentage before receiving your final grades.
-              </div>
-            </details>
+        {currentFaqs.slice(0, 4).map((faqItem) => (
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>{faqItem.question}</span>
+              <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-answer">
+              {faqItem.answer}
+            </div>
+          </details>
+        ))}
 
-            <!-- 2. what grade was i in year calculator -->
-            <details class="faq-item" open>
-              <summary class="faq-question">
-                <span>How to use a <strong>what grade was i in year calculator</strong>?</span>
-                <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </summary>
-              <div class="faq-answer">
-                A <strong>what grade was i in year calculator</strong> determines what school grade level you were in during any specific academic calendar year by calculating backwards from your high school graduation year or forwards from kindergarten. GradeCalculatorFinalX also maintains historical course profiles so you can review prior semester grades.
-              </div>
-            </details>
-
-            <!-- 3. what is my grade calculator -->
-            <details class="faq-item" open>
-              <summary class="faq-question">
-                <span>How does a <strong>what is my grade calculator</strong> calculate my standing?</span>
-                <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </summary>
-              <div class="faq-answer">
-                A <strong>what is my grade calculator</strong> computes your current cumulative grade percentage by multiplying every completed assignment score by its category weight and dividing by the total active weight percentage.
-              </div>
-            </details>
-
-            <!-- 4. whats my grade calculator -->
+        <!-- Expandable Remaining FAQ Items (5 through 17) -->
+        <div id="faq-more-container" class="faq-more-collapsed">
+          {currentFaqs.slice(4).map((faqItem) => (
             <details class="faq-item">
               <summary class="faq-question">
-                <span>How do I use a <strong>whats my grade calculator</strong>?</span>
+                <span>{faqItem.question}</span>
                 <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
               </summary>
               <div class="faq-answer">
-                Using our <strong>whats my grade calculator</strong> is simple: enter your assignment scores and syllabus category weights (e.g. homework 20%, midterms 30%, labs 20%) to view your current class standing and GPA.
+                {faqItem.answer}
               </div>
             </details>
-
-            <!-- Expandable Remaining FAQ Items (5 through 17) -->
-            <div id="faq-more-container" class="faq-more-collapsed">
-
-            <!-- 5. how much will my grade drop calculator -->
-            <details class="faq-item">
-              <summary class="faq-question">
-                <span><strong>How much will my grade drop calculator</strong>: What if I fail an exam?</span>
-                <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </summary>
-              <div class="faq-answer">
-                Our <strong>how much will my grade drop calculator</strong> computes the exact decrease in your course mark based on the exam's syllabus weight: Drop = (Current Grade - New Score) &times; (Weight / 100).
-              </div>
-            </details>
-
-            <!-- 6. what will my grade be calculator -->
-            <details class="faq-item">
-              <summary class="faq-question">
-                <span>How does a <strong>what will my grade be calculator</strong> forecast final marks?</span>
-                <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </summary>
-              <div class="faq-answer">
-                A <strong>what will my grade be calculator</strong> projects your final course grade by combining your completed assignment marks with projected scores on remaining exams and semester assignments.
-              </div>
-            </details>
-
-            <!-- 7. what grade do i need calculator -->
-            <details class="faq-item">
-              <summary class="faq-question">
-                <span>How does a <strong>what grade do i need calculator</strong> find target scores?</span>
-                <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </summary>
-              <div class="faq-answer">
-                A <strong>what grade do i need calculator</strong> determines the exact minimum score you must achieve on an upcoming test or assignment to reach or maintain your desired overall class percentage.
-              </div>
-            </details>
-
-            <!-- 8. what grade do i need on my final calculator -->
-            <details class="faq-item">
-              <summary class="faq-question">
-                <span>How to use the <strong>what grade do i need on my final calculator</strong>?</span>
-                <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </summary>
-              <div class="faq-answer">
-                Our <strong>what grade do i need on my final calculator</strong> uses the formula: Required Score = (Target Grade - Current Grade &times; (1 - Final Weight)) / Final Weight to show the exact exam score required for every letter grade.
-              </div>
-            </details>
-
-            <!-- 9. what is my final grade calculator -->
-            <details class="faq-item">
-              <summary class="faq-question">
-                <span>How does a <strong>what is my final grade calculator</strong> calculate the end mark?</span>
-                <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </summary>
-              <div class="faq-answer">
-                A <strong>what is my final grade calculator</strong> calculates your finalized course mark after all coursework, midterms, and final exam results are entered, mapping your overall score to a letter grade.
-              </div>
-            </details>
-
-            <!-- 10. what would my grade be calculator -->
-            <details class="faq-item">
-              <summary class="faq-question">
-                <span>Can a <strong>what would my grade be calculator</strong> simulate different scores?</span>
-                <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </summary>
-              <div class="faq-answer">
-                Yes, our <strong>what would my grade be calculator</strong> lets you test multiple scenarios, such as scoring 85% versus 95% on a midterm, to see the resulting class letter grade in real time.
-              </div>
-            </details>
-
-            <!-- 11. how much would my grade drop calculator -->
-            <details class="faq-item">
-              <summary class="faq-question">
-                <span><strong>How much would my grade drop calculator</strong>: How do low quiz scores impact standing?</span>
-                <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </summary>
-              <div class="faq-answer">
-                A <strong>how much would my grade drop calculator</strong> shows the reduction in your total class standing from low quiz scores, factoring in any drop-lowest policies active on your syllabus.
-              </div>
-            </details>
-
-            <!-- 12. how much will my grade go up calculator -->
-            <details class="faq-item">
-              <summary class="faq-question">
-                <span><strong>How much will my grade go up calculator</strong>: How do high scores raise your mark?</span>
-                <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </summary>
-              <div class="faq-answer">
-                A <strong>how much will my grade go up calculator</strong> measures how high scores or extra credit improve your average: Increase = (New Score - Current Grade) &times; (Assignment Weight / Total Active Weight).
-              </div>
-            </details>
-
-            <!-- 13. grade what if calculator -->
-            <details class="faq-item">
-              <summary class="faq-question">
-                <span>How to use the <strong>grade what if calculator</strong> slider?</span>
-                <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </summary>
-              <div class="faq-answer">
-                Use the <strong>grade what if calculator</strong> slider to adjust hypothetical score percentages and weights, instantly observing the simulated impact on your class grade.
-              </div>
-            </details>
-
-            <!-- 14. what grade will i get calculator -->
-            <details class="faq-item">
-              <summary class="faq-question">
-                <span>How does a <strong>what grade will i get calculator</strong> predict my letter grade?</span>
-                <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </summary>
-              <div class="faq-answer">
-                A <strong>what grade will i get calculator</strong> compares your earned points and remaining syllabus weight against your school's grading scale (Standard US 4.0, 10-Point Simple, or custom thresholds).
-              </div>
-            </details>
-
-            <!-- 15. what will my grade be after this test calculator -->
-            <details class="faq-item">
-              <summary class="faq-question">
-                <span>How to use the <strong>what will my grade be after this test calculator</strong>?</span>
-                <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </summary>
-              <div class="faq-answer">
-                Our <strong>what will my grade be after this test calculator</strong> combines your current standing with your expected test score and the test's weight to show your new class average immediately.
-              </div>
-            </details>
-
-            <!-- 16. how much will my grade go down calculator -->
-            <details class="faq-item">
-              <summary class="faq-question">
-                <span><strong>How much will my grade go down calculator</strong>: What happens with missed assignments?</span>
-                <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </summary>
-              <div class="faq-answer">
-                A <strong>how much will my grade go down calculator</strong> calculates the exact percentage decrease caused by missing assignments, late penalties, or zero scores.
-              </div>
-            </details>
-
-            <!-- 17. what if final grade calculator -->
-            <details class="faq-item">
-              <summary class="faq-question">
-                <span>How does the <strong>what if final grade calculator</strong> work?</span>
-                <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </summary>
-              <div class="faq-answer">
-                A <strong>what if final grade calculator</strong> tests multiple final exam score scenarios (such as 70%, 80%, 90%) and displays the resulting overall class grade in an interactive scenario matrix.
-              </div>
-            </details>
-          </div>
-        </div>
-
-        <!-- Subtle Fade/Gradient Overlay for Collapsed FAQ -->
-        <div id="faq-fade-overlay" class="faq-fade-overlay" aria-hidden="true"></div>
-
-        <!-- FAQ Read More / Read Less Toggle Button -->
-        <div class="faq-toggle-wrapper">
-          <button id="faq-read-more-btn" type="button" class="seo-toggle-btn" aria-expanded="false" aria-controls="faq-more-container" data-read-more={t('btn.readMore')} data-read-less={t('btn.readLess')}>
-            <span id="faq-btn-text">{t('btn.readMore')}</span>
-            <span id="faq-btn-arrow">&darr;</span>
-          </button>
+          ))}
         </div>
       </div>
-    </section>
+
+      <!-- Subtle Fade/Gradient Overlay for Collapsed FAQ -->
+      <div id="faq-fade-overlay" class="faq-fade-overlay" aria-hidden="true"></div>
+
+      <!-- FAQ Read More / Read Less Toggle Button -->
+      <div class="faq-toggle-wrapper">
+        <button id="faq-read-more-btn" type="button" class="seo-toggle-btn" aria-expanded="false" aria-controls="faq-more-container" data-read-more={t('btn.readMore')} data-read-less={t('btn.readLess')}>
+          <span id="faq-btn-text" data-i18n="btn.readMore">{t('btn.readMore')}</span>
+          <span id="faq-btn-arrow">&darr;</span>
+        </button>
+      </div>
+    </div>
+  </section>
 
   <!-- Platform Resources & Trust Center Section (Visible on Homepage) -->
   <section class="container trust-section" style="max-width: 1040px; margin-bottom: 4rem;">
     <div style="text-align: center; margin-bottom: 1.75rem;">
-      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;">Platform & Institutional Trust</span>
-      <h2 class="heading-lg" style="margin-top: 0.25rem; font-size: 1.5rem;">
-        Transparency, Privacy & Academic Integrity
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;" data-i18n="trust.eyebrow">{t('trust.eyebrow')}</span>
+      <h2 class="heading-lg" style="margin-top: 0.25rem; font-size: 1.5rem;" data-i18n="trust.title">
+        {t('trust.title')}
       </h2>
-      <p style="font-size: 0.875rem; color: var(--color-mute); max-width: 600px; margin: 0.35rem auto 0;">
-        Explore our platform mission, client-side data privacy commitment, terms of service, and direct support channels.
+      <p style="font-size: 0.875rem; color: var(--color-mute); max-width: 600px; margin: 0.35rem auto 0;" data-i18n="trust.subtitle">
+        {t('trust.subtitle')}
       </p>
     </div>
 
@@ -750,13 +517,13 @@ const homepageFaqs = [
               <line x1="12" y1="8" x2="12.01" y2="8"></line>
             </svg>
           </div>
-          <h3 class="trust-card-title">{t('nav.about')}</h3>
-          <p class="trust-card-desc">
-            Learn how GradeCalc was built, our pedagogical mission, zero-tracking philosophy, and engineering standards.
+          <h3 class="trust-card-title" data-i18n="nav.about">{t('nav.about')}</h3>
+          <p class="trust-card-desc" data-i18n="trust.aboutDesc">
+            {t('trust.aboutDesc')}
           </p>
         </div>
-        <span class="trust-card-link">
-          Read story &rarr;
+        <span class="trust-card-link" data-i18n="trust.readStory">
+          {t('trust.readStory')}
         </span>
       </a>
 
@@ -768,13 +535,13 @@ const homepageFaqs = [
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
             </svg>
           </div>
-          <h3 class="trust-card-title">{t('nav.privacy')}</h3>
-          <p class="trust-card-desc">
-            Zero server logging, 100% client-side LocalStorage execution, and complete transparency regarding cookies.
+          <h3 class="trust-card-title" data-i18n="nav.privacy">{t('nav.privacy')}</h3>
+          <p class="trust-card-desc" data-i18n="trust.privacyDesc">
+            {t('trust.privacyDesc')}
           </p>
         </div>
-        <span class="trust-card-link">
-          View privacy policy &rarr;
+        <span class="trust-card-link" data-i18n="trust.viewPrivacy">
+          {t('trust.viewPrivacy')}
         </span>
       </a>
 
@@ -790,13 +557,13 @@ const homepageFaqs = [
               <polyline points="10 9 9 9 8 9"></polyline>
             </svg>
           </div>
-          <h3 class="trust-card-title">{t('nav.terms')}</h3>
-          <p class="trust-card-desc">
-            Educational disclaimers, mathematical guidelines, and user responsibilities when using our academic calculator suite.
+          <h3 class="trust-card-title" data-i18n="nav.terms">{t('nav.terms')}</h3>
+          <p class="trust-card-desc" data-i18n="trust.termsDesc">
+            {t('trust.termsDesc')}
           </p>
         </div>
-        <span class="trust-card-link">
-          Review terms &rarr;
+        <span class="trust-card-link" data-i18n="trust.reviewTerms">
+          {t('trust.reviewTerms')}
         </span>
       </a>
 
@@ -808,13 +575,13 @@ const homepageFaqs = [
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
             </svg>
           </div>
-          <h3 class="trust-card-title">{t('nav.contact')}</h3>
-          <p class="trust-card-desc">
-            Need help or have feature requests? Reach our support and academic licensing team with direct 24-48h response times.
+          <h3 class="trust-card-title" data-i18n="nav.contact">{t('nav.contact')}</h3>
+          <p class="trust-card-desc" data-i18n="trust.contactDesc">
+            {t('trust.contactDesc')}
           </p>
         </div>
-        <span class="trust-card-link">
-          Get in touch &rarr;
+        <span class="trust-card-link" data-i18n="trust.getInTouch">
+          {t('trust.getInTouch')}
         </span>
       </a>
     </div>
@@ -837,8 +604,8 @@ const homepageFaqs = [
   const seoCard = document.querySelector('.seo-article-card');
 
   seoBtn?.addEventListener('click', () => {
-    const readMore = seoBtn.getAttribute('data-read-more') || 'Read More';
-    const readLess = seoBtn.getAttribute('data-read-less') || 'Read Less';
+    const readMore = window.__i18n__?.t('btn.readMore') || seoBtn.getAttribute('data-read-more') || 'Read More';
+    const readLess = window.__i18n__?.t('btn.readLess') || seoBtn.getAttribute('data-read-less') || 'Read Less';
     const isExpanded = seoContent?.classList.contains('seo-content-expanded');
     if (isExpanded) {
       seoContent?.classList.remove('seo-content-expanded');
@@ -869,8 +636,8 @@ const homepageFaqs = [
   const faqCard = document.querySelector('.faq-card');
 
   faqBtn?.addEventListener('click', () => {
-    const faqReadMore = faqBtn.getAttribute('data-read-more') || 'Read More';
-    const faqReadLess = faqBtn.getAttribute('data-read-less') || 'Read Less';
+    const faqReadMore = window.__i18n__?.t('btn.readMore') || faqBtn.getAttribute('data-read-more') || 'Read More';
+    const faqReadLess = window.__i18n__?.t('btn.readLess') || faqBtn.getAttribute('data-read-less') || 'Read Less';
     const isExpanded = faqMoreContainer?.classList.contains('faq-more-expanded');
     if (isExpanded) {
       faqMoreContainer?.classList.remove('faq-more-expanded');
@@ -1007,6 +774,10 @@ const homepageFaqs = [
     ]
   };
 
+  function tr(key: string, fallback: string): string {
+    return window.__i18n__?.t(key) || fallback;
+  }
+
   // State
   let currentPresetKey = 'standard';
   let activeScale: GradeScaleItem[] = JSON.parse(JSON.stringify(PRESET_SCALES.standard));
@@ -1056,13 +827,11 @@ const homepageFaqs = [
   // Load from Storage
   function loadInitialState() {
     try {
-      // Clean up legacy storage versions
       localStorage.removeItem('gradecalc_courses_v1');
       localStorage.removeItem('gradecalc_courses_v2');
       localStorage.removeItem('gradecalc_active_course');
       localStorage.removeItem('gradecalc_active_course_v2');
 
-      // Check for share URL payload in hash
       if (window.location.hash.startsWith('#data=')) {
         const raw = window.location.hash.slice(6);
         const decoded = JSON.parse(decodeURIComponent(escape(atob(raw))));
@@ -1079,7 +848,6 @@ const homepageFaqs = [
         }
       }
 
-      // Load Scale
       const savedScale = localStorage.getItem('gradecalc_scale_v1');
       const savedPresetKey = localStorage.getItem('gradecalc_scale_key');
       if (savedPresetKey && PRESET_SCALES[savedPresetKey]) {
@@ -1091,7 +859,6 @@ const homepageFaqs = [
         activeScale = JSON.parse(JSON.stringify(PRESET_SCALES[currentPresetKey]));
       }
 
-      // Load Courses from V3 storage
       const savedCourses = localStorage.getItem('gradecalc_courses_v3');
       const savedActiveId = localStorage.getItem('gradecalc_active_course_v3');
       if (savedCourses) {
@@ -1119,7 +886,6 @@ const homepageFaqs = [
       localStorage.setItem('gradecalc_scale_v1', JSON.stringify(activeScale));
       localStorage.setItem('gradecalc_scale_key', currentPresetKey);
 
-      // Flash autosave indicator
       const ind = document.getElementById('save-status-indicator');
       if (ind) {
         ind.style.opacity = '1';
@@ -1143,12 +909,10 @@ const homepageFaqs = [
     return courses[activeCourseId];
   }
 
-  // Grade Scale Lookup
   function getGradeInfo(percentage: number): { letter: string; gpa: number; desc: string; badgeClass: string } {
     if (isNaN(percentage)) {
       return { letter: '--', gpa: 0, desc: '', badgeClass: 'badge-blue' };
     }
-    // Sorted descending by min
     const sorted = [...activeScale].sort((a, b) => b.min - a.min);
     for (const item of sorted) {
       if (percentage >= item.min) {
@@ -1168,7 +932,6 @@ const homepageFaqs = [
   // DOM RENDERING & INTERACTIONS
   // =========================================================================
 
-  // Update Course Selectors
   function renderCourseSelector() {
     const sel = document.getElementById('course-selector') as HTMLSelectElement | null;
     const tag = document.getElementById('active-profile-tag');
@@ -1200,7 +963,6 @@ const homepageFaqs = [
 
     const isPtsMode = course.inputMode === 'points';
 
-    // Update Mode Buttons
     const pctBtn = document.getElementById('mode-pct-btn');
     const ptsBtn = document.getElementById('mode-pts-btn');
     const maxPtsHeader = document.getElementById('max-pts-header');
@@ -1210,48 +972,55 @@ const homepageFaqs = [
       pctBtn?.classList.remove('active-mode');
       ptsBtn?.classList.add('active-mode');
       if (maxPtsHeader) maxPtsHeader.style.display = 'table-cell';
-      if (gradeColHeader) gradeColHeader.textContent = 'Points Scored';
+      if (gradeColHeader) gradeColHeader.textContent = tr('status.pointsScored', 'Points Scored');
     } else {
       pctBtn?.classList.add('active-mode');
       ptsBtn?.classList.remove('active-mode');
       if (maxPtsHeader) maxPtsHeader.style.display = 'none';
-      if (gradeColHeader) gradeColHeader.textContent = 'Grade (%)';
+      if (gradeColHeader) gradeColHeader.textContent = tr('status.gradePct', 'Grade (%)');
     }
 
     container.innerHTML = '';
 
     course.assignments.forEach((assignment, index) => {
-      const tr = document.createElement('tr');
-      tr.className = `mobile-card-row ${isPtsMode ? 'has-max' : ''}`;
-      tr.style.borderBottom = '1px solid var(--color-hairline)';
+      const trEl = document.createElement('tr');
+      trEl.className = `mobile-card-row ${isPtsMode ? 'has-max' : ''}`;
+      trEl.style.borderBottom = '1px solid var(--color-hairline)';
 
-      tr.innerHTML = `
+      const assignNumLabel = `${tr('status.assignNum', 'Assignment #')}${index + 1}`;
+      const scoreLabel = isPtsMode ? tr('status.score', 'Score') : tr('status.gradePct', 'Grade (%)');
+      const maxPtsLabel = tr('status.maxPts', 'Max Pts');
+      const weightLabel = tr('status.weightPct', 'Weight (%)');
+      const dropLabel = tr('status.dropLowest', 'Drop lowest score');
+      const removeTitle = tr('status.removeAssign', 'Remove assignment');
+
+      trEl.innerHTML = `
         <td class="td-name" style="padding: 0.5rem 0.75rem;">
-          <span class="mobile-input-label">Assignment #${index + 1}</span>
+          <span class="mobile-input-label">${assignNumLabel}</span>
           <input type="text" class="form-input assign-name-input" data-id="${assignment.id}" value="${assignment.name}" placeholder="e.g. Homework or Exam" />
         </td>
         <td class="td-score" style="padding: 0.5rem 0.75rem;">
-          <span class="mobile-input-label">${isPtsMode ? 'Score' : 'Grade (%)'}</span>
+          <span class="mobile-input-label">${scoreLabel}</span>
           <input type="number" step="0.1" class="form-input form-input-mono assign-score-input" data-id="${assignment.id}" value="${assignment.score !== null ? assignment.score : ''}" placeholder="${isPtsMode ? 'e.g. 45' : 'e.g. 92'}" />
         </td>
         ${isPtsMode ? `
           <td class="td-max" style="padding: 0.5rem 0.75rem;">
-            <span class="mobile-input-label">Max Pts</span>
+            <span class="mobile-input-label">${maxPtsLabel}</span>
             <input type="number" step="0.1" class="form-input form-input-mono assign-max-input" data-id="${assignment.id}" value="${assignment.maxPoints !== null ? assignment.maxPoints : ''}" placeholder="Total pts" />
           </td>
         ` : ''}
         <td class="td-weight" style="padding: 0.5rem 0.75rem;">
-          <span class="mobile-input-label">Weight (%)</span>
+          <span class="mobile-input-label">${weightLabel}</span>
           <input type="number" step="0.5" min="0" max="100" class="form-input form-input-mono assign-weight-input" data-id="${assignment.id}" value="${assignment.weight && assignment.weight > 0 ? assignment.weight : ''}" placeholder="Weight %" />
         </td>
         <td class="td-drop" style="padding: 0.5rem 0.75rem; text-align: center;">
           <label style="display: inline-flex; align-items: center; gap: 0.45rem; cursor: pointer; user-select: none; font-size: 0.8125rem; color: var(--color-body);">
             <input type="checkbox" class="assign-drop-input" data-id="${assignment.id}" ${assignment.dropLowest ? 'checked' : ''} style="cursor: pointer; width: 16px; height: 16px; accent-color: var(--color-blue);" />
-            <span>Drop lowest score</span>
+            <span>${dropLabel}</span>
           </label>
         </td>
         <td class="td-delete" style="padding: 0.5rem 0.75rem; text-align: right;">
-          <button type="button" class="btn btn-ghost btn-icon delete-assign-btn" data-id="${assignment.id}" title="Remove assignment" aria-label="Remove assignment">
+          <button type="button" class="btn btn-ghost btn-icon delete-assign-btn" data-id="${assignment.id}" title="${removeTitle}" aria-label="${removeTitle}">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -1260,7 +1029,7 @@ const homepageFaqs = [
         </td>
       `;
 
-      container.appendChild(tr);
+      container.appendChild(trEl);
     });
 
     calculateWeightedGrade();
@@ -1270,12 +1039,10 @@ const homepageFaqs = [
     const course = getActiveCourse();
     const isPtsMode = course.inputMode === 'points';
 
-    // Calculate total weights and drop lowest logic
     let totalWeightEntered = 0;
     let totalCompletedWeight = 0;
     let earnedWeightedPoints = 0;
 
-    // Identify rows marked with dropLowest
     const dropCandidates: { index: number; percentage: number; weight: number }[] = [];
 
     course.assignments.forEach((a, idx) => {
@@ -1296,7 +1063,6 @@ const homepageFaqs = [
       }
     });
 
-    // Find lowest candidate to drop if more than 1 candidate exists
     let droppedIndex = -1;
     if (dropCandidates.length > 1) {
       dropCandidates.sort((x, y) => x.percentage - y.percentage);
@@ -1304,7 +1070,7 @@ const homepageFaqs = [
     }
 
     course.assignments.forEach((a, idx) => {
-      if (idx === droppedIndex) return; // Dropped!
+      if (idx === droppedIndex) return;
 
       let effectivePct: number | null = null;
       if (a.score !== null && !isNaN(a.score)) {
@@ -1323,13 +1089,11 @@ const homepageFaqs = [
       }
     });
 
-    // Overall current grade
     let currentGradePct = 0;
     if (totalCompletedWeight > 0) {
       currentGradePct = earnedWeightedPoints / totalCompletedWeight;
     }
 
-    // UI Updates
     const gradePctEl = document.getElementById('weighted-grade-pct');
     const gradeLetterEl = document.getElementById('weighted-grade-letter');
     const gpaValEl = document.getElementById('weighted-gpa-val');
@@ -1347,7 +1111,6 @@ const homepageFaqs = [
       }
       if (gpaValEl) gpaValEl.textContent = `${info.gpa.toFixed(2)} / 4.0 (${info.desc})`;
       
-      // Auto-sync current grade with Final Exam Calculator only when real grades exist
       course.finalExam.currentGrade = parseFloat(currentGradePct.toFixed(2));
       const feCurrentInput = document.getElementById('fe-current-grade') as HTMLInputElement | null;
       if (feCurrentInput && document.activeElement !== feCurrentInput) {
@@ -1378,17 +1141,17 @@ const homepageFaqs = [
 
     if (statusMsg) {
       if (totalWeightEntered === 100) {
-        statusMsg.textContent = '100% of course weight accounted for. Complete!';
+        statusMsg.textContent = tr('status.complete', '100% of course weight accounted for. Complete!');
         statusMsg.style.color = 'var(--color-emerald)';
       } else if (totalWeightEntered > 100) {
-        statusMsg.textContent = `Weights exceed 100% (currently ${totalWeightEntered.toFixed(1)}%). Consider adjusting.`;
+        statusMsg.textContent = tr('status.exceeds', 'Weights exceed 100%. Consider adjusting.');
         statusMsg.style.color = 'var(--color-rose)';
       } else if (totalWeightEntered > 0) {
         const remaining = 100 - totalWeightEntered;
-        statusMsg.textContent = `${remaining.toFixed(1)}% weight remaining in term (e.g. final exam/project).`;
+        statusMsg.textContent = `${remaining.toFixed(1)}% ${tr('status.remaining', 'weight remaining in term (e.g. final exam/project).')}`;
         statusMsg.style.color = 'var(--color-mute)';
       } else {
-        statusMsg.textContent = 'Enter your values to calculate';
+        statusMsg.textContent = tr('status.enterValues', 'Enter your values to calculate');
         statusMsg.style.color = 'var(--color-mute)';
       }
     }
@@ -1401,10 +1164,7 @@ const homepageFaqs = [
       }
     }
 
-    // Run What-If Simulation
     calculateWhatIf(currentGradePct, totalCompletedWeight);
-
-    // Also update final exam calculations
     calculateFinalExam();
   }
 
@@ -1469,17 +1229,17 @@ const homepageFaqs = [
     if (isNaN(current) || isNaN(target) || isNaN(weight) || weight <= 0) {
       if (requiredScoreEl) requiredScoreEl.textContent = '--%';
       if (feasibilityBadge) {
-        feasibilityBadge.textContent = 'Awaiting Input';
+        feasibilityBadge.textContent = tr('status.awaiting', 'Awaiting Input');
         feasibilityBadge.className = 'badge badge-blue';
       }
       if (feasibilityDesc) {
-        feasibilityDesc.textContent = 'Enter your current grade and final exam weight to see what score you need.';
+        feasibilityDesc.textContent = tr('status.enterValues', 'Enter your values to calculate target benchmarks.');
       }
       if (currentImpactEl) currentImpactEl.textContent = '--';
       if (finalWorthEl) finalWorthEl.textContent = '--';
       const tbody = document.getElementById('fe-matrix-tbody');
       if (tbody) {
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 1.5rem; color: var(--color-mute);">Enter your values to calculate target benchmarks.</td></tr>';
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 1.5rem; color: var(--color-mute);">${tr('status.enterValues', 'Enter your values to calculate target benchmarks.')}</td></tr>`;
       }
       return;
     }
@@ -1488,8 +1248,8 @@ const homepageFaqs = [
     const currentImpact = current * (1 - wDecimal);
     const requiredScore = (target - currentImpact) / wDecimal;
 
-    if (currentImpactEl) currentImpactEl.textContent = `${currentImpact.toFixed(1)} pts (${(100 - weight).toFixed(0)}% of grade)`;
-    if (finalWorthEl) finalWorthEl.textContent = `${weight}% of overall grade`;
+    if (currentImpactEl) currentImpactEl.textContent = `${currentImpact.toFixed(1)} pts (${(100 - weight).toFixed(0)}%)`;
+    if (finalWorthEl) finalWorthEl.textContent = `${weight}%`;
 
     if (requiredScoreEl) {
       requiredScoreEl.textContent = `${requiredScore.toFixed(1)}%`;
@@ -1497,33 +1257,32 @@ const homepageFaqs = [
 
     if (feasibilityBadge && feasibilityDesc) {
       if (requiredScore <= 0) {
-        feasibilityBadge.textContent = 'Guaranteed';
+        feasibilityBadge.textContent = tr('status.guaranteed', 'Guaranteed');
         feasibilityBadge.className = 'badge badge-green';
-        feasibilityDesc.textContent = `You have already secured a ${target}% in this class! Even with a 0% on the final exam, your final score will meet or exceed your target.`;
+        feasibilityDesc.textContent = `${tr('status.guaranteed', 'Guaranteed')}: ${target}%`;
       } else if (requiredScore <= 70) {
-        feasibilityBadge.textContent = 'Comfortable';
+        feasibilityBadge.textContent = tr('status.comfortable', 'Comfortable');
         feasibilityBadge.className = 'badge badge-green';
-        feasibilityDesc.textContent = `A score of ${requiredScore.toFixed(1)}% is comfortably within reach with standard course preparation.`;
+        feasibilityDesc.textContent = `${requiredScore.toFixed(1)}% - ${tr('status.comfortable', 'Comfortable')}`;
       } else if (requiredScore <= 85) {
-        feasibilityBadge.textContent = 'Realistic Target';
+        feasibilityBadge.textContent = tr('status.realistic', 'Realistic Target');
         feasibilityBadge.className = 'badge badge-blue';
-        feasibilityDesc.textContent = `Targeting ${requiredScore.toFixed(1)}% is very realistic. Review key midterms and past problem sets.`;
+        feasibilityDesc.textContent = `${requiredScore.toFixed(1)}% - ${tr('status.realistic', 'Realistic Target')}`;
       } else if (requiredScore <= 95) {
-        feasibilityBadge.textContent = 'Challenging Push';
+        feasibilityBadge.textContent = tr('status.challenging', 'Challenging Push');
         feasibilityBadge.className = 'badge badge-amber';
-        feasibilityDesc.textContent = `Scoring ${requiredScore.toFixed(1)}% will require dedicated review and thorough mastery of all syllabus topics.`;
+        feasibilityDesc.textContent = `${requiredScore.toFixed(1)}% - ${tr('status.challenging', 'Challenging Push')}`;
       } else if (requiredScore <= 100) {
-        feasibilityBadge.textContent = 'Near-Perfect Needed';
+        feasibilityBadge.textContent = tr('status.nearPerfect', 'Near-Perfect Needed');
         feasibilityBadge.className = 'badge badge-red';
-        feasibilityDesc.textContent = `You need ${requiredScore.toFixed(1)}% — an almost flawless exam score to hit your desired grade.`;
+        feasibilityDesc.textContent = `${requiredScore.toFixed(1)}% - ${tr('status.nearPerfect', 'Near-Perfect Needed')}`;
       } else {
-        feasibilityBadge.textContent = 'Extra Credit Required';
+        feasibilityBadge.textContent = tr('status.extraCredit', 'Extra Credit Required');
         feasibilityBadge.className = 'badge badge-red';
-        feasibilityDesc.textContent = `Scoring ${requiredScore.toFixed(1)}% is mathematically greater than 100%. You will need bonus or extra credit points.`;
+        feasibilityDesc.textContent = `${requiredScore.toFixed(1)}% - ${tr('status.extraCredit', 'Extra Credit Required')}`;
       }
     }
 
-    // Render Scenario Matrix Table
     renderFinalExamMatrix(current, weight);
   }
 
@@ -1535,45 +1294,44 @@ const homepageFaqs = [
     const wDecimal = weight / 100;
     const currentImpact = current * (1 - wDecimal);
 
-    // Benchmarks from active scale
     const sorted = [...activeScale].sort((a, b) => b.min - a.min);
 
     sorted.forEach((item) => {
       const required = (item.min - currentImpact) / wDecimal;
-      const tr = document.createElement('tr');
-      tr.style.borderBottom = '1px solid var(--color-hairline)';
+      const trEl = document.createElement('tr');
+      trEl.style.borderBottom = '1px solid var(--color-hairline)';
 
       let statusBadge = 'badge-blue';
-      let statusLabel = 'Achievable';
+      let statusLabel = tr('status.achievable', 'Achievable');
       if (required <= 0) {
         statusBadge = 'badge-green';
-        statusLabel = 'Guaranteed';
+        statusLabel = tr('status.guaranteed', 'Guaranteed');
       } else if (required <= 75) {
         statusBadge = 'badge-green';
-        statusLabel = 'Comfortable';
+        statusLabel = tr('status.comfortable', 'Comfortable');
       } else if (required <= 90) {
         statusBadge = 'badge-blue';
-        statusLabel = 'Moderate';
+        statusLabel = tr('status.moderate', 'Moderate');
       } else if (required <= 100) {
         statusBadge = 'badge-amber';
-        statusLabel = 'High Push';
+        statusLabel = tr('status.highPush', 'High Push');
       } else {
         statusBadge = 'badge-red';
-        statusLabel = 'Extra Credit';
+        statusLabel = tr('status.extraCredit', 'Extra Credit');
       }
 
-      tr.innerHTML = `
+      trEl.innerHTML = `
         <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">${item.letter}</td>
         <td style="padding: 0.625rem 0.875rem; color: var(--color-body); font-family: var(--font-mono);">${item.min}%</td>
         <td style="padding: 0.625rem 0.875rem; font-family: var(--font-mono); font-weight: 600; color: ${required > 100 ? 'var(--color-rose)' : 'var(--color-ink)'};">
-          ${required <= 0 ? '0.0% (Guaranteed)' : required.toFixed(1) + '%'}
+          ${required <= 0 ? '0.0% (' + tr('status.guaranteed', 'Guaranteed') + ')' : required.toFixed(1) + '%'}
         </td>
         <td style="padding: 0.625rem 0.875rem;">
           <span class="badge ${statusBadge}">${statusLabel}</span>
         </td>
       `;
 
-      tbody.appendChild(tr);
+      tbody.appendChild(trEl);
     });
   }
 
@@ -1588,38 +1346,49 @@ const homepageFaqs = [
 
     container.innerHTML = '';
 
-    course.gpaCourses.forEach((c) => {
-      const tr = document.createElement('tr');
-      tr.className = 'mobile-card-row';
-      tr.style.borderBottom = '1px solid var(--color-hairline)';
+    const courseTitleLabel = tr('status.courseTitle', 'Course Title');
+    const gradeLabel = tr('status.gradePct', 'Grade');
+    const selectGradeLabel = tr('status.selectGrade', '-- Select Grade --');
+    const passNoGpaLabel = tr('status.passNoGpa', 'Pass / P (No GPA)');
+    const creditsLabel = tr('status.credits', 'Credits');
+    const weightLevelLabel = tr('status.weightLevel', 'Weighting Level');
+    const standardOption = tr('status.standard', 'Standard (4.0)');
+    const honorsOption = tr('status.honorsOption', 'Honors (+0.5)');
+    const apOption = tr('status.apCollege', 'AP / College (+1.0)');
+    const removeCourseTitle = tr('status.removeCourse', 'Remove course');
 
-      tr.innerHTML = `
+    course.gpaCourses.forEach((c) => {
+      const trEl = document.createElement('tr');
+      trEl.className = 'mobile-card-row';
+      trEl.style.borderBottom = '1px solid var(--color-hairline)';
+
+      trEl.innerHTML = `
         <td class="td-gpa-title" style="padding: 0.5rem 0.75rem;">
-          <span class="mobile-input-label">Course Title</span>
+          <span class="mobile-input-label">${courseTitleLabel}</span>
           <input type="text" class="form-input gpa-title-input" data-id="${c.id}" value="${c.title}" placeholder="Course title" />
         </td>
         <td class="td-gpa-grade" style="padding: 0.5rem 0.75rem;">
-          <span class="mobile-input-label">Grade</span>
+          <span class="mobile-input-label">${gradeLabel}</span>
           <select class="form-select gpa-grade-select" data-id="${c.id}">
-            <option value="" ${!c.grade ? 'selected' : ''}>-- Select Grade --</option>
+            <option value="" ${!c.grade ? 'selected' : ''}>${selectGradeLabel}</option>
             ${activeScale.map(s => `<option value="${s.letter}" ${s.letter === c.grade ? 'selected' : ''}>${s.letter} (${s.gpa.toFixed(1)})</option>`).join('')}
-            <option value="P" ${c.grade === 'P' ? 'selected' : ''}>Pass / P (No GPA)</option>
+            <option value="P" ${c.grade === 'P' ? 'selected' : ''}>${passNoGpaLabel}</option>
           </select>
         </td>
         <td class="td-gpa-credits" style="padding: 0.5rem 0.75rem;">
-          <span class="mobile-input-label">Credits</span>
+          <span class="mobile-input-label">${creditsLabel}</span>
           <input type="number" step="0.5" min="0" max="12" class="form-input form-input-mono gpa-credits-input" data-id="${c.id}" value="${c.credits && c.credits > 0 ? c.credits : ''}" placeholder="Credits" />
         </td>
         <td class="td-gpa-type" style="padding: 0.5rem 0.75rem;">
-          <span class="mobile-input-label">Weighting Level</span>
+          <span class="mobile-input-label">${weightLevelLabel}</span>
           <select class="form-select gpa-type-select" data-id="${c.id}">
-            <option value="standard" ${c.type === 'standard' ? 'selected' : ''}>Standard (4.0)</option>
-            <option value="honors" ${c.type === 'honors' ? 'selected' : ''}>Honors (+0.5)</option>
-            <option value="ap" ${c.type === 'ap' ? 'selected' : ''}>AP / College (+1.0)</option>
+            <option value="standard" ${c.type === 'standard' ? 'selected' : ''}>${standardOption}</option>
+            <option value="honors" ${c.type === 'honors' ? 'selected' : ''}>${honorsOption}</option>
+            <option value="ap" ${c.type === 'ap' ? 'selected' : ''}>${apOption}</option>
           </select>
         </td>
         <td class="td-gpa-delete" style="padding: 0.5rem 0.75rem; text-align: right;">
-          <button type="button" class="btn btn-ghost btn-icon delete-gpa-btn" data-id="${c.id}" title="Remove course" aria-label="Remove course">
+          <button type="button" class="btn btn-ghost btn-icon delete-gpa-btn" data-id="${c.id}" title="${removeCourseTitle}" aria-label="${removeCourseTitle}">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -1628,7 +1397,7 @@ const homepageFaqs = [
         </td>
       `;
 
-      container.appendChild(tr);
+      container.appendChild(trEl);
     });
 
     calculateGpa();
@@ -1641,12 +1410,11 @@ const homepageFaqs = [
     let semesterCredits = 0;
 
     course.gpaCourses.forEach((c) => {
-      if (c.grade === 'P') return; // Pass/Fail excluded from GPA
+      if (c.grade === 'P') return;
 
       const scaleItem = activeScale.find(s => s.letter === c.grade);
       let baseGpa = scaleItem ? scaleItem.gpa : 0;
 
-      // Weight adjustment
       if (c.type === 'honors') baseGpa += 0.5;
       if (c.type === 'ap') baseGpa += 1.0;
 
@@ -1659,7 +1427,6 @@ const homepageFaqs = [
 
     const semesterGpa = semesterCredits > 0 ? (semesterQualityPoints / semesterCredits) : 0;
 
-    // Prior GPA integration
     const priorGpaInput = document.getElementById('prior-gpa-input') as HTMLInputElement | null;
     const priorCreditsInput = document.getElementById('prior-credits-input') as HTMLInputElement | null;
 
@@ -1675,7 +1442,6 @@ const homepageFaqs = [
       cumulativeGpa = (priorPoints + semesterQualityPoints) / totalCredits;
     }
 
-    // UI Updates
     const semGpaEl = document.getElementById('gpa-semester-val');
     const semCreditsEl = document.getElementById('gpa-semester-credits');
     const cumGpaEl = document.getElementById('gpa-cumulative-val');
@@ -1694,25 +1460,24 @@ const homepageFaqs = [
       } else {
         const gpaToCheck = cumulativeGpa;
         if (gpaToCheck >= 3.8) {
-          standingBadge.textContent = "Summa Cum Laude / Dean's List";
+          standingBadge.textContent = tr('status.deansList', "Summa Cum Laude / Dean's List");
           standingBadge.className = 'badge badge-green';
         } else if (gpaToCheck >= 3.5) {
-          standingBadge.textContent = "Magna Cum Laude / Honors";
+          standingBadge.textContent = tr('status.honors', 'Magna Cum Laude / Honors');
           standingBadge.className = 'badge badge-green';
         } else if (gpaToCheck >= 3.0) {
-          standingBadge.textContent = "Good Academic Standing";
+          standingBadge.textContent = tr('status.goodStanding', 'Good Academic Standing');
           standingBadge.className = 'badge badge-blue';
         } else if (gpaToCheck >= 2.0) {
-          standingBadge.textContent = "Satisfactory";
+          standingBadge.textContent = tr('status.satisfactory', 'Satisfactory');
           standingBadge.className = 'badge badge-amber';
         } else {
-          standingBadge.textContent = "Academic Probation Alert";
+          standingBadge.textContent = tr('status.probation', 'Academic Probation Alert');
           standingBadge.className = 'badge badge-red';
         }
       }
     }
 
-    // Target Graduation Planner Calculation
     calculateTargetGraduationGpa(cumulativeGpa, totalCredits);
   }
 
@@ -1731,17 +1496,16 @@ const homepageFaqs = [
       return;
     }
 
-    // Formula: (Target * (CurrentCredits + Remaining) - (CurrentCum * CurrentCredits)) / Remaining
     const totalFutureCredits = currentCredits + remainingCredits;
     const totalPointsNeeded = targetGpa * totalFutureCredits;
     const currentPoints = currentCumGpa * currentCredits;
     const requiredGpa = (totalPointsNeeded - currentPoints) / remainingCredits;
 
     if (requiredGpa <= 0) {
-      resultEl.textContent = "0.00 (Goal Secured!)";
+      resultEl.textContent = tr('status.goalSecured', '0.00 (Goal Secured!)');
       resultEl.style.color = "var(--color-emerald)";
     } else if (requiredGpa > 4.5) {
-      resultEl.textContent = `${requiredGpa.toFixed(2)} (Exceeds Max GPA)`;
+      resultEl.textContent = `${requiredGpa.toFixed(2)} (${tr('status.exceedsMax', 'Exceeds Max GPA')})`;
       resultEl.style.color = "var(--color-rose)";
     } else {
       resultEl.textContent = `${requiredGpa.toFixed(2)} / 4.0`;
@@ -1759,10 +1523,10 @@ const homepageFaqs = [
 
     tbody.innerHTML = '';
     activeScale.forEach((item, idx) => {
-      const tr = document.createElement('tr');
-      tr.style.borderBottom = '1px solid var(--color-hairline)';
+      const trEl = document.createElement('tr');
+      trEl.style.borderBottom = '1px solid var(--color-hairline)';
 
-      tr.innerHTML = `
+      trEl.innerHTML = `
         <td style="padding: 0.5rem 0.875rem; font-weight: 600; color: var(--color-ink);">${item.letter}</td>
         <td style="padding: 0.5rem 0.875rem;">
           <input type="number" step="0.5" class="form-input form-input-mono scale-min-input" data-idx="${idx}" value="${item.min}" style="width: 90px; padding: 0.25rem 0.5rem;" />
@@ -1770,7 +1534,7 @@ const homepageFaqs = [
         <td style="padding: 0.5rem 0.875rem; font-family: var(--font-mono); color: var(--color-ink);">${item.gpa.toFixed(2)}</td>
         <td style="padding: 0.5rem 0.875rem; color: var(--color-mute);">${item.desc}</td>
       `;
-      tbody.appendChild(tr);
+      tbody.appendChild(trEl);
     });
 
     const activeScaleTag = document.getElementById('active-scale-tag');
@@ -1829,7 +1593,6 @@ const homepageFaqs = [
     };
 
     function switchTab(targetId: string, shouldUpdateHash: boolean = true) {
-      // 1. Primary tabs active toggle
       primaryTabs.forEach(t => {
         if (t.getAttribute('data-target') === targetId) {
           t.classList.add('active');
@@ -1838,7 +1601,6 @@ const homepageFaqs = [
         }
       });
 
-      // 2. Secondary subnav cards active toggle
       subnavCards.forEach(c => {
         if (c.getAttribute('data-target') === targetId) {
           c.classList.add('active');
@@ -1847,7 +1609,6 @@ const homepageFaqs = [
         }
       });
 
-      // 3. Panels display toggle
       panels.forEach(p => {
         if (p.id === targetId) {
           (p as HTMLElement).style.display = 'block';
@@ -1856,7 +1617,6 @@ const homepageFaqs = [
         }
       });
 
-      // 4. Course profile banner visibility
       const courseBanner = document.getElementById('active-course-banner-wrap');
       if (courseBanner) {
         if (['calculator-weighted', 'calculator-final', 'calculator-gpa'].includes(targetId)) {
@@ -1866,7 +1626,6 @@ const homepageFaqs = [
         }
       }
 
-      // 5. Update browser URL & history
       if (shouldUpdateHash && TARGET_TO_HASH[targetId]) {
         const newHash = TARGET_TO_HASH[targetId];
         if (window.location.hash !== newHash) {
@@ -1888,7 +1647,6 @@ const homepageFaqs = [
       });
     }
 
-    // Attach click listeners to primary tabs
     primaryTabs.forEach(tab => {
       tab.addEventListener('click', () => {
         const target = tab.getAttribute('data-target');
@@ -1899,7 +1657,6 @@ const homepageFaqs = [
       });
     });
 
-    // Attach click listeners to secondary subnav cards
     subnavCards.forEach(card => {
       card.addEventListener('click', () => {
         const target = card.getAttribute('data-target');
@@ -1910,7 +1667,6 @@ const homepageFaqs = [
       });
     });
 
-    // Synchronize tab state with current window.location.hash
     function syncFromHash() {
       const currentHash = window.location.hash;
       const target = HASH_MAP[currentHash];
@@ -1921,14 +1677,10 @@ const homepageFaqs = [
       }
     }
 
-    // Hash change & popstate listener for back/forward navigation
     window.addEventListener('hashchange', syncFromHash);
     window.addEventListener('popstate', syncFromHash);
-
-    // Initial check on page load
     syncFromHash();
 
-    // Footer nav links
     document.querySelectorAll('.footer-nav-link').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -1940,13 +1692,11 @@ const homepageFaqs = [
       });
     });
 
-    // Jump to Final Exam button inside Weighted Calculator
     document.getElementById('jump-to-final-btn')?.addEventListener('click', () => {
       switchTab('calculator-final', true);
       scrollToCalculatorSection();
     });
 
-    // Course Selector Change
     document.getElementById('course-selector')?.addEventListener('change', (e) => {
       const sel = e.target as HTMLSelectElement;
       activeCourseId = sel.value;
@@ -1956,7 +1706,6 @@ const homepageFaqs = [
       renderGpaTable();
     });
 
-    // Global Course Change / Creation Listener
     window.addEventListener('gradecalc:course-changed', () => {
       loadInitialState();
       renderCourseSelector();
@@ -1964,7 +1713,15 @@ const homepageFaqs = [
       renderGpaTable();
     });
 
-    // Mode Toggle (Percent vs Points)
+    // Real-time language changed listener
+    window.addEventListener('languageChanged', () => {
+      renderCourseSelector();
+      renderWeightedTable();
+      renderGpaTable();
+      renderScaleModalTable();
+      calculateFinalExam();
+    });
+
     document.getElementById('mode-pct-btn')?.addEventListener('click', () => {
       getActiveCourse().inputMode = 'percentage';
       saveToLocalStorage();
@@ -1977,7 +1734,6 @@ const homepageFaqs = [
       renderWeightedTable();
     });
 
-    // Add Assignment Row
     document.getElementById('add-assignment-row-btn')?.addEventListener('click', () => {
       const course = getActiveCourse();
       course.assignments.push({
@@ -1992,7 +1748,6 @@ const homepageFaqs = [
       renderWeightedTable();
     });
 
-    // Clear All Assignments
     document.getElementById('clear-assignments-btn')?.addEventListener('click', () => {
       if (confirm('Clear all assignment rows for this course?')) {
         getActiveCourse().assignments = [];
@@ -2001,108 +1756,68 @@ const homepageFaqs = [
       }
     });
 
-    // Auto-scale weights to 100%
     document.getElementById('normalize-weights-btn')?.addEventListener('click', () => {
       const course = getActiveCourse();
-      const currentSum = course.assignments.reduce((sum, a) => sum + (a.weight || 0), 0);
-      if (currentSum > 0) {
+      const currentTotal = course.assignments.reduce((acc, a) => acc + (a.weight || 0), 0);
+      if (currentTotal > 0) {
         course.assignments.forEach(a => {
-          a.weight = parseFloat(((a.weight / currentSum) * 100).toFixed(1));
+          if (a.weight) {
+            a.weight = parseFloat(((a.weight / currentTotal) * 100).toFixed(2));
+          }
         });
         saveToLocalStorage();
         renderWeightedTable();
       }
     });
 
-    // Syllabus Preset Selection
-    document.getElementById('syllabus-preset-select')?.addEventListener('change', (e) => {
-      const sel = e.target as HTMLSelectElement;
-      const val = sel.value;
-      const course = getActiveCourse();
-
-      if (val === 'college-standard') {
-        course.assignments = [
-          { id: uid(), name: 'Homework & Assignments', score: null, maxPoints: 100, weight: 20, dropLowest: false },
-          { id: uid(), name: 'Midterm Examination', score: null, maxPoints: 100, weight: 25, dropLowest: false },
-          { id: uid(), name: 'Term Project', score: null, maxPoints: 100, weight: 25, dropLowest: false },
-          { id: uid(), name: 'Final Examination', score: null, maxPoints: 100, weight: 30, dropLowest: false }
-        ];
-      } else if (val === 'stem-lab') {
-        course.assignments = [
-          { id: uid(), name: 'Weekly Lab Reports', score: null, maxPoints: 100, weight: 30, dropLowest: true },
-          { id: uid(), name: 'Quizzes & Problem Sets', score: null, maxPoints: 100, weight: 15, dropLowest: false },
-          { id: uid(), name: 'Midterm 1', score: null, maxPoints: 100, weight: 12.5, dropLowest: false },
-          { id: uid(), name: 'Midterm 2', score: null, maxPoints: 100, weight: 12.5, dropLowest: false },
-          { id: uid(), name: 'Comprehensive Final', score: null, maxPoints: 100, weight: 30, dropLowest: false }
-        ];
-      } else if (val === 'highschool') {
-        course.assignments = [
-          { id: uid(), name: 'Unit Chapter Tests', score: null, maxPoints: 100, weight: 40, dropLowest: false },
-          { id: uid(), name: 'Pop Quizzes', score: null, maxPoints: 100, weight: 25, dropLowest: true },
-          { id: uid(), name: 'Homework & Classwork', score: null, maxPoints: 100, weight: 20, dropLowest: false },
-          { id: uid(), name: 'Engagement & Participation', score: null, maxPoints: 100, weight: 15, dropLowest: false }
-        ];
-      } else if (val === 'equal-four') {
-        course.assignments = [
-          { id: uid(), name: 'Quarter 1', score: null, maxPoints: 100, weight: 25, dropLowest: false },
-          { id: uid(), name: 'Quarter 2', score: null, maxPoints: 100, weight: 25, dropLowest: false },
-          { id: uid(), name: 'Quarter 3', score: null, maxPoints: 100, weight: 25, dropLowest: false },
-          { id: uid(), name: 'Quarter 4', score: null, maxPoints: 100, weight: 25, dropLowest: false }
-        ];
-      }
-
-      sel.value = '';
-      saveToLocalStorage();
-      renderWeightedTable();
-    });
-
-    // Delegate Table Inputs (Weighted)
-    const wContainer = document.getElementById('weighted-rows-container');
-    wContainer?.addEventListener('input', (e) => {
+    const weightedContainer = document.getElementById('weighted-rows-container');
+    weightedContainer?.addEventListener('input', (e) => {
       const target = e.target as HTMLElement;
-      const course = getActiveCourse();
       const id = target.getAttribute('data-id');
       if (!id) return;
 
+      const course = getActiveCourse();
       const assignment = course.assignments.find(a => a.id === id);
       if (!assignment) return;
 
       if (target.classList.contains('assign-name-input')) {
         assignment.name = (target as HTMLInputElement).value;
       } else if (target.classList.contains('assign-score-input')) {
-        const v = (target as HTMLInputElement).value;
-        assignment.score = v === '' ? null : parseFloat(v);
+        const val = (target as HTMLInputElement).value;
+        assignment.score = val === '' ? null : parseFloat(val);
       } else if (target.classList.contains('assign-max-input')) {
-        const v = (target as HTMLInputElement).value;
-        assignment.maxPoints = v === '' ? 100 : parseFloat(v);
+        const val = (target as HTMLInputElement).value;
+        assignment.maxPoints = val === '' ? null : parseFloat(val);
       } else if (target.classList.contains('assign-weight-input')) {
-        assignment.weight = parseFloat((target as HTMLInputElement).value) || 0;
+        const val = (target as HTMLInputElement).value;
+        assignment.weight = val === '' ? 0 : parseFloat(val);
       }
 
-      calculateWeightedGrade();
       saveToLocalStorage();
+      calculateWeightedGrade();
     });
 
-    wContainer?.addEventListener('change', (e) => {
+    weightedContainer?.addEventListener('change', (e) => {
       const target = e.target as HTMLElement;
-      const course = getActiveCourse();
       const id = target.getAttribute('data-id');
       if (!id) return;
 
+      const course = getActiveCourse();
       const assignment = course.assignments.find(a => a.id === id);
       if (!assignment) return;
 
       if (target.classList.contains('assign-drop-input')) {
         assignment.dropLowest = (target as HTMLInputElement).checked;
-        calculateWeightedGrade();
         saveToLocalStorage();
+        calculateWeightedGrade();
       }
     });
 
-    wContainer?.addEventListener('click', (e) => {
-      const btn = (e.target as HTMLElement).closest('.delete-assign-btn');
-      if (!btn) return;
-      const id = btn.getAttribute('data-id');
+    weightedContainer?.addEventListener('click', (e) => {
+      const target = (e.target as HTMLElement).closest('.delete-assign-btn');
+      if (!target) return;
+
+      const id = target.getAttribute('data-id');
       if (!id) return;
 
       const course = getActiveCourse();
@@ -2111,252 +1826,148 @@ const homepageFaqs = [
       renderWeightedTable();
     });
 
-    // What-If Simulator Inputs
-    document.getElementById('whatif-score-slider')?.addEventListener('input', () => {
-      calculateWeightedGrade();
-    });
-    document.getElementById('whatif-weight')?.addEventListener('input', () => {
-      calculateWeightedGrade();
-    });
-    document.getElementById('toggle-whatif-btn')?.addEventListener('click', () => {
-      const controls = document.getElementById('whatif-controls');
-      if (controls) {
-        controls.style.display = controls.style.display === 'none' ? 'grid' : 'none';
+    // Preset loader dropdown
+    document.getElementById('preset-template-select')?.addEventListener('change', (e) => {
+      const sel = e.target as HTMLSelectElement;
+      const val = sel.value;
+      if (!val) return;
+
+      const course = getActiveCourse();
+      if (val === 'us-standard') {
+        course.assignments = [
+          { id: uid(), name: 'Homework', score: 95, maxPoints: 100, weight: 20, dropLowest: false },
+          { id: uid(), name: 'Quizzes', score: 88, maxPoints: 100, weight: 15, dropLowest: true },
+          { id: uid(), name: 'Midterm Exam', score: 84, maxPoints: 100, weight: 25, dropLowest: false },
+          { id: uid(), name: 'Projects / Labs', score: 92, maxPoints: 100, weight: 15, dropLowest: false },
+          { id: uid(), name: 'Final Exam', score: null, maxPoints: 100, weight: 25, dropLowest: false },
+        ];
+      } else if (val === 'stem-heavy') {
+        course.assignments = [
+          { id: uid(), name: 'Weekly Problem Sets', score: 90, maxPoints: 100, weight: 15, dropLowest: false },
+          { id: uid(), name: 'Laboratory Reports', score: 94, maxPoints: 100, weight: 25, dropLowest: false },
+          { id: uid(), name: 'Midterm Exam 1', score: 82, maxPoints: 100, weight: 15, dropLowest: false },
+          { id: uid(), name: 'Midterm Exam 2', score: 85, maxPoints: 100, weight: 15, dropLowest: false },
+          { id: uid(), name: 'Comprehensive Final', score: null, maxPoints: 100, weight: 30, dropLowest: false },
+        ];
+      } else if (val === 'humanities') {
+        course.assignments = [
+          { id: uid(), name: 'Seminar Participation', score: 98, maxPoints: 100, weight: 20, dropLowest: false },
+          { id: uid(), name: 'Reading Responses', score: 92, maxPoints: 100, weight: 20, dropLowest: true },
+          { id: uid(), name: 'Midterm Essay', score: 88, maxPoints: 100, weight: 25, dropLowest: false },
+          { id: uid(), name: 'Final Term Paper', score: null, maxPoints: 100, weight: 35, dropLowest: false },
+        ];
+      } else if (val === 'highschool') {
+        course.assignments = [
+          { id: uid(), name: 'Daily Homework', score: 100, maxPoints: 100, weight: 20, dropLowest: false },
+          { id: uid(), name: 'Chapter Tests', score: 86, maxPoints: 100, weight: 40, dropLowest: false },
+          { id: uid(), name: 'Quizzes', score: 90, maxPoints: 100, weight: 20, dropLowest: true },
+          { id: uid(), name: 'Semester Final Exam', score: null, maxPoints: 100, weight: 20, dropLowest: false },
+        ];
       }
+      sel.value = '';
+      saveToLocalStorage();
+      renderWeightedTable();
     });
 
-    // Final Exam Inputs
+    const whatIfWeightInput = document.getElementById('whatif-weight') as HTMLInputElement | null;
+    const whatIfSlider = document.getElementById('whatif-score-slider') as HTMLInputElement | null;
+    const whatIfNumberInput = document.getElementById('whatif-score-input') as HTMLInputElement | null;
+
+    whatIfSlider?.addEventListener('input', () => {
+      if (whatIfNumberInput) whatIfNumberInput.value = whatIfSlider.value;
+      calculateWeightedGrade();
+    });
+
+    whatIfNumberInput?.addEventListener('input', () => {
+      if (whatIfSlider) whatIfSlider.value = whatIfNumberInput.value;
+      calculateWeightedGrade();
+    });
+
+    whatIfWeightInput?.addEventListener('input', () => {
+      calculateWeightedGrade();
+    });
+
     ['fe-current-grade', 'fe-target-grade', 'fe-weight'].forEach(id => {
       document.getElementById(id)?.addEventListener('input', () => {
         calculateFinalExam();
       });
     });
 
-    document.getElementById('fe-target-quickpick')?.addEventListener('change', (e) => {
-      const sel = e.target as HTMLSelectElement;
-      if (sel.value) {
-        const targetInput = document.getElementById('fe-target-grade') as HTMLInputElement | null;
-        if (targetInput) {
-          targetInput.value = sel.value;
-          calculateFinalExam();
-        }
-      }
-    });
-
-    // GPA Table Delegations
     const gpaContainer = document.getElementById('gpa-rows-container');
     gpaContainer?.addEventListener('input', (e) => {
       const target = e.target as HTMLElement;
-      const course = getActiveCourse();
       const id = target.getAttribute('data-id');
       if (!id) return;
 
-      const c = course.gpaCourses.find(x => x.id === id);
-      if (!c) return;
+      const course = getActiveCourse();
+      const gpaCourse = course.gpaCourses.find(c => c.id === id);
+      if (!gpaCourse) return;
 
       if (target.classList.contains('gpa-title-input')) {
-        c.title = (target as HTMLInputElement).value;
+        gpaCourse.title = (target as HTMLInputElement).value;
       } else if (target.classList.contains('gpa-credits-input')) {
-        c.credits = parseFloat((target as HTMLInputElement).value) || 0;
+        const val = (target as HTMLInputElement).value;
+        gpaCourse.credits = val === '' ? 0 : parseFloat(val);
       }
 
-      calculateGpa();
       saveToLocalStorage();
+      calculateGpa();
     });
 
     gpaContainer?.addEventListener('change', (e) => {
       const target = e.target as HTMLElement;
-      const course = getActiveCourse();
       const id = target.getAttribute('data-id');
       if (!id) return;
 
-      const c = course.gpaCourses.find(x => x.id === id);
-      if (!c) return;
+      const course = getActiveCourse();
+      const gpaCourse = course.gpaCourses.find(c => c.id === id);
+      if (!gpaCourse) return;
 
       if (target.classList.contains('gpa-grade-select')) {
-        c.grade = (target as HTMLSelectElement).value;
+        gpaCourse.grade = (target as HTMLSelectElement).value;
       } else if (target.classList.contains('gpa-type-select')) {
-        c.type = (target as HTMLSelectElement).value as any;
+        gpaCourse.type = (target as HTMLSelectElement).value as any;
       }
 
-      calculateGpa();
       saveToLocalStorage();
+      calculateGpa();
     });
 
     gpaContainer?.addEventListener('click', (e) => {
-      const btn = (e.target as HTMLElement).closest('.delete-gpa-btn');
-      if (!btn) return;
-      const id = btn.getAttribute('data-id');
+      const target = (e.target as HTMLElement).closest('.delete-gpa-btn');
+      if (!target) return;
+
+      const id = target.getAttribute('data-id');
       if (!id) return;
 
       const course = getActiveCourse();
-      course.gpaCourses = course.gpaCourses.filter(x => x.id !== id);
+      course.gpaCourses = course.gpaCourses.filter(c => c.id !== id);
       saveToLocalStorage();
       renderGpaTable();
     });
 
-    // Add Course row (GPA)
-    document.getElementById('add-course-row-btn')?.addEventListener('click', () => {
+    document.getElementById('add-gpa-course-btn')?.addEventListener('click', () => {
       const course = getActiveCourse();
       course.gpaCourses.push({
         id: uid(),
         title: '',
         grade: '',
-        credits: 0,
+        credits: 3,
         type: 'standard'
       });
       saveToLocalStorage();
       renderGpaTable();
     });
 
-    // Clear All GPA courses
-    document.getElementById('clear-courses-btn')?.addEventListener('click', () => {
-      if (confirm('Clear all course entries?')) {
-        getActiveCourse().gpaCourses = [];
-        saveToLocalStorage();
-        renderGpaTable();
-      }
-    });
-
-    // Load Sample Semester
-    document.getElementById('gpa-sample-btn')?.addEventListener('click', () => {
-      const course = getActiveCourse();
-      course.gpaCourses = [
-        { id: uid(), title: 'Organic Chemistry', grade: 'A-', credits: 4, type: 'standard' },
-        { id: uid(), title: 'Calculus III', grade: 'B+', credits: 4, type: 'honors' },
-        { id: uid(), title: 'Academic Writing & Rhetoric', grade: 'A', credits: 3, type: 'standard' },
-        { id: uid(), title: 'Cell Biology Lab', grade: 'A', credits: 2, type: 'standard' },
-        { id: uid(), title: 'Microeconomics', grade: 'A', credits: 3, type: 'ap' }
-      ];
-      saveToLocalStorage();
-      renderGpaTable();
-    });
-
-    // Toggle Prior GPA Drawer
-    document.getElementById('toggle-prior-gpa-btn')?.addEventListener('click', () => {
-      const drawer = document.getElementById('prior-gpa-drawer');
-      if (drawer) {
-        drawer.style.display = drawer.style.display === 'none' ? 'block' : 'none';
-      }
-    });
-
-    // Toggle Target GPA Drawer
-    document.getElementById('toggle-target-gpa-btn')?.addEventListener('click', () => {
-      const drawer = document.getElementById('target-gpa-drawer');
-      if (drawer) {
-        drawer.style.display = drawer.style.display === 'none' ? 'block' : 'none';
-      }
-    });
-
-    // Prior GPA Inputs
-    ['prior-gpa-input', 'prior-credits-input'].forEach(id => {
+    ['prior-gpa-input', 'prior-credits-input', 'target-grad-gpa', 'remaining-credits'].forEach(id => {
       document.getElementById(id)?.addEventListener('input', () => {
         calculateGpa();
       });
     });
 
-    // Target Grad GPA Inputs
-    ['target-grad-gpa', 'remaining-credits'].forEach(id => {
-      document.getElementById(id)?.addEventListener('input', () => {
-        calculateGpa();
-      });
-    });
-
-    // -----------------------------------------------------------------------
-    // Scale Modal Event Handlers
-    // -----------------------------------------------------------------------
-    const modal = document.getElementById('grade-scale-modal');
-    const openModalBtn = document.getElementById('open-scale-modal-btn');
-    const closeModalBtn = document.getElementById('close-scale-modal');
-    const cancelModalBtn = document.getElementById('cancel-scale-btn');
-    const activeScaleTag = document.getElementById('active-scale-tag');
-
-    function openScaleModal() {
-      modal?.classList.add('open');
-    }
-    function closeScaleModal() {
-      modal?.classList.remove('open');
-    }
-
-    openModalBtn?.addEventListener('click', openScaleModal);
-    activeScaleTag?.addEventListener('click', openScaleModal);
-    closeModalBtn?.addEventListener('click', closeScaleModal);
-    cancelModalBtn?.addEventListener('click', closeScaleModal);
-
-    modal?.addEventListener('click', (e) => {
-      if (e.target === modal) closeScaleModal();
-    });
-
-    // Switch Preset Scale
-    document.querySelectorAll('.preset-scale-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const preset = btn.getAttribute('data-preset');
-        if (preset && PRESET_SCALES[preset]) {
-          currentPresetKey = preset;
-          activeScale = JSON.parse(JSON.stringify(PRESET_SCALES[preset]));
-          document.querySelectorAll('.preset-scale-btn').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-
-          saveToLocalStorage();
-          renderScaleModalTable();
-          calculateWeightedGrade();
-          renderGpaTable();
-        }
-      });
-    });
-
-    // Reset Scale
-    document.getElementById('reset-scale-btn')?.addEventListener('click', () => {
-      currentPresetKey = 'standard';
-      activeScale = JSON.parse(JSON.stringify(PRESET_SCALES.standard));
-      saveToLocalStorage();
-      renderScaleModalTable();
-      calculateWeightedGrade();
-      renderGpaTable();
-    });
-
-    // Custom Scale Cutoff Change
-    document.getElementById('scale-table-body')?.addEventListener('input', (e) => {
-      const target = e.target as HTMLInputElement;
-      if (target.classList.contains('scale-min-input')) {
-        const idx = parseInt(target.getAttribute('data-idx') || '-1', 10);
-        if (idx >= 0 && activeScale[idx]) {
-          activeScale[idx].min = parseFloat(target.value) || 0;
-          currentPresetKey = 'custom';
-          saveToLocalStorage();
-          calculateWeightedGrade();
-          renderGpaTable();
-        }
-      }
-    });
-
-    // Share State Button
-    document.getElementById('share-state-btn')?.addEventListener('click', () => {
-      const current = getActiveCourse();
-      const payload = {
-        name: current.name,
-        inputMode: current.inputMode,
-        assignments: current.assignments,
-        whatIfWeight: current.whatIfWeight,
-        whatIfScore: current.whatIfScore,
-        finalExam: current.finalExam
-      };
-
-      const serialized = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
-      const shareUrl = `${window.location.origin}${window.location.pathname}#data=${serialized}`;
-
-      navigator.clipboard.writeText(shareUrl).then(() => {
-        const shareText = document.querySelector('.share-btn-text');
-        if (shareText) {
-          const orig = shareText.textContent;
-          shareText.textContent = 'Copied!';
-          setTimeout(() => {
-            shareText.textContent = orig;
-          }, 2000);
-        }
-      }).catch(() => {
-        prompt('Copy this shareable link:', shareUrl);
-      });
+    document.getElementById('active-scale-tag')?.addEventListener('click', () => {
+      const modal = document.getElementById('scale-modal');
+      if (modal) modal.style.display = 'flex';
     });
   });
 </script>
@@ -2421,9 +2032,9 @@ const homepageFaqs = [
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
+    text-decoration: none;
   }
 
-  /* Mobile screen styles: 2-column grid */
   @media (max-width: 640px) {
     .trust-cards-grid {
       grid-template-columns: repeat(2, 1fr) !important;
@@ -2473,7 +2084,6 @@ const homepageFaqs = [
     }
   }
 
-  /* Ultra-compact screens (e.g. 320px) */
   @media (max-width: 360px) {
     .trust-cards-grid {
       gap: 0.45rem !important;

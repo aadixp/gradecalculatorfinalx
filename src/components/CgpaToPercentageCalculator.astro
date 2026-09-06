@@ -13,11 +13,11 @@ const { idPrefix = 'cgpa2pct' } = Astro.props;
       <div>
         <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;">Converted Academic Standing</span>
         <div style="display: flex; align-items: baseline; gap: 0.75rem; margin-top: 0.25rem;">
-          <span id={`${idPrefix}-result-val`} class="display-xl" style="font-feature-settings: 'tnum';">--%</span>
-          <span id={`${idPrefix}-standing-badge`} class="badge badge-green">First Class</span>
+          <span id={`${idPrefix}-result-val`} class="display-xl" style="font-feature-settings: 'tnum';">80.75%</span>
+          <span id={`${idPrefix}-standing-badge`} class="badge badge-green">First Class with Distinction</span>
         </div>
         <p id={`${idPrefix}-formula-caption`} style="font-size: 0.875rem; color: var(--color-mute); margin-top: 0.5rem; line-height: 1.4;">
-          Calculation based on selected university formula.
+          Percentage = 8.50 &times; 9.5 = 80.75% (AICTE &amp; CBSE Standard)
         </p>
       </div>
 
@@ -27,15 +27,15 @@ const { idPrefix = 'cgpa2pct' } = Astro.props;
         <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8125rem;">
           <div style="display: flex; justify-content: space-between; color: var(--color-mute);">
             <span>AICTE / CBSE (&times; 9.5):</span>
-            <strong id={`${idPrefix}-bench-aicte`} style="color: var(--color-ink); font-family: var(--font-mono);">--%</strong>
+            <strong id={`${idPrefix}-bench-aicte`} style="color: var(--color-ink); font-family: var(--font-mono);">80.75%</strong>
           </div>
           <div style="display: flex; justify-content: space-between; color: var(--color-mute);">
             <span>Standard Direct (&times; 10):</span>
-            <strong id={`${idPrefix}-bench-direct`} style="color: var(--color-ink); font-family: var(--font-mono);">--%</strong>
+            <strong id={`${idPrefix}-bench-direct`} style="color: var(--color-ink); font-family: var(--font-mono);">85.00%</strong>
           </div>
           <div style="display: flex; justify-content: space-between; color: var(--color-mute);">
             <span>VTU / Mumbai ((CGPA - 0.75) &times; 10):</span>
-            <strong id={`${idPrefix}-bench-vtu`} style="color: var(--color-ink); font-family: var(--font-mono);">--%</strong>
+            <strong id={`${idPrefix}-bench-vtu`} style="color: var(--color-ink); font-family: var(--font-mono);">77.50%</strong>
           </div>
         </div>
       </div>

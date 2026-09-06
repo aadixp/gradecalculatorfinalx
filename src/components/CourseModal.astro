@@ -7,9 +7,9 @@
   <div class="modal-panel" style="max-width: 440px;">
     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem;">
       <div>
-        <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;">Course Profiles</span>
-        <h3 id="course-modal-title" class="heading-md" style="font-size: 1.15rem;">Create New Course</h3>
-        <p style="font-size: 0.8125rem; color: var(--color-mute); margin-top: 0.25rem;">
+        <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;" data-i18n="modal.courseProfiles">Course Profiles</span>
+        <h3 id="course-modal-title" class="heading-md" style="font-size: 1.15rem;" data-i18n="modal.createNewCourse">Create New Course</h3>
+        <p style="font-size: 0.8125rem; color: var(--color-mute); margin-top: 0.25rem;" data-i18n="modal.courseDesc">
           Add a course profile to maintain independent grades, syllabus weights, and GPA tracks.
         </p>
       </div>
@@ -23,7 +23,7 @@
 
     <form id="create-course-form" onsubmit="return false;">
       <div style="margin-bottom: 1.25rem;">
-        <label for="new-course-name-input" style="display: block; font-size: 0.8125rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.35rem;">
+        <label for="new-course-name-input" style="display: block; font-size: 0.8125rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="modal.courseNameLabel">
           Course Name or Code
         </label>
         <input
@@ -31,20 +31,21 @@
           type="text"
           class="form-input"
           placeholder="e.g. Organic Chemistry, MATH 201, CS 50"
+          data-i18n-placeholder="modal.courseNamePlaceholder"
           required
           autocomplete="off"
           style="width: 100%; font-size: 0.875rem;"
         />
-        <p style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.35rem;">
+        <p style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.35rem;" data-i18n="modal.privacyNote">
           Stored client-side in your browser with 100% data privacy.
         </p>
       </div>
 
       <div style="display: flex; justify-content: flex-end; align-items: center; gap: 0.5rem; padding-top: 0.75rem; border-top: 1px solid var(--color-hairline);">
-        <button id="cancel-course-modal-btn" type="button" class="btn btn-secondary">
+        <button id="cancel-course-modal-btn" type="button" class="btn btn-secondary" data-i18n="btn.cancel">
           Cancel
         </button>
-        <button id="confirm-create-course-btn" type="submit" class="btn btn-primary" style="font-weight: 600;">
+        <button id="confirm-create-course-btn" type="submit" class="btn btn-primary" style="font-weight: 600;" data-i18n="btn.createCourse">
           Create Course
         </button>
       </div>

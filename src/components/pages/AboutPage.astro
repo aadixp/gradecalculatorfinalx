@@ -1,0 +1,136 @@
+---
+// src/components/pages/AboutPage.astro
+import Layout from '../../layouts/Layout.astro';
+import { useTranslations, useTranslatedPath } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+---
+
+<Layout
+  title={t('about.title')}
+  description={t('about.desc')}
+  lang={lang}
+  breadcrumbs={[
+    { name: t('page.home'), item: translatePath('/') },
+    { name: t('nav.about'), item: translatePath('/about') }
+  ]}
+>
+  <div class="container" style="max-width: 880px; padding-top: 3rem; padding-bottom: 5rem;">
+    <!-- Breadcrumb & Return to Calculator -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
+        <a href={translatePath('/')} style="color: var(--color-mute); text-decoration: none;" data-i18n="page.home">{t('page.home')}</a>
+        <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
+        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="nav.about">{t('nav.about')}</span>
+      </nav>
+      <a href={translatePath('/')} class="btn btn-secondary" style="font-size: 0.8125rem; padding: 0.35rem 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span data-i18n="page.backToCalculator">{t('page.backToCalculator')}</span>
+      </a>
+    </div>
+
+    <!-- Page Header -->
+    <header style="margin-bottom: 2.5rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.75rem;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;" data-i18n="about.eyebrow">{t('about.eyebrow')}</span>
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.75rem, 4vw, 2.25rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="about.h1">
+        {t('about.h1')}
+      </h1>
+      <p style="font-size: 1rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6;" data-i18n="about.lead">
+        {t('about.lead')}
+      </p>
+    </header>
+
+    <!-- Main Content Card -->
+    <article class="geist-card" style="padding: 2.25rem 2rem; line-height: 1.75; color: var(--color-body);">
+      <div style="display: flex; flex-direction: column; gap: 2.25rem;">
+        <!-- Mission -->
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="about.missionTitle">
+            {t('about.missionTitle')}
+          </h2>
+          <p style="margin-bottom: 1rem;" data-i18n="about.missionP1">
+            {t('about.missionP1')}
+          </p>
+          <p data-i18n="about.missionP2">
+            {t('about.missionP2')}
+          </p>
+        </div>
+
+        <!-- Why We Built This -->
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="about.whyTitle">
+            {t('about.whyTitle')}
+          </h2>
+          <p style="margin-bottom: 1rem;" data-i18n="about.whyP1">
+            {t('about.whyP1')}
+          </p>
+          <ul style="padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem;">
+            <li data-i18n="about.whyLi1">{t('about.whyLi1')}</li>
+            <li data-i18n="about.whyLi2">{t('about.whyLi2')}</li>
+            <li data-i18n="about.whyLi3">{t('about.whyLi3')}</li>
+            <li data-i18n="about.whyLi4">{t('about.whyLi4')}</li>
+          </ul>
+        </div>
+
+        <!-- Academic Integrity & Mathematical Precision -->
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="about.precisionTitle">
+            {t('about.precisionTitle')}
+          </h2>
+          <p style="margin-bottom: 1rem;" data-i18n="about.precisionP1">
+            {t('about.precisionP1')}
+          </p>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+            <div style="background: var(--color-canvas-subtle); border: 1px solid var(--color-hairline); border-radius: var(--radius-sm); padding: 1.25rem;">
+              <h3 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="about.precisionCard1Title">{t('about.precisionCard1Title')}</h3>
+              <p style="font-size: 0.8125rem; color: var(--color-mute); margin: 0;" data-i18n="about.precisionCard1Desc">
+                {t('about.precisionCard1Desc')}
+              </p>
+            </div>
+
+            <div style="background: var(--color-canvas-subtle); border: 1px solid var(--color-hairline); border-radius: var(--radius-sm); padding: 1.25rem;">
+              <h3 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="about.precisionCard2Title">{t('about.precisionCard2Title')}</h3>
+              <p style="font-size: 0.8125rem; color: var(--color-mute); margin: 0;" data-i18n="about.precisionCard2Desc">
+                {t('about.precisionCard2Desc')}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Educational Community -->
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="about.communityTitle">
+            {t('about.communityTitle')}
+          </h2>
+          <p style="margin-bottom: 1rem;" data-i18n="about.communityP1">
+            {t('about.communityP1')}
+          </p>
+          <p data-i18n="about.communityP2">
+            {t('about.communityP2')}
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Bottom Return Action -->
+    <div style="text-align: center; margin-top: 3rem;">
+      <a href={translatePath('/')} class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; padding: 0.65rem 1.25rem;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span data-i18n="page.returnToGradeCalc">{t('page.returnToGradeCalc')}</span>
+      </a>
+    </div>
+  </div>
+</Layout>

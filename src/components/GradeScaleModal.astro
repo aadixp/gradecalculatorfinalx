@@ -6,9 +6,9 @@
   <div class="modal-panel">
     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem;">
       <div>
-        <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;">Scale Configuration</span>
-        <h3 id="scale-modal-title" class="heading-md">Grading Scale & Cutoffs</h3>
-        <p style="font-size: 0.875rem; color: var(--color-mute); margin-top: 0.25rem;">
+        <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;" data-i18n="modal.scaleConfig">Scale Configuration</span>
+        <h3 id="scale-modal-title" class="heading-md" data-i18n="modal.scaleTitle">Grading Scale & Cutoffs</h3>
+        <p style="font-size: 0.875rem; color: var(--color-mute); margin-top: 0.25rem;" data-i18n="modal.scaleDesc">
           Select an academic scale preset or customize threshold percentages to match your syllabus.
         </p>
       </div>
@@ -35,10 +35,10 @@
       <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
         <thead>
           <tr style="background: var(--color-canvas-subtle); border-bottom: 1px solid var(--color-hairline); text-align: left;">
-            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Letter Grade</th>
-            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Min Percentage (%)</th>
-            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">GPA Points</th>
-            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Description</th>
+            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);" data-i18n="modal.colLetterGrade">Letter Grade</th>
+            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);" data-i18n="modal.colMinPct">Min Percentage (%)</th>
+            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);" data-i18n="modal.colGpaPoints">GPA Points</th>
+            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);" data-i18n="modal.colDescription">Description</th>
           </tr>
         </thead>
         <tbody id="scale-table-body">
@@ -48,11 +48,11 @@
     </div>
 
     <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.75rem; border-top: 1px solid var(--color-hairline);">
-      <button id="reset-scale-btn" type="button" class="btn btn-ghost" style="font-size: 0.8125rem;">
+      <button id="reset-scale-btn" type="button" class="btn btn-ghost" style="font-size: 0.8125rem;" data-i18n="btn.resetDefault">
         Reset to Default
       </button>
       <div style="display: flex; gap: 0.5rem;">
-        <button id="cancel-scale-btn" type="button" class="btn btn-secondary">Done</button>
+        <button id="cancel-scale-btn" type="button" class="btn btn-secondary" data-i18n="btn.done">Done</button>
       </div>
     </div>
   </div>

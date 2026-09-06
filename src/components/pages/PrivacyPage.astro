@@ -1,0 +1,145 @@
+---
+// src/components/pages/PrivacyPage.astro
+import Layout from '../../layouts/Layout.astro';
+import { useTranslations, useTranslatedPath } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+---
+
+<Layout
+  title={t('privacy.title')}
+  description={t('privacy.desc')}
+  canonical={lang === 'en' ? 'https://gradecalculatorfinalx.com/privacy-policy/' : `https://gradecalculatorfinalx.com/${lang}/privacy-policy/`}
+  lang={lang}
+  breadcrumbs={[
+    { name: t('page.home'), item: translatePath('/') },
+    { name: t('nav.privacy'), item: translatePath('/privacy-policy') }
+  ]}
+>
+  <div class="container" style="max-width: 880px; padding-top: 3rem; padding-bottom: 5rem;">
+    <!-- Breadcrumb & Return to Calculator -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
+        <a href={translatePath('/')} style="color: var(--color-mute); text-decoration: none;" data-i18n="page.home">{t('page.home')}</a>
+        <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
+        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="nav.privacy">{t('nav.privacy')}</span>
+      </nav>
+      <a href={translatePath('/')} class="btn btn-secondary" style="font-size: 0.8125rem; padding: 0.35rem 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span data-i18n="page.backToCalculator">{t('page.backToCalculator')}</span>
+      </a>
+    </div>
+
+    <!-- Page Header -->
+    <header style="margin-bottom: 2.5rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.75rem;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;" data-i18n="privacy.eyebrow">{t('privacy.eyebrow')}</span>
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.75rem, 4vw, 2.25rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="privacy.h1">
+        {t('privacy.h1')}
+      </h1>
+      <p style="font-size: 0.875rem; color: var(--color-mute); margin-top: 0.5rem;" data-i18n="page.lastUpdated">
+        {t('page.lastUpdated')}
+      </p>
+    </header>
+
+    <!-- Main Content Card -->
+    <article class="geist-card" style="padding: 2.25rem 2rem; line-height: 1.75; color: var(--color-body);">
+      <div style="display: flex; flex-direction: column; gap: 2.25rem;">
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="privacy.s1Title">
+            {t('privacy.s1Title')}
+          </h2>
+          <p style="margin-bottom: 1rem;" data-i18n="privacy.s1P1">
+            {t('privacy.s1P1')}
+          </p>
+          <p data-i18n="privacy.s1P2">
+            {t('privacy.s1P2')}
+          </p>
+        </div>
+
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="privacy.s2Title">
+            {t('privacy.s2Title')}
+          </h2>
+          <p style="margin-bottom: 1rem;" data-i18n="privacy.s2P1">
+            {t('privacy.s2P1')}
+          </p>
+          <ul style="padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li data-i18n="privacy.s2Li1">{t('privacy.s2Li1')}</li>
+            <li data-i18n="privacy.s2Li2">{t('privacy.s2Li2')}</li>
+            <li data-i18n="privacy.s2Li3">{t('privacy.s2Li3')}</li>
+            <li data-i18n="privacy.s2Li4">{t('privacy.s2Li4')}</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="privacy.s3Title">
+            {t('privacy.s3Title')}
+          </h2>
+          <p style="margin-bottom: 1rem;" data-i18n="privacy.s3P1">
+            {t('privacy.s3P1')}
+          </p>
+          <p data-i18n="privacy.s3P2">
+            {t('privacy.s3P2')}
+          </p>
+        </div>
+
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="privacy.s4Title">
+            {t('privacy.s4Title')}
+          </h2>
+          <p data-i18n="privacy.s4P1">
+            {t('privacy.s4P1')}
+          </p>
+        </div>
+
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="privacy.s5Title">
+            {t('privacy.s5Title')}
+          </h2>
+          <p data-i18n="privacy.s5P1">
+            {t('privacy.s5P1')}
+          </p>
+        </div>
+
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="privacy.s6Title">
+            {t('privacy.s6Title')}
+          </h2>
+          <p data-i18n="privacy.s6P1">
+            {t('privacy.s6P1')}
+          </p>
+        </div>
+
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="privacy.s7Title">
+            {t('privacy.s7Title')}
+          </h2>
+          <p data-i18n="privacy.s7P1">
+            {t('privacy.s7P1')}
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Bottom Return Action -->
+    <div style="text-align: center; margin-top: 3rem;">
+      <a href={translatePath('/')} class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; padding: 0.65rem 1.25rem;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span data-i18n="page.returnToGradeCalc">{t('page.returnToGradeCalc')}</span>
+      </a>
+    </div>
+  </div>
+</Layout>

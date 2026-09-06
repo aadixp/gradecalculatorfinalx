@@ -1,0 +1,77 @@
+---
+// src/pages/[lang]/[slug].astro
+import { languages, type Lang } from '../../i18n/ui';
+import AboutPage from '../../components/pages/AboutPage.astro';
+import PrivacyPage from '../../components/pages/PrivacyPage.astro';
+import TermsPage from '../../components/pages/TermsPage.astro';
+import ContactPage from '../../components/pages/ContactPage.astro';
+import NotFoundPage from '../../components/pages/NotFoundPage.astro';
+import WeightedPage from '../../components/pages/WeightedPage.astro';
+import FinalExamPage from '../../components/pages/FinalExamPage.astro';
+import GpaPage from '../../components/pages/GpaPage.astro';
+import SemesterGpaPage from '../../components/pages/SemesterGpaPage.astro';
+import SemesterCgpaPage from '../../components/pages/SemesterCgpaPage.astro';
+import IndianCgpaPage from '../../components/pages/IndianCgpaPage.astro';
+import IndianSgpaPage from '../../components/pages/IndianSgpaPage.astro';
+import CgpaToPercentagePage from '../../components/pages/CgpaToPercentagePage.astro';
+import PercentageToCgpaPage from '../../components/pages/PercentageToCgpaPage.astro';
+import TargetCgpaPage from '../../components/pages/TargetCgpaPage.astro';
+import TargetGpaPage from '../../components/pages/TargetGpaPage.astro';
+import GradeConverterPage from '../../components/pages/GradeConverterPage.astro';
+
+export function getStaticPaths() {
+  const nonDefaultLocales = (Object.keys(languages) as Lang[]).filter((l) => l !== 'en');
+  const slugs = [
+    'about',
+    'privacy-policy',
+    'privacy',
+    'terms-and-conditions',
+    'terms',
+    'contact',
+    'weighted-grade-calculator',
+    'final-exam-calculator',
+    'gpa-calculator',
+    'semester-gpa-calculator',
+    'semester-cgpa-calculator',
+    'indian-cgpa-calculator',
+    'indian-sgpa-calculator',
+    'cgpa-to-percentage',
+    'percentage-to-cgpa',
+    'target-cgpa-calculator',
+    'target-gpa-calculator',
+    'grade-converter',
+    '404'
+  ];
+
+  const paths = [];
+  for (const lang of nonDefaultLocales) {
+    for (const slug of slugs) {
+      paths.push({
+        params: { lang, slug },
+        props: { lang, slug },
+      });
+    }
+  }
+  return paths;
+}
+
+const { lang, slug } = Astro.props as { lang: Lang; slug: string };
+---
+
+{slug === 'about' && <AboutPage lang={lang} />}
+{(slug === 'privacy-policy' || slug === 'privacy') && <PrivacyPage lang={lang} />}
+{(slug === 'terms-and-conditions' || slug === 'terms') && <TermsPage lang={lang} />}
+{slug === 'contact' && <ContactPage lang={lang} />}
+{slug === 'weighted-grade-calculator' && <WeightedPage lang={lang} />}
+{slug === 'final-exam-calculator' && <FinalExamPage lang={lang} />}
+{slug === 'gpa-calculator' && <GpaPage lang={lang} />}
+{slug === 'semester-gpa-calculator' && <SemesterGpaPage lang={lang} />}
+{slug === 'semester-cgpa-calculator' && <SemesterCgpaPage lang={lang} />}
+{slug === 'indian-cgpa-calculator' && <IndianCgpaPage lang={lang} />}
+{slug === 'indian-sgpa-calculator' && <IndianSgpaPage lang={lang} />}
+{slug === 'cgpa-to-percentage' && <CgpaToPercentagePage lang={lang} />}
+{slug === 'percentage-to-cgpa' && <PercentageToCgpaPage lang={lang} />}
+{slug === 'target-cgpa-calculator' && <TargetCgpaPage lang={lang} />}
+{slug === 'target-gpa-calculator' && <TargetGpaPage lang={lang} />}
+{slug === 'grade-converter' && <GradeConverterPage lang={lang} />}
+{slug === '404' && <NotFoundPage lang={lang} />}

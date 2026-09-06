@@ -1,0 +1,1980 @@
+import fs from 'fs';
+import path from 'path';
+
+const content = `---
+// src/components/MainPage.astro
+import Layout from '../layouts/Layout.astro';
+import WeightedCalculator from './WeightedCalculator.astro';
+import FinalExamCalculator from './FinalExamCalculator.astro';
+import GpaCalculator from './GpaCalculator.astro';
+import IndianCgpaCalculator from './IndianCgpaCalculator.astro';
+import IndianSgpaCalculator from './IndianSgpaCalculator.astro';
+import SemesterCgpaCalculator from './SemesterCgpaCalculator.astro';
+import CgpaToPercentageCalculator from './CgpaToPercentageCalculator.astro';
+import TargetCgpaCalculator from './TargetCgpaCalculator.astro';
+import TargetGpaCalculator from './TargetGpaCalculator.astro';
+import WhatIfCalculator from './WhatIfCalculator.astro';
+import GradeConverter from './GradeConverter.astro';
+import GradeScaleModal from './GradeScaleModal.astro';
+import { useTranslations, useTranslatedPath } from '../i18n/utils';
+import { faqs } from '../i18n/faqs';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+const currentFaqs = faqs[lang] || faqs.en;
+---
+
+<Layout
+  title={t('site.title')}
+  description={t('site.description')}
+  lang={lang}
+  breadcrumbs={[{ name: 'Home', item: '/' }]}
+  faqSchema={currentFaqs}
+>
+  <!-- Hero Section with Vercel Mesh Glow -->
+  <section style="position: relative; padding: 3rem 0 2.5rem; text-align: center;">
+    <div class="hero-glow-wrap">
+      <div class="hero-mesh"></div>
+    </div>
+
+    <div class="container" style="position: relative; z-index: 1;">
+      <div style="margin-bottom: 0.75rem;">
+        <span class="mono-eyebrow">
+          <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--color-blue);"></span>
+          <span data-i18n="hero.badge">{t('hero.badge')}</span> &bull; V2.0
+        </span>
+      </div>
+
+      <h1 class="display-xl" style="max-width: 860px; margin: 0 auto 1rem; color: var(--color-ink);" data-i18n="hero.title">
+        {t('hero.title')}
+      </h1>
+
+      <p style="font-size: clamp(1rem, 2vw, 1.125rem); color: var(--color-body); max-width: 680px; margin: 0 auto 2rem; line-height: 1.6;" data-i18n="hero.subtitle">
+        {t('hero.subtitle')}
+      </p>
+
+      <!-- Mode Switcher Tabs -->
+      <div style="display: flex; justify-content: center; margin-bottom: 2rem;">
+        <div class="tabs-header">
+          <button type="button" class="tab-btn active" data-target="calculator-weighted" id="tab-weighted-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="3" y1="9" x2="21" y2="9"></line>
+              <line x1="9" y1="21" x2="9" y2="9"></line>
+            </svg>
+            <span class="tab-label-full" data-i18n="tab.weighted">{t('tab.weighted')}</span>
+            <span class="tab-label-short" data-i18n="tab.weighted">Weighted</span>
+          </button>
+
+          <button type="button" class="tab-btn" data-target="calculator-final" id="tab-final-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 14 14"></polyline>
+            </svg>
+            <span class="tab-label-full" data-i18n="tab.finalExam">{t('tab.finalExam')}</span>
+            <span class="tab-label-short" data-i18n="tab.finalExam">Final Exam</span>
+          </button>
+
+          <button type="button" class="tab-btn" data-target="calculator-gpa" id="tab-gpa-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+            </svg>
+            <span class="tab-label-full" data-i18n="tab.gpa">{t('tab.gpa')}</span>
+            <span class="tab-label-short" data-i18n="tab.gpa">GPA</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Secondary Academic Calculators Suite -->
+      <div class="subnav-calc-section">
+        <div class="subnav-calc-columns">
+          <!-- Category 1: Indian Grading & CBCS -->
+          <div class="subnav-calc-group">
+            <div class="subnav-calc-header">
+              <span class="subnav-calc-title">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <span data-i18n="subnav.indianGrading">{t('subnav.indianGrading')}</span>
+              </span>
+              <a href={translatePath('/indian-cgpa-calculator')} class="btn-ghost" style="font-size: 0.6875rem; color: var(--color-mute); text-decoration: none;" title="View Indian grading guide"><span data-i18n="subnav.guideLink">{t('subnav.guideLink')}</span></a>
+            </div>
+            <div class="subnav-calc-grid">
+              <button type="button" class="subnav-calc-card" data-target="calculator-indian-cgpa" id="subnav-indian-cgpa-btn">
+                <div class="subnav-card-icon">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                    <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                  </svg>
+                </div>
+                <div class="subnav-card-content">
+                  <span class="subnav-card-label" data-i18n="subnav.indianCgpa">{t('subnav.indianCgpa')}</span>
+                  <span class="subnav-card-desc" data-i18n="subnav.indianCgpaDesc">{t('subnav.indianCgpaDesc')}</span>
+                </div>
+              </button>
+
+              <button type="button" class="subnav-calc-card" data-target="calculator-indian-sgpa" id="subnav-indian-sgpa-btn">
+                <div class="subnav-card-icon">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </div>
+                <div class="subnav-card-content">
+                  <span class="subnav-card-label" data-i18n="subnav.indianSgpa">{t('subnav.indianSgpa')}</span>
+                  <span class="subnav-card-desc" data-i18n="subnav.indianSgpaDesc">{t('subnav.indianSgpaDesc')}</span>
+                </div>
+              </button>
+
+              <button type="button" class="subnav-calc-card" data-target="calculator-semester-cgpa" id="subnav-semester-cgpa-btn">
+                <div class="subnav-card-icon">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                  </svg>
+                </div>
+                <div class="subnav-card-content">
+                  <span class="subnav-card-label" data-i18n="subnav.semesters">{t('subnav.semesters')}</span>
+                  <span class="subnav-card-desc" data-i18n="subnav.semestersDesc">{t('subnav.semestersDesc')}</span>
+                </div>
+              </button>
+
+              <button type="button" class="subnav-calc-card" data-target="calculator-cgpa-to-pct" id="subnav-cgpa-to-pct-btn">
+                <div class="subnav-card-icon">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="17 1 21 5 17 9"></polyline>
+                    <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                    <polyline points="7 23 3 19 7 15"></polyline>
+                    <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                  </svg>
+                </div>
+                <div class="subnav-card-content">
+                  <span class="subnav-card-label" data-i18n="subnav.cgpaToPct">{t('subnav.cgpaToPct')}</span>
+                  <span class="subnav-card-desc" data-i18n="subnav.cgpaToPctDesc">{t('subnav.cgpaToPctDesc')}</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Category 2: Planning & Tools -->
+          <div class="subnav-calc-group">
+            <div class="subnav-calc-header">
+              <span class="subnav-calc-title">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 14 14"></polyline>
+                </svg>
+                <span data-i18n="subnav.planningTools">{t('subnav.planningTools')}</span>
+              </span>
+              <a href={translatePath('/target-cgpa-calculator')} class="btn-ghost" style="font-size: 0.6875rem; color: var(--color-mute); text-decoration: none;" title="View goal planning tools"><span data-i18n="subnav.plannerLink">{t('subnav.plannerLink')}</span></a>
+            </div>
+            <div class="subnav-calc-grid">
+              <button type="button" class="subnav-calc-card" data-target="calculator-target-cgpa" id="subnav-target-cgpa-btn">
+                <div class="subnav-card-icon">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="22" y1="12" x2="18" y2="12"></line>
+                    <line x1="6" y1="12" x2="2" y2="12"></line>
+                    <line x1="12" y1="6" x2="12" y2="2"></line>
+                    <line x1="12" y1="22" x2="12" y2="18"></line>
+                  </svg>
+                </div>
+                <div class="subnav-card-content">
+                  <span class="subnav-card-label" data-i18n="subnav.targetCgpa">{t('subnav.targetCgpa')}</span>
+                  <span class="subnav-card-desc" data-i18n="subnav.targetCgpaDesc">{t('subnav.targetCgpaDesc')}</span>
+                </div>
+              </button>
+
+              <button type="button" class="subnav-calc-card" data-target="calculator-target-gpa" id="subnav-target-gpa-btn">
+                <div class="subnav-card-icon">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                    <polyline points="17 6 23 6 23 12"></polyline>
+                  </svg>
+                </div>
+                <div class="subnav-card-content">
+                  <span class="subnav-card-label" data-i18n="subnav.targetGpa">{t('subnav.targetGpa')}</span>
+                  <span class="subnav-card-desc" data-i18n="subnav.targetGpaDesc">{t('subnav.targetGpaDesc')}</span>
+                </div>
+              </button>
+
+              <button type="button" class="subnav-calc-card" data-target="calculator-what-if" id="subnav-what-if-btn">
+                <div class="subnav-card-icon">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" y1="21" x2="4" y2="14"></line>
+                    <line x1="4" y1="10" x2="4" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12" y2="3"></line>
+                    <line x1="20" y1="21" x2="20" y2="16"></line>
+                    <line x1="20" y1="12" x2="20" y2="3"></line>
+                    <line x1="1" y1="14" x2="7" y2="14"></line>
+                    <line x1="9" y1="8" x2="15" y2="8"></line>
+                    <line x1="17" y1="16" x2="23" y2="16"></line>
+                  </svg>
+                </div>
+                <div class="subnav-card-content">
+                  <span class="subnav-card-label" data-i18n="subnav.whatIfSim">{t('subnav.whatIfSim')}</span>
+                  <span class="subnav-card-desc" data-i18n="subnav.whatIfSimDesc">{t('subnav.whatIfSimDesc')}</span>
+                </div>
+              </button>
+
+              <button type="button" class="subnav-calc-card" data-target="calculator-converter" id="subnav-converter-btn">
+                <div class="subnav-card-icon">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                    <line x1="3" y1="15" x2="21" y2="15"></line>
+                    <line x1="9" y1="3" x2="9" y2="21"></line>
+                    <line x1="15" y1="3" x2="15" y2="21"></line>
+                  </svg>
+                </div>
+                <div class="subnav-card-content">
+                  <span class="subnav-card-label" data-i18n="subnav.scaleMatrix">{t('subnav.scaleMatrix')}</span>
+                  <span class="subnav-card-desc" data-i18n="subnav.scaleMatrixDesc">{t('subnav.scaleMatrixDesc')}</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Calculator Panels Container -->
+  <section id="main-calculator-section" class="container" style="max-width: 1040px; margin-bottom: 4rem;">
+    <!-- Active Course Indicator Banner -->
+    <div id="active-course-banner-wrap" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; font-size: 0.8125rem; color: var(--color-mute);">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span data-i18n="calc.currentProfile">{t('calc.currentProfile')}</span>
+        <strong id="active-profile-tag" style="color: var(--color-ink); font-weight: 600;">Math 101</strong>
+        <span class="badge badge-blue" id="active-scale-tag" style="cursor: pointer;" title="Click to view/change grading scale">Standard US (4.0)</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span id="save-status-indicator" style="display: flex; align-items: center; gap: 0.35rem; color: var(--color-emerald); font-family: var(--font-mono); font-size: 0.75rem;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span data-i18n="calc.autosaved">{t('calc.autosaved')}</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- The 3 Core Calculators -->
+    <WeightedCalculator lang={lang} />
+    <FinalExamCalculator lang={lang} />
+    <GpaCalculator lang={lang} />
+
+    <!-- Indian & Planning Calculators -->
+    <div id="calculator-indian-cgpa" class="calculator-panel" style="display: none;">
+      <IndianCgpaCalculator idPrefix="home-cgpa" />
+    </div>
+    <div id="calculator-indian-sgpa" class="calculator-panel" style="display: none;">
+      <IndianSgpaCalculator idPrefix="home-sgpa" />
+    </div>
+    <div id="calculator-semester-cgpa" class="calculator-panel" style="display: none;">
+      <SemesterCgpaCalculator idPrefix="home-semcgpa" />
+    </div>
+    <div id="calculator-cgpa-to-pct" class="calculator-panel" style="display: none;">
+      <CgpaToPercentageCalculator idPrefix="home-cgpa2pct" />
+    </div>
+    <div id="calculator-target-cgpa" class="calculator-panel" style="display: none;">
+      <TargetCgpaCalculator idPrefix="home-targetcgpa" />
+    </div>
+    <div id="calculator-target-gpa" class="calculator-panel" style="display: none;">
+      <TargetGpaCalculator idPrefix="home-targetgpa" />
+    </div>
+    <div id="calculator-what-if" class="calculator-panel" style="display: none;">
+      <WhatIfCalculator idPrefix="home-whatif" />
+    </div>
+    <div id="calculator-converter" class="calculator-panel" style="display: none;">
+      <GradeConverter idPrefix="home-converter" />
+    </div>
+  </section>
+
+  <!-- Educational & Feature Cards Section -->
+  <section class="container" style="max-width: 1040px; margin-bottom: 4rem;">
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;" data-i18n="calc.guideTitle">{t('calc.guideTitle')}</span>
+      <h2 class="heading-lg" style="margin-top: 0.25rem;" data-i18n="calc.howWeightedWorks">{t('calc.howWeightedWorks')}</h2>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+      <div class="geist-card" style="padding: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+          <div style="width: 28px; height: 28px; border-radius: var(--radius-sm); background: var(--color-canvas-subtle); display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-ink); border: 1px solid var(--color-hairline);">1</div>
+          <h3 style="font-size: 1rem; font-weight: 600; color: var(--color-ink);" data-i18n="edu.step1Title">{t('edu.step1Title')}</h3>
+        </div>
+        <p style="font-size: 0.875rem; color: var(--color-body); line-height: 1.5;" data-i18n="edu.step1Desc">
+          {t('edu.step1Desc')}
+        </p>
+      </div>
+
+      <div class="geist-card" style="padding: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+          <div style="width: 28px; height: 28px; border-radius: var(--radius-sm); background: var(--color-canvas-subtle); display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-ink); border: 1px solid var(--color-hairline);">2</div>
+          <h3 style="font-size: 1rem; font-weight: 600; color: var(--color-ink);" data-i18n="edu.step2Title">{t('edu.step2Title')}</h3>
+        </div>
+        <p style="font-size: 0.875rem; color: var(--color-body); line-height: 1.5;" data-i18n="edu.step2Desc">
+          {t('edu.step2Desc')}
+        </p>
+      </div>
+
+      <div class="geist-card" style="padding: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+          <div style="width: 28px; height: 28px; border-radius: var(--radius-sm); background: var(--color-canvas-subtle); display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-ink); border: 1px solid var(--color-hairline);">3</div>
+          <h3 style="font-size: 1rem; font-weight: 600; color: var(--color-ink);" data-i18n="edu.step3Title">{t('edu.step3Title')}</h3>
+        </div>
+        <p style="font-size: 0.875rem; color: var(--color-body); line-height: 1.5;" data-i18n="edu.step3Desc">
+          {t('edu.step3Desc')}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Authoritative SEO Content & Academic Guide Section -->
+  <section class="container" style="max-width: 1040px; margin-bottom: 3rem;">
+    <article class="geist-card seo-article-card" style="padding: 2.25rem 2rem; line-height: 1.7; color: var(--color-body);">
+      
+      <!-- Collapsible Article Body with 100% Crawlable DOM Content -->
+      <div id="seo-content-collapse" class="seo-content-collapsed">
+        <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.5rem;">
+          <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;" data-i18n="guide.eyebrow">{t('guide.eyebrow')}</span>
+          <h2 class="heading-lg" style="color: var(--color-ink); margin-top: 0.25rem; font-size: 1.75rem;" data-i18n="guide.title">
+            {t('guide.title')}
+          </h2>
+          <p style="font-size: 0.9375rem; color: var(--color-mute); margin-top: 0.5rem;" data-i18n="guide.subtitle">
+            {t('guide.subtitle')}
+          </p>
+        </header>
+
+        <div style="display: flex; flex-direction: column; gap: 2rem;">
+          <!-- Section 1: Intro -->
+          <div>
+            <h3 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="guide.s1Title">
+              {t('guide.s1Title')}
+            </h3>
+            <p style="margin-bottom: 1rem;" data-i18n="guide.s1P1">
+              {t('guide.s1P1')}
+            </p>
+            <p data-i18n="guide.s1P2">
+              {t('guide.s1P2')}
+            </p>
+          </div>
+
+          <!-- Section 2: Weighted vs Average -->
+          <div>
+            <h3 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="guide.s2Title">
+              {t('guide.s2Title')}
+            </h3>
+            <p style="margin-bottom: 1rem;" data-i18n="guide.s2P1">
+              {t('guide.s2P1')}
+            </p>
+            <p style="margin-bottom: 1rem;" data-i18n="guide.s2P2">
+              {t('guide.s2P2')}
+            </p>
+            <ul style="padding-left: 1.5rem; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+              <li data-i18n="guide.s2Li1">{t('guide.s2Li1')}</li>
+              <li data-i18n="guide.s2Li2">{t('guide.s2Li2')}</li>
+              <li data-i18n="guide.s2Li3">{t('guide.s2Li3')}</li>
+            </ul>
+            <p data-i18n="guide.s2P3">
+              {t('guide.s2P3')}
+            </p>
+          </div>
+
+          <!-- Section 3: Final Exam Target -->
+          <div>
+            <h3 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="guide.s3Title">
+              {t('guide.s3Title')}
+            </h3>
+            <p style="margin-bottom: 1rem;" data-i18n="guide.s3P1">
+              {t('guide.s3P1')}
+            </p>
+            <p style="margin-bottom: 1rem;" data-i18n="guide.s3P2">
+              {t('guide.s3P2')}
+            </p>
+            <div style="font-family: var(--font-mono); font-size: 0.875rem; background: var(--color-canvas-subtle); border: 1px solid var(--color-hairline); padding: 0.75rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem; color: var(--color-ink);" data-i18n="guide.s3Formula">
+              {t('guide.s3Formula')}
+            </div>
+            <p data-i18n="guide.s3P3">
+              {t('guide.s3P3')}
+            </p>
+          </div>
+
+          <!-- Section 4: College & Semester GPA -->
+          <div>
+            <h3 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="guide.s4Title">
+              {t('guide.s4Title')}
+            </h3>
+            <p style="margin-bottom: 1rem;" data-i18n="guide.s4P1">
+              {t('guide.s4P1')}
+            </p>
+            <p style="margin-bottom: 1rem;" data-i18n="guide.s4P2">
+              {t('guide.s4P2')}
+            </p>
+            <p data-i18n="guide.s4P3">
+              {t('guide.s4P3')}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subtle Fade/Gradient Overlay for Collapsed Preview -->
+      <div id="seo-fade-overlay" class="seo-fade-overlay" aria-hidden="true"></div>
+
+      <!-- Read More / Read Less Toggle Button -->
+      <div class="seo-toggle-wrapper">
+        <button id="seo-read-more-btn" type="button" class="seo-toggle-btn" aria-expanded="false" aria-controls="seo-content-collapse" data-read-more={t('btn.readMore')} data-read-less={t('btn.readLess')}>
+          <span id="seo-btn-text" data-i18n="btn.readMore">{t('btn.readMore')}</span>
+          <span id="seo-btn-arrow">&darr;</span>
+        </button>
+      </div>
+
+    </article>
+  </section>
+
+  <!-- Section 5: FAQs with All 17 Target Queries (Clean, Dedicated Card) -->
+  <section id="faq" class="container" style="max-width: 1040px; margin-bottom: 3.5rem;">
+    <div class="geist-card faq-card" style="padding: 2.25rem 2rem;">
+      <div style="margin-bottom: 1.5rem;">
+        <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;" data-i18n="faq.eyebrow">{t('faq.eyebrow')}</span>
+        <h3 class="heading-md" style="color: var(--color-ink); margin-top: 0.25rem; font-size: 1.35rem;" data-i18n="faq.title">
+          {t('faq.title')}
+        </h3>
+        <p style="font-size: 0.875rem; color: var(--color-mute); margin-top: 0.25rem;" data-i18n="faq.subtitle">
+          {t('faq.subtitle')}
+        </p>
+      </div>
+
+      <div class="faq-list">
+        {currentFaqs.slice(0, 4).map((faqItem, idx) => (
+          <details class="faq-item" open={idx < 3}>
+            <summary class="faq-question">
+              <span>{faqItem.question}</span>
+              <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-answer">
+              {faqItem.answer}
+            </div>
+          </details>
+        ))}
+
+        <!-- Expandable Remaining FAQ Items (5 through 17) -->
+        <div id="faq-more-container" class="faq-more-collapsed">
+          {currentFaqs.slice(4).map((faqItem) => (
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>{faqItem.question}</span>
+                <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </summary>
+              <div class="faq-answer">
+                {faqItem.answer}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+
+      <!-- Subtle Fade/Gradient Overlay for Collapsed FAQ -->
+      <div id="faq-fade-overlay" class="faq-fade-overlay" aria-hidden="true"></div>
+
+      <!-- FAQ Read More / Read Less Toggle Button -->
+      <div class="faq-toggle-wrapper">
+        <button id="faq-read-more-btn" type="button" class="seo-toggle-btn" aria-expanded="false" aria-controls="faq-more-container" data-read-more={t('btn.readMore')} data-read-less={t('btn.readLess')}>
+          <span id="faq-btn-text" data-i18n="btn.readMore">{t('btn.readMore')}</span>
+          <span id="faq-btn-arrow">&darr;</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Platform Resources & Trust Center Section (Visible on Homepage) -->
+  <section class="container trust-section" style="max-width: 1040px; margin-bottom: 4rem;">
+    <div style="text-align: center; margin-bottom: 1.75rem;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;" data-i18n="trust.eyebrow">{t('trust.eyebrow')}</span>
+      <h2 class="heading-lg" style="margin-top: 0.25rem; font-size: 1.5rem;" data-i18n="trust.title">
+        {t('trust.title')}
+      </h2>
+      <p style="font-size: 0.875rem; color: var(--color-mute); max-width: 600px; margin: 0.35rem auto 0;" data-i18n="trust.subtitle">
+        {t('trust.subtitle')}
+      </p>
+    </div>
+
+    <div class="trust-cards-grid">
+      <!-- About GradeCalc Card -->
+      <a href={translatePath('/about')} class="geist-card trust-card">
+        <div>
+          <div class="trust-card-icon" style="color: var(--color-blue);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+          </div>
+          <h3 class="trust-card-title" data-i18n="nav.about">{t('nav.about')}</h3>
+          <p class="trust-card-desc" data-i18n="trust.aboutDesc">
+            {t('trust.aboutDesc')}
+          </p>
+        </div>
+        <span class="trust-card-link" data-i18n="trust.readStory">
+          {t('trust.readStory')}
+        </span>
+      </a>
+
+      <!-- Privacy Policy Card -->
+      <a href={translatePath('/privacy-policy')} class="geist-card trust-card">
+        <div>
+          <div class="trust-card-icon" style="color: var(--color-emerald);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+          <h3 class="trust-card-title" data-i18n="nav.privacy">{t('nav.privacy')}</h3>
+          <p class="trust-card-desc" data-i18n="trust.privacyDesc">
+            {t('trust.privacyDesc')}
+          </p>
+        </div>
+        <span class="trust-card-link" data-i18n="trust.viewPrivacy">
+          {t('trust.viewPrivacy')}
+        </span>
+      </a>
+
+      <!-- Terms & Conditions Card -->
+      <a href={translatePath('/terms-and-conditions')} class="geist-card trust-card">
+        <div>
+          <div class="trust-card-icon" style="color: var(--color-amber);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <h3 class="trust-card-title" data-i18n="nav.terms">{t('nav.terms')}</h3>
+          <p class="trust-card-desc" data-i18n="trust.termsDesc">
+            {t('trust.termsDesc')}
+          </p>
+        </div>
+        <span class="trust-card-link" data-i18n="trust.reviewTerms">
+          {t('trust.reviewTerms')}
+        </span>
+      </a>
+
+      <!-- Contact Us Card -->
+      <a href={translatePath('/contact')} class="geist-card trust-card">
+        <div>
+          <div class="trust-card-icon" style="color: var(--color-violet);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </div>
+          <h3 class="trust-card-title" data-i18n="nav.contact">{t('nav.contact')}</h3>
+          <p class="trust-card-desc" data-i18n="trust.contactDesc">
+            {t('trust.contactDesc')}
+          </p>
+        </div>
+        <span class="trust-card-link" data-i18n="trust.getInTouch">
+          {t('trust.getInTouch')}
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Modal for Scale Configuration -->
+  <GradeScaleModal />
+</Layout>
+
+<!-- Core Application Client Script -->
+<script>
+  // =========================================================================
+  // SEO ARTICLE READ MORE / READ LESS TOGGLE
+  // =========================================================================
+  const seoBtn = document.getElementById('seo-read-more-btn');
+  const seoContent = document.getElementById('seo-content-collapse');
+  const seoFade = document.getElementById('seo-fade-overlay');
+  const seoBtnText = document.getElementById('seo-btn-text');
+  const seoBtnArrow = document.getElementById('seo-btn-arrow');
+  const seoCard = document.querySelector('.seo-article-card');
+
+  seoBtn?.addEventListener('click', () => {
+    const readMore = window.__i18n__?.t('btn.readMore') || seoBtn.getAttribute('data-read-more') || 'Read More';
+    const readLess = window.__i18n__?.t('btn.readLess') || seoBtn.getAttribute('data-read-less') || 'Read Less';
+    const isExpanded = seoContent?.classList.contains('seo-content-expanded');
+    if (isExpanded) {
+      seoContent?.classList.remove('seo-content-expanded');
+      seoContent?.classList.add('seo-content-collapsed');
+      if (seoFade) seoFade.style.display = 'block';
+      if (seoBtnText) seoBtnText.textContent = readMore;
+      if (seoBtnArrow) seoBtnArrow.innerHTML = '&darr;';
+      seoBtn?.setAttribute('aria-expanded', 'false');
+      seoCard?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      seoContent?.classList.remove('seo-content-collapsed');
+      seoContent?.classList.add('seo-content-expanded');
+      if (seoFade) seoFade.style.display = 'none';
+      if (seoBtnText) seoBtnText.textContent = readLess;
+      if (seoBtnArrow) seoBtnArrow.innerHTML = '&uarr;';
+      seoBtn?.setAttribute('aria-expanded', 'true');
+    }
+  });
+
+  // =========================================================================
+  // FAQ READ MORE / READ LESS TOGGLE
+  // =========================================================================
+  const faqBtn = document.getElementById('faq-read-more-btn');
+  const faqMoreContainer = document.getElementById('faq-more-container');
+  const faqFade = document.getElementById('faq-fade-overlay');
+  const faqBtnText = document.getElementById('faq-btn-text');
+  const faqBtnArrow = document.getElementById('faq-btn-arrow');
+  const faqCard = document.querySelector('.faq-card');
+
+  faqBtn?.addEventListener('click', () => {
+    const faqReadMore = window.__i18n__?.t('btn.readMore') || faqBtn.getAttribute('data-read-more') || 'Read More';
+    const faqReadLess = window.__i18n__?.t('btn.readLess') || faqBtn.getAttribute('data-read-less') || 'Read Less';
+    const isExpanded = faqMoreContainer?.classList.contains('faq-more-expanded');
+    if (isExpanded) {
+      faqMoreContainer?.classList.remove('faq-more-expanded');
+      faqMoreContainer?.classList.add('faq-more-collapsed');
+      if (faqFade) faqFade.style.display = 'block';
+      if (faqBtnText) faqBtnText.textContent = faqReadMore;
+      if (faqBtnArrow) faqBtnArrow.innerHTML = '&darr;';
+      faqBtn?.setAttribute('aria-expanded', 'false');
+      faqCard?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      faqMoreContainer?.classList.remove('faq-more-collapsed');
+      faqMoreContainer?.classList.add('faq-more-expanded');
+      if (faqFade) faqFade.style.display = 'none';
+      if (faqBtnText) faqBtnText.textContent = faqReadLess;
+      if (faqBtnArrow) faqBtnArrow.innerHTML = '&uarr;';
+      faqBtn?.setAttribute('aria-expanded', 'true');
+    }
+  });
+
+  // =========================================================================
+  // GRADE CALCULATOR APPLICATION LOGIC
+  // =========================================================================
+
+  interface Assignment {
+    id: string;
+    name: string;
+    score: number | null;
+    maxPoints?: number | null;
+    weight: number;
+    dropLowest: boolean;
+  }
+
+  interface CourseProfile {
+    id: string;
+    name: string;
+    inputMode: 'percentage' | 'points';
+    assignments: Assignment[];
+    whatIfWeight: number;
+    whatIfScore: number;
+    finalExam: {
+      currentGrade: number | null;
+      targetGrade: number | null;
+      weight: number | null;
+    };
+    gpaCourses: {
+      id: string;
+      title: string;
+      grade: string;
+      credits: number;
+      type: 'standard' | 'honors' | 'ap';
+    }[];
+    priorGpa: {
+      gpa: number | null;
+      credits: number | null;
+    };
+    targetGrad: {
+      targetGpa: number | null;
+      remainingCredits: number | null;
+    };
+  }
+
+  interface GradeScaleItem {
+    letter: string;
+    min: number;
+    gpa: number;
+    desc: string;
+  }
+
+  // Pre-configured Academic Scales
+  const PRESET_SCALES: Record<string, GradeScaleItem[]> = {
+    standard: [
+      { letter: 'A+', min: 97, gpa: 4.0, desc: 'Outstanding' },
+      { letter: 'A', min: 93, gpa: 4.0, desc: 'Excellent' },
+      { letter: 'A-', min: 90, gpa: 3.7, desc: 'Superior' },
+      { letter: 'B+', min: 87, gpa: 3.3, desc: 'Very Good' },
+      { letter: 'B', min: 83, gpa: 3.0, desc: 'Good' },
+      { letter: 'B-', min: 80, gpa: 2.7, desc: 'Above Average' },
+      { letter: 'C+', min: 77, gpa: 2.3, desc: 'Competent' },
+      { letter: 'C', min: 73, gpa: 2.0, desc: 'Average' },
+      { letter: 'C-', min: 70, gpa: 1.7, desc: 'Passing' },
+      { letter: 'D+', min: 67, gpa: 1.3, desc: 'Below Average' },
+      { letter: 'D', min: 63, gpa: 1.0, desc: 'Minimum Pass' },
+      { letter: 'D-', min: 60, gpa: 0.7, desc: 'Borderline Pass' },
+      { letter: 'F', min: 0, gpa: 0.0, desc: 'Failing' },
+    ],
+    straight10: [
+      { letter: 'A', min: 90, gpa: 4.0, desc: 'Excellent' },
+      { letter: 'B', min: 80, gpa: 3.0, desc: 'Good' },
+      { letter: 'C', min: 70, gpa: 2.0, desc: 'Satisfactory' },
+      { letter: 'D', min: 60, gpa: 1.0, desc: 'Passing' },
+      { letter: 'F', min: 0, gpa: 0.0, desc: 'Failing' },
+    ],
+    uk: [
+      { letter: '1st (First)', min: 70, gpa: 4.0, desc: 'Exemplary' },
+      { letter: '2:1 (Upper 2nd)', min: 60, gpa: 3.3, desc: 'Very Good' },
+      { letter: '2:2 (Lower 2nd)', min: 50, gpa: 2.7, desc: 'Good' },
+      { letter: '3rd (Third)', min: 40, gpa: 2.0, desc: 'Pass' },
+      { letter: 'Fail', min: 0, gpa: 0.0, desc: 'Failing' },
+    ],
+    canadian: [
+      { letter: 'A+', min: 90, gpa: 4.0, desc: 'Outstanding' },
+      { letter: 'A', min: 85, gpa: 3.9, desc: 'Excellent' },
+      { letter: 'A-', min: 80, gpa: 3.7, desc: 'Very Good' },
+      { letter: 'B+', min: 77, gpa: 3.3, desc: 'Good' },
+      { letter: 'B', min: 73, gpa: 3.0, desc: 'Satisfactory' },
+      { letter: 'B-', min: 70, gpa: 2.7, desc: 'Adequate' },
+      { letter: 'C+', min: 67, gpa: 2.3, desc: 'Marginal' },
+      { letter: 'C', min: 63, gpa: 2.0, desc: 'Passable' },
+      { letter: 'C-', min: 60, gpa: 1.7, desc: 'Minimum Pass' },
+      { letter: 'D', min: 50, gpa: 1.0, desc: 'Bare Pass' },
+      { letter: 'F', min: 0, gpa: 0.0, desc: 'Fail' },
+    ],
+    indian10: [
+      { letter: 'O', min: 90, gpa: 10.0, desc: 'Outstanding' },
+      { letter: 'A+', min: 80, gpa: 9.0, desc: 'Excellent' },
+      { letter: 'A', min: 70, gpa: 8.0, desc: 'Very Good' },
+      { letter: 'B+', min: 60, gpa: 7.0, desc: 'Good' },
+      { letter: 'B', min: 55, gpa: 6.0, desc: 'Above Average' },
+      { letter: 'C', min: 50, gpa: 5.0, desc: 'Average' },
+      { letter: 'P', min: 40, gpa: 4.0, desc: 'Pass' },
+      { letter: 'F', min: 0, gpa: 0.0, desc: 'Fail / Reappear' },
+    ],
+    us5: [
+      { letter: 'A+', min: 97, gpa: 5.0, desc: 'AP / Honors Outstanding' },
+      { letter: 'A', min: 93, gpa: 4.5, desc: 'Honors Excellent' },
+      { letter: 'A-', min: 90, gpa: 4.2, desc: 'Superior' },
+      { letter: 'B+', min: 87, gpa: 3.8, desc: 'Very Good' },
+      { letter: 'B', min: 83, gpa: 3.5, desc: 'Good' },
+      { letter: 'B-', min: 80, gpa: 3.2, desc: 'Above Average' },
+      { letter: 'C+', min: 77, gpa: 2.8, desc: 'Competent' },
+      { letter: 'C', min: 73, gpa: 2.5, desc: 'Average' },
+      { letter: 'D', min: 60, gpa: 1.5, desc: 'Passing' },
+      { letter: 'F', min: 0, gpa: 0.0, desc: 'Failing' },
+    ]
+  };
+
+  function tr(key: string, fallback: string): string {
+    return window.__i18n__?.t(key) || fallback;
+  }
+
+  // State
+  let currentPresetKey = 'standard';
+  let activeScale: GradeScaleItem[] = JSON.parse(JSON.stringify(PRESET_SCALES.standard));
+  let courses: Record<string, CourseProfile> = {};
+  let activeCourseId = 'course-1';
+
+  // Helper ID generator
+  const uid = () => Math.random().toString(36).substring(2, 9);
+
+  // Initialize Default Course with realistic sample values
+  function createDefaultCourse(name = 'Math 101'): CourseProfile {
+    return {
+      id: uid(),
+      name: name,
+      inputMode: 'percentage',
+      assignments: [
+        { id: uid(), name: 'Homework Assignments', score: 95, maxPoints: 100, weight: 20, dropLowest: false },
+        { id: uid(), name: 'Quizzes (Drop Lowest)', score: 88, maxPoints: 100, weight: 15, dropLowest: true },
+        { id: uid(), name: 'Midterm Exam', score: 84, maxPoints: 100, weight: 25, dropLowest: false },
+        { id: uid(), name: 'Problem Sets', score: 92, maxPoints: 100, weight: 15, dropLowest: false },
+        { id: uid(), name: 'Final Exam', score: null, maxPoints: 100, weight: 25, dropLowest: false },
+      ],
+      whatIfWeight: 25,
+      whatIfScore: 85,
+      finalExam: {
+        currentGrade: 87.5,
+        targetGrade: 90.0,
+        weight: 25
+      },
+      gpaCourses: [
+        { id: uid(), title: 'Math 101', grade: 'A-', credits: 4, type: 'standard' },
+        { id: uid(), title: 'Calculus I', grade: 'B+', credits: 4, type: 'standard' },
+        { id: uid(), title: 'English Literature', grade: 'A', credits: 3, type: 'standard' },
+        { id: uid(), title: 'Computer Science AP', grade: 'A', credits: 3, type: 'ap' },
+      ],
+      priorGpa: {
+        gpa: 3.65,
+        credits: 32
+      },
+      targetGrad: {
+        targetGpa: 3.80,
+        remainingCredits: 45
+      }
+    };
+  }
+
+  // Load from Storage
+  function loadInitialState() {
+    try {
+      localStorage.removeItem('gradecalc_courses_v1');
+      localStorage.removeItem('gradecalc_courses_v2');
+      localStorage.removeItem('gradecalc_active_course');
+      localStorage.removeItem('gradecalc_active_course_v2');
+
+      if (window.location.hash.startsWith('#data=')) {
+        const raw = window.location.hash.slice(6);
+        const decoded = JSON.parse(decodeURIComponent(escape(atob(raw))));
+        if (decoded && decoded.assignments) {
+          const importedCourse: CourseProfile = {
+            ...createDefaultCourse(decoded.name || 'Shared Course'),
+            ...decoded
+          };
+          courses = { [importedCourse.id]: importedCourse };
+          activeCourseId = importedCourse.id;
+          saveToLocalStorage();
+          window.location.hash = '#weighted';
+          return;
+        }
+      }
+
+      const savedScale = localStorage.getItem('gradecalc_scale_v1');
+      const savedPresetKey = localStorage.getItem('gradecalc_scale_key');
+      if (savedPresetKey && PRESET_SCALES[savedPresetKey]) {
+        currentPresetKey = savedPresetKey;
+      }
+      if (savedScale) {
+        activeScale = JSON.parse(savedScale);
+      } else {
+        activeScale = JSON.parse(JSON.stringify(PRESET_SCALES[currentPresetKey]));
+      }
+
+      const savedCourses = localStorage.getItem('gradecalc_courses_v3');
+      const savedActiveId = localStorage.getItem('gradecalc_active_course_v3');
+      if (savedCourses) {
+        courses = JSON.parse(savedCourses);
+      }
+      if (!courses || Object.keys(courses).length === 0) {
+        const def = createDefaultCourse();
+        courses = { [def.id]: def };
+        activeCourseId = def.id;
+      } else {
+        activeCourseId = (savedActiveId && courses[savedActiveId]) ? savedActiveId : Object.keys(courses)[0];
+      }
+    } catch (e) {
+      console.warn('Fallback to fresh state:', e);
+      const def = createDefaultCourse();
+      courses = { [def.id]: def };
+      activeCourseId = def.id;
+    }
+  }
+
+  function saveToLocalStorage() {
+    try {
+      localStorage.setItem('gradecalc_courses_v3', JSON.stringify(courses));
+      localStorage.setItem('gradecalc_active_course_v3', activeCourseId);
+      localStorage.setItem('gradecalc_scale_v1', JSON.stringify(activeScale));
+      localStorage.setItem('gradecalc_scale_key', currentPresetKey);
+
+      const ind = document.getElementById('save-status-indicator');
+      if (ind) {
+        ind.style.opacity = '1';
+        clearTimeout((window as any)._saveTimer);
+        (window as any)._saveTimer = setTimeout(() => {
+          ind.style.opacity = '0.5';
+        }, 1500);
+      }
+    } catch (e) {
+      console.error('Storage save failed', e);
+    }
+  }
+
+  function getActiveCourse(): CourseProfile {
+    if (!courses[activeCourseId]) {
+      activeCourseId = Object.keys(courses)[0] || 'default';
+      if (!courses[activeCourseId]) {
+        courses[activeCourseId] = createDefaultCourse();
+      }
+    }
+    return courses[activeCourseId];
+  }
+
+  function getGradeInfo(percentage: number): { letter: string; gpa: number; desc: string; badgeClass: string } {
+    if (isNaN(percentage)) {
+      return { letter: '--', gpa: 0, desc: '', badgeClass: 'badge-blue' };
+    }
+    const sorted = [...activeScale].sort((a, b) => b.min - a.min);
+    for (const item of sorted) {
+      if (percentage >= item.min) {
+        let badge = 'badge-blue';
+        if (percentage >= 90) badge = 'badge-green';
+        else if (percentage >= 80) badge = 'badge-blue';
+        else if (percentage >= 70) badge = 'badge-amber';
+        else badge = 'badge-red';
+        return { letter: item.letter, gpa: item.gpa, desc: item.desc, badgeClass: badge };
+      }
+    }
+    const lowest = sorted[sorted.length - 1];
+    return { letter: lowest.letter, gpa: lowest.gpa, desc: lowest.desc, badgeClass: 'badge-red' };
+  }
+
+  // =========================================================================
+  // DOM RENDERING & INTERACTIONS
+  // =========================================================================
+
+  function renderCourseSelector() {
+    const sel = document.getElementById('course-selector') as HTMLSelectElement | null;
+    const tag = document.getElementById('active-profile-tag');
+    const printCourse = document.getElementById('print-course-name');
+    if (!sel) return;
+
+    sel.innerHTML = '';
+    for (const [id, c] of Object.entries(courses)) {
+      const opt = document.createElement('option');
+      opt.value = id;
+      opt.textContent = c.name;
+      if (id === activeCourseId) opt.selected = true;
+      sel.appendChild(opt);
+    }
+
+    const current = getActiveCourse();
+    if (tag) tag.textContent = current.name;
+    if (printCourse) printCourse.textContent = current.name;
+  }
+
+  // -------------------------------------------------------------------------
+  // WEIGHTED CALCULATOR LOGIC
+  // -------------------------------------------------------------------------
+
+  function renderWeightedTable() {
+    const course = getActiveCourse();
+    const container = document.getElementById('weighted-rows-container');
+    if (!container) return;
+
+    const isPtsMode = course.inputMode === 'points';
+
+    const pctBtn = document.getElementById('mode-pct-btn');
+    const ptsBtn = document.getElementById('mode-pts-btn');
+    const maxPtsHeader = document.getElementById('max-pts-header');
+    const gradeColHeader = document.getElementById('grade-col-header');
+
+    if (isPtsMode) {
+      pctBtn?.classList.remove('active-mode');
+      ptsBtn?.classList.add('active-mode');
+      if (maxPtsHeader) maxPtsHeader.style.display = 'table-cell';
+      if (gradeColHeader) gradeColHeader.textContent = tr('status.pointsScored', 'Points Scored');
+    } else {
+      pctBtn?.classList.add('active-mode');
+      ptsBtn?.classList.remove('active-mode');
+      if (maxPtsHeader) maxPtsHeader.style.display = 'none';
+      if (gradeColHeader) gradeColHeader.textContent = tr('status.gradePct', 'Grade (%)');
+    }
+
+    container.innerHTML = '';
+
+    course.assignments.forEach((assignment, index) => {
+      const trEl = document.createElement('tr');
+      trEl.className = \`mobile-card-row \${isPtsMode ? 'has-max' : ''}\`;
+      trEl.style.borderBottom = '1px solid var(--color-hairline)';
+
+      const assignNumLabel = \`\${tr('status.assignNum', 'Assignment #')}\${index + 1}\`;
+      const scoreLabel = isPtsMode ? tr('status.score', 'Score') : tr('status.gradePct', 'Grade (%)');
+      const maxPtsLabel = tr('status.maxPts', 'Max Pts');
+      const weightLabel = tr('status.weightPct', 'Weight (%)');
+      const dropLabel = tr('status.dropLowest', 'Drop lowest score');
+      const removeTitle = tr('status.removeAssign', 'Remove assignment');
+
+      trEl.innerHTML = \`
+        <td class="td-name" style="padding: 0.5rem 0.75rem;">
+          <span class="mobile-input-label">\${assignNumLabel}</span>
+          <input type="text" class="form-input assign-name-input" data-id="\${assignment.id}" value="\${assignment.name}" placeholder="e.g. Homework or Exam" />
+        </td>
+        <td class="td-score" style="padding: 0.5rem 0.75rem;">
+          <span class="mobile-input-label">\${scoreLabel}</span>
+          <input type="number" step="0.1" class="form-input form-input-mono assign-score-input" data-id="\${assignment.id}" value="\${assignment.score !== null ? assignment.score : ''}" placeholder="\${isPtsMode ? 'e.g. 45' : 'e.g. 92'}" />
+        </td>
+        \${isPtsMode ? \`
+          <td class="td-max" style="padding: 0.5rem 0.75rem;">
+            <span class="mobile-input-label">\${maxPtsLabel}</span>
+            <input type="number" step="0.1" class="form-input form-input-mono assign-max-input" data-id="\${assignment.id}" value="\${assignment.maxPoints !== null ? assignment.maxPoints : ''}" placeholder="Total pts" />
+          </td>
+        \` : ''}
+        <td class="td-weight" style="padding: 0.5rem 0.75rem;">
+          <span class="mobile-input-label">\${weightLabel}</span>
+          <input type="number" step="0.5" min="0" max="100" class="form-input form-input-mono assign-weight-input" data-id="\${assignment.id}" value="\${assignment.weight && assignment.weight > 0 ? assignment.weight : ''}" placeholder="Weight %" />
+        </td>
+        <td class="td-drop" style="padding: 0.5rem 0.75rem; text-align: center;">
+          <label style="display: inline-flex; align-items: center; gap: 0.45rem; cursor: pointer; user-select: none; font-size: 0.8125rem; color: var(--color-body);">
+            <input type="checkbox" class="assign-drop-input" data-id="\${assignment.id}" \${assignment.dropLowest ? 'checked' : ''} style="cursor: pointer; width: 16px; height: 16px; accent-color: var(--color-blue);" />
+            <span>\${dropLabel}</span>
+          </label>
+        </td>
+        <td class="td-delete" style="padding: 0.5rem 0.75rem; text-align: right;">
+          <button type="button" class="btn btn-ghost btn-icon delete-assign-btn" data-id="\${assignment.id}" title="\${removeTitle}" aria-label="\${removeTitle}">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </td>
+      \`;
+
+      container.appendChild(trEl);
+    });
+
+    calculateWeightedGrade();
+  }
+
+  function calculateWeightedGrade() {
+    const course = getActiveCourse();
+    const isPtsMode = course.inputMode === 'points';
+
+    let totalWeightEntered = 0;
+    let totalCompletedWeight = 0;
+    let earnedWeightedPoints = 0;
+
+    const dropCandidates: { index: number; percentage: number; weight: number }[] = [];
+
+    course.assignments.forEach((a, idx) => {
+      totalWeightEntered += (a.weight || 0);
+
+      let effectivePct: number | null = null;
+      if (a.score !== null && !isNaN(a.score)) {
+        if (isPtsMode) {
+          const max = (a.maxPoints && a.maxPoints > 0) ? a.maxPoints : 100;
+          effectivePct = (a.score / max) * 100;
+        } else {
+          effectivePct = a.score;
+        }
+      }
+
+      if (a.dropLowest && effectivePct !== null) {
+        dropCandidates.push({ index: idx, percentage: effectivePct, weight: a.weight || 0 });
+      }
+    });
+
+    let droppedIndex = -1;
+    if (dropCandidates.length > 1) {
+      dropCandidates.sort((x, y) => x.percentage - y.percentage);
+      droppedIndex = dropCandidates[0].index;
+    }
+
+    course.assignments.forEach((a, idx) => {
+      if (idx === droppedIndex) return;
+
+      let effectivePct: number | null = null;
+      if (a.score !== null && !isNaN(a.score)) {
+        if (isPtsMode) {
+          const max = (a.maxPoints && a.maxPoints > 0) ? a.maxPoints : 100;
+          effectivePct = (a.score / max) * 100;
+        } else {
+          effectivePct = a.score;
+        }
+      }
+
+      if (effectivePct !== null) {
+        const w = a.weight || 0;
+        totalCompletedWeight += w;
+        earnedWeightedPoints += (effectivePct * w);
+      }
+    });
+
+    let currentGradePct = 0;
+    if (totalCompletedWeight > 0) {
+      currentGradePct = earnedWeightedPoints / totalCompletedWeight;
+    }
+
+    const gradePctEl = document.getElementById('weighted-grade-pct');
+    const gradeLetterEl = document.getElementById('weighted-grade-letter');
+    const gpaValEl = document.getElementById('weighted-gpa-val');
+    const totalWeightEl = document.getElementById('total-weight-label');
+    const progressBar = document.getElementById('weight-progress-bar');
+    const statusMsg = document.getElementById('weight-status-msg');
+    const normalizeBtn = document.getElementById('normalize-weights-btn');
+
+    if (totalCompletedWeight > 0) {
+      const info = getGradeInfo(currentGradePct);
+      if (gradePctEl) gradePctEl.textContent = \`\${currentGradePct.toFixed(2)}%\`;
+      if (gradeLetterEl) {
+        gradeLetterEl.textContent = info.letter;
+        gradeLetterEl.className = \`badge \${info.badgeClass}\`;
+      }
+      if (gpaValEl) gpaValEl.textContent = \`\${info.gpa.toFixed(2)} / 4.0 (\${info.desc})\`;
+      
+      course.finalExam.currentGrade = parseFloat(currentGradePct.toFixed(2));
+      const feCurrentInput = document.getElementById('fe-current-grade') as HTMLInputElement | null;
+      if (feCurrentInput && document.activeElement !== feCurrentInput) {
+        feCurrentInput.value = currentGradePct.toFixed(2);
+      }
+    } else {
+      if (gradePctEl) gradePctEl.textContent = '--%';
+      if (gradeLetterEl) {
+        gradeLetterEl.textContent = '--';
+        gradeLetterEl.className = 'badge badge-blue';
+      }
+      if (gpaValEl) gpaValEl.textContent = '--';
+      course.finalExam.currentGrade = null;
+    }
+
+    if (totalWeightEl) totalWeightEl.textContent = \`\${totalWeightEntered.toFixed(1)}%\`;
+    if (progressBar) {
+      const visualPct = Math.min(totalWeightEntered, 100);
+      progressBar.style.width = \`\${visualPct}%\`;
+      if (totalWeightEntered === 100) {
+        progressBar.style.backgroundColor = 'var(--color-emerald)';
+      } else if (totalWeightEntered > 100) {
+        progressBar.style.backgroundColor = 'var(--color-rose)';
+      } else {
+        progressBar.style.backgroundColor = 'var(--color-blue)';
+      }
+    }
+
+    if (statusMsg) {
+      if (totalWeightEntered === 100) {
+        statusMsg.textContent = tr('status.complete', '100% of course weight accounted for. Complete!');
+        statusMsg.style.color = 'var(--color-emerald)';
+      } else if (totalWeightEntered > 100) {
+        statusMsg.textContent = tr('status.exceeds', 'Weights exceed 100%. Consider adjusting.');
+        statusMsg.style.color = 'var(--color-rose)';
+      } else if (totalWeightEntered > 0) {
+        const remaining = 100 - totalWeightEntered;
+        statusMsg.textContent = \`\${remaining.toFixed(1)}% \${tr('status.remaining', 'weight remaining in term (e.g. final exam/project).')}\`;
+        statusMsg.style.color = 'var(--color-mute)';
+      } else {
+        statusMsg.textContent = tr('status.enterValues', 'Enter your values to calculate');
+        statusMsg.style.color = 'var(--color-mute)';
+      }
+    }
+
+    if (normalizeBtn) {
+      if (totalWeightEntered > 0 && totalWeightEntered !== 100) {
+        normalizeBtn.style.display = 'inline-flex';
+      } else {
+        normalizeBtn.style.display = 'none';
+      }
+    }
+
+    calculateWhatIf(currentGradePct, totalCompletedWeight);
+    calculateFinalExam();
+  }
+
+  function calculateWhatIf(currentGrade: number, currentWeight: number) {
+    const whatIfWeightInput = document.getElementById('whatif-weight') as HTMLInputElement | null;
+    const whatIfSlider = document.getElementById('whatif-score-slider') as HTMLInputElement | null;
+    const whatIfWeight = whatIfWeightInput && whatIfWeightInput.value !== '' ? parseFloat(whatIfWeightInput.value) : NaN;
+    const whatIfScore = whatIfSlider && whatIfSlider.value !== '' ? parseFloat(whatIfSlider.value) : NaN;
+
+    const projectedGradeEl = document.getElementById('whatif-projected-grade');
+    const projectedLetterEl = document.getElementById('whatif-projected-letter');
+    const scoreValEl = document.getElementById('whatif-score-val');
+
+    if (isNaN(whatIfWeight) || whatIfWeight <= 0 || isNaN(whatIfScore) || whatIfScore <= 0 || currentWeight <= 0) {
+      if (scoreValEl) scoreValEl.textContent = (isNaN(whatIfScore) || whatIfScore <= 0) ? '--%' : \`\${whatIfScore}%\`;
+      if (projectedGradeEl) projectedGradeEl.textContent = '--%';
+      if (projectedLetterEl) {
+        projectedLetterEl.textContent = '--';
+        projectedLetterEl.className = 'badge badge-blue';
+      }
+      return;
+    }
+
+    if (scoreValEl) scoreValEl.textContent = \`\${whatIfScore}%\`;
+
+    let projected = 0;
+    if (currentWeight + whatIfWeight > 0) {
+      projected = ((currentGrade * currentWeight) + (whatIfScore * whatIfWeight)) / (currentWeight + whatIfWeight);
+    } else {
+      projected = whatIfScore;
+    }
+
+    if (projectedGradeEl) projectedGradeEl.textContent = \`\${projected.toFixed(2)}%\`;
+    if (projectedLetterEl) {
+      const info = getGradeInfo(projected);
+      projectedLetterEl.textContent = info.letter;
+      projectedLetterEl.className = \`badge \${info.badgeClass}\`;
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // FINAL EXAM TARGET CALCULATOR LOGIC
+  // -------------------------------------------------------------------------
+
+  function calculateFinalExam() {
+    const currentInput = document.getElementById('fe-current-grade') as HTMLInputElement | null;
+    const targetInput = document.getElementById('fe-target-grade') as HTMLInputElement | null;
+    const weightInput = document.getElementById('fe-weight') as HTMLInputElement | null;
+
+    if (!currentInput || !targetInput || !weightInput) return;
+
+    const current = parseFloat(currentInput.value);
+    const target = parseFloat(targetInput.value);
+    const weight = parseFloat(weightInput.value);
+
+    const requiredScoreEl = document.getElementById('final-required-score');
+    const feasibilityBadge = document.getElementById('final-feasibility-badge');
+    const feasibilityDesc = document.getElementById('final-feasibility-desc');
+    const currentImpactEl = document.getElementById('final-current-weight-impact');
+    const finalWorthEl = document.getElementById('final-weight-val-summary');
+
+    if (isNaN(current) || isNaN(target) || isNaN(weight) || weight <= 0) {
+      if (requiredScoreEl) requiredScoreEl.textContent = '--%';
+      if (feasibilityBadge) {
+        feasibilityBadge.textContent = tr('status.awaiting', 'Awaiting Input');
+        feasibilityBadge.className = 'badge badge-blue';
+      }
+      if (feasibilityDesc) {
+        feasibilityDesc.textContent = tr('status.enterValues', 'Enter your values to calculate target benchmarks.');
+      }
+      if (currentImpactEl) currentImpactEl.textContent = '--';
+      if (finalWorthEl) finalWorthEl.textContent = '--';
+      const tbody = document.getElementById('fe-matrix-tbody');
+      if (tbody) {
+        tbody.innerHTML = \`<tr><td colspan="4" style="text-align: center; padding: 1.5rem; color: var(--color-mute);">\${tr('status.enterValues', 'Enter your values to calculate target benchmarks.')}</td></tr>\`;
+      }
+      return;
+    }
+
+    const wDecimal = weight / 100;
+    const currentImpact = current * (1 - wDecimal);
+    const requiredScore = (target - currentImpact) / wDecimal;
+
+    if (currentImpactEl) currentImpactEl.textContent = \`\${currentImpact.toFixed(1)} pts (\${(100 - weight).toFixed(0)}%)\`;
+    if (finalWorthEl) finalWorthEl.textContent = \`\${weight}%\`;
+
+    if (requiredScoreEl) {
+      requiredScoreEl.textContent = \`\${requiredScore.toFixed(1)}%\`;
+    }
+
+    if (feasibilityBadge && feasibilityDesc) {
+      if (requiredScore <= 0) {
+        feasibilityBadge.textContent = tr('status.guaranteed', 'Guaranteed');
+        feasibilityBadge.className = 'badge badge-green';
+        feasibilityDesc.textContent = \`\${tr('status.guaranteed', 'Guaranteed')}: \${target}%\`;
+      } else if (requiredScore <= 70) {
+        feasibilityBadge.textContent = tr('status.comfortable', 'Comfortable');
+        feasibilityBadge.className = 'badge badge-green';
+        feasibilityDesc.textContent = \`\${requiredScore.toFixed(1)}% - \${tr('status.comfortable', 'Comfortable')}\`;
+      } else if (requiredScore <= 85) {
+        feasibilityBadge.textContent = tr('status.realistic', 'Realistic Target');
+        feasibilityBadge.className = 'badge badge-blue';
+        feasibilityDesc.textContent = \`\${requiredScore.toFixed(1)}% - \${tr('status.realistic', 'Realistic Target')}\`;
+      } else if (requiredScore <= 95) {
+        feasibilityBadge.textContent = tr('status.challenging', 'Challenging Push');
+        feasibilityBadge.className = 'badge badge-amber';
+        feasibilityDesc.textContent = \`\${requiredScore.toFixed(1)}% - \${tr('status.challenging', 'Challenging Push')}\`;
+      } else if (requiredScore <= 100) {
+        feasibilityBadge.textContent = tr('status.nearPerfect', 'Near-Perfect Needed');
+        feasibilityBadge.className = 'badge badge-red';
+        feasibilityDesc.textContent = \`\${requiredScore.toFixed(1)}% - \${tr('status.nearPerfect', 'Near-Perfect Needed')}\`;
+      } else {
+        feasibilityBadge.textContent = tr('status.extraCredit', 'Extra Credit Required');
+        feasibilityBadge.className = 'badge badge-red';
+        feasibilityDesc.textContent = \`\${requiredScore.toFixed(1)}% - \${tr('status.extraCredit', 'Extra Credit Required')}\`;
+      }
+    }
+
+    renderFinalExamMatrix(current, weight);
+  }
+
+  function renderFinalExamMatrix(current: number, weight: number) {
+    const tbody = document.getElementById('fe-matrix-tbody');
+    if (!tbody) return;
+
+    tbody.innerHTML = '';
+    const wDecimal = weight / 100;
+    const currentImpact = current * (1 - wDecimal);
+
+    const sorted = [...activeScale].sort((a, b) => b.min - a.min);
+
+    sorted.forEach((item) => {
+      const required = (item.min - currentImpact) / wDecimal;
+      const trEl = document.createElement('tr');
+      trEl.style.borderBottom = '1px solid var(--color-hairline)';
+
+      let statusBadge = 'badge-blue';
+      let statusLabel = tr('status.achievable', 'Achievable');
+      if (required <= 0) {
+        statusBadge = 'badge-green';
+        statusLabel = tr('status.guaranteed', 'Guaranteed');
+      } else if (required <= 75) {
+        statusBadge = 'badge-green';
+        statusLabel = tr('status.comfortable', 'Comfortable');
+      } else if (required <= 90) {
+        statusBadge = 'badge-blue';
+        statusLabel = tr('status.moderate', 'Moderate');
+      } else if (required <= 100) {
+        statusBadge = 'badge-amber';
+        statusLabel = tr('status.highPush', 'High Push');
+      } else {
+        statusBadge = 'badge-red';
+        statusLabel = tr('status.extraCredit', 'Extra Credit');
+      }
+
+      trEl.innerHTML = \`
+        <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">\${item.letter}</td>
+        <td style="padding: 0.625rem 0.875rem; color: var(--color-body); font-family: var(--font-mono);">\${item.min}%</td>
+        <td style="padding: 0.625rem 0.875rem; font-family: var(--font-mono); font-weight: 600; color: \${required > 100 ? 'var(--color-rose)' : 'var(--color-ink)'};">
+          \${required <= 0 ? '0.0% (' + tr('status.guaranteed', 'Guaranteed') + ')' : required.toFixed(1) + '%'}
+        </td>
+        <td style="padding: 0.625rem 0.875rem;">
+          <span class="badge \${statusBadge}">\${statusLabel}</span>
+        </td>
+      \`;
+
+      tbody.appendChild(trEl);
+    });
+  }
+
+  // -------------------------------------------------------------------------
+  // GPA CALCULATOR LOGIC
+  // -------------------------------------------------------------------------
+
+  function renderGpaTable() {
+    const course = getActiveCourse();
+    const container = document.getElementById('gpa-rows-container');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    const courseTitleLabel = tr('status.courseTitle', 'Course Title');
+    const gradeLabel = tr('status.gradePct', 'Grade');
+    const selectGradeLabel = tr('status.selectGrade', '-- Select Grade --');
+    const passNoGpaLabel = tr('status.passNoGpa', 'Pass / P (No GPA)');
+    const creditsLabel = tr('status.credits', 'Credits');
+    const weightLevelLabel = tr('status.weightLevel', 'Weighting Level');
+    const standardOption = tr('status.standard', 'Standard (4.0)');
+    const honorsOption = tr('status.honorsOption', 'Honors (+0.5)');
+    const apOption = tr('status.apCollege', 'AP / College (+1.0)');
+    const removeCourseTitle = tr('status.removeCourse', 'Remove course');
+
+    course.gpaCourses.forEach((c) => {
+      const trEl = document.createElement('tr');
+      trEl.className = 'mobile-card-row';
+      trEl.style.borderBottom = '1px solid var(--color-hairline)';
+
+      trEl.innerHTML = \`
+        <td class="td-gpa-title" style="padding: 0.5rem 0.75rem;">
+          <span class="mobile-input-label">\${courseTitleLabel}</span>
+          <input type="text" class="form-input gpa-title-input" data-id="\${c.id}" value="\${c.title}" placeholder="Course title" />
+        </td>
+        <td class="td-gpa-grade" style="padding: 0.5rem 0.75rem;">
+          <span class="mobile-input-label">\${gradeLabel}</span>
+          <select class="form-select gpa-grade-select" data-id="\${c.id}">
+            <option value="" \${!c.grade ? 'selected' : ''}>\${selectGradeLabel}</option>
+            \${activeScale.map(s => \`<option value="\${s.letter}" \${s.letter === c.grade ? 'selected' : ''}>\${s.letter} (\${s.gpa.toFixed(1)})</option>\`).join('')}
+            <option value="P" \${c.grade === 'P' ? 'selected' : ''}>\${passNoGpaLabel}</option>
+          </select>
+        </td>
+        <td class="td-gpa-credits" style="padding: 0.5rem 0.75rem;">
+          <span class="mobile-input-label">\${creditsLabel}</span>
+          <input type="number" step="0.5" min="0" max="12" class="form-input form-input-mono gpa-credits-input" data-id="\${c.id}" value="\${c.credits && c.credits > 0 ? c.credits : ''}" placeholder="Credits" />
+        </td>
+        <td class="td-gpa-type" style="padding: 0.5rem 0.75rem;">
+          <span class="mobile-input-label">\${weightLevelLabel}</span>
+          <select class="form-select gpa-type-select" data-id="\${c.id}">
+            <option value="standard" \${c.type === 'standard' ? 'selected' : ''}>\${standardOption}</option>
+            <option value="honors" \${c.type === 'honors' ? 'selected' : ''}>\${honorsOption}</option>
+            <option value="ap" \${c.type === 'ap' ? 'selected' : ''}>\${apOption}</option>
+          </select>
+        </td>
+        <td class="td-gpa-delete" style="padding: 0.5rem 0.75rem; text-align: right;">
+          <button type="button" class="btn btn-ghost btn-icon delete-gpa-btn" data-id="\${c.id}" title="\${removeCourseTitle}" aria-label="\${removeCourseTitle}">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </td>
+      \`;
+
+      container.appendChild(trEl);
+    });
+
+    calculateGpa();
+  }
+
+  function calculateGpa() {
+    const course = getActiveCourse();
+
+    let semesterQualityPoints = 0;
+    let semesterCredits = 0;
+
+    course.gpaCourses.forEach((c) => {
+      if (c.grade === 'P') return;
+
+      const scaleItem = activeScale.find(s => s.letter === c.grade);
+      let baseGpa = scaleItem ? scaleItem.gpa : 0;
+
+      if (c.type === 'honors') baseGpa += 0.5;
+      if (c.type === 'ap') baseGpa += 1.0;
+
+      const credits = Number(c.credits) || 0;
+      if (credits > 0 && c.grade) {
+        semesterQualityPoints += (baseGpa * credits);
+        semesterCredits += credits;
+      }
+    });
+
+    const semesterGpa = semesterCredits > 0 ? (semesterQualityPoints / semesterCredits) : 0;
+
+    const priorGpaInput = document.getElementById('prior-gpa-input') as HTMLInputElement | null;
+    const priorCreditsInput = document.getElementById('prior-credits-input') as HTMLInputElement | null;
+
+    const priorGpa = priorGpaInput && priorGpaInput.value ? parseFloat(priorGpaInput.value) : null;
+    const priorCredits = priorCreditsInput && priorCreditsInput.value ? parseFloat(priorCreditsInput.value) : null;
+
+    let cumulativeGpa = semesterGpa;
+    let totalCredits = semesterCredits;
+
+    if (priorGpa !== null && priorCredits !== null && priorCredits > 0) {
+      const priorPoints = priorGpa * priorCredits;
+      totalCredits = priorCredits + semesterCredits;
+      cumulativeGpa = (priorPoints + semesterQualityPoints) / totalCredits;
+    }
+
+    const semGpaEl = document.getElementById('gpa-semester-val');
+    const semCreditsEl = document.getElementById('gpa-semester-credits');
+    const cumGpaEl = document.getElementById('gpa-cumulative-val');
+    const totalCreditsEl = document.getElementById('gpa-total-credits');
+    const standingBadge = document.getElementById('gpa-standing-badge');
+
+    if (semGpaEl) semGpaEl.textContent = semesterCredits > 0 ? semesterGpa.toFixed(2) : '--';
+    if (semCreditsEl) semCreditsEl.textContent = semesterCredits.toFixed(1);
+    if (cumGpaEl) cumGpaEl.textContent = totalCredits > 0 ? cumulativeGpa.toFixed(2) : '--';
+    if (totalCreditsEl) totalCreditsEl.textContent = totalCredits.toFixed(1);
+
+    if (standingBadge) {
+      if (totalCredits === 0) {
+        standingBadge.textContent = '--';
+        standingBadge.className = 'badge badge-blue';
+      } else {
+        const gpaToCheck = cumulativeGpa;
+        if (gpaToCheck >= 3.8) {
+          standingBadge.textContent = tr('status.deansList', "Summa Cum Laude / Dean's List");
+          standingBadge.className = 'badge badge-green';
+        } else if (gpaToCheck >= 3.5) {
+          standingBadge.textContent = tr('status.honors', 'Magna Cum Laude / Honors');
+          standingBadge.className = 'badge badge-green';
+        } else if (gpaToCheck >= 3.0) {
+          standingBadge.textContent = tr('status.goodStanding', 'Good Academic Standing');
+          standingBadge.className = 'badge badge-blue';
+        } else if (gpaToCheck >= 2.0) {
+          standingBadge.textContent = tr('status.satisfactory', 'Satisfactory');
+          standingBadge.className = 'badge badge-amber';
+        } else {
+          standingBadge.textContent = tr('status.probation', 'Academic Probation Alert');
+          standingBadge.className = 'badge badge-red';
+        }
+      }
+    }
+
+    calculateTargetGraduationGpa(cumulativeGpa, totalCredits);
+  }
+
+  function calculateTargetGraduationGpa(currentCumGpa: number, currentCredits: number) {
+    const targetInput = document.getElementById('target-grad-gpa') as HTMLInputElement | null;
+    const remainingInput = document.getElementById('remaining-credits') as HTMLInputElement | null;
+    const resultEl = document.getElementById('target-gpa-req-val');
+
+    if (!targetInput || !remainingInput || !resultEl) return;
+
+    const targetGpa = parseFloat(targetInput.value);
+    const remainingCredits = parseFloat(remainingInput.value);
+
+    if (isNaN(targetGpa) || isNaN(remainingCredits) || remainingCredits <= 0) {
+      resultEl.textContent = '--';
+      return;
+    }
+
+    const totalFutureCredits = currentCredits + remainingCredits;
+    const totalPointsNeeded = targetGpa * totalFutureCredits;
+    const currentPoints = currentCumGpa * currentCredits;
+    const requiredGpa = (totalPointsNeeded - currentPoints) / remainingCredits;
+
+    if (requiredGpa <= 0) {
+      resultEl.textContent = tr('status.goalSecured', '0.00 (Goal Secured!)');
+      resultEl.style.color = "var(--color-emerald)";
+    } else if (requiredGpa > 4.5) {
+      resultEl.textContent = \`\${requiredGpa.toFixed(2)} (\${tr('status.exceedsMax', 'Exceeds Max GPA')})\`;
+      resultEl.style.color = "var(--color-rose)";
+    } else {
+      resultEl.textContent = \`\${requiredGpa.toFixed(2)} / 4.0\`;
+      resultEl.style.color = requiredGpa > 4.0 ? "var(--color-amber)" : "var(--color-ink)";
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // SCALE MODAL & PRESETS LOGIC
+  // -------------------------------------------------------------------------
+
+  function renderScaleModalTable() {
+    const tbody = document.getElementById('scale-table-body');
+    if (!tbody) return;
+
+    tbody.innerHTML = '';
+    activeScale.forEach((item, idx) => {
+      const trEl = document.createElement('tr');
+      trEl.style.borderBottom = '1px solid var(--color-hairline)';
+
+      trEl.innerHTML = \`
+        <td style="padding: 0.5rem 0.875rem; font-weight: 600; color: var(--color-ink);">\${item.letter}</td>
+        <td style="padding: 0.5rem 0.875rem;">
+          <input type="number" step="0.5" class="form-input form-input-mono scale-min-input" data-idx="\${idx}" value="\${item.min}" style="width: 90px; padding: 0.25rem 0.5rem;" />
+        </td>
+        <td style="padding: 0.5rem 0.875rem; font-family: var(--font-mono); color: var(--color-ink);">\${item.gpa.toFixed(2)}</td>
+        <td style="padding: 0.5rem 0.875rem; color: var(--color-mute);">\${item.desc}</td>
+      \`;
+      tbody.appendChild(trEl);
+    });
+
+    const activeScaleTag = document.getElementById('active-scale-tag');
+    if (activeScaleTag) {
+      activeScaleTag.textContent = currentPresetKey === 'standard' ? 'Standard US (4.0)' :
+        currentPresetKey === 'us5' ? 'US 5.0 (AP/Honors)' :
+        currentPresetKey === 'indian10' ? 'Indian 10-Point (UGC)' :
+        currentPresetKey === 'straight10' ? '10-Point Simple' :
+        currentPresetKey === 'uk' ? 'UK Honours' :
+        currentPresetKey === 'canadian' ? 'Canadian' : 'Custom Scale';
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // EVENT LISTENERS & SETUP
+  // -------------------------------------------------------------------------
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadInitialState();
+    renderCourseSelector();
+    renderWeightedTable();
+    renderGpaTable();
+    renderScaleModalTable();
+
+    // Tab & Navigation Switching
+    const primaryTabs = document.querySelectorAll('.tabs-header .tab-btn');
+    const subnavCards = document.querySelectorAll('.subnav-calc-card');
+    const panels = document.querySelectorAll('.calculator-panel');
+
+    const HASH_MAP: Record<string, string> = {
+      '#weighted': 'calculator-weighted',
+      '#final': 'calculator-final',
+      '#gpa': 'calculator-gpa',
+      '#indian-cgpa': 'calculator-indian-cgpa',
+      '#indian-sgpa': 'calculator-indian-sgpa',
+      '#semester-cgpa': 'calculator-semester-cgpa',
+      '#cgpa-to-pct': 'calculator-cgpa-to-pct',
+      '#target-cgpa': 'calculator-target-cgpa',
+      '#target-gpa': 'calculator-target-gpa',
+      '#what-if': 'calculator-what-if',
+      '#converter': 'calculator-converter'
+    };
+
+    const TARGET_TO_HASH: Record<string, string> = {
+      'calculator-weighted': '#weighted',
+      'calculator-final': '#final',
+      'calculator-gpa': '#gpa',
+      'calculator-indian-cgpa': '#indian-cgpa',
+      'calculator-indian-sgpa': '#indian-sgpa',
+      'calculator-semester-cgpa': '#semester-cgpa',
+      'calculator-cgpa-to-pct': '#cgpa-to-pct',
+      'calculator-target-cgpa': '#target-cgpa',
+      'calculator-target-gpa': '#target-gpa',
+      'calculator-what-if': '#what-if',
+      'calculator-converter': '#converter'
+    };
+
+    function switchTab(targetId: string, shouldUpdateHash: boolean = true) {
+      primaryTabs.forEach(t => {
+        if (t.getAttribute('data-target') === targetId) {
+          t.classList.add('active');
+        } else {
+          t.classList.remove('active');
+        }
+      });
+
+      subnavCards.forEach(c => {
+        if (c.getAttribute('data-target') === targetId) {
+          c.classList.add('active');
+        } else {
+          c.classList.remove('active');
+        }
+      });
+
+      panels.forEach(p => {
+        if (p.id === targetId) {
+          (p as HTMLElement).style.display = 'block';
+        } else {
+          (p as HTMLElement).style.display = 'none';
+        }
+      });
+
+      const courseBanner = document.getElementById('active-course-banner-wrap');
+      if (courseBanner) {
+        if (['calculator-weighted', 'calculator-final', 'calculator-gpa'].includes(targetId)) {
+          courseBanner.style.display = 'flex';
+        } else {
+          courseBanner.style.display = 'none';
+        }
+      }
+
+      if (shouldUpdateHash && TARGET_TO_HASH[targetId]) {
+        const newHash = TARGET_TO_HASH[targetId];
+        if (window.location.hash !== newHash) {
+          history.pushState(null, '', newHash);
+        }
+      }
+    }
+
+    function scrollToCalculatorSection() {
+      const panelsSection = document.getElementById('main-calculator-section');
+      if (!panelsSection) return;
+
+      const navHeight = 64;
+      const targetY = panelsSection.getBoundingClientRect().top + window.pageYOffset - navHeight;
+
+      window.scrollTo({
+        top: Math.max(0, targetY),
+        behavior: 'smooth'
+      });
+    }
+
+    primaryTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.getAttribute('data-target');
+        if (target) {
+          switchTab(target, true);
+          scrollToCalculatorSection();
+        }
+      });
+    });
+
+    subnavCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const target = card.getAttribute('data-target');
+        if (target) {
+          switchTab(target, true);
+          scrollToCalculatorSection();
+        }
+      });
+    });
+
+    function syncFromHash() {
+      const currentHash = window.location.hash;
+      const target = HASH_MAP[currentHash];
+      if (target) {
+        switchTab(target, false);
+      } else {
+        switchTab('calculator-weighted', false);
+      }
+    }
+
+    window.addEventListener('hashchange', syncFromHash);
+    window.addEventListener('popstate', syncFromHash);
+    syncFromHash();
+
+    document.querySelectorAll('.footer-nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const tabKey = (link as HTMLElement).dataset.tab;
+        if (tabKey === 'weighted') switchTab('calculator-weighted', true);
+        if (tabKey === 'final') switchTab('calculator-final', true);
+        if (tabKey === 'gpa') switchTab('calculator-gpa', true);
+        scrollToCalculatorSection();
+      });
+    });
+
+    document.getElementById('jump-to-final-btn')?.addEventListener('click', () => {
+      switchTab('calculator-final', true);
+      scrollToCalculatorSection();
+    });
+
+    document.getElementById('course-selector')?.addEventListener('change', (e) => {
+      const sel = e.target as HTMLSelectElement;
+      activeCourseId = sel.value;
+      saveToLocalStorage();
+      renderCourseSelector();
+      renderWeightedTable();
+      renderGpaTable();
+    });
+
+    window.addEventListener('gradecalc:course-changed', () => {
+      loadInitialState();
+      renderCourseSelector();
+      renderWeightedTable();
+      renderGpaTable();
+    });
+
+    // Real-time language changed listener
+    window.addEventListener('languageChanged', () => {
+      renderCourseSelector();
+      renderWeightedTable();
+      renderGpaTable();
+      renderScaleModalTable();
+      calculateFinalExam();
+    });
+
+    document.getElementById('mode-pct-btn')?.addEventListener('click', () => {
+      getActiveCourse().inputMode = 'percentage';
+      saveToLocalStorage();
+      renderWeightedTable();
+    });
+
+    document.getElementById('mode-pts-btn')?.addEventListener('click', () => {
+      getActiveCourse().inputMode = 'points';
+      saveToLocalStorage();
+      renderWeightedTable();
+    });
+
+    document.getElementById('add-assignment-row-btn')?.addEventListener('click', () => {
+      const course = getActiveCourse();
+      course.assignments.push({
+        id: uid(),
+        name: '',
+        score: null,
+        maxPoints: null,
+        weight: 0,
+        dropLowest: false
+      });
+      saveToLocalStorage();
+      renderWeightedTable();
+    });
+
+    document.getElementById('clear-assignments-btn')?.addEventListener('click', () => {
+      if (confirm('Clear all assignment rows for this course?')) {
+        getActiveCourse().assignments = [];
+        saveToLocalStorage();
+        renderWeightedTable();
+      }
+    });
+
+    document.getElementById('normalize-weights-btn')?.addEventListener('click', () => {
+      const course = getActiveCourse();
+      const currentTotal = course.assignments.reduce((acc, a) => acc + (a.weight || 0), 0);
+      if (currentTotal > 0) {
+        course.assignments.forEach(a => {
+          if (a.weight) {
+            a.weight = parseFloat(((a.weight / currentTotal) * 100).toFixed(2));
+          }
+        });
+        saveToLocalStorage();
+        renderWeightedTable();
+      }
+    });
+
+    const weightedContainer = document.getElementById('weighted-rows-container');
+    weightedContainer?.addEventListener('input', (e) => {
+      const target = e.target as HTMLElement;
+      const id = target.getAttribute('data-id');
+      if (!id) return;
+
+      const course = getActiveCourse();
+      const assignment = course.assignments.find(a => a.id === id);
+      if (!assignment) return;
+
+      if (target.classList.contains('assign-name-input')) {
+        assignment.name = (target as HTMLInputElement).value;
+      } else if (target.classList.contains('assign-score-input')) {
+        const val = (target as HTMLInputElement).value;
+        assignment.score = val === '' ? null : parseFloat(val);
+      } else if (target.classList.contains('assign-max-input')) {
+        const val = (target as HTMLInputElement).value;
+        assignment.maxPoints = val === '' ? null : parseFloat(val);
+      } else if (target.classList.contains('assign-weight-input')) {
+        const val = (target as HTMLInputElement).value;
+        assignment.weight = val === '' ? 0 : parseFloat(val);
+      }
+
+      saveToLocalStorage();
+      calculateWeightedGrade();
+    });
+
+    weightedContainer?.addEventListener('change', (e) => {
+      const target = e.target as HTMLElement;
+      const id = target.getAttribute('data-id');
+      if (!id) return;
+
+      const course = getActiveCourse();
+      const assignment = course.assignments.find(a => a.id === id);
+      if (!assignment) return;
+
+      if (target.classList.contains('assign-drop-input')) {
+        assignment.dropLowest = (target as HTMLInputElement).checked;
+        saveToLocalStorage();
+        calculateWeightedGrade();
+      }
+    });
+
+    weightedContainer?.addEventListener('click', (e) => {
+      const target = (e.target as HTMLElement).closest('.delete-assign-btn');
+      if (!target) return;
+
+      const id = target.getAttribute('data-id');
+      if (!id) return;
+
+      const course = getActiveCourse();
+      course.assignments = course.assignments.filter(a => a.id !== id);
+      saveToLocalStorage();
+      renderWeightedTable();
+    });
+
+    // Preset loader dropdown
+    document.getElementById('preset-template-select')?.addEventListener('change', (e) => {
+      const sel = e.target as HTMLSelectElement;
+      const val = sel.value;
+      if (!val) return;
+
+      const course = getActiveCourse();
+      if (val === 'us-standard') {
+        course.assignments = [
+          { id: uid(), name: 'Homework', score: 95, maxPoints: 100, weight: 20, dropLowest: false },
+          { id: uid(), name: 'Quizzes', score: 88, maxPoints: 100, weight: 15, dropLowest: true },
+          { id: uid(), name: 'Midterm Exam', score: 84, maxPoints: 100, weight: 25, dropLowest: false },
+          { id: uid(), name: 'Projects / Labs', score: 92, maxPoints: 100, weight: 15, dropLowest: false },
+          { id: uid(), name: 'Final Exam', score: null, maxPoints: 100, weight: 25, dropLowest: false },
+        ];
+      } else if (val === 'stem-heavy') {
+        course.assignments = [
+          { id: uid(), name: 'Weekly Problem Sets', score: 90, maxPoints: 100, weight: 15, dropLowest: false },
+          { id: uid(), name: 'Laboratory Reports', score: 94, maxPoints: 100, weight: 25, dropLowest: false },
+          { id: uid(), name: 'Midterm Exam 1', score: 82, maxPoints: 100, weight: 15, dropLowest: false },
+          { id: uid(), name: 'Midterm Exam 2', score: 85, maxPoints: 100, weight: 15, dropLowest: false },
+          { id: uid(), name: 'Comprehensive Final', score: null, maxPoints: 100, weight: 30, dropLowest: false },
+        ];
+      } else if (val === 'humanities') {
+        course.assignments = [
+          { id: uid(), name: 'Seminar Participation', score: 98, maxPoints: 100, weight: 20, dropLowest: false },
+          { id: uid(), name: 'Reading Responses', score: 92, maxPoints: 100, weight: 20, dropLowest: true },
+          { id: uid(), name: 'Midterm Essay', score: 88, maxPoints: 100, weight: 25, dropLowest: false },
+          { id: uid(), name: 'Final Term Paper', score: null, maxPoints: 100, weight: 35, dropLowest: false },
+        ];
+      } else if (val === 'highschool') {
+        course.assignments = [
+          { id: uid(), name: 'Daily Homework', score: 100, maxPoints: 100, weight: 20, dropLowest: false },
+          { id: uid(), name: 'Chapter Tests', score: 86, maxPoints: 100, weight: 40, dropLowest: false },
+          { id: uid(), name: 'Quizzes', score: 90, maxPoints: 100, weight: 20, dropLowest: true },
+          { id: uid(), name: 'Semester Final Exam', score: null, maxPoints: 100, weight: 20, dropLowest: false },
+        ];
+      }
+      sel.value = '';
+      saveToLocalStorage();
+      renderWeightedTable();
+    });
+
+    const whatIfWeightInput = document.getElementById('whatif-weight') as HTMLInputElement | null;
+    const whatIfSlider = document.getElementById('whatif-score-slider') as HTMLInputElement | null;
+    const whatIfNumberInput = document.getElementById('whatif-score-input') as HTMLInputElement | null;
+
+    whatIfSlider?.addEventListener('input', () => {
+      if (whatIfNumberInput) whatIfNumberInput.value = whatIfSlider.value;
+      calculateWeightedGrade();
+    });
+
+    whatIfNumberInput?.addEventListener('input', () => {
+      if (whatIfSlider) whatIfSlider.value = whatIfNumberInput.value;
+      calculateWeightedGrade();
+    });
+
+    whatIfWeightInput?.addEventListener('input', () => {
+      calculateWeightedGrade();
+    });
+
+    ['fe-current-grade', 'fe-target-grade', 'fe-weight'].forEach(id => {
+      document.getElementById(id)?.addEventListener('input', () => {
+        calculateFinalExam();
+      });
+    });
+
+    const gpaContainer = document.getElementById('gpa-rows-container');
+    gpaContainer?.addEventListener('input', (e) => {
+      const target = e.target as HTMLElement;
+      const id = target.getAttribute('data-id');
+      if (!id) return;
+
+      const course = getActiveCourse();
+      const gpaCourse = course.gpaCourses.find(c => c.id === id);
+      if (!gpaCourse) return;
+
+      if (target.classList.contains('gpa-title-input')) {
+        gpaCourse.title = (target as HTMLInputElement).value;
+      } else if (target.classList.contains('gpa-credits-input')) {
+        const val = (target as HTMLInputElement).value;
+        gpaCourse.credits = val === '' ? 0 : parseFloat(val);
+      }
+
+      saveToLocalStorage();
+      calculateGpa();
+    });
+
+    gpaContainer?.addEventListener('change', (e) => {
+      const target = e.target as HTMLElement;
+      const id = target.getAttribute('data-id');
+      if (!id) return;
+
+      const course = getActiveCourse();
+      const gpaCourse = course.gpaCourses.find(c => c.id === id);
+      if (!gpaCourse) return;
+
+      if (target.classList.contains('gpa-grade-select')) {
+        gpaCourse.grade = (target as HTMLSelectElement).value;
+      } else if (target.classList.contains('gpa-type-select')) {
+        gpaCourse.type = (target as HTMLSelectElement).value as any;
+      }
+
+      saveToLocalStorage();
+      calculateGpa();
+    });
+
+    gpaContainer?.addEventListener('click', (e) => {
+      const target = (e.target as HTMLElement).closest('.delete-gpa-btn');
+      if (!target) return;
+
+      const id = target.getAttribute('data-id');
+      if (!id) return;
+
+      const course = getActiveCourse();
+      course.gpaCourses = course.gpaCourses.filter(c => c.id !== id);
+      saveToLocalStorage();
+      renderGpaTable();
+    });
+
+    document.getElementById('add-gpa-course-btn')?.addEventListener('click', () => {
+      const course = getActiveCourse();
+      course.gpaCourses.push({
+        id: uid(),
+        title: '',
+        grade: '',
+        credits: 3,
+        type: 'standard'
+      });
+      saveToLocalStorage();
+      renderGpaTable();
+    });
+
+    ['prior-gpa-input', 'prior-credits-input', 'target-grad-gpa', 'remaining-credits'].forEach(id => {
+      document.getElementById(id)?.addEventListener('input', () => {
+        calculateGpa();
+      });
+    });
+
+    document.getElementById('active-scale-tag')?.addEventListener('click', () => {
+      const modal = document.getElementById('scale-modal');
+      if (modal) modal.style.display = 'flex';
+    });
+  });
+</script>
+`;
+
+fs.writeFileSync(path.resolve('src/components/MainPage.astro'), content, 'utf8');
+console.log('Successfully wrote updated MainPage.astro with complete localization integration!');

@@ -26,18 +26,12 @@ export function useTranslatedPath(lang: Lang) {
     if (segments[0] && segments[0] in languages) {
       segments.shift();
     }
-    const cleanPath = segments.length ? `/${segments.join('/')}/` : '';
-
-    // If this is a dedicated subpage (e.g. /about/, /indian-cgpa-calculator/),
-    // it only exists at the English route, so return it directly.
-    if (cleanPath && cleanPath !== '/') {
-      return cleanPath;
-    }
+    const cleanSub = segments.join('/');
 
     if (targetLang === defaultLang) {
-      return '/';
+      return cleanSub ? `/${cleanSub}/` : '/';
     }
-    return `/${targetLang}/`;
+    return cleanSub ? `/${targetLang}/${cleanSub}/` : `/${targetLang}/`;
   };
 }
 
@@ -68,34 +62,29 @@ export function getAlternateUrls(pathOrUrl: string, baseUrl = 'https://gradecalc
   if (segments[0] && segments[0] in languages) {
     segments.shift();
   }
-  const cleanPath = segments.length ? `/${segments.join('/')}/` : '';
+  const cleanSub = segments.join('/');
+  const cleanPath = cleanSub ? `/${cleanSub}/` : '/';
 
   const alternates: { hreflang: string; href: string }[] = [];
 
-  // Dedicated subpages only exist in English without alternate language equivalents.
-  // Per Google Search guidelines, standalone monolingual pages must not declare hreflang annotations.
-  if (cleanPath && cleanPath !== '/') {
-    return [];
-  }
-
-  // Root homepage alternates across all supported languages
+  // Default English route
   alternates.push({
     hreflang: 'en',
-    href: `${baseUrl}/`,
+    href: `${baseUrl}${cleanPath}`,
   });
 
   (Object.keys(languages) as Lang[]).forEach((l) => {
     if (l !== defaultLang) {
       alternates.push({
         hreflang: l,
-        href: `${baseUrl}/${l}/`,
+        href: `${baseUrl}/${l}${cleanPath === '/' ? '/' : cleanPath}`,
       });
     }
   });
 
   alternates.push({
     hreflang: 'x-default',
-    href: `${baseUrl}/`,
+    href: `${baseUrl}${cleanPath}`,
   });
 
   return alternates;

@@ -1,9 +1,14 @@
 ---
 // src/components/TargetCgpaCalculator.astro
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
 interface Props {
   idPrefix?: string;
+  lang?: any;
 }
-const { idPrefix = 'targetcgpa' } = Astro.props;
+const { idPrefix = 'targetcgpa', lang } = Astro.props;
+const currentLang = lang || getLangFromUrl(Astro.url);
+const t = useTranslations(currentLang);
 ---
 
 <div id={`${idPrefix}-calculator-panel`} class="calc-component-root">
@@ -11,33 +16,33 @@ const { idPrefix = 'targetcgpa' } = Astro.props;
   <div class="geist-card geist-card-floating" style="padding: 1.75rem; margin-bottom: 1.5rem; background: linear-gradient(180deg, var(--color-canvas-elevated) 0%, var(--color-canvas-subtle) 100%);">
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; align-items: center;">
       <div>
-        <span class="mono-eyebrow" style="color: var(--color-violet); margin-bottom: 0.25rem;">Target CGPA Roadmap</span>
+        <span class="mono-eyebrow" style="color: var(--color-violet); margin-bottom: 0.25rem;" data-i18n="targetcgpa.h1">{t('targetcgpa.h1')}</span>
         <div style="margin-top: 0.5rem;">
-          <span style="font-size: 0.875rem; color: var(--color-mute); display: block;">Required Future SGPA Average:</span>
+          <span style="font-size: 0.875rem; color: var(--color-mute); display: block;" data-i18n="calc.scoreNeededOnFinal">{t('calc.scoreNeededOnFinal')}:</span>
           <div style="display: flex; align-items: baseline; gap: 0.75rem; margin-top: 0.25rem;">
-            <span id={`${idPrefix}-required-sgpa`} class="display-xl" style="font-feature-settings: 'tnum';">--</span>
-            <span id={`${idPrefix}-feasibility-badge`} class="badge badge-blue">Ready</span>
+            <span id={`${idPrefix}-required-sgpa`} class="display-xl" style="font-feature-settings: 'tnum';">10.08</span>
+            <span id={`${idPrefix}-feasibility-badge`} class="badge badge-red" data-i18n="status.extraCredit">{t('status.extraCredit')}</span>
           </div>
         </div>
         <p id={`${idPrefix}-feasibility-desc`} style="font-size: 0.875rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.4;">
-          Enter your current academic metrics below to calculate required future performance.
+          10.08 SGPA - {t('status.extraCredit')}
         </p>
       </div>
 
       <!-- Quick Metrics Summary -->
       <div style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); padding: 1.25rem; background: var(--color-canvas-elevated);">
-        <h4 style="font-size: 0.875rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.75rem;">Credit Weight Summary</h4>
+        <h4 style="font-size: 0.875rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.75rem;" data-i18n="calc.weightAccounted">{t('calc.weightAccounted')}</h4>
         <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.35rem; color: var(--color-mute);">
-          <span>Completed Weight:</span>
-          <strong id={`${idPrefix}-completed-pct`} style="color: var(--color-ink);">0%</strong>
+          <span data-i18n="calc.weightCompleted">{t('calc.weightCompleted')}:</span>
+          <strong id={`${idPrefix}-completed-pct`} style="color: var(--color-ink);">69%</strong>
         </div>
         <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.35rem; color: var(--color-mute);">
-          <span>Remaining Weight:</span>
-          <strong id={`${idPrefix}-remaining-pct`} style="color: var(--color-ink);">0%</strong>
+          <span data-i18n="status.remaining">{t('status.remaining')}:</span>
+          <strong id={`${idPrefix}-remaining-pct`} style="color: var(--color-ink);">31%</strong>
         </div>
         <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; color: var(--color-mute);">
-          <span>Total Degree Credits:</span>
-          <strong id={`${idPrefix}-total-degree-credits`} style="color: var(--color-ink);">0</strong>
+          <span data-i18n="calc.totalCombinedCredits">{t('calc.totalCombinedCredits')}</span>
+          <strong id={`${idPrefix}-total-degree-credits`} style="color: var(--color-ink);">130.0</strong>
         </div>
       </div>
     </div>
@@ -45,45 +50,45 @@ const { idPrefix = 'targetcgpa' } = Astro.props;
 
   <!-- Input Form -->
   <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
-    <h3 class="heading-md" style="margin-bottom: 1.25rem;">Target Planning Parameters</h3>
+    <h3 class="heading-md" style="margin-bottom: 1.25rem;" data-i18n="calc.targetGoalPlanner">{t('calc.targetGoalPlanner')}</h3>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.25rem;">
       <!-- Current CGPA -->
       <div>
-        <label for={`${idPrefix}-current-cgpa`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
-          Current CGPA (0.00 - 10.00):
+        <label for={`${idPrefix}-current-cgpa`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="calc.currentGrade">
+          {t('calc.currentGrade')} (0.00 - 10.00):
         </label>
         <input id={`${idPrefix}-current-cgpa`} type="number" step="0.01" min="0" max="10" class="form-input form-input-mono" value="7.80" placeholder="e.g. 7.80" />
-        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;">Your cumulative GPA so far.</span>
+        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;" data-i18n="calc.currentGradeHint">{t('calc.currentGradeHint')}</span>
       </div>
 
       <!-- Completed Credits -->
       <div>
-        <label for={`${idPrefix}-completed-credits`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
-          Completed Credits:
+        <label for={`${idPrefix}-completed-credits`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="cgpa.totalCumulativeCredits">
+          {t('cgpa.totalCumulativeCredits')}:
         </label>
         <input id={`${idPrefix}-completed-credits`} type="number" step="0.5" min="1" max="250" class="form-input form-input-mono" value="90" placeholder="e.g. 90" />
-        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;">Total credit hours graded to date.</span>
+        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;" data-i18n="calc.coursesCreditsDesc">{t('calc.coursesCreditsDesc')}</span>
       </div>
 
       <!-- Remaining Credits -->
       <div>
-        <label for={`${idPrefix}-remaining-credits`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
-          Remaining Credits:
+        <label for={`${idPrefix}-remaining-credits`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="calc.currentTermCredits">
+          {t('calc.currentTermCredits')}
         </label>
         <input id={`${idPrefix}-remaining-credits`} type="number" step="0.5" min="1" max="150" class="form-input form-input-mono" value="40" placeholder="e.g. 40" />
-        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;">Credits left until graduation.</span>
+        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;" data-i18n="calc.finalWeightHint">{t('calc.finalWeightHint')}</span>
       </div>
 
       <!-- Target CGPA -->
       <div>
-        <label for={`${idPrefix}-target-cgpa`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
-          Desired Target CGPA:
+        <label for={`${idPrefix}-target-cgpa`} style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="calc.finalTarget">
+          {t('calc.finalTarget')}:
         </label>
         <div style="display: flex; gap: 0.5rem;">
           <input id={`${idPrefix}-target-cgpa`} type="number" step="0.01" min="0" max="10" class="form-input form-input-mono" value="8.50" placeholder="e.g. 8.50" />
           <select id={`${idPrefix}-quick-target`} class="form-select" style="width: auto; min-width: 105px;">
-            <option value="">Preset</option>
+            <option value="" data-i18n="calc.loadPreset">{t('calc.loadPreset')}</option>
             <option value="9.0">Distinction (9.0)</option>
             <option value="8.5" selected>8.50 CGPA</option>
             <option value="8.0">First Class (8.0)</option>
@@ -91,29 +96,58 @@ const { idPrefix = 'targetcgpa' } = Astro.props;
             <option value="7.0">7.00 CGPA</option>
           </select>
         </div>
-        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;">Final degree CGPA you wish to attain.</span>
+        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;" data-i18n="calc.desiredGradeHint">{t('calc.desiredGradeHint')}</span>
       </div>
     </div>
   </div>
 
   <!-- Scenario Comparison Matrix -->
   <div class="geist-card" style="padding: 1.5rem;">
-    <h3 class="heading-md" style="margin-bottom: 0.5rem;">Target CGPA Feasibility Matrix</h3>
-    <p style="font-size: 0.875rem; color: var(--color-mute); margin-bottom: 1rem;">
-      Required future SGPA needed across various target benchmarks based on your current credits.
+    <h3 class="heading-md" style="margin-bottom: 0.5rem;" data-i18n="calc.matrixComparison">{t('calc.matrixComparison')}</h3>
+    <p style="font-size: 0.875rem; color: var(--color-mute); margin-bottom: 1rem;" data-i18n="calc.matrixComparisonDesc">
+      {t('calc.matrixComparisonDesc')}
     </p>
 
     <div style="overflow-x: auto;">
       <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
         <thead>
           <tr style="background: var(--color-canvas-subtle); border-bottom: 1px solid var(--color-hairline); text-align: left;">
-            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Target CGPA</th>
-            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Required Future SGPA</th>
-            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Feasibility Status</th>
+            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);" data-i18n="calc.targetGrade">{t('calc.targetGrade')}</th>
+            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);" data-i18n="calc.scoreNeededOnFinal">{t('calc.scoreNeededOnFinal')}</th>
+            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);" data-i18n="calc.difficultyStatus">{t('calc.difficultyStatus')}</th>
           </tr>
         </thead>
         <tbody id={`${idPrefix}-matrix-tbody`}>
-          <!-- Populated by script -->
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">9.50 CGPA</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">13.33 SGPA</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-red">{t('status.extraCredit')}</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">9.00 CGPA</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">11.70 SGPA</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-red">{t('status.extraCredit')}</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">8.50 CGPA</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">10.08 SGPA</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-red">{t('status.extraCredit')}</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">8.00 CGPA</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">8.45 SGPA</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-blue">{t('status.realistic')}</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">7.50 CGPA</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">6.83 SGPA</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-green">{t('status.comfortable')}</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">7.00 CGPA</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">5.20 SGPA</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-green">{t('status.comfortable')}</span></td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -136,6 +170,10 @@ const { idPrefix = 'targetcgpa' } = Astro.props;
     const totalCredsEl = document.getElementById(`${idPrefix}-total-degree-credits`);
     const matrixTbody = document.getElementById(`${idPrefix}-matrix-tbody`);
 
+    function tr(key, fallback) {
+      return window.__i18n__?.t(key) || fallback;
+    }
+
     function calculate() {
       const current = parseFloat(currentInput?.value || '0');
       const completed = parseFloat(completedInput?.value || '0');
@@ -155,8 +193,6 @@ const { idPrefix = 'targetcgpa' } = Astro.props;
         return;
       }
 
-      // Required SGPA formula:
-      // (Target * Total - Current * Completed) / Remaining
       const required = (target * totalCredits - current * completed) / remaining;
 
       if (requiredEl) requiredEl.textContent = required.toFixed(2);
@@ -164,34 +200,34 @@ const { idPrefix = 'targetcgpa' } = Astro.props;
       // Evaluate feasibility
       if (required <= 0) {
         if (badgeEl) {
-          badgeEl.textContent = 'Already Secured';
+          badgeEl.textContent = tr('status.guaranteed', 'Guaranteed');
           badgeEl.className = 'badge badge-green';
         }
-        if (descEl) descEl.textContent = `Even with 0.00 SGPA in remaining semesters, your CGPA will not fall below ${target.toFixed(2)}.`;
+        if (descEl) descEl.textContent = `${tr('status.guaranteed', 'Guaranteed')}: ${current.toFixed(2)} CGPA.`;
       } else if (required <= 7.0) {
         if (badgeEl) {
-          badgeEl.textContent = 'Very Achievable';
+          badgeEl.textContent = tr('status.comfortable', 'Comfortable');
           badgeEl.className = 'badge badge-green';
         }
-        if (descEl) descEl.textContent = `You need an average SGPA of ${required.toFixed(2)} (approx. B+ / Good grade) across remaining semesters.`;
+        if (descEl) descEl.textContent = `${tr('status.comfortable', 'Comfortable')}: ${required.toFixed(2)} SGPA.`;
       } else if (required <= 8.5) {
         if (badgeEl) {
-          badgeEl.textContent = 'Challenging Push';
+          badgeEl.textContent = tr('status.realistic', 'Realistic Target');
           badgeEl.className = 'badge badge-blue';
         }
-        if (descEl) descEl.textContent = `You need an average SGPA of ${required.toFixed(2)} (A / Very Good performance) to hit your goal.`;
+        if (descEl) descEl.textContent = `${tr('status.realistic', 'Realistic Target')}: ${required.toFixed(2)} SGPA.`;
       } else if (required <= 10.0) {
         if (badgeEl) {
-          badgeEl.textContent = 'Near Flawless Required';
+          badgeEl.textContent = tr('status.challenging', 'Challenging Push');
           badgeEl.className = 'badge badge-amber';
         }
-        if (descEl) descEl.textContent = `You need an extraordinary average SGPA of ${required.toFixed(2)} (mostly O / A+ grades) in every remaining subject.`;
+        if (descEl) descEl.textContent = `${tr('status.challenging', 'Challenging Push')}: ${required.toFixed(2)} SGPA.`;
       } else {
         if (badgeEl) {
-          badgeEl.textContent = 'Mathematically Impossible';
+          badgeEl.textContent = tr('status.extraCredit', 'Exceeds Maximum');
           badgeEl.className = 'badge badge-red';
         }
-        if (descEl) descEl.textContent = `Even with a perfect 10.00 SGPA in all remaining courses, the highest possible graduating CGPA is ${((current * completed + 10 * remaining) / totalCredits).toFixed(2)}.`;
+        if (descEl) descEl.textContent = `${tr('status.extraCredit', 'Exceeds Maximum')} (Max: ${((current * completed + 10 * remaining) / totalCredits).toFixed(2)}).`;
       }
 
       // Populate matrix benchmarks
@@ -203,26 +239,26 @@ const { idPrefix = 'targetcgpa' } = Astro.props;
           let badgeClass = '';
 
           if (req <= 0) {
-            statusText = 'Already Achieved';
+            statusText = tr('status.guaranteed', 'Guaranteed');
             badgeClass = 'badge-green';
           } else if (req <= 7.5) {
-            statusText = 'Comfortable';
+            statusText = tr('status.comfortable', 'Comfortable');
             badgeClass = 'badge-green';
           } else if (req <= 8.5) {
-            statusText = 'Moderate Push';
+            statusText = tr('status.realistic', 'Realistic Target');
             badgeClass = 'badge-blue';
           } else if (req <= 10.0) {
-            statusText = 'High Effort (A+/O)';
+            statusText = tr('status.challenging', 'Challenging Push');
             badgeClass = 'badge-amber';
           } else {
-            statusText = 'Exceeds 10.0 (Unreachable)';
+            statusText = tr('status.extraCredit', 'Unreachable');
             badgeClass = 'badge-red';
           }
 
           return `
             <tr style="border-bottom: 1px solid var(--color-hairline-soft);">
               <td style="padding: 0.5rem 0.875rem; font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">${bm.toFixed(2)}</td>
-              <td style="padding: 0.5rem 0.875rem; font-family: var(--font-mono); font-weight: 600; color: ${req > 10 ? 'var(--color-red)' : 'var(--color-ink)'};">${req > 10 ? req.toFixed(2) + ' (Impossible)' : req <= 0 ? '0.00 (Secured)' : req.toFixed(2)}</td>
+              <td style="padding: 0.5rem 0.875rem; font-family: var(--font-mono); font-weight: 600; color: ${req > 10 ? 'var(--color-red)' : 'var(--color-ink)'};">${req > 10 ? req.toFixed(2) : req <= 0 ? '0.00' : req.toFixed(2)}</td>
               <td style="padding: 0.5rem 0.875rem;">
                 <span class="badge ${badgeClass}">${statusText}</span>
               </td>

@@ -1,0 +1,407 @@
+---
+// src/components/pages/GpaPage.astro
+import Layout from '../../layouts/Layout.astro';
+import { useTranslations, useTranslatedPath } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+
+const breadcrumbs = [
+  { name: t('page.home'), item: translatePath('/') },
+  { name: t('gpa.h1'), item: translatePath('/gpa-calculator') }
+];
+---
+
+<Layout
+  title={t('gpa.pageTitle')}
+  description={t('gpa.pageDesc')}
+  lang={lang}
+  breadcrumbs={breadcrumbs}
+  softwareSchema={{
+    name: t('gpa.h1'),
+    description: t('gpa.pageDesc'),
+    applicationCategory: "EducationalApplication"
+  }}
+>
+  <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
+    <!-- Breadcrumbs -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
+        <a href={translatePath('/')} style="color: var(--color-mute); text-decoration: none;" data-i18n="page.home">{t('page.home')}</a>
+        <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
+        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="gpa.h1">{t('gpa.h1')}</span>
+      </nav>
+      <div style="display: flex; gap: 0.5rem;">
+        <a href={translatePath('/semester-gpa-calculator')} class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;" data-i18n="sgpa.h1">
+          {t('sgpa.h1')} &rarr;
+        </a>
+        <a href={translatePath('/target-gpa-calculator')} class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;" data-i18n="targetgpa.h1">
+          {t('targetgpa.h1')} &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.5rem;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;" data-i18n="gpa.eyebrow">{t('gpa.eyebrow')}</span>
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="gpa.h1">
+        {t('gpa.h1')}
+      </h1>
+      <p style="font-size: 1.05rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6; max-width: 780px;" data-i18n="gpa.lead">
+        {t('gpa.lead')}
+      </p>
+    </header>
+
+    <!-- Cumulative Setup Card -->
+    <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem; background: var(--color-canvas-subtle);">
+      <h3 class="heading-md" style="font-size: 1.05rem; margin-bottom: 1rem; color: var(--color-ink);" data-i18n="gpa.priorGpaTitle">{t('gpa.priorGpaTitle')}</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+        <div>
+          <label for="cgpa-prior-gpa" style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="gpa.priorGpaLabel">
+            {t('gpa.priorGpaLabel')}
+          </label>
+          <input type="number" id="cgpa-prior-gpa" class="form-input form-input-mono" value="3.45" min="0" max="5" step="0.01" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.875rem;" placeholder="e.g. 3.45" />
+        </div>
+        <div>
+          <label for="cgpa-prior-credits" style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="gpa.priorCreditsLabel">
+            {t('gpa.priorCreditsLabel')}
+          </label>
+          <input type="number" id="cgpa-prior-credits" class="form-input form-input-mono" value="45" min="0" step="1" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.875rem;" placeholder="e.g. 45" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Results Showcase Card -->
+    <div class="geist-card geist-card-floating" style="padding: 1.5rem; margin-bottom: 1.5rem; background: linear-gradient(180deg, var(--color-canvas-elevated) 0%, var(--color-canvas-subtle) 100%);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; align-items: center;">
+        <div>
+          <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;" data-i18n="gpa.cumulativeGpa">{t('gpa.cumulativeGpa')}</span>
+          <div style="display: flex; align-items: baseline; gap: 0.75rem;">
+            <span id="cgpa-total-gpa" class="display-xl" style="font-feature-settings: 'tnum'; color: var(--color-ink);">3.54</span>
+            <span id="cgpa-honor-badge" class="badge badge-emerald" style="font-size: 0.875rem; padding: 0.25rem 0.65rem;">Magna Cum Laude</span>
+          </div>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); margin-top: 0.25rem;">
+            <span data-i18n="gpa.semesterGpa">{t('gpa.semesterGpa')}</span> <strong style="color: var(--color-ink);" id="cgpa-term-gpa">3.81</strong>
+          </p>
+        </div>
+
+        <div class="responsive-col-divider" style="border-left: 1px solid var(--color-hairline); padding-left: 1.25rem;">
+          <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8125rem;">
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--color-mute);" data-i18n="gpa.totalCredits">{t('gpa.totalCredits')}</span>
+              <strong id="cgpa-career-credits" style="font-family: var(--font-mono); color: var(--color-ink);">60</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--color-mute);">Semester Credits:</span>
+              <strong id="cgpa-term-credits" style="font-family: var(--font-mono); color: var(--color-ink);">15</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--color-mute);">Total Quality Points:</span>
+              <strong id="cgpa-quality-pts" style="font-family: var(--font-mono); color: var(--color-ink);">212.4</strong>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; justify-content: center;">
+          <a href={translatePath('/target-gpa-calculator')} class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none; text-align: center;" data-i18n="targetgpa.h1">
+            {t('targetgpa.h1')} &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Table Card -->
+    <div class="geist-card" style="padding: 1.5rem; margin-bottom: 2.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem;">
+        <div>
+          <h3 class="heading-md" style="font-size: 1.15rem; color: var(--color-ink);" data-i18n="calc.coursesCredits">{t('calc.coursesCredits')}</h3>
+          <p style="font-size: 0.875rem; color: var(--color-mute);" data-i18n="calc.coursesCreditsDesc">{t('calc.coursesCreditsDesc')}</p>
+        </div>
+        <button id="cgpa-reset-btn" type="button" class="btn btn-ghost" style="font-size: 0.8125rem; color: var(--color-mute);" data-i18n="calc.resetDefaults">
+          {t('calc.resetDefaults')}
+        </button>
+      </div>
+
+      <div class="mobile-table-card-wrap" style="overflow-x: auto;">
+        <table class="table" style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--color-hairline); text-align: left;">
+              <th style="padding: 0.6rem 0.5rem;" data-i18n="gpa.colCourse">{t('gpa.colCourse')}</th>
+              <th style="padding: 0.6rem 0.5rem; width: 110px;" data-i18n="gpa.colCredits">{t('gpa.colCredits')}</th>
+              <th style="padding: 0.6rem 0.5rem; width: 130px;" data-i18n="gpa.colGrade">{t('gpa.colGrade')}</th>
+              <th style="padding: 0.6rem 0.5rem; width: 110px; text-align: right;">Quality Pts</th>
+              <th style="padding: 0.6rem 0.5rem; width: 40px;"></th>
+            </tr>
+          </thead>
+          <tbody id="cgpa-tbody">
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);">
+              <td style="padding: 0.5rem;"><input type="text" class="form-input course-name" data-idx="0" value="Calculus I" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;" /></td>
+              <td style="padding: 0.5rem;"><input type="number" class="form-input form-input-mono course-credits" data-idx="0" value="4" min="0.5" step="0.5" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;" /></td>
+              <td style="padding: 0.5rem;"><select class="form-select course-grade" data-idx="0" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;"><option value="4" selected>A (4.00)</option><option value="3.7">A- (3.70)</option><option value="3.3">B+ (3.30)</option><option value="3">B (3.00)</option><option value="2.7">B- (2.70)</option><option value="2.3">C+ (2.30)</option><option value="2">C (2.00)</option><option value="1.7">C- (1.70)</option><option value="1.3">D+ (1.30)</option><option value="1">D (1.00)</option><option value="0">F (0.00)</option></select></td>
+              <td style="padding: 0.5rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">16.0</td>
+              <td style="padding: 0.5rem; text-align: center;"><button type="button" class="btn-remove-course" data-idx="0" style="background: none; border: none; cursor: pointer; color: var(--color-mute); font-size: 1.1rem; line-height: 1;" title="Remove course">&times;</button></td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);">
+              <td style="padding: 0.5rem;"><input type="text" class="form-input course-name" data-idx="1" value="Physics Mechanics" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;" /></td>
+              <td style="padding: 0.5rem;"><input type="number" class="form-input form-input-mono course-credits" data-idx="1" value="4" min="0.5" step="0.5" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;" /></td>
+              <td style="padding: 0.5rem;"><select class="form-select course-grade" data-idx="1" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;"><option value="4">A (4.00)</option><option value="3.7" selected>A- (3.70)</option><option value="3.3">B+ (3.30)</option><option value="3">B (3.00)</option><option value="2.7">B- (2.70)</option><option value="2.3">C+ (2.30)</option><option value="2">C (2.00)</option><option value="1.7">C- (1.70)</option><option value="1.3">D+ (1.30)</option><option value="1">D (1.00)</option><option value="0">F (0.00)</option></select></td>
+              <td style="padding: 0.5rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">14.8</td>
+              <td style="padding: 0.5rem; text-align: center;"><button type="button" class="btn-remove-course" data-idx="1" style="background: none; border: none; cursor: pointer; color: var(--color-mute); font-size: 1.1rem; line-height: 1;" title="Remove course">&times;</button></td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);">
+              <td style="padding: 0.5rem;"><input type="text" class="form-input course-name" data-idx="2" value="Computer Science 101" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;" /></td>
+              <td style="padding: 0.5rem;"><input type="number" class="form-input form-input-mono course-credits" data-idx="2" value="3" min="0.5" step="0.5" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;" /></td>
+              <td style="padding: 0.5rem;"><select class="form-select course-grade" data-idx="2" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;"><option value="4" selected>A (4.00)</option><option value="3.7">A- (3.70)</option><option value="3.3">B+ (3.30)</option><option value="3">B (3.00)</option><option value="2.7">B- (2.70)</option><option value="2.3">C+ (2.30)</option><option value="2">C (2.00)</option><option value="1.7">C- (1.70)</option><option value="1.3">D+ (1.30)</option><option value="1">D (1.00)</option><option value="0">F (0.00)</option></select></td>
+              <td style="padding: 0.5rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">12.0</td>
+              <td style="padding: 0.5rem; text-align: center;"><button type="button" class="btn-remove-course" data-idx="2" style="background: none; border: none; cursor: pointer; color: var(--color-mute); font-size: 1.1rem; line-height: 1;" title="Remove course">&times;</button></td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);">
+              <td style="padding: 0.5rem;"><input type="text" class="form-input course-name" data-idx="3" value="English Composition" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;" /></td>
+              <td style="padding: 0.5rem;"><input type="number" class="form-input form-input-mono course-credits" data-idx="3" value="3" min="0.5" step="0.5" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;" /></td>
+              <td style="padding: 0.5rem;"><select class="form-select course-grade" data-idx="3" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;"><option value="4">A (4.00)</option><option value="3.7">A- (3.70)</option><option value="3.3" selected>B+ (3.30)</option><option value="3">B (3.00)</option><option value="2.7">B- (2.70)</option><option value="2.3">C+ (2.30)</option><option value="2">C (2.00)</option><option value="1.7">C- (1.70)</option><option value="1.3">D+ (1.30)</option><option value="1">D (1.00)</option><option value="0">F (0.00)</option></select></td>
+              <td style="padding: 0.5rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">9.9</td>
+              <td style="padding: 0.5rem; text-align: center;"><button type="button" class="btn-remove-course" data-idx="3" style="background: none; border: none; cursor: pointer; color: var(--color-mute); font-size: 1.1rem; line-height: 1;" title="Remove course">&times;</button></td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);">
+              <td style="padding: 0.5rem;"><input type="text" class="form-input course-name" data-idx="4" value="Physics Laboratory" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;" /></td>
+              <td style="padding: 0.5rem;"><input type="number" class="form-input form-input-mono course-credits" data-idx="4" value="1" min="0.5" step="0.5" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;" /></td>
+              <td style="padding: 0.5rem;"><select class="form-select course-grade" data-idx="4" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;"><option value="4" selected>A (4.00)</option><option value="3.7">A- (3.70)</option><option value="3.3">B+ (3.30)</option><option value="3">B (3.00)</option><option value="2.7">B- (2.70)</option><option value="2.3">C+ (2.30)</option><option value="2">C (2.00)</option><option value="1.7">C- (1.70)</option><option value="1.3">D+ (1.30)</option><option value="1">D (1.00)</option><option value="0">F (0.00)</option></select></td>
+              <td style="padding: 0.5rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">4.0</td>
+              <td style="padding: 0.5rem; text-align: center;"><button type="button" class="btn-remove-course" data-idx="4" style="background: none; border: none; cursor: pointer; color: var(--color-mute); font-size: 1.1rem; line-height: 1;" title="Remove course">&times;</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 1rem;">
+        <button id="cgpa-add-course-btn" type="button" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 0.4rem;" data-i18n="gpa.addCourseBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span>{t('gpa.addCourseBtn')}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Guide & Formula Section -->
+    <article class="geist-card" style="padding: 2.25rem 2rem; line-height: 1.75; color: var(--color-body); margin-bottom: 2rem;">
+      <h2 class="heading-md" style="color: var(--color-ink); font-size: 1.35rem; margin-bottom: 1rem;" data-i18n="gpa.howTitle">
+        {t('gpa.howTitle')}
+      </h2>
+      <p style="margin-bottom: 1rem;" data-i18n="gpa.howP1">
+        {t('gpa.howP1')}
+      </p>
+      <div style="background: var(--color-canvas-subtle); padding: 1rem 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline); font-family: var(--font-mono); font-size: 0.875rem; margin-bottom: 1.25rem; color: var(--color-blue);" data-i18n="gpa.howFormula">
+        {t('gpa.howFormula')}
+      </div>
+    </article>
+
+    <!-- Related Links -->
+    <section>
+      <h3 class="heading-md" style="margin-bottom: 1rem; color: var(--color-ink);" data-i18n="page.relatedCalculators">{t('page.relatedCalculators')}</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+        <a href={translatePath('/semester-gpa-calculator')} class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="sgpa.h1">{t('sgpa.h1')}</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;" data-i18n="sgpa.lead">{t('sgpa.lead')}</p>
+        </a>
+        <a href={translatePath('/target-gpa-calculator')} class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="targetgpa.h1">{t('targetgpa.h1')}</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;" data-i18n="targetgpa.lead">{t('targetgpa.lead')}</p>
+        </a>
+        <a href={translatePath('/grade-converter')} class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="converter.h1">{t('converter.h1')}</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;" data-i18n="converter.lead">{t('converter.lead')}</p>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    interface Course {
+      name: string;
+      credits: number;
+      gradeVal: number;
+    }
+
+    const GRADE_MAP: Record<string, number> = {
+      'A': 4.00,
+      'A-': 3.70,
+      'B+': 3.30,
+      'B': 3.00,
+      'B-': 2.70,
+      'C+': 2.30,
+      'C': 2.00,
+      'C-': 1.70,
+      'D+': 1.30,
+      'D': 1.00,
+      'F': 0.00
+    };
+
+    const defaultCourses: Course[] = [
+      { name: 'Calculus I', credits: 4, gradeVal: 4.00 },
+      { name: 'Physics Mechanics', credits: 4, gradeVal: 3.70 },
+      { name: 'Computer Science 101', credits: 3, gradeVal: 4.00 },
+      { name: 'English Composition', credits: 3, gradeVal: 3.30 },
+      { name: 'Physics Laboratory', credits: 1, gradeVal: 4.00 }
+    ];
+
+    let courses: Course[] = JSON.parse(JSON.stringify(defaultCourses));
+
+    function renderTable() {
+      const tbody = document.getElementById('cgpa-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      courses.forEach((c, idx) => {
+        const tr = document.createElement('tr');
+        tr.style.borderBottom = '1px solid var(--color-hairline-soft)';
+        const pts = c.credits * c.gradeVal;
+
+        let gradeOptions = '';
+        for (const [letter, val] of Object.entries(GRADE_MAP)) {
+          const sel = Math.abs(val - c.gradeVal) < 0.01 ? 'selected' : '';
+          gradeOptions += `<option value="${val}" ${sel}>${letter} (${val.toFixed(2)})</option>`;
+        }
+
+        tr.innerHTML = `
+          <td style="padding: 0.5rem;">
+            <input type="text" class="form-input course-name" data-idx="${idx}" value="${c.name}" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;" />
+          </td>
+          <td style="padding: 0.5rem;">
+            <input type="number" class="form-input form-input-mono course-credits" data-idx="${idx}" value="${c.credits}" min="0.5" step="0.5" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;" />
+          </td>
+          <td style="padding: 0.5rem;">
+            <select class="form-select course-grade" data-idx="${idx}" style="width: 100%; padding: 0.35rem 0.5rem; font-size: 0.8125rem;">
+              ${gradeOptions}
+            </select>
+          </td>
+          <td style="padding: 0.5rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
+            ${pts.toFixed(1)}
+          </td>
+          <td style="padding: 0.5rem; text-align: center;">
+            <button type="button" class="btn-remove-course" data-idx="${idx}" style="background: none; border: none; cursor: pointer; color: var(--color-mute); font-size: 1.1rem; line-height: 1;" title="Remove course">&times;</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      attachEvents();
+      recalc();
+    }
+
+    function attachEvents() {
+      document.querySelectorAll('.course-name').forEach(inp => {
+        inp.addEventListener('input', (e) => {
+          const idx = parseInt((e.target as HTMLElement).getAttribute('data-idx') || '0', 10);
+          courses[idx].name = (e.target as HTMLInputElement).value;
+        });
+      });
+      document.querySelectorAll('.course-credits').forEach(inp => {
+        inp.addEventListener('input', (e) => {
+          const idx = parseInt((e.target as HTMLElement).getAttribute('data-idx') || '0', 10);
+          courses[idx].credits = parseFloat((e.target as HTMLInputElement).value) || 0;
+          recalc();
+        });
+      });
+      document.querySelectorAll('.course-grade').forEach(sel => {
+        sel.addEventListener('change', (e) => {
+          const idx = parseInt((e.target as HTMLElement).getAttribute('data-idx') || '0', 10);
+          courses[idx].gradeVal = parseFloat((e.target as HTMLSelectElement).value) || 0;
+          renderTable();
+        });
+      });
+      document.querySelectorAll('.btn-remove-course').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = parseInt((e.target as HTMLElement).getAttribute('data-idx') || '0', 10);
+          if (courses.length > 1) {
+            courses.splice(idx, 1);
+            renderTable();
+          }
+        });
+      });
+    }
+
+    function recalc() {
+      const priorGpaInp = document.getElementById('cgpa-prior-gpa') as HTMLInputElement | null;
+      const priorCreditsInp = document.getElementById('cgpa-prior-credits') as HTMLInputElement | null;
+
+      const priorGpa = parseFloat(priorGpaInp?.value || '0') || 0;
+      const priorCredits = parseFloat(priorCreditsInp?.value || '0') || 0;
+
+      let termCredits = 0;
+      let termPoints = 0;
+
+      courses.forEach(c => {
+        if (c.credits > 0) {
+          termCredits += c.credits;
+          termPoints += c.credits * c.gradeVal;
+        }
+      });
+
+      const termGpa = termCredits > 0 ? termPoints / termCredits : 0;
+      const careerCredits = priorCredits + termCredits;
+      const priorPoints = priorGpa * priorCredits;
+      const totalPoints = priorPoints + termPoints;
+      const cumulativeGpa = careerCredits > 0 ? totalPoints / careerCredits : 0;
+
+      const totalGpaEl = document.getElementById('cgpa-total-gpa');
+      const termGpaEl = document.getElementById('cgpa-term-gpa');
+      const badgeEl = document.getElementById('cgpa-honor-badge');
+      const careerCreditsEl = document.getElementById('cgpa-career-credits');
+      const termCreditsEl = document.getElementById('cgpa-term-credits');
+      const qualityPtsEl = document.getElementById('cgpa-quality-pts');
+
+      if (totalGpaEl) totalGpaEl.textContent = cumulativeGpa.toFixed(2);
+      if (termGpaEl) termGpaEl.textContent = termGpa.toFixed(2);
+      if (careerCreditsEl) careerCreditsEl.textContent = careerCredits.toString();
+      if (termCreditsEl) termCreditsEl.textContent = termCredits.toString();
+      if (qualityPtsEl) qualityPtsEl.textContent = totalPoints.toFixed(1);
+
+      if (badgeEl) {
+        if (cumulativeGpa >= 3.9) {
+          badgeEl.className = 'badge badge-emerald';
+          badgeEl.textContent = window.__i18n__?.t('status.deansList') || 'Summa Cum Laude';
+        } else if (cumulativeGpa >= 3.75) {
+          badgeEl.className = 'badge badge-emerald';
+          badgeEl.textContent = window.__i18n__?.t('status.honors') || 'Magna Cum Laude';
+        } else if (cumulativeGpa >= 3.5) {
+          badgeEl.className = 'badge badge-blue';
+          badgeEl.textContent = window.__i18n__?.t('status.goodStanding') || 'Dean\'s List / Honors';
+        } else if (cumulativeGpa >= 3.0) {
+          badgeEl.className = 'badge badge-blue';
+          badgeEl.textContent = window.__i18n__?.t('status.satisfactory') || 'Good Standing (B Avg)';
+        } else if (cumulativeGpa >= 2.0) {
+          badgeEl.className = 'badge badge-amber';
+          badgeEl.textContent = window.__i18n__?.t('status.satisfactory') || 'Satisfactory';
+        } else {
+          badgeEl.className = 'badge badge-red';
+          badgeEl.textContent = window.__i18n__?.t('status.probation') || 'Academic Warning';
+        }
+      }
+    }
+
+    renderTable();
+
+    document.getElementById('cgpa-add-course-btn')?.addEventListener('click', () => {
+      courses.push({
+        name: `Course ${courses.length + 1}`,
+        credits: 3,
+        gradeVal: 4.00
+      });
+      renderTable();
+    });
+
+    document.getElementById('cgpa-reset-btn')?.addEventListener('click', () => {
+      courses = JSON.parse(JSON.stringify(defaultCourses));
+      renderTable();
+    });
+
+    ['cgpa-prior-gpa', 'cgpa-prior-credits'].forEach(id => {
+      document.getElementById(id)?.addEventListener('input', recalc);
+    });
+  </script>
+</Layout>

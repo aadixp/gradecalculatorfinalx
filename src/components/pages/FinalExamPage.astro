@@ -1,0 +1,256 @@
+---
+// src/components/pages/FinalExamPage.astro
+import Layout from '../../layouts/Layout.astro';
+import { useTranslations, useTranslatedPath } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+
+const breadcrumbs = [
+  { name: t('page.home'), item: translatePath('/') },
+  { name: t('fec.h1'), item: translatePath('/final-exam-calculator') }
+];
+---
+
+<Layout
+  title={t('fec.pageTitle')}
+  description={t('fec.pageDesc')}
+  lang={lang}
+  breadcrumbs={breadcrumbs}
+  softwareSchema={{
+    name: t('fec.h1'),
+    description: t('fec.pageDesc'),
+    applicationCategory: "EducationalApplication"
+  }}
+>
+  <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
+    <!-- Breadcrumbs -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
+        <a href={translatePath('/')} style="color: var(--color-mute); text-decoration: none;" data-i18n="page.home">{t('page.home')}</a>
+        <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
+        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="fec.h1">{t('fec.h1')}</span>
+      </nav>
+      <div style="display: flex; gap: 0.5rem;">
+        <a href={translatePath('/weighted-grade-calculator')} class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;" data-i18n="wgc.h1">
+          {t('wgc.h1')} &rarr;
+        </a>
+        <a href={translatePath('/gpa-calculator')} class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;" data-i18n="gpa.h1">
+          {t('gpa.h1')} &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.5rem;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;" data-i18n="fec.eyebrow">{t('fec.eyebrow')}</span>
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="fec.h1">
+        {t('fec.h1')}
+      </h1>
+      <p style="font-size: 1.05rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6; max-width: 780px;" data-i18n="fec.lead">
+        {t('fec.lead')}
+      </p>
+    </header>
+
+    <!-- Interactive Final Exam Calculator Card -->
+    <section class="geist-card" style="padding: 2rem; margin-bottom: 2.5rem;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; align-items: start;">
+        <!-- Left: Input Form -->
+        <div>
+          <h3 class="heading-md" style="font-size: 1.15rem; margin-bottom: 1.25rem; color: var(--color-ink);" data-i18n="fec.calcCardTitle">{t('fec.calcCardTitle')}</h3>
+          
+          <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+            <div>
+              <label for="fec-current" style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.4rem;" data-i18n="fec.currentGradeLabel">
+                {t('fec.currentGradeLabel')}
+              </label>
+              <input type="number" id="fec-current" class="form-input form-input-mono" value="84.5" min="0" max="150" step="0.1" style="width: 100%; padding: 0.6rem 0.75rem;" placeholder="e.g. 84.5" />
+              <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;" data-i18n="fec.currentGradeHint">{t('fec.currentGradeHint')}</span>
+            </div>
+
+            <div>
+              <label for="fec-target" style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.4rem;" data-i18n="fec.desiredGradeLabel">
+                {t('fec.desiredGradeLabel')}
+              </label>
+              <input type="number" id="fec-target" class="form-input form-input-mono" value="90.0" min="0" max="150" step="0.1" style="width: 100%; padding: 0.6rem 0.75rem;" placeholder="e.g. 90.0" />
+              <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;" data-i18n="fec.desiredGradeHint">{t('fec.desiredGradeHint')}</span>
+            </div>
+
+            <div>
+              <label for="fec-weight" style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.4rem;" data-i18n="fec.examWeightLabel">
+                {t('fec.examWeightLabel')}
+              </label>
+              <input type="number" id="fec-weight" class="form-input form-input-mono" value="25.0" min="1" max="100" step="0.5" style="width: 100%; padding: 0.6rem 0.75rem;" placeholder="e.g. 25" />
+              <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;" data-i18n="fec.examWeightHint">{t('fec.examWeightHint')}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Results & Target Matrix -->
+        <div style="background: var(--color-canvas-subtle); padding: 1.75rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline);">
+          <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;" data-i18n="fec.requiredScore">{t('fec.requiredScore')}</span>
+          <div style="display: flex; align-items: baseline; gap: 0.5rem; margin-top: 0.25rem;">
+            <span id="fec-result-pct" class="display-xl" style="color: var(--color-ink); font-feature-settings: 'tnum';">106.5%</span>
+          </div>
+
+          <div id="fec-badge" class="badge badge-amber" style="margin-top: 0.75rem; font-size: 0.875rem; padding: 0.35rem 0.75rem; display: inline-block;" data-i18n="status.extraCredit">
+            {t('status.extraCredit')}
+          </div>
+
+          <p id="fec-explanation" style="font-size: 0.875rem; color: var(--color-body); margin-top: 1rem; line-height: 1.5;">
+            You need at least 106.5% on your final exam worth 25.0% to achieve your desired course grade of 90.0%. Extra credit or curved scoring may be required.
+          </p>
+
+          <!-- Target Scenario Table -->
+          <div style="margin-top: 1.5rem; border-top: 1px solid var(--color-hairline); padding-top: 1.25rem;">
+            <span style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-mute); display: block; margin-bottom: 0.75rem;" data-i18n="fec.matrixHeading">
+              {t('fec.matrixHeading')}
+            </span>
+            <div style="display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.8125rem;">
+              <div style="display: flex; justify-content: space-between; padding: 0.35rem 0; border-bottom: 1px solid var(--color-hairline-soft);">
+                <span>{t('calc.targetGrade')} A (93%):</span>
+                <strong id="fec-scen-a" style="font-family: var(--font-mono); color: var(--color-ink);">118.5%</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 0.35rem 0; border-bottom: 1px solid var(--color-hairline-soft);">
+                <span>{t('calc.targetGrade')} A- (90%):</span>
+                <strong id="fec-scen-am" style="font-family: var(--font-mono); color: var(--color-ink);">106.5%</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 0.35rem 0; border-bottom: 1px solid var(--color-hairline-soft);">
+                <span>{t('calc.targetGrade')} B (83%):</span>
+                <strong id="fec-scen-b" style="font-family: var(--font-mono); color: var(--color-ink);">78.5%</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 0.35rem 0; border-bottom: 1px solid var(--color-hairline-soft);">
+                <span>{t('calc.targetGrade')} C (73%):</span>
+                <strong id="fec-scen-c" style="font-family: var(--font-mono); color: var(--color-ink);">38.5%</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 0.35rem 0;">
+                <span>{t('status.passNoGpa')} (60%):</span>
+                <strong id="fec-scen-pass" style="font-family: var(--font-mono); color: var(--color-ink);">0.0% ({t('status.guaranteed')})</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Guide & Formula Section -->
+    <article class="geist-card" style="padding: 2.25rem 2rem; line-height: 1.75; color: var(--color-body); margin-bottom: 2rem;">
+      <h2 class="heading-md" style="color: var(--color-ink); font-size: 1.35rem; margin-bottom: 1rem;" data-i18n="fec.howTitle">
+        {t('fec.howTitle')}
+      </h2>
+      <p style="margin-bottom: 1rem;" data-i18n="fec.howP1">
+        {t('fec.howP1')}
+      </p>
+      <div style="background: var(--color-canvas-subtle); padding: 1rem 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline); font-family: var(--font-mono); font-size: 0.875rem; margin-bottom: 1.25rem; color: var(--color-blue);" data-i18n="fec.howFormula">
+        {t('fec.howFormula')}
+      </div>
+    </article>
+
+    <!-- Related Links -->
+    <section>
+      <h3 class="heading-md" style="margin-bottom: 1rem; color: var(--color-ink);" data-i18n="page.relatedCalculators">{t('page.relatedCalculators')}</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+        <a href={translatePath('/weighted-grade-calculator')} class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="wgc.h1">{t('wgc.h1')}</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;" data-i18n="wgc.lead">{t('wgc.lead')}</p>
+        </a>
+        <a href={translatePath('/gpa-calculator')} class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="gpa.h1">{t('gpa.h1')}</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;" data-i18n="gpa.lead">{t('gpa.lead')}</p>
+        </a>
+        <a href={translatePath('/target-gpa-calculator')} class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="targetgpa.h1">{t('targetgpa.h1')}</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;" data-i18n="targetgpa.lead">{t('targetgpa.lead')}</p>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function tr(key: string, fallback: string): string {
+      return window.__i18n__?.t(key) || fallback;
+    }
+
+    function calcFinal() {
+      const currentInput = document.getElementById('fec-current') as HTMLInputElement | null;
+      const targetInput = document.getElementById('fec-target') as HTMLInputElement | null;
+      const weightInput = document.getElementById('fec-weight') as HTMLInputElement | null;
+
+      const current = parseFloat(currentInput?.value || '0');
+      const target = parseFloat(targetInput?.value || '0');
+      const weight = parseFloat(weightInput?.value || '0');
+
+      const resultPct = document.getElementById('fec-result-pct');
+      const badge = document.getElementById('fec-badge');
+      const explanation = document.getElementById('fec-explanation');
+
+      if (isNaN(weight) || weight <= 0) {
+        if (resultPct) resultPct.textContent = tr('status.invalidWeight', 'Invalid Weight');
+        return;
+      }
+
+      const w = weight / 100;
+      const required = (target - current * (1 - w)) / w;
+
+      if (resultPct) {
+        resultPct.textContent = `${required.toFixed(1)}%`;
+      }
+
+      if (badge) {
+        if (required <= 0) {
+          badge.className = 'badge badge-emerald';
+          badge.textContent = tr('status.guaranteed', 'Guaranteed');
+        } else if (required <= 70) {
+          badge.className = 'badge badge-emerald';
+          badge.textContent = tr('status.comfortable', 'Comfortable');
+        } else if (required <= 85) {
+          badge.className = 'badge badge-blue';
+          badge.textContent = tr('status.realistic', 'Realistic Target');
+        } else if (required <= 100) {
+          badge.className = 'badge badge-amber';
+          badge.textContent = tr('status.challenging', 'Challenging Push');
+        } else {
+          badge.className = 'badge badge-red';
+          badge.textContent = tr('status.extraCredit', 'Extra Credit Required');
+        }
+      }
+
+      if (explanation) {
+        if (required <= 0) {
+          explanation.innerHTML = `<strong>${current.toFixed(1)}%</strong> &ge; <strong>${target.toFixed(1)}%</strong> (${tr('status.guaranteed', 'Guaranteed')})`;
+        } else {
+          explanation.innerHTML = `${tr('calc.scoreNeededOnFinal', 'Score Needed on Final')}: <strong>${required.toFixed(1)}%</strong>`;
+        }
+      }
+
+      function getScen(tVal: number): string {
+        const r = (tVal - current * (1 - w)) / w;
+        if (r <= 0) return `0% (${tr('status.locked', 'Locked')})`;
+        return `${r.toFixed(1)}%`;
+      }
+
+      const sa = document.getElementById('fec-scen-a');
+      const sam = document.getElementById('fec-scen-am');
+      const sb = document.getElementById('fec-scen-b');
+      const sc = document.getElementById('fec-scen-c');
+      const sp = document.getElementById('fec-scen-pass');
+
+      if (sa) sa.textContent = getScen(93.0);
+      if (sam) sam.textContent = getScen(90.0);
+      if (sb) sb.textContent = getScen(83.0);
+      if (sc) sc.textContent = getScen(73.0);
+      if (sp) sp.textContent = getScen(60.0);
+    }
+
+    ['fec-current', 'fec-target', 'fec-weight'].forEach(id => {
+      document.getElementById(id)?.addEventListener('input', calcFinal);
+    });
+    calcFinal();
+  </script>
+</Layout>

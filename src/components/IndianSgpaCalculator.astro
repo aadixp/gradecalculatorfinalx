@@ -13,11 +13,11 @@ const { idPrefix = 'sgpa' } = Astro.props;
       <div>
         <span class="mono-eyebrow" style="color: var(--color-emerald); margin-bottom: 0.25rem;">Semester GPA (10.0 Scale)</span>
         <div style="display: flex; align-items: baseline; gap: 0.75rem;">
-          <span id={`${idPrefix}-result-sgpa`} class="display-xl" style="font-feature-settings: 'tnum';">--</span>
-          <span id={`${idPrefix}-standing-badge`} class="badge badge-green">Ready</span>
+          <span id={`${idPrefix}-result-sgpa`} class="display-xl" style="font-feature-settings: 'tnum';">8.94</span>
+          <span id={`${idPrefix}-standing-badge`} class="badge badge-green">First Class with Distinction</span>
         </div>
         <p style="font-size: 0.875rem; color: var(--color-mute); margin-top: 0.25rem;">
-          Approx. Percentage: <strong style="color: var(--color-ink);" id={`${idPrefix}-result-pct`}>--%</strong>
+          Approx. Percentage: <strong style="color: var(--color-ink);" id={`${idPrefix}-result-pct`}>84.93%</strong>
           <span style="font-size: 0.75rem;">(&times; 9.5 Standard)</span>
         </p>
       </div>
@@ -26,11 +26,11 @@ const { idPrefix = 'sgpa' } = Astro.props;
       <div class="responsive-col-divider" style="border-left: 1px solid var(--color-hairline); padding-left: 1.25rem;">
         <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.35rem;">
           <span style="color: var(--color-mute);">Semester Credits Registered:</span>
-          <span id={`${idPrefix}-total-credits`} style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">0</span>
+          <span id={`${idPrefix}-total-credits`} style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">18.0</span>
         </div>
         <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.5rem;">
           <span style="color: var(--color-mute);">Earned Quality Points:</span>
-          <span id={`${idPrefix}-total-points`} style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">0.0</span>
+          <span id={`${idPrefix}-total-points`} style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">161.0</span>
         </div>
         <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-mute); background: var(--color-canvas-subtle); padding: 0.35rem 0.5rem; border-radius: var(--radius-xs); border: 1px solid var(--color-hairline);">
           SGPA = &Sigma;(Grade Point &times; Semester Credits) &divide; &Sigma;Credits
@@ -81,7 +81,222 @@ const { idPrefix = 'sgpa' } = Astro.props;
           </tr>
         </thead>
         <tbody id={`${idPrefix}-tbody`}>
-          <!-- Populated by script -->
+          <tr class="mobile-card-row sgpa-card-row" style="border-bottom: 1px solid var(--color-hairline);">
+            <td class="td-sgpa-name" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Subject #1</span>
+              <input type="text" class="form-input subj-name-input" data-id="isgpa-1" value="Mathematics - III" placeholder="e.g. Mathematics" />
+            </td>
+            <td class="td-sgpa-grade" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Letter Grade</span>
+              <select class="form-select subj-grade-select" data-id="isgpa-1">
+                <option value="O">O (Outstanding - 10)</option>
+                <option value="A+" selected>A+ (Excellent - 9)</option>
+                <option value="A">A (Very Good - 8)</option>
+                <option value="B+">B+ (Good - 7)</option>
+                <option value="B">B (Above Average - 6)</option>
+                <option value="C">C (Average - 5)</option>
+                <option value="P">P (Pass - 4)</option>
+                <option value="F">F (Fail - 0)</option>
+              </select>
+            </td>
+            <td class="td-sgpa-point" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Grade Point</span>
+              <input type="number" step="0.5" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="isgpa-1" value="9" placeholder="9" />
+            </td>
+            <td class="td-sgpa-credits" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Credits</span>
+              <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="isgpa-1" value="4" placeholder="Credits" />
+            </td>
+            <td class="td-sgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
+              <span class="mobile-input-label">Weighted Points</span>
+              <span>36.0</span>
+            </td>
+            <td class="td-sgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
+              <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="isgpa-1" title="Remove subject" aria-label="Remove subject">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </td>
+          </tr>
+          <tr class="mobile-card-row sgpa-card-row" style="border-bottom: 1px solid var(--color-hairline);">
+            <td class="td-sgpa-name" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Subject #2</span>
+              <input type="text" class="form-input subj-name-input" data-id="isgpa-2" value="Design & Analysis of Algorithms" placeholder="e.g. Computer Science" />
+            </td>
+            <td class="td-sgpa-grade" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Letter Grade</span>
+              <select class="form-select subj-grade-select" data-id="isgpa-2">
+                <option value="O" selected>O (Outstanding - 10)</option>
+                <option value="A+">A+ (Excellent - 9)</option>
+                <option value="A">A (Very Good - 8)</option>
+                <option value="B+">B+ (Good - 7)</option>
+                <option value="B">B (Above Average - 6)</option>
+                <option value="C">C (Average - 5)</option>
+                <option value="P">P (Pass - 4)</option>
+                <option value="F">F (Fail - 0)</option>
+              </select>
+            </td>
+            <td class="td-sgpa-point" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Grade Point</span>
+              <input type="number" step="0.5" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="isgpa-2" value="10" placeholder="10" />
+            </td>
+            <td class="td-sgpa-credits" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Credits</span>
+              <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="isgpa-2" value="4" placeholder="Credits" />
+            </td>
+            <td class="td-sgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
+              <span class="mobile-input-label">Weighted Points</span>
+              <span>40.0</span>
+            </td>
+            <td class="td-sgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
+              <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="isgpa-2" title="Remove subject" aria-label="Remove subject">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </td>
+          </tr>
+          <tr class="mobile-card-row sgpa-card-row" style="border-bottom: 1px solid var(--color-hairline);">
+            <td class="td-sgpa-name" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Subject #3</span>
+              <input type="text" class="form-input subj-name-input" data-id="isgpa-3" value="Operating Systems" placeholder="e.g. Systems" />
+            </td>
+            <td class="td-sgpa-grade" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Letter Grade</span>
+              <select class="form-select subj-grade-select" data-id="isgpa-3">
+                <option value="O">O (Outstanding - 10)</option>
+                <option value="A+">A+ (Excellent - 9)</option>
+                <option value="A" selected>A (Very Good - 8)</option>
+                <option value="B+">B+ (Good - 7)</option>
+                <option value="B">B (Above Average - 6)</option>
+                <option value="C">C (Average - 5)</option>
+                <option value="P">P (Pass - 4)</option>
+                <option value="F">F (Fail - 0)</option>
+              </select>
+            </td>
+            <td class="td-sgpa-point" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Grade Point</span>
+              <input type="number" step="0.5" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="isgpa-3" value="8" placeholder="8" />
+            </td>
+            <td class="td-sgpa-credits" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Credits</span>
+              <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="isgpa-3" value="3" placeholder="Credits" />
+            </td>
+            <td class="td-sgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
+              <span class="mobile-input-label">Weighted Points</span>
+              <span>24.0</span>
+            </td>
+            <td class="td-sgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
+              <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="isgpa-3" title="Remove subject" aria-label="Remove subject">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </td>
+          </tr>
+          <tr class="mobile-card-row sgpa-card-row" style="border-bottom: 1px solid var(--color-hairline);">
+            <td class="td-sgpa-name" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Subject #4</span>
+              <input type="text" class="form-input subj-name-input" data-id="isgpa-4" value="Database Management Systems" placeholder="e.g. DBMS" />
+            </td>
+            <td class="td-sgpa-grade" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Letter Grade</span>
+              <select class="form-select subj-grade-select" data-id="isgpa-4">
+                <option value="O">O (Outstanding - 10)</option>
+                <option value="A+" selected>A+ (Excellent - 9)</option>
+                <option value="A">A (Very Good - 8)</option>
+                <option value="B+">B+ (Good - 7)</option>
+                <option value="B">B (Above Average - 6)</option>
+                <option value="C">C (Average - 5)</option>
+                <option value="P">P (Pass - 4)</option>
+                <option value="F">F (Fail - 0)</option>
+              </select>
+            </td>
+            <td class="td-sgpa-point" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Grade Point</span>
+              <input type="number" step="0.5" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="isgpa-4" value="9" placeholder="9" />
+            </td>
+            <td class="td-sgpa-credits" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Credits</span>
+              <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="isgpa-4" value="3" placeholder="Credits" />
+            </td>
+            <td class="td-sgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
+              <span class="mobile-input-label">Weighted Points</span>
+              <span>27.0</span>
+            </td>
+            <td class="td-sgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
+              <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="isgpa-4" title="Remove subject" aria-label="Remove subject">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </td>
+          </tr>
+          <tr class="mobile-card-row sgpa-card-row" style="border-bottom: 1px solid var(--color-hairline);">
+            <td class="td-sgpa-name" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Subject #5</span>
+              <input type="text" class="form-input subj-name-input" data-id="isgpa-5" value="OS & DBMS Lab" placeholder="e.g. Practicals" />
+            </td>
+            <td class="td-sgpa-grade" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Letter Grade</span>
+              <select class="form-select subj-grade-select" data-id="isgpa-5">
+                <option value="O" selected>O (Outstanding - 10)</option>
+                <option value="A+">A+ (Excellent - 9)</option>
+                <option value="A">A (Very Good - 8)</option>
+                <option value="B+">B+ (Good - 7)</option>
+                <option value="B">B (Above Average - 6)</option>
+                <option value="C">C (Average - 5)</option>
+                <option value="P">P (Pass - 4)</option>
+                <option value="F">F (Fail - 0)</option>
+              </select>
+            </td>
+            <td class="td-sgpa-point" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Grade Point</span>
+              <input type="number" step="0.5" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="isgpa-5" value="10" placeholder="10" />
+            </td>
+            <td class="td-sgpa-credits" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Credits</span>
+              <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="isgpa-5" value="2" placeholder="Credits" />
+            </td>
+            <td class="td-sgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
+              <span class="mobile-input-label">Weighted Points</span>
+              <span>20.0</span>
+            </td>
+            <td class="td-sgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
+              <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="isgpa-5" title="Remove subject" aria-label="Remove subject">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </td>
+          </tr>
+          <tr class="mobile-card-row sgpa-card-row" style="border-bottom: 1px solid var(--color-hairline);">
+            <td class="td-sgpa-name" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Subject #6</span>
+              <input type="text" class="form-input subj-name-input" data-id="isgpa-6" value="Environmental Studies" placeholder="e.g. EVS" />
+            </td>
+            <td class="td-sgpa-grade" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Letter Grade</span>
+              <select class="form-select subj-grade-select" data-id="isgpa-6">
+                <option value="O">O (Outstanding - 10)</option>
+                <option value="A+">A+ (Excellent - 9)</option>
+                <option value="A">A (Very Good - 8)</option>
+                <option value="B+" selected>B+ (Good - 7)</option>
+                <option value="B">B (Above Average - 6)</option>
+                <option value="C">C (Average - 5)</option>
+                <option value="P">P (Pass - 4)</option>
+                <option value="F">F (Fail - 0)</option>
+              </select>
+            </td>
+            <td class="td-sgpa-point" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Grade Point</span>
+              <input type="number" step="0.5" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="isgpa-6" value="7" placeholder="7" />
+            </td>
+            <td class="td-sgpa-credits" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">Credits</span>
+              <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="isgpa-6" value="2" placeholder="Credits" />
+            </td>
+            <td class="td-sgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
+              <span class="mobile-input-label">Weighted Points</span>
+              <span>14.0</span>
+            </td>
+            <td class="td-sgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
+              <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="isgpa-6" title="Remove subject" aria-label="Remove subject">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>

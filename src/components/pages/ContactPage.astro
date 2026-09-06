@@ -1,0 +1,169 @@
+---
+// src/components/pages/ContactPage.astro
+import Layout from '../../layouts/Layout.astro';
+import { useTranslations, useTranslatedPath } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+---
+
+<Layout
+  title={t('contact.title')}
+  description={t('contact.desc')}
+  lang={lang}
+  breadcrumbs={[
+    { name: t('page.home'), item: translatePath('/') },
+    { name: t('nav.contact'), item: translatePath('/contact') }
+  ]}
+>
+  <div class="container" style="max-width: 880px; padding-top: 3rem; padding-bottom: 5rem;">
+    <!-- Breadcrumb & Return to Calculator -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
+        <a href={translatePath('/')} style="color: var(--color-mute); text-decoration: none;" data-i18n="page.home">{t('page.home')}</a>
+        <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
+        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="nav.contact">{t('nav.contact')}</span>
+      </nav>
+      <a href={translatePath('/')} class="btn btn-secondary" style="font-size: 0.8125rem; padding: 0.35rem 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span data-i18n="page.backToCalculator">{t('page.backToCalculator')}</span>
+      </a>
+    </div>
+
+    <!-- Page Header -->
+    <header style="margin-bottom: 2.5rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.75rem;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;" data-i18n="contact.eyebrow">{t('contact.eyebrow')}</span>
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.75rem, 4vw, 2.25rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="contact.h1">
+        {t('contact.h1')}
+      </h1>
+      <p style="font-size: 1rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6;" data-i18n="contact.lead">
+        {t('contact.lead')}
+      </p>
+    </header>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; align-items: start;">
+      <!-- Contact Information Card -->
+      <div class="geist-card" style="padding: 2rem;">
+        <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 1.25rem; font-size: 1.15rem;" data-i18n="contact.directTitle">
+          {t('contact.directTitle')}
+        </h2>
+
+        <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+          <div>
+            <span style="font-size: 0.75rem; font-family: var(--font-mono); text-transform: uppercase; color: var(--color-mute); letter-spacing: 0.05em; display: block;" data-i18n="contact.generalLabel">{t('contact.generalLabel')}</span>
+            <a href="mailto:support@gradecalculatorfinalx.com" style="color: var(--color-ink); font-weight: 600; text-decoration: none; font-size: 0.9375rem;">support@gradecalculatorfinalx.com</a>
+          </div>
+
+          <div>
+            <span style="font-size: 0.75rem; font-family: var(--font-mono); text-transform: uppercase; color: var(--color-mute); letter-spacing: 0.05em; display: block;" data-i18n="contact.academicLabel">{t('contact.academicLabel')}</span>
+            <a href="mailto:academic@gradecalculatorfinalx.com" style="color: var(--color-ink); font-weight: 600; text-decoration: none; font-size: 0.9375rem;">academic@gradecalculatorfinalx.com</a>
+          </div>
+
+          <div>
+            <span style="font-size: 0.75rem; font-family: var(--font-mono); text-transform: uppercase; color: var(--color-mute); letter-spacing: 0.05em; display: block;" data-i18n="contact.privacyLabel">{t('contact.privacyLabel')}</span>
+            <a href="mailto:privacy@gradecalculatorfinalx.com" style="color: var(--color-ink); font-weight: 600; text-decoration: none; font-size: 0.9375rem;">privacy@gradecalculatorfinalx.com</a>
+          </div>
+
+          <div style="border-top: 1px solid var(--color-hairline); padding-top: 1.25rem; margin-top: 0.5rem;">
+            <h3 style="font-size: 0.875rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="contact.faqPromptTitle">{t('contact.faqPromptTitle')}</h3>
+            <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.5; margin-bottom: 0.75rem;" data-i18n="contact.faqPromptDesc">
+              {t('contact.faqPromptDesc')}
+            </p>
+            <a href={translatePath('/#faq')} style="font-size: 0.8125rem; color: var(--color-blue); text-decoration: none; font-weight: 500;" data-i18n="contact.faqPromptLink">{t('contact.faqPromptLink')}</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Contact Form Card -->
+      <div class="geist-card" style="padding: 2rem;">
+        <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 1.25rem; font-size: 1.15rem;" data-i18n="contact.formTitle">
+          {t('contact.formTitle')}
+        </h2>
+
+        <form id="contact-form" style="display: flex; flex-direction: column; gap: 1rem;">
+          <div>
+            <label for="contact-name" style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="contact.nameLabel">{t('contact.nameLabel')}</label>
+            <input type="text" id="contact-name" name="name" required class="form-input" placeholder={t('contact.namePlaceholder')} data-i18n-placeholder="contact.namePlaceholder" />
+          </div>
+
+          <div>
+            <label for="contact-email" style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="contact.emailLabel">{t('contact.emailLabel')}</label>
+            <input type="email" id="contact-email" name="email" required class="form-input" placeholder={t('contact.emailPlaceholder')} data-i18n-placeholder="contact.emailPlaceholder" />
+          </div>
+
+          <div>
+            <label for="contact-topic" style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="contact.topicLabel">{t('contact.topicLabel')}</label>
+            <select id="contact-topic" name="topic" class="form-select">
+              <option value="feedback" data-i18n="contact.topicFeedback">{t('contact.topicFeedback')}</option>
+              <option value="bug" data-i18n="contact.topicBug">{t('contact.topicBug')}</option>
+              <option value="feature" data-i18n="contact.topicFeature">{t('contact.topicFeature')}</option>
+              <option value="academic" data-i18n="contact.topicAcademic">{t('contact.topicAcademic')}</option>
+              <option value="other" data-i18n="contact.topicOther">{t('contact.topicOther')}</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="contact-message" style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;" data-i18n="contact.messageLabel">{t('contact.messageLabel')}</label>
+            <textarea id="contact-message" name="message" rows="4" required class="form-input" placeholder={t('contact.messagePlaceholder')} data-i18n-placeholder="contact.messagePlaceholder" style="resize: vertical;"></textarea>
+          </div>
+
+          <button type="submit" id="submit-contact-btn" class="btn btn-primary" style="margin-top: 0.5rem; justify-content: center;" data-i18n="contact.sendBtn">
+            {t('contact.sendBtn')}
+          </button>
+
+          <div id="contact-status" style="display: none; padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.8125rem; line-height: 1.4;"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bottom Return Action -->
+    <div style="text-align: center; margin-top: 3rem;">
+      <a href={translatePath('/')} class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; padding: 0.65rem 1.25rem;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span data-i18n="page.returnToGradeCalc">{t('page.returnToGradeCalc')}</span>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const statusEl = document.getElementById('contact-status');
+    const submitBtn = document.getElementById('submit-contact-btn') as HTMLButtonElement | null;
+
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!form || !statusEl || !submitBtn) return;
+
+      const sendingText = window.__i18n__?.t('contact.sending') || 'Sending...';
+      const sendText = window.__i18n__?.t('contact.sendBtn') || 'Send Message';
+      const successText = window.__i18n__?.t('contact.successMsg') || 'Message sent successfully! We will respond within 24-48 hours.';
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = sendingText;
+
+      setTimeout(() => {
+        form.reset();
+        submitBtn.disabled = false;
+        submitBtn.textContent = sendText;
+
+        statusEl.style.display = 'block';
+        statusEl.style.background = 'var(--color-canvas-subtle)';
+        statusEl.style.border = '1px solid var(--color-emerald)';
+        statusEl.style.color = 'var(--color-emerald)';
+        statusEl.innerHTML = `<strong>Success!</strong> ${successText}`;
+      }, 600);
+    });
+  </script>
+</Layout>

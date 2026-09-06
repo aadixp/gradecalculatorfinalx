@@ -1,0 +1,51 @@
+---
+// src/components/pages/NotFoundPage.astro
+import Layout from '../../layouts/Layout.astro';
+import { useTranslations, useTranslatedPath } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+---
+
+<Layout
+  title={t('error.404Title')}
+  description={t('error.404Desc')}
+  lang={lang}
+  breadcrumbs={[
+    { name: t('page.home'), item: translatePath('/') },
+    { name: '404', item: translatePath('/404') }
+  ]}
+>
+  <div class="container" style="max-width: 680px; padding-top: 5rem; padding-bottom: 7rem; text-align: center;">
+    <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: var(--radius-md); background: var(--color-canvas-subtle); border: 1px solid var(--color-hairline); margin-bottom: 1.5rem; color: var(--color-blue);">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+    </div>
+
+    <span class="mono-eyebrow" style="color: var(--color-blue); display: block; margin-bottom: 0.5rem;">Error 404</span>
+    <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(2rem, 5vw, 2.75rem); letter-spacing: -0.02em; margin-bottom: 1rem;" data-i18n="error.404Heading">
+      {t('error.404Heading')}
+    </h1>
+    <p style="font-size: 1.05rem; color: var(--color-body); line-height: 1.6; margin-bottom: 2.25rem;" data-i18n="error.404Lead">
+      {t('error.404Lead')}
+    </p>
+
+    <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+      <a href={translatePath('/')} class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; padding: 0.65rem 1.25rem;" data-i18n="error.404Cta">
+        {t('error.404Cta')}
+      </a>
+      <a href={translatePath('/about')} class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; padding: 0.65rem 1.25rem;" data-i18n="nav.about">
+        {t('nav.about')}
+      </a>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,262 @@
+---
+// src/components/pages/IndianCgpaPage.astro
+import Layout from '../../layouts/Layout.astro';
+import IndianCgpaCalculator from '../IndianCgpaCalculator.astro';
+import { useTranslations, useTranslatedPath, type Lang } from '../../i18n/utils';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+
+const breadcrumbs = [
+  { name: t('nav.home'), item: translatePath('/') },
+  { name: t('menu.icgpa'), item: translatePath('/indian-cgpa-calculator') }
+];
+
+const faqSchema = [
+  {
+    question: t('icgpa.faq1_q'),
+    answer: t('icgpa.faq1_a')
+  },
+  {
+    question: t('icgpa.faq2_q'),
+    answer: t('icgpa.faq2_a')
+  },
+  {
+    question: t('icgpa.faq3_q'),
+    answer: t('icgpa.faq3_a')
+  },
+  {
+    question: t('icgpa.faq4_q'),
+    answer: t('icgpa.faq4_a')
+  },
+  {
+    question: t('icgpa.faq5_q'),
+    answer: t('icgpa.faq5_a')
+  }
+];
+---
+
+<Layout
+  title={t('icgpa.title')}
+  description={t('icgpa.desc')}
+  breadcrumbs={breadcrumbs}
+  faqSchema={faqSchema}
+  lang={lang}
+  softwareSchema={{
+    name: t('menu.icgpa'),
+    description: t('icgpa.desc'),
+    applicationCategory: "EducationalApplication"
+  }}
+>
+  <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
+    <!-- Breadcrumbs -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
+        <a href={translatePath('/')} style="color: var(--color-mute); text-decoration: none;" data-i18n="nav.home">{t('nav.home')}</a>
+        <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
+        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="menu.icgpa">{t('menu.icgpa')}</span>
+      </nav>
+      <div style="display: flex; gap: 0.5rem;">
+        <a href={translatePath('/indian-sgpa-calculator')} class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;">
+          <span data-i18n="menu.isgpa">{t('menu.isgpa')}</span> &rarr;
+        </a>
+        <a href={translatePath('/cgpa-to-percentage')} class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;">
+          <span data-i18n="menu.cgpato">{t('menu.cgpato')}</span> &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.5rem;">
+      <span class="mono-eyebrow" style="color: var(--color-emerald); margin-bottom: 0.35rem;" data-i18n="icgpa.eyebrow">{t('icgpa.eyebrow')}</span>
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="icgpa.title">
+        {t('icgpa.title')}
+      </h1>
+      <p style="font-size: 1.05rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6; max-width: 780px;" data-i18n="icgpa.desc">
+        {t('icgpa.desc')}
+      </p>
+    </header>
+
+    <!-- Interactive Calculator -->
+    <section style="margin-bottom: 3rem;">
+      <IndianCgpaCalculator idPrefix="page-cgpa" lang={lang} />
+    </section>
+
+    <!-- Detailed Guide & Formula Section -->
+    <article class="geist-card" style="padding: 2.25rem 2rem; line-height: 1.75; color: var(--color-body); margin-bottom: 2rem;">
+      <h2 class="heading-md" style="color: var(--color-ink); font-size: 1.35rem; margin-bottom: 1rem;" data-i18n="icgpa.guide_heading">
+        {t('icgpa.guide_heading')}
+      </h2>
+      <p style="margin-bottom: 1rem;" data-i18n="icgpa.guide_p1">
+        {t('icgpa.guide_p1')}
+      </p>
+      <p style="margin-bottom: 1.25rem;" data-i18n="icgpa.guide_p2">
+        {t('icgpa.guide_p2')}
+      </p>
+
+      <!-- UGC Grade Point Table -->
+      <div style="overflow-x: auto; margin-bottom: 1.5rem;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+          <thead>
+            <tr style="background: var(--color-canvas-subtle); border-bottom: 1px solid var(--color-hairline); text-align: left;">
+              <th style="padding: 0.5rem 0.75rem;" data-i18n="icgpa.th_grade">{t('icgpa.th_grade')}</th>
+              <th style="padding: 0.5rem 0.75rem;" data-i18n="icgpa.th_point">{t('icgpa.th_point')}</th>
+              <th style="padding: 0.5rem 0.75rem;" data-i18n="icgpa.th_desc">{t('icgpa.th_desc')}</th>
+              <th style="padding: 0.5rem 0.75rem;" data-i18n="icgpa.th_marks">{t('icgpa.th_marks')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);">
+              <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: var(--color-ink);">O</td>
+              <td style="padding: 0.5rem 0.75rem; font-family: var(--font-mono); font-weight: 600;">10</td>
+              <td style="padding: 0.5rem 0.75rem; color: var(--color-emerald);">Outstanding</td>
+              <td style="padding: 0.5rem 0.75rem;">90% to 100%</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);">
+              <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: var(--color-ink);">A+</td>
+              <td style="padding: 0.5rem 0.75rem; font-family: var(--font-mono); font-weight: 600;">9</td>
+              <td style="padding: 0.5rem 0.75rem; color: var(--color-emerald);">Excellent</td>
+              <td style="padding: 0.5rem 0.75rem;">80% to 89%</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);">
+              <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: var(--color-ink);">A</td>
+              <td style="padding: 0.5rem 0.75rem; font-family: var(--font-mono); font-weight: 600;">8</td>
+              <td style="padding: 0.5rem 0.75rem; color: var(--color-blue);">Very Good</td>
+              <td style="padding: 0.5rem 0.75rem;">70% to 79%</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);">
+              <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: var(--color-ink);">B+</td>
+              <td style="padding: 0.5rem 0.75rem; font-family: var(--font-mono); font-weight: 600;">7</td>
+              <td style="padding: 0.5rem 0.75rem; color: var(--color-blue);">Good</td>
+              <td style="padding: 0.5rem 0.75rem;">60% to 69%</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);">
+              <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: var(--color-ink);">B</td>
+              <td style="padding: 0.5rem 0.75rem; font-family: var(--font-mono); font-weight: 600;">6</td>
+              <td style="padding: 0.5rem 0.75rem; color: var(--color-amber);">Above Average</td>
+              <td style="padding: 0.5rem 0.75rem;">55% to 59%</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);">
+              <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: var(--color-ink);">C</td>
+              <td style="padding: 0.5rem 0.75rem; font-family: var(--font-mono); font-weight: 600;">5</td>
+              <td style="padding: 0.5rem 0.75rem; color: var(--color-amber);">Average</td>
+              <td style="padding: 0.5rem 0.75rem;">50% to 54%</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);">
+              <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: var(--color-ink);">P</td>
+              <td style="padding: 0.5rem 0.75rem; font-family: var(--font-mono); font-weight: 600;">4</td>
+              <td style="padding: 0.5rem 0.75rem; color: var(--color-mute);">Pass</td>
+              <td style="padding: 0.5rem 0.75rem;">40% to 49%</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);">
+              <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: var(--color-red);">F</td>
+              <td style="padding: 0.5rem 0.75rem; font-family: var(--font-mono); font-weight: 600;">0</td>
+              <td style="padding: 0.5rem 0.75rem; color: var(--color-red);">Fail / Reappear</td>
+              <td style="padding: 0.5rem 0.75rem;">Below 40%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="heading-md" style="font-size: 1.15rem; color: var(--color-ink); margin-bottom: 0.75rem;" data-i18n="icgpa.formula_heading">
+        {t('icgpa.formula_heading')}
+      </h3>
+      <div style="background: var(--color-canvas-subtle); padding: 1rem 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline); font-family: var(--font-mono); font-size: 0.875rem; margin-bottom: 1.25rem;">
+        CGPA = &Sigma;(C<sub>i</sub> &times; G<sub>i</sub>) &divide; &Sigma;C<sub>i</sub>
+      </div>
+      <p style="margin-bottom: 1rem;" data-i18n="icgpa.formula_desc">
+        {t('icgpa.formula_desc')}
+      </p>
+
+      <h3 class="heading-md" style="font-size: 1.15rem; color: var(--color-ink); margin-bottom: 0.75rem;" data-i18n="icgpa.example_heading">
+        {t('icgpa.example_heading')}
+      </h3>
+      <p style="margin-bottom: 0.75rem;" data-i18n="icgpa.example_intro">
+        {t('icgpa.example_intro')}
+      </p>
+      <ul style="padding-left: 1.25rem; margin-bottom: 1rem;">
+        <li>Data Structures &amp; Algorithms: 4 Credits &times; Grade O (10) = 40.0 Points</li>
+        <li>Engineering Mathematics: 4 Credits &times; Grade A+ (9) = 36.0 Points</li>
+        <li>Operating Systems: 3 Credits &times; Grade A (8) = 24.0 Points</li>
+        <li>Database Management: 3 Credits &times; Grade B+ (7) = 21.0 Points</li>
+        <li>Software Lab: 2 Credits &times; Grade O (10) = 20.0 Points</li>
+      </ul>
+      <p style="margin-bottom: 1rem;">
+        <span data-i18n="icgpa.example_totals">{t('icgpa.example_totals')}</span><br/>
+        <span data-i18n="icgpa.example_res">{t('icgpa.example_res')}</span>
+      </p>
+    </article>
+
+    <!-- Frequently Asked Questions -->
+    <section class="faq-card" style="margin-bottom: 3rem;">
+      <h2 class="heading-md" style="margin-bottom: 1.25rem; color: var(--color-ink);" data-i18n="icgpa.faq_heading">
+        {t('icgpa.faq_heading')}
+      </h2>
+
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="faq-item">
+          <div class="faq-question" data-i18n="icgpa.faq1_q">{t('icgpa.faq1_q')}</div>
+          <div class="faq-answer" data-i18n="icgpa.faq1_a">
+            {t('icgpa.faq1_a')}
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" data-i18n="icgpa.faq2_q">{t('icgpa.faq2_q')}</div>
+          <div class="faq-answer" data-i18n="icgpa.faq2_a">
+            {t('icgpa.faq2_a')}
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" data-i18n="icgpa.faq3_q">{t('icgpa.faq3_q')}</div>
+          <div class="faq-answer" data-i18n="icgpa.faq3_a">
+            {t('icgpa.faq3_a')}
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" data-i18n="icgpa.faq4_q">{t('icgpa.faq4_q')}</div>
+          <div class="faq-answer" data-i18n="icgpa.faq4_a">
+            {t('icgpa.faq4_a')}
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" data-i18n="icgpa.faq5_q">{t('icgpa.faq5_q')}</div>
+          <div class="faq-answer" data-i18n="icgpa.faq5_a">
+            {t('icgpa.faq5_a')}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Calculators Navigation Grid -->
+    <section>
+      <h3 class="heading-md" style="margin-bottom: 1rem; color: var(--color-ink);" data-i18n="icgpa.related_heading">{t('icgpa.related_heading')}</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+        <a href={translatePath('/indian-sgpa-calculator')} class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="menu.isgpa">{t('menu.isgpa')}</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;" data-i18n="isgpa.desc">{t('isgpa.desc')}</p>
+        </a>
+        <a href={translatePath('/cgpa-to-percentage')} class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="menu.cgpato">{t('menu.cgpato')}</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;" data-i18n="cgpato.desc">{t('cgpato.desc')}</p>
+        </a>
+        <a href={translatePath('/target-cgpa-calculator')} class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="menu.target_cgpa">{t('menu.target_cgpa')}</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;" data-i18n="targetcgpa.desc">{t('targetcgpa.desc')}</p>
+        </a>
+        <a href={translatePath('/grade-converter')} class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="menu.converter">{t('menu.converter')}</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;" data-i18n="converter.desc">{t('converter.desc')}</p>
+        </a>
+      </div>
+    </section>
+  </div>
+</Layout>

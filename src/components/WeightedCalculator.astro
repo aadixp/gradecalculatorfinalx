@@ -1,5 +1,14 @@
 ---
 // src/components/WeightedCalculator.astro
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
 ---
 
 <div id="calculator-weighted" class="calculator-panel">
@@ -7,37 +16,37 @@
   <div class="geist-card geist-card-floating" style="padding: 1.5rem; margin-bottom: 1.5rem; background: linear-gradient(180deg, var(--color-canvas-elevated) 0%, var(--color-canvas-subtle) 100%);">
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; align-items: center;">
       <div>
-        <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;">Live Calculation</span>
+        <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;" data-i18n="calc.liveCalc">{t('calc.liveCalc')}</span>
         <div style="display: flex; align-items: baseline; gap: 0.75rem;">
-          <span id="weighted-grade-pct" class="display-xl" style="font-feature-settings: 'tnum';">--%</span>
-          <span id="weighted-grade-letter" class="badge badge-blue" style="font-size: 1rem; padding: 0.25rem 0.75rem;">--</span>
+          <span id="weighted-grade-pct" class="display-xl" style="font-feature-settings: 'tnum';">88.40%</span>
+          <span id="weighted-grade-letter" class="badge badge-blue" style="font-size: 1rem; padding: 0.25rem 0.75rem;">B+</span>
         </div>
         <p id="weighted-gpa-equiv" style="font-size: 0.875rem; color: var(--color-mute); margin-top: 0.25rem;">
-          Equivalent GPA: <strong style="color: var(--color-ink);" id="weighted-gpa-val">--</strong>
+          <span data-i18n="calc.equivGpa">{t('calc.equivGpa')}</span> <strong style="color: var(--color-ink);" id="weighted-gpa-val">3.30</strong>
         </p>
       </div>
 
       <!-- Weight Accumulator & Status -->
       <div class="responsive-col-divider" style="border-left: 1px solid var(--color-hairline); padding-left: 1.25rem;">
         <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.35rem;">
-          <span style="color: var(--color-mute);">Weight Accounted For:</span>
-          <span id="total-weight-label" style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">0%</span>
+          <span style="color: var(--color-mute);" data-i18n="calc.weightAccounted">{t('calc.weightAccounted')}</span>
+          <span id="total-weight-label" style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">100%</span>
         </div>
         <div style="width: 100%; height: 8px; background: var(--color-canvas-hover); border-radius: var(--radius-pill); overflow: hidden; margin-bottom: 0.5rem; position: relative;">
-          <div id="weight-progress-bar" style="width: 0%; height: 100%; background: var(--color-blue); border-radius: var(--radius-pill); transition: width 0.3s ease, background-color 0.3s ease;"></div>
+          <div id="weight-progress-bar" style="width: 100%; height: 100%; background: var(--color-emerald); border-radius: var(--radius-pill); transition: width 0.3s ease, background-color 0.3s ease;"></div>
         </div>
-        <div id="weight-status-msg" style="font-size: 0.75rem; color: var(--color-mute);">
-          Enter your values to calculate
+        <div id="weight-status-msg" style="font-size: 0.75rem; color: var(--color-emerald);">
+          Weights sum to 100%
         </div>
       </div>
 
       <!-- Quick Action: Scale or Target -->
       <div style="display: flex; flex-direction: column; gap: 0.5rem; justify-content: center;">
-        <button id="normalize-weights-btn" type="button" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; display: none;">
-          Auto-scale weights to 100%
+        <button id="normalize-weights-btn" type="button" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; display: none;" data-i18n="calc.autoScale">
+          {t('calc.autoScale')}
         </button>
-        <button id="jump-to-final-btn" type="button" class="btn btn-ghost" style="font-size: 0.8125rem;">
-          Calculate needed score on final &rarr;
+        <button id="jump-to-final-btn" type="button" class="btn btn-ghost" style="font-size: 0.8125rem;" data-i18n="calc.neededScore">
+          {t('calc.neededScore')}
         </button>
       </div>
     </div>
@@ -48,16 +57,16 @@
     <!-- Controls Header -->
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem;">
       <div>
-        <h3 class="heading-md">Course Assignments & Weights</h3>
-        <p style="font-size: 0.875rem; color: var(--color-mute);">
-          Add your assignments, exams, or syllabus categories.
+        <h3 class="heading-md" data-i18n="calc.courseAssignments">{t('calc.courseAssignments')}</h3>
+        <p style="font-size: 0.875rem; color: var(--color-mute);" data-i18n="calc.courseAssignmentsDesc">
+          {t('calc.courseAssignmentsDesc')}
         </p>
       </div>
 
       <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; width: 100%; justify-content: space-between; @media(min-width: 640px) { width: auto; }">
         <!-- Preset Dropdown -->
         <select id="syllabus-preset-select" class="form-select" style="width: auto; min-width: 170px; flex: 1; font-size: 0.8125rem;">
-          <option value="">Load Preset Template...</option>
+          <option value="" data-i18n="calc.loadPreset">{t('calc.loadPreset')}</option>
           <option value="college-standard">Standard College (HW 20%, Mid 25%, Proj 25%, Fin 30%)</option>
           <option value="stem-lab">STEM Heavy Lab (Labs 30%, Quizzes 15%, Exams 25%, Final 30%)</option>
           <option value="highschool">High School (Tests 40%, Quizzes 25%, HW 20%, Part 15%)</option>
@@ -66,8 +75,8 @@
 
         <!-- Points vs Percentage Toggle -->
         <div style="display: inline-flex; border: 1px solid var(--color-hairline); border-radius: var(--radius-sm); overflow: hidden; background: var(--color-canvas-subtle);">
-          <button id="mode-pct-btn" type="button" class="btn btn-ghost active-mode" style="padding: 0.4rem 0.65rem; font-size: 0.75rem; font-weight: 600;">% Percent</button>
-          <button id="mode-pts-btn" type="button" class="btn btn-ghost" style="padding: 0.4rem 0.65rem; font-size: 0.75rem; font-weight: 600;">Points</button>
+          <button id="mode-pct-btn" type="button" class="btn btn-ghost active-mode" style="padding: 0.4rem 0.65rem; font-size: 0.75rem; font-weight: 600;" data-i18n="calc.percent">{t('calc.percent')}</button>
+          <button id="mode-pts-btn" type="button" class="btn btn-ghost" style="padding: 0.4rem 0.65rem; font-size: 0.75rem; font-weight: 600;" data-i18n="calc.points">{t('calc.points')}</button>
         </div>
       </div>
     </div>
@@ -77,16 +86,140 @@
       <table id="weighted-assignments-table" style="width: 100%; border-collapse: collapse;">
         <thead>
           <tr style="border-bottom: 1px solid var(--color-hairline); text-align: left; font-size: 0.8125rem; color: var(--color-mute);">
-            <th style="padding: 0.5rem 0.75rem; font-weight: 500;">Assignment / Category</th>
-            <th id="grade-col-header" style="padding: 0.5rem 0.75rem; font-weight: 500; width: 140px;">Grade (%)</th>
-            <th id="max-pts-header" style="padding: 0.5rem 0.75rem; font-weight: 500; width: 110px; display: none;">Total Pts</th>
-            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 130px;">Weight (%)</th>
-            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 120px; text-align: center;">Drop Lowest?</th>
+            <th style="padding: 0.5rem 0.75rem; font-weight: 500;" data-i18n="calc.colCategory">{t('calc.colCategory')}</th>
+            <th id="grade-col-header" style="padding: 0.5rem 0.75rem; font-weight: 500; width: 140px;" data-i18n="calc.colGrade">{t('calc.colGrade')}</th>
+            <th id="max-pts-header" style="padding: 0.5rem 0.75rem; font-weight: 500; width: 110px; display: none;" data-i18n="calc.colTotalPts">{t('calc.colTotalPts')}</th>
+            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 130px;" data-i18n="calc.colWeight">{t('calc.colWeight')}</th>
+            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 120px; text-align: center;" data-i18n="calc.colDrop">{t('calc.colDrop')}</th>
             <th style="padding: 0.5rem 0.75rem; width: 48px;"></th>
           </tr>
         </thead>
         <tbody id="weighted-rows-container">
-          <!-- Populated by JS -->
+          <tr class="mobile-card-row" style="border-bottom: 1px solid var(--color-hairline);">
+            <td class="td-name" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">{t('status.assignNum')}1</span>
+              <input type="text" class="form-input assign-name-input" data-id="def-1" value="Homework 1-4" placeholder="e.g. Homework or Exam" />
+            </td>
+            <td class="td-score" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">{t('status.gradePct')}</span>
+              <input type="number" step="0.1" class="form-input form-input-mono assign-score-input" data-id="def-1" value="95" placeholder="e.g. 92" />
+            </td>
+            <td class="td-weight" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">{t('status.weightPct')}</span>
+              <input type="number" step="0.5" min="0" max="100" class="form-input form-input-mono assign-weight-input" data-id="def-1" value="20" placeholder="Weight %" />
+            </td>
+            <td class="td-drop" style="padding: 0.5rem 0.75rem; text-align: center;">
+              <label style="display: inline-flex; align-items: center; gap: 0.45rem; cursor: pointer; user-select: none; font-size: 0.8125rem; color: var(--color-body);">
+                <input type="checkbox" class="assign-drop-input" data-id="def-1" style="cursor: pointer; width: 16px; height: 16px; accent-color: var(--color-blue);" />
+                <span>{t('status.dropLowest')}</span>
+              </label>
+            </td>
+            <td class="td-delete" style="padding: 0.5rem 0.75rem; text-align: right;">
+              <button type="button" class="btn btn-ghost btn-icon delete-assign-btn" data-id="def-1" title={t('status.removeAssign')} aria-label={t('status.removeAssign')}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </td>
+          </tr>
+          <tr class="mobile-card-row" style="border-bottom: 1px solid var(--color-hairline);">
+            <td class="td-name" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">{t('status.assignNum')}2</span>
+              <input type="text" class="form-input assign-name-input" data-id="def-2" value="Midterm Exam" placeholder="e.g. Homework or Exam" />
+            </td>
+            <td class="td-score" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">{t('status.gradePct')}</span>
+              <input type="number" step="0.1" class="form-input form-input-mono assign-score-input" data-id="def-2" value="82" placeholder="e.g. 92" />
+            </td>
+            <td class="td-weight" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">{t('status.weightPct')}</span>
+              <input type="number" step="0.5" min="0" max="100" class="form-input form-input-mono assign-weight-input" data-id="def-2" value="25" placeholder="Weight %" />
+            </td>
+            <td class="td-drop" style="padding: 0.5rem 0.75rem; text-align: center;">
+              <label style="display: inline-flex; align-items: center; gap: 0.45rem; cursor: pointer; user-select: none; font-size: 0.8125rem; color: var(--color-body);">
+                <input type="checkbox" class="assign-drop-input" data-id="def-2" style="cursor: pointer; width: 16px; height: 16px; accent-color: var(--color-blue);" />
+                <span>{t('status.dropLowest')}</span>
+              </label>
+            </td>
+            <td class="td-delete" style="padding: 0.5rem 0.75rem; text-align: right;">
+              <button type="button" class="btn btn-ghost btn-icon delete-assign-btn" data-id="def-2" title={t('status.removeAssign')} aria-label={t('status.removeAssign')}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </td>
+          </tr>
+          <tr class="mobile-card-row" style="border-bottom: 1px solid var(--color-hairline);">
+            <td class="td-name" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">{t('status.assignNum')}3</span>
+              <input type="text" class="form-input assign-name-input" data-id="def-3" value="Research Project" placeholder="e.g. Homework or Exam" />
+            </td>
+            <td class="td-score" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">{t('status.gradePct')}</span>
+              <input type="number" step="0.1" class="form-input form-input-mono assign-score-input" data-id="def-3" value="88" placeholder="e.g. 92" />
+            </td>
+            <td class="td-weight" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">{t('status.weightPct')}</span>
+              <input type="number" step="0.5" min="0" max="100" class="form-input form-input-mono assign-weight-input" data-id="def-3" value="15" placeholder="Weight %" />
+            </td>
+            <td class="td-drop" style="padding: 0.5rem 0.75rem; text-align: center;">
+              <label style="display: inline-flex; align-items: center; gap: 0.45rem; cursor: pointer; user-select: none; font-size: 0.8125rem; color: var(--color-body);">
+                <input type="checkbox" class="assign-drop-input" data-id="def-3" style="cursor: pointer; width: 16px; height: 16px; accent-color: var(--color-blue);" />
+                <span>{t('status.dropLowest')}</span>
+              </label>
+            </td>
+            <td class="td-delete" style="padding: 0.5rem 0.75rem; text-align: right;">
+              <button type="button" class="btn btn-ghost btn-icon delete-assign-btn" data-id="def-3" title={t('status.removeAssign')} aria-label={t('status.removeAssign')}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </td>
+          </tr>
+          <tr class="mobile-card-row" style="border-bottom: 1px solid var(--color-hairline);">
+            <td class="td-name" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">{t('status.assignNum')}4</span>
+              <input type="text" class="form-input assign-name-input" data-id="def-4" value="Problem Sets" placeholder="e.g. Homework or Exam" />
+            </td>
+            <td class="td-score" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">{t('status.gradePct')}</span>
+              <input type="number" step="0.1" class="form-input form-input-mono assign-score-input" data-id="def-4" value="92" placeholder="e.g. 92" />
+            </td>
+            <td class="td-weight" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">{t('status.weightPct')}</span>
+              <input type="number" step="0.5" min="0" max="100" class="form-input form-input-mono assign-weight-input" data-id="def-4" value="15" placeholder="Weight %" />
+            </td>
+            <td class="td-drop" style="padding: 0.5rem 0.75rem; text-align: center;">
+              <label style="display: inline-flex; align-items: center; gap: 0.45rem; cursor: pointer; user-select: none; font-size: 0.8125rem; color: var(--color-body);">
+                <input type="checkbox" class="assign-drop-input" data-id="def-4" style="cursor: pointer; width: 16px; height: 16px; accent-color: var(--color-blue);" />
+                <span>{t('status.dropLowest')}</span>
+              </label>
+            </td>
+            <td class="td-delete" style="padding: 0.5rem 0.75rem; text-align: right;">
+              <button type="button" class="btn btn-ghost btn-icon delete-assign-btn" data-id="def-4" title={t('status.removeAssign')} aria-label={t('status.removeAssign')}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </td>
+          </tr>
+          <tr class="mobile-card-row" style="border-bottom: 1px solid var(--color-hairline);">
+            <td class="td-name" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">{t('status.assignNum')}5</span>
+              <input type="text" class="form-input assign-name-input" data-id="def-5" value="Final Exam" placeholder="e.g. Homework or Exam" />
+            </td>
+            <td class="td-score" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">{t('status.gradePct')}</span>
+              <input type="number" step="0.1" class="form-input form-input-mono assign-score-input" data-id="def-5" value="" placeholder="e.g. 92" />
+            </td>
+            <td class="td-weight" style="padding: 0.5rem 0.75rem;">
+              <span class="mobile-input-label">{t('status.weightPct')}</span>
+              <input type="number" step="0.5" min="0" max="100" class="form-input form-input-mono assign-weight-input" data-id="def-5" value="25" placeholder="Weight %" />
+            </td>
+            <td class="td-drop" style="padding: 0.5rem 0.75rem; text-align: center;">
+              <label style="display: inline-flex; align-items: center; gap: 0.45rem; cursor: pointer; user-select: none; font-size: 0.8125rem; color: var(--color-body);">
+                <input type="checkbox" class="assign-drop-input" data-id="def-5" style="cursor: pointer; width: 16px; height: 16px; accent-color: var(--color-blue);" />
+                <span>{t('status.dropLowest')}</span>
+              </label>
+            </td>
+            <td class="td-delete" style="padding: 0.5rem 0.75rem; text-align: right;">
+              <button type="button" class="btn btn-ghost btn-icon delete-assign-btn" data-id="def-5" title={t('status.removeAssign')} aria-label={t('status.removeAssign')}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -98,12 +231,12 @@
           <line x1="12" y1="5" x2="12" y2="19"></line>
           <line x1="5" y1="12" x2="19" y2="12"></line>
         </svg>
-        Add Assignment Row
+        <span data-i18n="calc.addAssignment">{t('calc.addAssignment')}</span>
       </button>
 
       <div style="display: flex; gap: 0.5rem;">
         <button id="clear-assignments-btn" type="button" class="btn btn-ghost" style="color: var(--color-mute); font-size: 0.8125rem;">
-          Clear All
+          <span data-i18n="calc.resetDefaults">{t('calc.resetDefaults')}</span>
         </button>
       </div>
     </div>
@@ -113,8 +246,8 @@
   <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem; background: var(--color-canvas-subtle); border-style: dashed;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
       <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <span class="badge badge-amber">What-If Simulator</span>
-        <h4 class="heading-md" style="font-size: 1.05rem;">Simulate an Upcoming Assignment or Exam</h4>
+        <span class="badge badge-amber" data-i18n="calc.whatifSimBadge">{t('calc.whatifSimBadge')}</span>
+        <h4 class="heading-md" style="font-size: 1.05rem;" data-i18n="calc.whatIfSlider">{t('calc.whatIfSlider')}</h4>
       </div>
       <button id="toggle-whatif-btn" type="button" class="btn btn-ghost" style="font-size: 0.75rem;">
         Hide / Show
@@ -123,22 +256,22 @@
     
     <div id="whatif-controls" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; align-items: center;">
       <div>
-        <label for="whatif-weight" style="display: block; font-size: 0.8125rem; color: var(--color-mute); margin-bottom: 0.25rem;">
-          Upcoming Exam / Assignment Weight (%):
+        <label for="whatif-weight" style="display: block; font-size: 0.8125rem; color: var(--color-mute); margin-bottom: 0.25rem;" data-i18n="calc.finalWeight">
+          {t('calc.finalWeight')} (%):
         </label>
         <input id="whatif-weight" type="number" class="form-input form-input-mono" value="25" placeholder="e.g. 25" min="1" max="100" />
       </div>
 
       <div>
         <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; color: var(--color-mute); margin-bottom: 0.25rem;">
-          <span>Hypothetical Score:</span>
+          <span data-i18n="calc.whatIfSlider">{t('calc.whatIfSlider')}:</span>
           <span id="whatif-score-val" style="font-weight: 600; color: var(--color-ink);">85%</span>
         </div>
         <input id="whatif-score-slider" type="range" min="0" max="100" value="85" style="width: 100%; accent-color: var(--color-blue); cursor: pointer;" />
       </div>
 
       <div style="background: var(--color-canvas-elevated); padding: 0.75rem 1rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline);">
-        <span style="font-size: 0.75rem; color: var(--color-mute); display: block;">Projected Final Course Grade:</span>
+        <span style="font-size: 0.75rem; color: var(--color-mute); display: block;" data-i18n="calc.letterGrade">{t('calc.letterGrade')}:</span>
         <div style="display: flex; align-items: baseline; gap: 0.5rem; margin-top: 0.2rem;">
           <span id="whatif-projected-grade" style="font-size: 1.5rem; font-weight: 700; color: var(--color-ink); font-family: var(--font-mono);">--%</span>
           <span id="whatif-projected-letter" class="badge badge-blue">--</span>

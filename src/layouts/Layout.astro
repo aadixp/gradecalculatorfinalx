@@ -65,6 +65,9 @@ const ogLocales: Record<string, string> = {
 		  gtag('config', 'G-3ZS11DPE2L');
 		</script>
 
+		<!-- Ahrefs Analytics -->
+		<script src="https://analytics.ahrefs.com/analytics.js" data-key="mgoNoOyhSxRHAI4byY/wyQ" async is:inline></script>
+
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
@@ -86,7 +89,7 @@ const ogLocales: Record<string, string> = {
 			<link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
 		))}
 		
-		<!-- Open Graph / Social -->
+		<!-- Open Graph / Social Sharing (WhatsApp, Instagram, Telegram, Facebook) -->
 		<meta property="og:type" content="website" />
 		<meta property="og:site_name" content="GradeCalculatorFinalX" />
 		<meta property="og:url" content={canonicalUrl} />
@@ -94,15 +97,19 @@ const ogLocales: Record<string, string> = {
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:image" content="https://gradecalculatorfinalx.com/og-image.png" />
+		<meta property="og:image:secure_url" content="https://gradecalculatorfinalx.com/og-image.png" />
 		<meta property="og:image:width" content="1200" />
 		<meta property="og:image:height" content="630" />
 		<meta property="og:image:type" content="image/png" />
+		<meta property="og:image:alt" content="GradeCalculatorFinalX - Free Academic Grade Planner" />
+		<link rel="image_src" href="https://gradecalculatorfinalx.com/og-image.png" />
 		
 		<!-- Twitter Card -->
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content="https://gradecalculatorfinalx.com/og-image.png" />
+		<meta name="twitter:image:alt" content="GradeCalculatorFinalX - Free Academic Grade Planner" />
 
 		<!-- JSON-LD Structured Data -->
 		<script type="application/ld+json" is:inline set:html={JSON.stringify({
@@ -206,7 +213,7 @@ const ogLocales: Record<string, string> = {
 								<path d="M6 12v5c3 3 9 3 12 0v-5"></path>
 							</svg>
 						</div>
-						<span class="header-brand-title">{t('nav.brand')}</span>
+						<span class="header-brand-title" data-i18n="nav.brand">{t('nav.brand')}</span>
 					</a>
 
 					<span class="header-divider">/</span>
@@ -214,9 +221,9 @@ const ogLocales: Record<string, string> = {
 					<!-- Active Course Selector -->
 					<div class="header-course-wrap">
 						<select id="course-selector" class="header-course-select" aria-label="Select Course Profile">
-							<option value="default">Default Course</option>
+							<option value="default" data-i18n="calc.defaultCourse">{t('calc.defaultCourse')}</option>
 						</select>
-						<button id="add-course-profile-btn" type="button" class="header-course-add-btn" title="Create New Course" aria-label="Add Course">
+						<button id="add-course-profile-btn" type="button" class="header-course-add-btn" title="Create New Course" aria-label="Add Course" data-i18n-title="modal.createNewCourse">
 							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
 								<line x1="12" y1="5" x2="12" y2="19"></line>
 								<line x1="5" y1="12" x2="19" y2="12"></line>
@@ -231,11 +238,11 @@ const ogLocales: Record<string, string> = {
 					<CalculatorsMenu />
 
 					<!-- Scale Button -->
-					<button id="open-scale-modal-btn" type="button" class="header-action-btn" title="Grading Scale Cutoffs" aria-label="Grading Scale Cutoffs">
+					<button id="open-scale-modal-btn" type="button" class="header-action-btn" title="Grading Scale Cutoffs" aria-label="Grading Scale Cutoffs" data-i18n-title="modal.scaleTitle">
 						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 							<path d="M12 20v-6M6 20V10M18 20V4"></path>
 						</svg>
-						<span class="header-btn-label">{t('nav.scale')}</span>
+						<span class="header-btn-label" data-i18n="nav.scale">{t('nav.scale')}</span>
 					</button>
 
 					<!-- Share Button -->
@@ -245,7 +252,7 @@ const ogLocales: Record<string, string> = {
 							<polyline points="16 6 12 2 8 6"></polyline>
 							<line x1="12" y1="2" x2="12" y2="15"></line>
 						</svg>
-						<span class="share-btn-text header-btn-label">{t('nav.share')}</span>
+						<span class="share-btn-text header-btn-label" data-i18n="nav.share">{t('nav.share')}</span>
 					</button>
 
 					<!-- Print Button -->
@@ -255,7 +262,7 @@ const ogLocales: Record<string, string> = {
 							<path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
 							<rect x="6" y="14" width="12" height="8"></rect>
 						</svg>
-						<span class="header-btn-label">{t('nav.print')}</span>
+						<span class="header-btn-label" data-i18n="nav.print">{t('nav.print')}</span>
 					</button>
 
 					<!-- Language Selector -->
@@ -290,7 +297,7 @@ const ogLocales: Record<string, string> = {
 			</div>
 			<div style="margin-top: 0.5rem; font-size: 0.875rem; color: #333;">
 				<span>Date: <span id="print-date"></span></span> | 
-				<span>Course: <span id="print-course-name">Default Course</span></span>
+				<span>Course: <span id="print-course-name" data-i18n="calc.defaultCourse">{t('calc.defaultCourse')}</span></span>
 			</div>
 		</div>
 
@@ -299,67 +306,76 @@ const ogLocales: Record<string, string> = {
 			<slot />
 		</main>
 
-		<!-- Footer -->
+		<!-- Refined Fuller Site Footer -->
 		<footer class="site-footer">
-			<div class="container">
+			<div class="container site-footer-container">
+				<!-- Main 4-Column Grid -->
 				<div class="site-footer-grid">
-					<div class="site-footer-brand">
-						<div class="site-footer-brand-title">
+					<!-- Col 1: Brand & Offline Privacy Statement -->
+					<div class="site-footer-brand-col">
+						<a href={translatePath('/')} class="site-footer-brand">
 							<div class="site-footer-brand-icon">
-								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
 									<path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+									<path d="M6 12v5c3 3 9 3 12 0v-5"></path>
 								</svg>
 							</div>
-							<span>GradeCalculatorFinalX</span>
+							<span class="site-footer-brand-title">GradeCalculatorFinalX</span>
+						</a>
+						<p class="site-footer-brand-desc" data-i18n="footer.tagline">
+							{t('footer.tagline')}
+						</p>
+					</div>
+
+					<!-- Col 2: Essential Calculators -->
+					<div class="site-footer-col site-footer-calc-col">
+						<h4 class="site-footer-heading" data-i18n="footer.calcHeading">{t('footer.calcHeading')}</h4>
+						<ul class="site-footer-links">
+							<li><a href={translatePath('/#weighted')} class="footer-nav-link" data-tab="weighted" data-i18n="tab.weighted">{t('tab.weighted')}</a></li>
+							<li><a href={translatePath('/#final')} class="footer-nav-link" data-tab="final" data-i18n="tab.finalExam">{t('tab.finalExam')}</a></li>
+							<li><a href={translatePath('/#gpa')} class="footer-nav-link" data-tab="gpa" data-i18n="tab.gpa">{t('tab.gpa')}</a></li>
+							<li><a href={translatePath('/indian-cgpa-calculator')} data-i18n="menu.icgpa">{t('menu.icgpa')}</a></li>
+							<li><a href={translatePath('/semester-cgpa-calculator')} data-i18n="menu.sem_cgpa">{t('menu.sem_cgpa')}</a></li>
+							<li><a href={translatePath('/target-cgpa-calculator')} data-i18n="menu.target_cgpa">{t('menu.target_cgpa')}</a></li>
+							<li><a href={translatePath('/grade-converter')} data-i18n="menu.converter">{t('menu.converter')}</a></li>
+						</ul>
+					</div>
+
+					<!-- Col 3: Platform & Trust -->
+					<div class="site-footer-col site-footer-platform-col">
+						<h4 class="site-footer-heading" data-i18n="footer.platformHeading">{t('footer.platformHeading')}</h4>
+						<ul class="site-footer-links">
+							<li><a href={translatePath('/about')} data-i18n="nav.about">{t('nav.about')}</a></li>
+							<li><a href={translatePath('/privacy-policy')} data-i18n="nav.privacy">{t('nav.privacy')}</a></li>
+							<li><a href={translatePath('/terms-and-conditions')} data-i18n="nav.terms">{t('nav.terms')}</a></li>
+							<li><a href={translatePath('/contact')} data-i18n="nav.contact">{t('nav.contact')}</a></li>
+						</ul>
+					</div>
+
+					<!-- Col 4: Single Academic Formula Box -->
+					<div class="site-footer-formula-col">
+						<h4 class="site-footer-heading" data-i18n="footer.formulasHeading">{t('footer.formulasHeading')}</h4>
+						<div class="site-footer-formula-box">
+							<span class="site-footer-formula-title" data-i18n="footer.formulaTitle">{t('footer.formulaTitle')}</span>
+							<code class="site-footer-formula-code">&Sigma;(Score &times; Weight) &divide; &Sigma;Weight</code>
+							<p class="site-footer-formula-note" data-i18n="footer.formulaNote">{t('footer.formulaNote')}</p>
 						</div>
-						<p class="site-footer-brand-desc">
-							Engineered for accuracy, clarity, and ease. All calculations occur strictly on your device with 100% data privacy and offline capability.
-						</p>
-					</div>
-
-					<div class="site-footer-col site-footer-calc">
-						<h4 class="site-footer-heading">Calculators</h4>
-						<ul class="site-footer-links">
-							<li><a href={translatePath('/#weighted')} class="footer-nav-link" data-tab="weighted">{t('tab.weighted')}</a></li>
-							<li><a href={translatePath('/#final')} class="footer-nav-link" data-tab="final">{t('tab.finalExam')}</a></li>
-							<li><a href={translatePath('/#gpa')} class="footer-nav-link" data-tab="gpa">{t('tab.gpa')}</a></li>
-							<li><a href={translatePath('/indian-cgpa-calculator')} class="footer-nav-link">Indian CGPA (10.0 UGC)</a></li>
-							<li><a href={translatePath('/indian-sgpa-calculator')} class="footer-nav-link">Indian SGPA Calculator</a></li>
-							<li><a href={translatePath('/cgpa-to-percentage')} class="footer-nav-link">CGPA to Percentage</a></li>
-							<li><a href={translatePath('/percentage-to-cgpa')} class="footer-nav-link">Percentage to CGPA</a></li>
-							<li><a href={translatePath('/target-cgpa-calculator')} class="footer-nav-link">Target CGPA Planner</a></li>
-							<li><a href={translatePath('/target-gpa-calculator')} class="footer-nav-link">Target GPA Planner</a></li>
-							<li><a href={translatePath('/grade-converter')} class="footer-nav-link">Grade Conversion Matrix</a></li>
-						</ul>
-					</div>
-
-					<div class="site-footer-col site-footer-trust">
-						<h4 class="site-footer-heading">Platform & Trust</h4>
-						<ul class="site-footer-links">
-							<li><a href={translatePath('/about')}>{t('nav.about')}</a></li>
-							<li><a href={translatePath('/privacy-policy')}>{t('nav.privacy')}</a></li>
-							<li><a href={translatePath('/terms-and-conditions')}>{t('nav.terms')}</a></li>
-							<li><a href={translatePath('/contact')}>{t('nav.contact')}</a></li>
-						</ul>
-					</div>
-
-					<div class="site-footer-col site-footer-formulas">
-						<h4 class="site-footer-heading">Academic Formulas</h4>
-						<p class="site-footer-formulas-desc">
-							Weighted Average = &Sigma; (Score &times; Weight) &divide; &Sigma; (Weight)<br/>
-							Final Required = (Target - Current &times; (1 - W)) &divide; W<br/>
-							Indian CGPA = &Sigma;(Grade Point &times; Credits) &divide; &Sigma;Credits
-						</p>
 					</div>
 				</div>
 
+				<!-- Bottom Bar: Copyright on left + Meta Links on right -->
 				<div class="site-footer-bottom">
-					<div class="site-footer-copy">&copy; <span id="current-year">2026</span> GradeCalculatorFinalX. High-performance academic suite.</div>
+					<div class="site-footer-copy">
+						&copy; <span id="current-year">2026</span> <span data-i18n="footer.copyright">{t('footer.copyright')}</span>
+					</div>
 					<div class="site-footer-bottom-links">
-						<a href="/about/">About</a>
-						<a href="/privacy-policy/">Privacy</a>
-						<a href="/terms-and-conditions/">Terms</a>
-						<a href="/contact/">Contact</a>
+						<a href={translatePath('/about')} data-i18n="nav.about">{t('nav.about')}</a>
+						<span class="site-footer-dot" aria-hidden="true">&bull;</span>
+						<a href={translatePath('/privacy-policy')} data-i18n="nav.privacy">{t('nav.privacy')}</a>
+						<span class="site-footer-dot" aria-hidden="true">&bull;</span>
+						<a href={translatePath('/terms-and-conditions')} data-i18n="nav.terms">{t('nav.terms')}</a>
+						<span class="site-footer-dot" aria-hidden="true">&bull;</span>
+						<a href={translatePath('/contact')} data-i18n="nav.contact">{t('nav.contact')}</a>
 					</div>
 				</div>
 			</div>
@@ -368,8 +384,14 @@ const ogLocales: Record<string, string> = {
 		<!-- Course Creation Modal -->
 		<CourseModal />
 
-		<!-- Theme Toggle & Shared Scripts -->
+		<!-- Client i18n Engine & Theme Toggle -->
 		<script>
+			import { initClientI18n } from '../i18n/client';
+
+			// Initialize client i18n
+			const pageLang = (document.documentElement.lang || 'en') as any;
+			initClientI18n(pageLang);
+
 			// Theme Toggle Logic
 			const themeToggleBtn = document.getElementById('theme-toggle-btn');
 			const sunIcon = document.getElementById('theme-sun-icon');

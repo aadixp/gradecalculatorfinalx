@@ -1,0 +1,171 @@
+---
+// src/components/pages/CgpaToPercentagePage.astro
+import Layout from '../../layouts/Layout.astro';
+import CgpaToPercentageCalculator from '../CgpaToPercentageCalculator.astro';
+import { useTranslations, useTranslatedPath, type Lang } from '../../i18n/utils';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+
+const breadcrumbs = [
+  { name: t('nav.home'), item: translatePath('/') },
+  { name: t('menu.cgpato'), item: translatePath('/cgpa-to-percentage') }
+];
+
+const faqSchema = [
+  {
+    question: t('cgpato.faq1_q'),
+    answer: t('cgpato.faq1_a')
+  },
+  {
+    question: t('cgpato.faq2_q'),
+    answer: t('cgpato.faq2_a')
+  },
+  {
+    question: t('cgpato.faq3_q'),
+    answer: t('cgpato.faq3_a')
+  },
+  {
+    question: t('cgpato.faq4_q'),
+    answer: t('cgpato.faq4_a')
+  }
+];
+---
+
+<Layout
+  title={t('cgpato.title')}
+  description={t('cgpato.desc')}
+  breadcrumbs={breadcrumbs}
+  faqSchema={faqSchema}
+  lang={lang}
+  softwareSchema={{
+    name: t('menu.cgpato'),
+    description: t('cgpato.desc'),
+    applicationCategory: "EducationalApplication"
+  }}
+>
+  <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
+    <!-- Breadcrumbs -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
+        <a href={translatePath('/')} style="color: var(--color-mute); text-decoration: none;" data-i18n="nav.home">{t('nav.home')}</a>
+        <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
+        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="menu.cgpato">{t('menu.cgpato')}</span>
+      </nav>
+      <div style="display: flex; gap: 0.5rem;">
+        <a href={translatePath('/percentage-to-cgpa')} class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;">
+          <span data-i18n="menu.pct_cgpa">{t('menu.pct_cgpa')}</span> &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.5rem;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;" data-i18n="cgpato.eyebrow">{t('cgpato.eyebrow')}</span>
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="cgpato.title">
+        {t('cgpato.title')}
+      </h1>
+      <p style="font-size: 1.05rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6; max-width: 780px;" data-i18n="cgpato.desc">
+        {t('cgpato.desc')}
+      </p>
+    </header>
+
+    <!-- Interactive Calculator -->
+    <section style="margin-bottom: 3rem;">
+      <CgpaToPercentageCalculator idPrefix="page-cgpa2pct" lang={lang} />
+    </section>
+
+    <!-- Detailed Guide & Formula Comparison -->
+    <article class="geist-card" style="padding: 2.25rem 2rem; line-height: 1.75; color: var(--color-body); margin-bottom: 2rem;">
+      <h2 class="heading-md" style="color: var(--color-ink); font-size: 1.35rem; margin-bottom: 1rem;" data-i18n="cgpato.why_heading">
+        {t('cgpato.why_heading')}
+      </h2>
+      <p style="margin-bottom: 1rem;" data-i18n="cgpato.why_p1">
+        {t('cgpato.why_p1')}
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+        <div style="background: var(--color-canvas-subtle); padding: 1.125rem; border-radius: var(--radius-sm); border-left: 3px solid var(--color-blue);">
+          <strong style="color: var(--color-ink); display: block; font-size: 0.9375rem; margin-bottom: 0.25rem;" data-i18n="cgpato.rule1_title">{t('cgpato.rule1_title')}</strong>
+          <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="cgpato.rule1_formula">{t('cgpato.rule1_formula')}</div>
+          <span style="font-size: 0.8125rem; color: var(--color-mute);" data-i18n="cgpato.rule1_desc">{t('cgpato.rule1_desc')}</span>
+        </div>
+
+        <div style="background: var(--color-canvas-subtle); padding: 1.125rem; border-radius: var(--radius-sm); border-left: 3px solid var(--color-violet);">
+          <strong style="color: var(--color-ink); display: block; font-size: 0.9375rem; margin-bottom: 0.25rem;" data-i18n="cgpato.rule2_title">{t('cgpato.rule2_title')}</strong>
+          <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="cgpato.rule2_formula">{t('cgpato.rule2_formula')}</div>
+          <span style="font-size: 0.8125rem; color: var(--color-mute);" data-i18n="cgpato.rule2_desc">{t('cgpato.rule2_desc')}</span>
+        </div>
+
+        <div style="background: var(--color-canvas-subtle); padding: 1.125rem; border-radius: var(--radius-sm); border-left: 3px solid var(--color-emerald);">
+          <strong style="color: var(--color-ink); display: block; font-size: 0.9375rem; margin-bottom: 0.25rem;" data-i18n="cgpato.rule3_title">{t('cgpato.rule3_title')}</strong>
+          <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="cgpato.rule3_formula">{t('cgpato.rule3_formula')}</div>
+          <span style="font-size: 0.8125rem; color: var(--color-mute);" data-i18n="cgpato.rule3_desc">{t('cgpato.rule3_desc')}</span>
+        </div>
+      </div>
+
+      <p style="font-size: 0.875rem; color: var(--color-mute);">
+        <em data-i18n="cgpato.note">{t('cgpato.note')}</em>
+      </p>
+    </article>
+
+    <!-- FAQs -->
+    <section class="faq-card" style="margin-bottom: 3rem;">
+      <h2 class="heading-md" style="margin-bottom: 1.25rem; color: var(--color-ink);" data-i18n="cgpato.faq_heading">
+        {t('cgpato.faq_heading')}
+      </h2>
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="faq-item">
+          <div class="faq-question" data-i18n="cgpato.faq1_q">{t('cgpato.faq1_q')}</div>
+          <div class="faq-answer" data-i18n="cgpato.faq1_a">
+            {t('cgpato.faq1_a')}
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" data-i18n="cgpato.faq2_q">{t('cgpato.faq2_q')}</div>
+          <div class="faq-answer" data-i18n="cgpato.faq2_a">
+            {t('cgpato.faq2_a')}
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" data-i18n="cgpato.faq3_q">{t('cgpato.faq3_q')}</div>
+          <div class="faq-answer" data-i18n="cgpato.faq3_a">
+            {t('cgpato.faq3_a')}
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" data-i18n="cgpato.faq4_q">{t('cgpato.faq4_q')}</div>
+          <div class="faq-answer" data-i18n="cgpato.faq4_a">
+            {t('cgpato.faq4_a')}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Links -->
+    <section>
+      <h3 class="heading-md" style="margin-bottom: 1rem; color: var(--color-ink);" data-i18n="cgpato.related_heading">{t('cgpato.related_heading')}</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+        <a href={translatePath('/percentage-to-cgpa')} class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="menu.pct_cgpa">{t('menu.pct_cgpa')}</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;" data-i18n="pcttocgpa.desc">{t('pcttocgpa.desc')}</p>
+        </a>
+        <a href={translatePath('/indian-cgpa-calculator')} class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="menu.icgpa">{t('menu.icgpa')}</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;" data-i18n="icgpa.desc">{t('icgpa.desc')}</p>
+        </a>
+        <a href={translatePath('/grade-converter')} class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="menu.converter">{t('menu.converter')}</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;" data-i18n="converter.desc">{t('converter.desc')}</p>
+        </a>
+      </div>
+    </section>
+  </div>
+</Layout>

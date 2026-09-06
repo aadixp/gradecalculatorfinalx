@@ -1,0 +1,139 @@
+---
+// src/components/pages/TermsPage.astro
+import Layout from '../../layouts/Layout.astro';
+import { useTranslations, useTranslatedPath } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+---
+
+<Layout
+  title={t('terms.title')}
+  description={t('terms.desc')}
+  canonical={lang === 'en' ? 'https://gradecalculatorfinalx.com/terms-and-conditions/' : `https://gradecalculatorfinalx.com/${lang}/terms-and-conditions/`}
+  lang={lang}
+  breadcrumbs={[
+    { name: t('page.home'), item: translatePath('/') },
+    { name: t('nav.terms'), item: translatePath('/terms-and-conditions') }
+  ]}
+>
+  <div class="container" style="max-width: 880px; padding-top: 3rem; padding-bottom: 5rem;">
+    <!-- Breadcrumb & Return to Calculator -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
+        <a href={translatePath('/')} style="color: var(--color-mute); text-decoration: none;" data-i18n="page.home">{t('page.home')}</a>
+        <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
+        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="nav.terms">{t('nav.terms')}</span>
+      </nav>
+      <a href={translatePath('/')} class="btn btn-secondary" style="font-size: 0.8125rem; padding: 0.35rem 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span data-i18n="page.backToCalculator">{t('page.backToCalculator')}</span>
+      </a>
+    </div>
+
+    <!-- Page Header -->
+    <header style="margin-bottom: 2.5rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.75rem;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;" data-i18n="terms.eyebrow">{t('terms.eyebrow')}</span>
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.75rem, 4vw, 2.25rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="terms.h1">
+        {t('terms.h1')}
+      </h1>
+      <p style="font-size: 0.875rem; color: var(--color-mute); margin-top: 0.5rem;" data-i18n="page.lastUpdated">
+        {t('page.lastUpdated')}
+      </p>
+    </header>
+
+    <!-- Main Content Card -->
+    <article class="geist-card" style="padding: 2.25rem 2rem; line-height: 1.75; color: var(--color-body);">
+      <div style="display: flex; flex-direction: column; gap: 2.25rem;">
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="terms.s1Title">
+            {t('terms.s1Title')}
+          </h2>
+          <p style="margin-bottom: 1rem;" data-i18n="terms.s1P1">
+            {t('terms.s1P1')}
+          </p>
+        </div>
+
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="terms.s2Title">
+            {t('terms.s2Title')}
+          </h2>
+          <p style="margin-bottom: 1rem;" data-i18n="terms.s2P1">
+            {t('terms.s2P1')}
+          </p>
+          <p style="margin-bottom: 1rem;" data-i18n="terms.s2P2">
+            {t('terms.s2P2')}
+          </p>
+          <p data-i18n="terms.s2P3">
+            {t('terms.s2P3')}
+          </p>
+        </div>
+
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="terms.s3Title">
+            {t('terms.s3Title')}
+          </h2>
+          <p data-i18n="terms.s3P1">
+            {t('terms.s3P1')}
+          </p>
+        </div>
+
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="terms.s4Title">
+            {t('terms.s4Title')}
+          </h2>
+          <p style="margin-bottom: 1rem;" data-i18n="terms.s4P1">
+            {t('terms.s4P1')}
+          </p>
+        </div>
+
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="terms.s5Title">
+            {t('terms.s5Title')}
+          </h2>
+          <p data-i18n="terms.s5P1">
+            {t('terms.s5P1')}
+          </p>
+        </div>
+
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="terms.s6Title">
+            {t('terms.s6Title')}
+          </h2>
+          <p data-i18n="terms.s6P1">
+            {t('terms.s6P1')}
+          </p>
+        </div>
+
+        <div>
+          <h2 class="heading-md" style="color: var(--color-ink); margin-bottom: 0.75rem; font-size: 1.25rem;" data-i18n="terms.s7Title">
+            {t('terms.s7Title')}
+          </h2>
+          <p data-i18n="terms.s7P1">
+            {t('terms.s7P1')}
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Bottom Return Action -->
+    <div style="text-align: center; margin-top: 3rem;">
+      <a href={translatePath('/')} class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; padding: 0.65rem 1.25rem;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span data-i18n="page.returnToGradeCalc">{t('page.returnToGradeCalc')}</span>
+      </a>
+    </div>
+  </div>
+</Layout>

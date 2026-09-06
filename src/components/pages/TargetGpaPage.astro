@@ -1,0 +1,160 @@
+---
+// src/components/pages/TargetGpaPage.astro
+import Layout from '../../layouts/Layout.astro';
+import TargetGpaCalculator from '../TargetGpaCalculator.astro';
+import { useTranslations, useTranslatedPath, type Lang } from '../../i18n/utils';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+
+const breadcrumbs = [
+  { name: t('nav.home'), item: translatePath('/') },
+  { name: t('menu.target_gpa'), item: translatePath('/target-gpa-calculator') }
+];
+
+const faqSchema = [
+  {
+    question: t('targetgpa.faq1_q'),
+    answer: t('targetgpa.faq1_a')
+  },
+  {
+    question: t('targetgpa.faq2_q'),
+    answer: t('targetgpa.faq2_a')
+  },
+  {
+    question: t('targetgpa.faq3_q'),
+    answer: t('targetgpa.faq3_a')
+  },
+  {
+    question: t('targetgpa.faq4_q'),
+    answer: t('targetgpa.faq4_a')
+  }
+];
+---
+
+<Layout
+  title={t('targetgpa.title')}
+  description={t('targetgpa.desc')}
+  breadcrumbs={breadcrumbs}
+  faqSchema={faqSchema}
+  lang={lang}
+  softwareSchema={{
+    name: t('menu.target_gpa'),
+    description: t('targetgpa.desc'),
+    applicationCategory: "EducationalApplication"
+  }}
+>
+  <div class="container" style="max-width: 960px; padding-top: 2.5rem; padding-bottom: 5rem;">
+    <!-- Breadcrumbs -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
+        <a href={translatePath('/')} style="color: var(--color-mute); text-decoration: none;" data-i18n="nav.home">{t('nav.home')}</a>
+        <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
+        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="menu.target_gpa">{t('menu.target_gpa')}</span>
+      </nav>
+      <div style="display: flex; gap: 0.5rem;">
+        <a href={translatePath('/target-cgpa-calculator')} class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;">
+          <span data-i18n="menu.target_cgpa">{t('menu.target_cgpa')}</span> &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.5rem;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;" data-i18n="targetgpa.eyebrow">{t('targetgpa.eyebrow')}</span>
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="targetgpa.title">
+        {t('targetgpa.title')}
+      </h1>
+      <p style="font-size: 1.05rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6; max-width: 780px;" data-i18n="targetgpa.desc">
+        {t('targetgpa.desc')}
+      </p>
+    </header>
+
+    <!-- Interactive Calculator -->
+    <section style="margin-bottom: 3rem;">
+      <TargetGpaCalculator idPrefix="page-targetgpa" lang={lang} />
+    </section>
+
+    <!-- Guide & Formula Section -->
+    <article class="geist-card" style="padding: 2.25rem 2rem; line-height: 1.75; color: var(--color-body); margin-bottom: 2rem;">
+      <h2 class="heading-md" style="color: var(--color-ink); font-size: 1.35rem; margin-bottom: 1rem;" data-i18n="targetgpa.math_heading">
+        {t('targetgpa.math_heading')}
+      </h2>
+      <p style="margin-bottom: 1rem;" data-i18n="targetgpa.math_p1">
+        {t('targetgpa.math_p1')}
+      </p>
+      <div style="background: var(--color-canvas-subtle); padding: 1rem 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline); font-family: var(--font-mono); font-size: 0.875rem; margin-bottom: 1.25rem;" data-i18n="targetgpa.formula">
+        {t('targetgpa.formula')}
+      </div>
+
+      <h3 class="heading-md" style="font-size: 1.15rem; color: var(--color-ink); margin-bottom: 0.75rem;" data-i18n="targetgpa.honors_heading">
+        {t('targetgpa.honors_heading')}
+      </h3>
+      <ul style="padding-left: 1.25rem; margin-bottom: 1rem;">
+        <li><strong data-i18n="targetgpa.honors_summa">{t('targetgpa.honors_summa')}</strong></li>
+        <li><strong data-i18n="targetgpa.honors_magna">{t('targetgpa.honors_magna')}</strong></li>
+        <li><strong data-i18n="targetgpa.honors_cum">{t('targetgpa.honors_cum')}</strong></li>
+        <li><strong data-i18n="targetgpa.honors_deans">{t('targetgpa.honors_deans')}</strong></li>
+      </ul>
+    </article>
+
+    <!-- FAQs -->
+    <section class="faq-card" style="margin-bottom: 3rem;">
+      <h2 class="heading-md" style="margin-bottom: 1.25rem; color: var(--color-ink);" data-i18n="targetgpa.faq_heading">
+        {t('targetgpa.faq_heading')}
+      </h2>
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="faq-item">
+          <div class="faq-question" data-i18n="targetgpa.faq1_q">{t('targetgpa.faq1_q')}</div>
+          <div class="faq-answer" data-i18n="targetgpa.faq1_a">
+            {t('targetgpa.faq1_a')}
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" data-i18n="targetgpa.faq2_q">{t('targetgpa.faq2_q')}</div>
+          <div class="faq-answer" data-i18n="targetgpa.faq2_a">
+            {t('targetgpa.faq2_a')}
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" data-i18n="targetgpa.faq3_q">{t('targetgpa.faq3_q')}</div>
+          <div class="faq-answer" data-i18n="targetgpa.faq3_a">
+            {t('targetgpa.faq3_a')}
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" data-i18n="targetgpa.faq4_q">{t('targetgpa.faq4_q')}</div>
+          <div class="faq-answer" data-i18n="targetgpa.faq4_a">
+            {t('targetgpa.faq4_a')}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Links -->
+    <section>
+      <h3 class="heading-md" style="margin-bottom: 1rem; color: var(--color-ink);" data-i18n="targetgpa.related_heading">{t('targetgpa.related_heading')}</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+        <a href={translatePath('/gpa-calculator')} class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="menu.gpa">{t('menu.gpa')}</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;" data-i18n="gpa.desc">{t('gpa.desc')}</p>
+        </a>
+        <a href={translatePath('/semester-gpa-calculator')} class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="menu.sgpa">{t('menu.sgpa')}</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;" data-i18n="sgpa.desc">{t('sgpa.desc')}</p>
+        </a>
+        <a href={translatePath('/target-cgpa-calculator')} class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="menu.target_cgpa">{t('menu.target_cgpa')}</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;" data-i18n="targetcgpa.desc">{t('targetcgpa.desc')}</p>
+        </a>
+      </div>
+    </section>
+  </div>
+</Layout>

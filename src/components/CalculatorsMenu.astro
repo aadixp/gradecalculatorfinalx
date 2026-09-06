@@ -1,13 +1,14 @@
 ---
 // src/components/CalculatorsMenu.astro
-import { getLangFromUrl, useTranslatedPath } from '../i18n/utils';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
 
 const currentLang = getLangFromUrl(Astro.url);
+const t = useTranslations(currentLang);
 const translatePath = useTranslatedPath(currentLang);
 ---
 
 <div class="calc-menu-wrap">
-  <div class="calc-menu-inner" title="All Calculators">
+  <div class="calc-menu-inner" title={t('nav.calculators')}>
     <!-- Grid/Menu Icon -->
     <svg class="calc-menu-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <rect x="3" y="3" width="7" height="7"></rect>
@@ -17,7 +18,7 @@ const translatePath = useTranslatedPath(currentLang);
     </svg>
 
     <!-- Desktop Label -->
-    <span class="calc-menu-text calc-menu-desktop">Calculators</span>
+    <span class="calc-menu-text calc-menu-desktop" data-i18n="nav.calculators">{t('nav.calculators')}</span>
 
     <!-- Dropdown Chevron Icon -->
     <svg class="calc-menu-chevron" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -26,23 +27,24 @@ const translatePath = useTranslatedPath(currentLang);
 
     <!-- Accessible Native Dropdown Overlay -->
     <select id="site-calculators-select" class="calc-menu-select-overlay" aria-label="Browse all calculators">
-      <option value="" disabled selected>Select a Calculator...</option>
-      <optgroup label="Core Calculators">
-        <option value={translatePath('/weighted-grade-calculator')}>Weighted Grade Calculator</option>
-        <option value={translatePath('/final-exam-calculator')}>Final Exam Target Calculator</option>
-        <option value={translatePath('/gpa-calculator')}>Cumulative GPA Calculator</option>
-        <option value={translatePath('/semester-gpa-calculator')}>Semester GPA Calculator</option>
+      <option value="" disabled selected data-i18n="nav.selectCalculator">{t('nav.selectCalculator')}</option>
+      <optgroup label={t('menu.coreCalculators')} data-i18n-label="menu.coreCalculators">
+        <option value={translatePath('/weighted-grade-calculator')} data-i18n="menu.weightedGrade">{t('menu.weightedGrade')}</option>
+        <option value={translatePath('/final-exam-calculator')} data-i18n="menu.finalExam">{t('menu.finalExam')}</option>
+        <option value={translatePath('/gpa-calculator')} data-i18n="menu.gpa">{t('menu.gpa')}</option>
+        <option value={translatePath('/semester-gpa-calculator')} data-i18n="menu.semesterGpa">{t('menu.semesterGpa')}</option>
       </optgroup>
-      <optgroup label="Indian Grading (10-Point UGC)">
-        <option value={translatePath('/indian-cgpa-calculator')}>Indian CGPA Calculator (UGC 10.0)</option>
-        <option value={translatePath('/indian-sgpa-calculator')}>Indian SGPA Calculator (Semester)</option>
-        <option value={translatePath('/cgpa-to-percentage')}>CGPA to Percentage Calculator</option>
-        <option value={translatePath('/percentage-to-cgpa')}>Percentage to CGPA Calculator</option>
+      <optgroup label={t('menu.indianGrading')} data-i18n-label="menu.indianGrading">
+        <option value={translatePath('/indian-cgpa-calculator')} data-i18n="menu.indianCgpa">{t('menu.indianCgpa')}</option>
+        <option value={translatePath('/indian-sgpa-calculator')} data-i18n="menu.indianSgpa">{t('menu.indianSgpa')}</option>
+        <option value={translatePath('/cgpa-to-percentage')} data-i18n="menu.cgpaToPercentage">{t('menu.cgpaToPercentage')}</option>
+        <option value={translatePath('/percentage-to-cgpa')} data-i18n="menu.percentageToCgpa">{t('menu.percentageToCgpa')}</option>
+        <option value={translatePath('/semester-cgpa-calculator')} data-i18n="menu.semesterCgpa">{t('menu.semesterCgpa')}</option>
       </optgroup>
-      <optgroup label="Planning & Equivalences">
-        <option value={translatePath('/target-cgpa-calculator')}>Target CGPA Calculator</option>
-        <option value={translatePath('/target-gpa-calculator')}>Target GPA Calculator (US 4.0/5.0)</option>
-        <option value={translatePath('/grade-converter')}>Grade Conversion Table & Scale</option>
+      <optgroup label={t('menu.planningEquivalences')} data-i18n-label="menu.planningEquivalences">
+        <option value={translatePath('/target-cgpa-calculator')} data-i18n="menu.targetCgpa">{t('menu.targetCgpa')}</option>
+        <option value={translatePath('/target-gpa-calculator')} data-i18n="menu.targetGpa">{t('menu.targetGpa')}</option>
+        <option value={translatePath('/grade-converter')} data-i18n="menu.gradeConverter">{t('menu.gradeConverter')}</option>
       </optgroup>
     </select>
   </div>

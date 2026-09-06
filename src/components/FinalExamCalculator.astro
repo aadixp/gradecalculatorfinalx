@@ -1,5 +1,14 @@
 ---
 // src/components/FinalExamCalculator.astro
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
 ---
 
 <div id="calculator-final" class="calculator-panel" style="display: none;">
@@ -7,28 +16,28 @@
   <div class="geist-card geist-card-floating" style="padding: 1.75rem; margin-bottom: 1.5rem; background: linear-gradient(180deg, var(--color-canvas-elevated) 0%, var(--color-canvas-subtle) 100%);">
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; align-items: center;">
       <div>
-        <span class="mono-eyebrow" style="color: var(--color-violet); margin-bottom: 0.25rem;">Final Exam Target</span>
+        <span class="mono-eyebrow" style="color: var(--color-violet); margin-bottom: 0.25rem;">{t('tab.finalExam')}</span>
         <div style="margin-top: 0.5rem;">
-          <span style="font-size: 0.875rem; color: var(--color-mute); display: block;">Score Required on Final:</span>
+          <span style="font-size: 0.875rem; color: var(--color-mute); display: block;">{t('calc.requiredScore')}:</span>
           <div style="display: flex; align-items: baseline; gap: 0.75rem; margin-top: 0.25rem;">
-            <span id="final-required-score" class="display-xl" style="font-feature-settings: 'tnum';">--%</span>
-            <span id="final-feasibility-badge" class="badge badge-blue">Ready</span>
+            <span id="final-required-score" class="display-xl" style="font-feature-settings: 'tnum';">97.5%</span>
+            <span id="final-feasibility-badge" class="badge badge-amber">{t('status.nearPerfect')}</span>
           </div>
         </div>
         <p id="final-feasibility-desc" style="font-size: 0.875rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.4;">
-          Enter your current grade and final exam weight to see what score you need.
+          97.5% - {t('status.nearPerfect')}
         </p>
       </div>
 
       <!-- Quick Summary Card -->
       <div style="border: 1px solid var(--color-hairline); border-radius: var(--radius-md); padding: 1.25rem; background: var(--color-canvas-elevated);">
-        <h4 style="font-size: 0.875rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.75rem;">Formula Breakdown</h4>
+        <h4 style="font-size: 0.875rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.75rem;">{t('calc.formulaBreakdown')}</h4>
         <div style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-body); background: var(--color-canvas-subtle); padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); margin-bottom: 0.75rem; border: 1px solid var(--color-hairline);">
           Final = (Target - Current &times; (1 - Weight)) / Weight
         </div>
         <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; color: var(--color-mute);">
-          <span>Current Impact: <strong id="final-current-weight-impact" style="color: var(--color-ink);">--</strong></span>
-          <span>Final Worth: <strong id="final-weight-val-summary" style="color: var(--color-ink);">--</strong></span>
+          <span>{t('calc.currentImpact')} <strong id="final-current-weight-impact" style="color: var(--color-ink);">65.6 pts (75%)</strong></span>
+          <span>{t('calc.finalWorth')} <strong id="final-weight-val-summary" style="color: var(--color-ink);">25%</strong></span>
         </div>
       </div>
     </div>
@@ -36,22 +45,22 @@
 
   <!-- Input Form Controls Card -->
   <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
-    <h3 class="heading-md" style="margin-bottom: 1.25rem;">Exam Target Parameters</h3>
+    <h3 class="heading-md" style="margin-bottom: 1.25rem;">{t('calc.examTargetParams')}</h3>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem;">
       <!-- Current Grade -->
       <div>
         <label for="fe-current-grade" style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
-          Current Class Grade (%):
+          {t('calc.currentClassGrade')}
         </label>
         <input id="fe-current-grade" type="number" step="0.1" min="0" max="150" class="form-input form-input-mono" value="87.5" placeholder="e.g. 87.5" />
-        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;">Your grade before taking the final exam.</span>
+        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;">{t('calc.currentGradeHint')}</span>
       </div>
 
       <!-- Desired Target Grade -->
       <div>
         <label for="fe-target-grade" style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
-          Desired Final Class Grade (%):
+          {t('calc.desiredClassGrade')}
         </label>
         <div style="display: flex; gap: 0.5rem;">
           <input id="fe-target-grade" type="number" step="0.1" min="0" max="100" class="form-input form-input-mono" value="90.0" placeholder="e.g. 90" />
@@ -66,16 +75,16 @@
             <option value="70">Passing (70%)</option>
           </select>
         </div>
-        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;">The overall course percentage you want to end with.</span>
+        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;">{t('calc.desiredGradeHint')}</span>
       </div>
 
       <!-- Final Exam Weight -->
       <div>
         <label for="fe-weight" style="display: block; font-size: 0.875rem; font-weight: 500; color: var(--color-ink); margin-bottom: 0.35rem;">
-          Final Exam Weight (%):
+          {t('calc.finalExamWeightLabel')}
         </label>
         <input id="fe-weight" type="number" step="0.5" min="1" max="100" class="form-input form-input-mono" value="25" placeholder="e.g. 25" />
-        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;">Percentage of overall course grade the exam counts.</span>
+        <span style="font-size: 0.75rem; color: var(--color-mute); margin-top: 0.25rem; display: block;">{t('calc.finalWeightHint')}</span>
       </div>
     </div>
   </div>
@@ -83,9 +92,9 @@
   <!-- All Grades Scenario Matrix Table -->
   <div class="geist-card" style="padding: 1.5rem;">
     <div style="margin-bottom: 1rem;">
-      <h3 class="heading-md">Target Matrix Comparison</h3>
+      <h3 class="heading-md">{t('calc.matrixComparison')}</h3>
       <p style="font-size: 0.875rem; color: var(--color-mute);">
-        Required score on the final exam across every letter grade benchmark based on your current inputs.
+        {t('calc.matrixComparisonDesc')}
       </p>
     </div>
 
@@ -93,14 +102,61 @@
       <table class="matrix-table" style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
         <thead>
           <tr style="background: var(--color-canvas-subtle); border-bottom: 1px solid var(--color-hairline); text-align: left;">
-            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Target Grade</th>
-            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Minimum %</th>
-            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Score Needed on Final</th>
-            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Difficulty / Status</th>
+            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">{t('calc.targetGrade')}</th>
+            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">{t('calc.minPct')}</th>
+            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">{t('calc.scoreNeededOnFinal')}</th>
+            <th style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">{t('calc.difficultyStatus')}</th>
           </tr>
         </thead>
         <tbody id="fe-matrix-tbody">
-          <!-- Populated by JS -->
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">A</td>
+            <td style="padding: 0.625rem 0.875rem; color: var(--color-mute); font-family: var(--font-mono);">93.0%</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">109.5%</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-red">{t('status.extraCredit')}</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">A-</td>
+            <td style="padding: 0.625rem 0.875rem; color: var(--color-mute); font-family: var(--font-mono);">90.0%</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">97.5%</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-amber">{t('status.highPush')}</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">B+</td>
+            <td style="padding: 0.625rem 0.875rem; color: var(--color-mute); font-family: var(--font-mono);">87.0%</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">85.5%</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-blue">{t('status.moderate')}</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">B</td>
+            <td style="padding: 0.625rem 0.875rem; color: var(--color-mute); font-family: var(--font-mono);">83.0%</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">69.5%</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-green">{t('status.comfortable')}</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">B-</td>
+            <td style="padding: 0.625rem 0.875rem; color: var(--color-mute); font-family: var(--font-mono);">80.0%</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">57.5%</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-green">{t('status.comfortable')}</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">C+</td>
+            <td style="padding: 0.625rem 0.875rem; color: var(--color-mute); font-family: var(--font-mono);">77.0%</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">45.5%</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-green">{t('status.comfortable')}</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">C</td>
+            <td style="padding: 0.625rem 0.875rem; color: var(--color-mute); font-family: var(--font-mono);">73.0%</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">29.5%</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-green">{t('status.comfortable')}</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 0.625rem 0.875rem; font-weight: 600; color: var(--color-ink);">Passing</td>
+            <td style="padding: 0.625rem 0.875rem; color: var(--color-mute); font-family: var(--font-mono);">70.0%</td>
+            <td style="padding: 0.625rem 0.875rem; font-weight: 700; font-family: var(--font-mono); color: var(--color-ink);">17.5%</td>
+            <td style="padding: 0.625rem 0.875rem;"><span class="badge badge-green">{t('status.comfortable')}</span></td>
+          </tr>
         </tbody>
       </table>
     </div>
