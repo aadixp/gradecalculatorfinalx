@@ -19,17 +19,26 @@ import type { Lang } from '../i18n/ui';
 
 interface Props {
   lang?: Lang;
+  title?: string;
+  description?: string;
 }
 
-const { lang = 'en' } = Astro.props;
+const {
+  lang = 'en',
+  title = (lang === 'en' ? 'Final Grade Calculator - Weighted Grades, Final Exam & GPA' : undefined),
+  description = (lang === 'en' ? 'Free online grade calculator for weighted grades, final exam targets, GPA, CGPA, and what-if scenarios. Calculate your current grade, find the score you need on your final exam to reach your target grade, and explore what-if scenarios.' : undefined)
+} = Astro.props;
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
 const currentFaqs = faqs[lang] || faqs.en;
+
+const pageTitle = title || t('site.title');
+const pageDescription = description || t('site.description');
 ---
 
 <Layout
-  title={t('site.title')}
-  description={t('site.description')}
+  title={pageTitle}
+  description={pageDescription}
   lang={lang}
   breadcrumbs={[{ name: 'Home', item: '/' }]}
   faqSchema={currentFaqs}

@@ -88,7 +88,7 @@ const ogLocales: Record<string, string> = {
 		<meta name="apple-mobile-web-app-title" content="GradeCalc" />
 		<link rel="manifest" href="/site.webmanifest" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		<title set:html={title} />
 		<meta name="description" content={description} />
 		<meta name="keywords" content={t('site.keywords')} />
 		<link rel="canonical" href={canonicalUrl} />

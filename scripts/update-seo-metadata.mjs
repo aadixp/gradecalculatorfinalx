@@ -8,8 +8,8 @@ const uiPath = path.resolve(__dirname, '../src/i18n/ui.ts');
 
 const seoUpdates = {
   en: {
-    "site.title": "Grade Calculator - Weighted Grade, Final Exam & GPA Calculator",
-    "site.description": "Free online grade calculator for weighted grades, final exam targets, GPA, CGPA, and what-if scenarios. Calculate your current grade and see what score you need to reach your target.",
+    "site.title": "Final Grade Calculator - Weighted Grades, Final Exam & GPA",
+    "site.description": "Free online grade calculator for weighted grades, final exam targets, GPA, CGPA, and what-if scenarios. Calculate your current grade, find the score you need on your final exam to reach your target grade, and explore what-if scenarios.",
     "site.keywords": "grade calculator, final grade calculator, weighted grade calculator, final exam grade calculator, grade calculator with weights, college grade calculator, course grade calculator, current grade calculator, what-if grade calculator, GPA calculator, semester GPA calculator, cumulative GPA calculator, Indian CGPA calculator, SGPA calculator, CGPA to percentage calculator, percentage to CGPA calculator, target GPA calculator, target CGPA calculator, grade conversion calculator",
     "hero.title": "Grade Calculator",
     "guide.title": "Grade Calculator Guide: How to Calculate Weighted Grades, Final Exam Targets & GPA",
