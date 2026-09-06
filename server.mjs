@@ -47,7 +47,10 @@ const server = http.createServer((req, res) => {
           res.end('500 Internal Server Error');
         }
       } else {
-        res.writeHead(statusCode, { 'Content-Type': contentType });
+        res.writeHead(statusCode, {
+          'Content-Type': contentType,
+          'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+        });
         res.end(content);
       }
     });

@@ -1,2 +1,5 @@
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
 https://gradecalculatorfinalx.pages.dev/*
   X-Robots-Tag: noindex
