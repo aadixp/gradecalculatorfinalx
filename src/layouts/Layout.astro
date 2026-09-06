@@ -1,6 +1,6 @@
 ---
 // src/layouts/Layout.astro
-import '../styles/geist.css';
+import criticalCss from '../styles/critical.css?raw';
 import LanguagePicker from '../components/LanguagePicker.astro';
 import CalculatorsMenu from '../components/CalculatorsMenu.astro';
 import CourseModal from '../components/CourseModal.astro';
@@ -55,14 +55,28 @@ const ogLocales: Record<string, string> = {
 <!doctype html>
 <html lang={currentLang} class="dark">
 	<head>
-		<!-- Google tag (gtag.js) -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-3ZS11DPE2L" is:inline></script>
+		<!-- Google tag (gtag.js) - Synchronous dataLayer initialization, non-render-blocking script loading -->
 		<script is:inline>
 		  window.dataLayer = window.dataLayer || [];
 		  function gtag(){dataLayer.push(arguments);}
 		  gtag('js', new Date());
-
 		  gtag('config', 'G-3ZS11DPE2L');
+
+		  (function() {
+		    function loadGtag() {
+		      if (window._gtagLoaded) return;
+		      window._gtagLoaded = true;
+		      var s = document.createElement('script');
+		      s.async = true;
+		      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-3ZS11DPE2L';
+		      document.head.appendChild(s);
+		    }
+		    if ('requestIdleCallback' in window) {
+		      requestIdleCallback(loadGtag, { timeout: 3000 });
+		    } else {
+		      window.addEventListener('load', function() { setTimeout(loadGtag, 1000); });
+		    }
+		  })();
 		</script>
 
 		<meta charset="utf-8" />
@@ -182,10 +196,22 @@ const ogLocales: Record<string, string> = {
 
 		<slot name="head" />
 		
-		<!-- Google Fonts for Geist & Geist Mono -->
+		<!-- Critical Above-The-Fold CSS (Inlined for 0ms First Contentful Paint and Zero FOUC) -->
+		<style is:inline set:html={criticalCss} />
+
+		<!-- Non-Critical Full Stylesheet (Preloaded asynchronously to eliminate render blocking) -->
+		<link rel="preload" href="/styles/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+		<noscript>
+			<link rel="stylesheet" href="/styles/main.css" />
+		</noscript>
+
+		<!-- Google Fonts for Geist & Geist Mono (Preloaded asynchronously to eliminate render blocking) -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet" />
+		<link rel="preload" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+		<noscript>
+			<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600;700&display=swap" />
+		</noscript>
 
 		<!-- Inline script for early theme restoration to prevent flashing -->
 		<script is:inline>
