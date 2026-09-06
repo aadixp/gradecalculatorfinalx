@@ -8,62 +8,43 @@ const { idPrefix = 'sgpa' } = Astro.props;
 ---
 
 <div id={`${idPrefix}-calculator-panel`} class="calc-component-root">
-  <!-- VIEW 1: Initial Option Selector -->
+  <!-- VIEW 1: Initial Option Selector (Two Compact Square Cards) -->
   <div id={`${idPrefix}-view-selector`} class="sgpa-view-container">
-    <div style="text-align: center; max-width: 640px; margin: 0 auto 2rem auto;">
-      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem; display: inline-block;">Indian University 10-Point Grading System</span>
-      <h2 class="heading-lg" style="font-size: clamp(1.4rem, 3.5vw, 1.85rem); margin-bottom: 0.6rem; letter-spacing: -0.02em; color: var(--color-ink);">
-        Choose SGPA Calculation Method
-      </h2>
-      <p style="font-size: 0.9375rem; color: var(--color-mute); line-height: 1.55; margin: 0;">
-        Select your preferred method to calculate your Semester Grade Point Average (SGPA):
-      </p>
-    </div>
+    <div class="sgpa-choice-wrapper">
+      <div class="sgpa-choice-header-text">
+        <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem; display: inline-block;">INDIAN UNIVERSITY 10-POINT CBCS GRADING SYSTEM</span>
+        <h2 class="heading-lg" style="font-size: clamp(1.35rem, 3vw, 1.75rem); letter-spacing: -0.02em; color: var(--color-ink); margin-bottom: 0.4rem;">
+          Choose SGPA Calculation Method
+        </h2>
+        <p style="font-size: 0.9375rem; color: var(--color-mute); line-height: 1.5; margin: 0 auto; max-width: 520px;">
+          Select how you would like to calculate your Semester Grade Point Average (SGPA):
+        </p>
+      </div>
 
-    <div class="sgpa-choices-grid">
-      <!-- Option 1: Quick SGPA Calculator -->
-      <div class="sgpa-choice-card" id={`${idPrefix}-card-quick`} role="button" tabindex="0" aria-label="Open Quick SGPA Calculator">
-        <div class="sgpa-choice-header">
-          <div class="sgpa-choice-icon-wrap" style="background: rgba(0, 112, 243, 0.08); color: var(--color-blue);">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Two compact near-square cards side by side on desktop, stacked on mobile -->
+      <div class="sgpa-square-cards-grid">
+        <!-- Option 1: Quick SGPA Calculator -->
+        <div class="sgpa-square-card" id={`${idPrefix}-card-quick`} role="button" tabindex="0" aria-label="Open Quick SGPA Calculator">
+          <div class="sgpa-card-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
             </svg>
           </div>
-          <span class="badge badge-green">Beginner Friendly</span>
+          <h3 class="sgpa-card-title">Quick SGPA Calculator</h3>
+          <p class="sgpa-card-desc">
+            Calculate your SGPA quickly by entering your subject credits and grade points for a single semester.
+          </p>
+          <div class="sgpa-card-btn-wrap">
+            <button type="button" class="btn btn-secondary btn-sm sgpa-card-btn" id={`${idPrefix}-btn-choose-quick`}>
+              Select &rarr;
+            </button>
+          </div>
         </div>
 
-        <h3 class="sgpa-choice-title">Quick SGPA Calculator</h3>
-        <p class="sgpa-choice-desc">
-          Fast and simple calculation. Just enter your earned total credit points and registered semester credits without typing individual subject details.
-        </p>
-
-        <ul class="sgpa-choice-features">
-          <li>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>Simple 2-input calculation</span>
-          </li>
-          <li>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>Instant Percentage (&times; 9.5) & Division</span>
-          </li>
-          <li>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>Ideal for marksheets / grade cards</span>
-          </li>
-        </ul>
-
-        <div class="sgpa-choice-cta">
-          <button type="button" class="btn btn-primary btn-pill" id={`${idPrefix}-btn-choose-quick`} style="width: 100%; justify-content: center;">
-            Quick SGPA Calculator &rarr;
-          </button>
-        </div>
-      </div>
-
-      <!-- Option 2: Calculate SGPA from Subjects -->
-      <div class="sgpa-choice-card" id={`${idPrefix}-card-detailed`} role="button" tabindex="0" aria-label="Open Calculate SGPA from Subjects">
-        <div class="sgpa-choice-header">
-          <div class="sgpa-choice-icon-wrap" style="background: rgba(16, 185, 129, 0.08); color: var(--color-emerald);">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Option 2: Calculate SGPA from Subjects -->
+        <div class="sgpa-square-card" id={`${idPrefix}-card-detailed`} role="button" tabindex="0" aria-label="Open Calculate SGPA from Subjects">
+          <div class="sgpa-card-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
               <polyline points="14 2 14 8 20 8"></polyline>
               <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -71,33 +52,15 @@ const { idPrefix = 'sgpa' } = Astro.props;
               <polyline points="10 9 9 9 8 9"></polyline>
             </svg>
           </div>
-          <span class="badge badge-blue">Course by Course</span>
-        </div>
-
-        <h3 class="sgpa-choice-title">Calculate SGPA from Subjects</h3>
-        <p class="sgpa-choice-desc">
-          Detailed semester calculation. Enter your Subject Names, UGC Letter Grades (O to F), Grade Points, and Credits for a full breakdown.
-        </p>
-
-        <ul class="sgpa-choice-features">
-          <li>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>UGC 10-Point Letter Grades (O, A+, A, B+...)</span>
-          </li>
-          <li>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>Subject, Grade, Point & Credit rows</span>
-          </li>
-          <li>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>Add / Remove unlimited subjects</span>
-          </li>
-        </ul>
-
-        <div class="sgpa-choice-cta">
-          <button type="button" class="btn btn-secondary btn-pill" id={`${idPrefix}-btn-choose-detailed`} style="width: 100%; justify-content: center;">
-            Calculate SGPA from Subjects &rarr;
-          </button>
+          <h3 class="sgpa-card-title">Calculate SGPA from Subjects</h3>
+          <p class="sgpa-card-desc">
+            Calculate your SGPA from individual subject details, UGC letter grades, grade points, and credits for a detailed calculation.
+          </p>
+          <div class="sgpa-card-btn-wrap">
+            <button type="button" class="btn btn-secondary btn-sm sgpa-card-btn" id={`${idPrefix}-btn-choose-detailed`}>
+              Select &rarr;
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -112,7 +75,7 @@ const { idPrefix = 'sgpa' } = Astro.props;
           <line x1="19" y1="12" x2="5" y2="12"></line>
           <polyline points="12 19 5 12 12 5"></polyline>
         </svg>
-        Choose Calculation Mode
+        Choose Calculation Method
       </button>
 
       <div class="sgpa-mode-pills">
@@ -217,7 +180,7 @@ const { idPrefix = 'sgpa' } = Astro.props;
           <line x1="19" y1="12" x2="5" y2="12"></line>
           <polyline points="12 19 5 12 12 5"></polyline>
         </svg>
-        Choose Calculation Mode
+        Choose Calculation Method
       </button>
 
       <div class="sgpa-mode-pills">
@@ -335,85 +298,97 @@ const { idPrefix = 'sgpa' } = Astro.props;
 </div>
 
 <style>
-  .sgpa-choices-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
+  /* Compact Near-Square Cards Grid */
+  .sgpa-choice-wrapper {
+    margin: 1rem auto 2.5rem auto;
+    max-width: 620px;
   }
-  .sgpa-choice-card {
+  .sgpa-choice-header-text {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .sgpa-square-cards-grid {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    align-items: stretch;
+  }
+  .sgpa-square-card {
+    flex: 0 1 260px;
+    width: 260px;
+    height: 260px;
+    box-sizing: border-box;
     background: var(--color-canvas-elevated);
     border: 1px solid var(--color-hairline);
-    border-radius: var(--radius-lg);
-    padding: 1.85rem 1.75rem;
+    border-radius: var(--radius-md);
+    padding: 1.5rem 1.25rem;
     display: flex;
     flex-direction: column;
-    text-align: left;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     cursor: pointer;
+    user-select: none;
     transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
     box-shadow: var(--shadow-whisper);
-    position: relative;
-    user-select: none;
   }
-  .sgpa-choice-card:hover {
-    transform: translateY(-3px);
+  .sgpa-square-card:hover {
+    transform: translateY(-2px);
     border-color: var(--color-hairline-strong);
-    box-shadow: var(--shadow-float);
+    box-shadow: var(--shadow-floating);
   }
-  .sgpa-choice-card:focus-visible {
+  .sgpa-square-card:focus-visible {
     outline: 2px solid var(--color-ink);
     outline-offset: 2px;
   }
-  .sgpa-choice-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.25rem;
-  }
-  .sgpa-choice-icon-wrap {
-    width: 48px;
-    height: 48px;
-    border-radius: var(--radius-md);
+  .sgpa-card-icon-box {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-sm);
+    background: var(--color-canvas-subtle);
+    border: 1px solid var(--color-hairline);
+    color: var(--color-ink);
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 0.85rem;
     flex-shrink: 0;
+    transition: border-color var(--transition-fast);
   }
-  .sgpa-choice-title {
-    font-size: 1.25rem;
+  .sgpa-square-card:hover .sgpa-card-icon-box {
+    border-color: var(--color-hairline-strong);
+  }
+  .sgpa-card-title {
+    font-size: 1.05rem;
     font-weight: 600;
     color: var(--color-ink);
-    margin-bottom: 0.5rem;
     letter-spacing: -0.01em;
+    line-height: 1.35;
+    margin: 0 0 0.45rem 0;
   }
-  .sgpa-choice-desc {
-    font-size: 0.875rem;
-    color: var(--color-mute);
-    line-height: 1.55;
-    margin-bottom: 1.25rem;
-  }
-  .sgpa-choice-features {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 1.5rem 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.625rem;
+  .sgpa-card-desc {
     font-size: 0.8125rem;
-    color: var(--color-body);
-    flex-grow: 1;
+    color: var(--color-mute);
+    line-height: 1.45;
+    margin: 0 0 1.15rem 0;
+    max-width: 220px;
   }
-  .sgpa-choice-features li {
+  .sgpa-card-btn-wrap {
+    width: 100%;
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    justify-content: center;
   }
-  .sgpa-choice-features li svg {
-    color: var(--color-emerald);
-    flex-shrink: 0;
+  .sgpa-card-btn {
+    pointer-events: none;
+    width: 100%;
+    max-width: 150px;
+    justify-content: center;
+    font-size: 0.8125rem;
+    font-weight: 500;
   }
-  .sgpa-choice-cta {
-    margin-top: auto;
+  .sgpa-square-card:hover .sgpa-card-btn {
+    color: var(--color-ink);
+    border-color: var(--color-hairline-strong);
   }
   .sgpa-mode-bar {
     display: flex;
@@ -469,11 +444,15 @@ const { idPrefix = 'sgpa' } = Astro.props;
     box-shadow: var(--shadow-whisper);
   }
   @media (max-width: 640px) {
-    .sgpa-choices-grid {
-      grid-template-columns: 1fr;
-      gap: 1rem;
+    .sgpa-square-cards-grid {
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
     }
-    .sgpa-choice-card {
+    .sgpa-square-card {
+      width: 100%;
+      max-width: 270px;
+      height: 270px;
       padding: 1.5rem 1.25rem;
     }
     .sgpa-mode-bar {
