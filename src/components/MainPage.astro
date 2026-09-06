@@ -1634,6 +1634,9 @@ const pageDescription = description || t('site.description');
       if (targetId === 'calculator-indian-sgpa') {
         window.dispatchEvent(new CustomEvent('gradecalc:sgpa-reset-view'));
       }
+      if (targetId === 'calculator-indian-cgpa') {
+        window.dispatchEvent(new CustomEvent('gradecalc:cgpa-reset-view'));
+      }
 
       if (shouldUpdateHash && TARGET_TO_HASH[targetId]) {
         const newHash = TARGET_TO_HASH[targetId];

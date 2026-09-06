@@ -2,342 +2,522 @@
 // src/components/IndianCgpaCalculator.astro
 interface Props {
   idPrefix?: string;
+  lang?: string;
 }
 const { idPrefix = 'cgpa' } = Astro.props;
 ---
 
 <div id={`${idPrefix}-calculator-panel`} class="calc-component-root">
-  <!-- Live Result Summary Card -->
-  <div class="geist-card geist-card-floating" style="padding: 1.5rem; margin-bottom: 1.5rem; background: linear-gradient(180deg, var(--color-canvas-elevated) 0%, var(--color-canvas-subtle) 100%);">
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.25rem; align-items: center;">
-      <div>
-        <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;">Cumulative GPA (10.0 Scale)</span>
-        <div style="display: flex; align-items: baseline; gap: 0.75rem;">
-          <span id={`${idPrefix}-result-cgpa`} class="display-xl" style="font-feature-settings: 'tnum';">8.94</span>
-          <span id={`${idPrefix}-standing-badge`} class="badge badge-green">First Class with Distinction</span>
-        </div>
-        <p style="font-size: 0.875rem; color: var(--color-mute); margin-top: 0.25rem;">
-          Approx. Percentage: <strong style="color: var(--color-ink);" id={`${idPrefix}-result-pct`}>84.93%</strong>
-          <span style="font-size: 0.75rem;">(AICTE &times; 9.5)</span>
+  <!-- VIEW 1: Initial Option Selector (Two Compact Square Cards) -->
+  <div id={`${idPrefix}-view-selector`} class="cgpa-view-container">
+    <div class="cgpa-choice-wrapper">
+      <div class="cgpa-choice-header-text">
+        <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem; display: inline-block;">Indian University 10-Point CBCS Grading System</span>
+        <h2 class="heading-lg" style="font-size: clamp(1.35rem, 3vw, 1.75rem); letter-spacing: -0.02em; color: var(--color-ink); margin-bottom: 0.4rem;">
+          Choose CGPA Calculation Method
+        </h2>
+        <p style="font-size: 0.9375rem; color: var(--color-mute); line-height: 1.5; margin: 0 auto; max-width: 520px;">
+          Select how you would like to calculate your Cumulative Grade Point Average (CGPA):
         </p>
       </div>
 
-      <!-- Credits & Points Breakdown -->
-      <div class="responsive-col-divider" style="border-left: 1px solid var(--color-hairline); padding-left: 1.25rem;">
-        <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.35rem;">
-          <span style="color: var(--color-mute);">Total Earned Credits:</span>
-          <span id={`${idPrefix}-total-credits`} style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">18.0</span>
+      <!-- Two compact near-square cards side by side on desktop, stacked on mobile -->
+      <div class="cgpa-square-cards-grid">
+        <!-- Option 1: Quick CGPA Calculator -->
+        <div class="cgpa-square-card" id={`${idPrefix}-card-quick`} role="button" tabindex="0" aria-label="Open Quick CGPA Calculator">
+          <div class="cgpa-card-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+          </div>
+          <h3 class="cgpa-card-title">Quick CGPA Calculator</h3>
+          <p class="cgpa-card-desc">
+            Calculate overall CGPA directly from your semester SGPAs without typing subject details.
+          </p>
+          <div class="cgpa-card-btn-wrap">
+            <span class="btn btn-secondary btn-sm cgpa-card-btn">
+              Select &rarr;
+            </span>
+          </div>
         </div>
-        <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.5rem;">
-          <span style="color: var(--color-mute);">Total Quality Points:</span>
-          <span id={`${idPrefix}-total-points`} style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">161.0</span>
-        </div>
-        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-mute); background: var(--color-canvas-subtle); padding: 0.35rem 0.5rem; border-radius: var(--radius-xs); border: 1px solid var(--color-hairline);">
-          CGPA = &Sigma;(Grade Point &times; Credits) &divide; &Sigma;Credits
-        </div>
-      </div>
 
-      <!-- Actions -->
-      <div style="display: flex; flex-direction: column; gap: 0.5rem; justify-content: center;">
-        <button id={`${idPrefix}-sample-btn`} type="button" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem;">
-          Load Realistic Sample
-        </button>
-        <button id={`${idPrefix}-reset-btn`} type="button" class="btn btn-ghost" style="font-size: 0.8125rem; color: var(--color-mute);">
-          Reset to Blank
-        </button>
+        <!-- Option 2: Calculate CGPA from Subjects -->
+        <div class="cgpa-square-card" id={`${idPrefix}-card-detailed`} role="button" tabindex="0" aria-label="Open Calculate CGPA from Subjects">
+          <div class="cgpa-card-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <h3 class="cgpa-card-title">Calculate CGPA from Subjects</h3>
+          <p class="cgpa-card-desc">
+            Calculate CGPA from individual course titles, UGC letter grades, grade points, and credits.
+          </p>
+          <div class="cgpa-card-btn-wrap">
+            <span class="btn btn-secondary btn-sm cgpa-card-btn">
+              Select &rarr;
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Main Subject Table Card -->
-  <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem;">
-      <div>
-        <h3 class="heading-md">Subjects & Credit Hours</h3>
-        <p style="font-size: 0.875rem; color: var(--color-mute);">
-          Enter subject names, UGC letter grades (or grade points), and course credit weighting.
+  <!-- VIEW 2: Quick CGPA Calculator (Semester-based) -->
+  <div id={`${idPrefix}-view-quick`} class="cgpa-view-container" style="display: none;">
+    <!-- Navigation Bar -->
+    <div class="cgpa-mode-bar">
+      <button type="button" class="btn btn-ghost btn-sm cgpa-back-btn" id={`${idPrefix}-quick-back-btn`}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Choose Calculation Method
+      </button>
+
+      <div class="cgpa-mode-pills">
+        <button type="button" class="cgpa-mode-pill active" id={`${idPrefix}-quick-pill-quick`}>Quick CGPA</button>
+        <button type="button" class="cgpa-mode-pill" id={`${idPrefix}-quick-pill-detailed`}>From Subjects</button>
+      </div>
+    </div>
+
+    <!-- Quick Result Card -->
+    <div class="geist-card geist-card-floating" style="padding: 1.5rem; margin-bottom: 1.5rem; background: linear-gradient(180deg, var(--color-canvas-elevated) 0%, var(--color-canvas-subtle) 100%);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.25rem; align-items: center;">
+        <div>
+          <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;">Cumulative GPA (10.0 Scale)</span>
+          <div style="display: flex; align-items: baseline; gap: 0.75rem;">
+            <span id={`${idPrefix}-quick-result-cgpa`} class="display-xl" style="font-feature-settings: 'tnum';">--</span>
+            <span id={`${idPrefix}-quick-standing-badge`} class="badge badge-blue">Awaiting Input</span>
+          </div>
+          <p style="font-size: 0.875rem; color: var(--color-mute); margin-top: 0.25rem;">
+            Approx. Percentage: <strong style="color: var(--color-ink);" id={`${idPrefix}-quick-result-pct`}>--%</strong>
+            <span style="font-size: 0.75rem;">(AICTE &times; 9.5 Standard)</span>
+          </p>
+        </div>
+
+        <!-- Breakdown Info -->
+        <div class="responsive-col-divider" style="border-left: 1px solid var(--color-hairline); padding-left: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.35rem;">
+            <span style="color: var(--color-mute);">Completed Semesters:</span>
+            <span id={`${idPrefix}-quick-disp-sems`} style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">0</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.5rem;">
+            <span style="color: var(--color-mute);">Calculation Mode:</span>
+            <span id={`${idPrefix}-quick-disp-credits`} style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">Equal Weight</span>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-mute); background: var(--color-canvas-subtle); padding: 0.35rem 0.5rem; border-radius: var(--radius-xs); border: 1px solid var(--color-hairline);">
+            CGPA = &Sigma;(SGPA<sub>i</sub> &times; Credits<sub>i</sub>) &divide; &Sigma;Credits
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; justify-content: center;">
+          <button id={`${idPrefix}-quick-sample-btn`} type="button" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem;">
+            Load 8-Semester Sample
+          </button>
+          <button id={`${idPrefix}-quick-reset-btn`} type="button" class="btn btn-ghost" style="font-size: 0.8125rem; color: var(--color-mute);">
+            Reset to Blank
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Semesters Inputs Card -->
+    <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+      <div style="margin-bottom: 1.25rem;">
+        <h3 class="heading-md" style="margin-bottom: 0.35rem;">Enter Your Semester SGPA</h3>
+        <p style="font-size: 0.875rem; color: var(--color-body); line-height: 1.5; margin: 0 0 0.4rem 0;">
+          Already know your SGPA for each semester? Enter your Semester 1, Semester 2, Semester 3, etc. SGPA above to calculate your overall CGPA.
+        </p>
+        <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.5; margin: 0;">
+          Don't know your SGPA? Use <button type="button" class="cgpa-text-link-btn" id={`${idPrefix}-quick-switch-to-detailed`}>Calculate CGPA from Subjects</button> to calculate it from your individual subjects, grades, grade points, and credits.
         </p>
       </div>
 
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <button id={`${idPrefix}-add-subject-btn`} type="button" class="btn btn-secondary" style="font-weight: 600; font-size: 0.8125rem;">
+      <!-- Info on Credits -->
+      <div style="background: var(--color-canvas-subtle); padding: 0.75rem 1rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline); margin-bottom: 1.25rem; font-size: 0.8125rem; color: var(--color-mute); line-height: 1.5;">
+        <strong style="color: var(--color-ink);">Optional Semester Credits:</strong> If your university assigns different credit weights to different semesters (for example, 20 credits in Semester 1 vs 24 in Semester 2), enter credits for an exact credit-weighted CGPA. If left blank or if all semesters have equal credits, the overall CGPA is calculated directly from your semester SGPAs.
+      </div>
+
+      <!-- Semesters Table / Rows -->
+      <div class="mobile-table-card-wrap" style="width: 100%; overflow-x: auto; margin-bottom: 1rem;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--color-hairline); text-align: left; font-size: 0.8125rem; color: var(--color-mute);">
+              <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 170px;">Semester</th>
+              <th style="padding: 0.5rem 0.75rem; font-weight: 500;">Semester SGPA (0 - 10)</th>
+              <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 220px;">Semester Credits (Optional)</th>
+              <th style="padding: 0.5rem 0.75rem; width: 44px;"></th>
+            </tr>
+          </thead>
+          <tbody id={`${idPrefix}-quick-tbody`}>
+            <!-- Rendered dynamically by script -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--color-hairline);">
+        <button id={`${idPrefix}-quick-add-sem-btn`} type="button" class="btn btn-secondary" style="font-weight: 600; font-size: 0.8125rem;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="12" y1="5" x2="12" y2="19"></line>
             <line x1="5" y1="12" x2="19" y2="12"></line>
           </svg>
-          Add Subject
+          Add Another Semester
         </button>
+
+        <div style="font-size: 0.8125rem; color: var(--color-mute);">
+          Semesters Entered: <strong id={`${idPrefix}-quick-footer-count`} style="color: var(--color-ink); font-family: var(--font-mono);">0</strong>
+        </div>
       </div>
     </div>
 
-    <!-- Subjects Table -->
-    <div class="mobile-table-card-wrap" style="width: 100%; overflow-x: auto; margin-bottom: 1rem;">
-      <table style="width: 100%; border-collapse: collapse;">
-        <thead>
-          <tr style="border-bottom: 1px solid var(--color-hairline); text-align: left; font-size: 0.8125rem; color: var(--color-mute);">
-            <th style="padding: 0.5rem 0.75rem; font-weight: 500;">Subject / Course Title</th>
-            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 170px;">Letter Grade</th>
-            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 120px;">Grade Point</th>
-            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 110px;">Credits</th>
-            <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 130px; text-align: right;">Credit Points</th>
-            <th style="padding: 0.5rem 0.75rem; width: 44px;"></th>
-          </tr>
-        </thead>
-        <tbody id={`${idPrefix}-tbody`}>
-          <tr class="mobile-card-row cgpa-card-row" style="border-bottom: 1px solid var(--color-hairline);">
-            <td class="td-cgpa-name" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Subject #1</span>
-              <input type="text" class="form-input subj-name-input" data-id="icgpa-1" value="Engineering Mathematics I" placeholder="e.g. Mathematics" />
-            </td>
-            <td class="td-cgpa-grade" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Letter Grade</span>
-              <select class="form-select subj-grade-select" data-id="icgpa-1">
-                <option value="O" selected>O (Outstanding - 10)</option>
-                <option value="A+">A+ (Excellent - 9)</option>
-                <option value="A">A (Very Good - 8)</option>
-                <option value="B+">B+ (Good - 7)</option>
-                <option value="B">B (Above Average - 6)</option>
-                <option value="C">C (Average - 5)</option>
-                <option value="P">P (Pass - 4)</option>
-                <option value="F">F (Fail - 0)</option>
-              </select>
-            </td>
-            <td class="td-cgpa-point" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Grade Point</span>
-              <input type="number" step="0.5" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="icgpa-1" value="10" placeholder="10" />
-            </td>
-            <td class="td-cgpa-credits" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Credits</span>
-              <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="icgpa-1" value="4" placeholder="Credits" />
-            </td>
-            <td class="td-cgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
-              <span class="mobile-input-label">Credit Points</span>
-              <span>40.0</span>
-            </td>
-            <td class="td-cgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
-              <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="icgpa-1" title="Remove subject" aria-label="Remove subject">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </button>
-            </td>
-          </tr>
-          <tr class="mobile-card-row cgpa-card-row" style="border-bottom: 1px solid var(--color-hairline);">
-            <td class="td-cgpa-name" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Subject #2</span>
-              <input type="text" class="form-input subj-name-input" data-id="icgpa-2" value="Data Structures & Algorithms" placeholder="e.g. Computer Science" />
-            </td>
-            <td class="td-cgpa-grade" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Letter Grade</span>
-              <select class="form-select subj-grade-select" data-id="icgpa-2">
-                <option value="O">O (Outstanding - 10)</option>
-                <option value="A+" selected>A+ (Excellent - 9)</option>
-                <option value="A">A (Very Good - 8)</option>
-                <option value="B+">B+ (Good - 7)</option>
-                <option value="B">B (Above Average - 6)</option>
-                <option value="C">C (Average - 5)</option>
-                <option value="P">P (Pass - 4)</option>
-                <option value="F">F (Fail - 0)</option>
-              </select>
-            </td>
-            <td class="td-cgpa-point" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Grade Point</span>
-              <input type="number" step="0.5" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="icgpa-2" value="9" placeholder="9" />
-            </td>
-            <td class="td-cgpa-credits" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Credits</span>
-              <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="icgpa-2" value="4" placeholder="Credits" />
-            </td>
-            <td class="td-cgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
-              <span class="mobile-input-label">Credit Points</span>
-              <span>36.0</span>
-            </td>
-            <td class="td-cgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
-              <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="icgpa-2" title="Remove subject" aria-label="Remove subject">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </button>
-            </td>
-          </tr>
-          <tr class="mobile-card-row cgpa-card-row" style="border-bottom: 1px solid var(--color-hairline);">
-            <td class="td-cgpa-name" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Subject #3</span>
-              <input type="text" class="form-input subj-name-input" data-id="icgpa-3" value="Digital Electronics & Logic" placeholder="e.g. Electronics" />
-            </td>
-            <td class="td-cgpa-grade" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Letter Grade</span>
-              <select class="form-select subj-grade-select" data-id="icgpa-3">
-                <option value="O">O (Outstanding - 10)</option>
-                <option value="A+">A+ (Excellent - 9)</option>
-                <option value="A" selected>A (Very Good - 8)</option>
-                <option value="B+">B+ (Good - 7)</option>
-                <option value="B">B (Above Average - 6)</option>
-                <option value="C">C (Average - 5)</option>
-                <option value="P">P (Pass - 4)</option>
-                <option value="F">F (Fail - 0)</option>
-              </select>
-            </td>
-            <td class="td-cgpa-point" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Grade Point</span>
-              <input type="number" step="0.5" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="icgpa-3" value="8" placeholder="8" />
-            </td>
-            <td class="td-cgpa-credits" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Credits</span>
-              <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="icgpa-3" value="3" placeholder="Credits" />
-            </td>
-            <td class="td-cgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
-              <span class="mobile-input-label">Credit Points</span>
-              <span>24.0</span>
-            </td>
-            <td class="td-cgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
-              <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="icgpa-3" title="Remove subject" aria-label="Remove subject">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </button>
-            </td>
-          </tr>
-          <tr class="mobile-card-row cgpa-card-row" style="border-bottom: 1px solid var(--color-hairline);">
-            <td class="td-cgpa-name" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Subject #4</span>
-              <input type="text" class="form-input subj-name-input" data-id="icgpa-4" value="Object Oriented Programming" placeholder="e.g. Java / C++" />
-            </td>
-            <td class="td-cgpa-grade" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Letter Grade</span>
-              <select class="form-select subj-grade-select" data-id="icgpa-4">
-                <option value="O">O (Outstanding - 10)</option>
-                <option value="A+" selected>A+ (Excellent - 9)</option>
-                <option value="A">A (Very Good - 8)</option>
-                <option value="B+">B+ (Good - 7)</option>
-                <option value="B">B (Above Average - 6)</option>
-                <option value="C">C (Average - 5)</option>
-                <option value="P">P (Pass - 4)</option>
-                <option value="F">F (Fail - 0)</option>
-              </select>
-            </td>
-            <td class="td-cgpa-point" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Grade Point</span>
-              <input type="number" step="0.5" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="icgpa-4" value="9" placeholder="9" />
-            </td>
-            <td class="td-cgpa-credits" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Credits</span>
-              <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="icgpa-4" value="3" placeholder="Credits" />
-            </td>
-            <td class="td-cgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
-              <span class="mobile-input-label">Credit Points</span>
-              <span>27.0</span>
-            </td>
-            <td class="td-cgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
-              <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="icgpa-4" title="Remove subject" aria-label="Remove subject">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </button>
-            </td>
-          </tr>
-          <tr class="mobile-card-row cgpa-card-row" style="border-bottom: 1px solid var(--color-hairline);">
-            <td class="td-cgpa-name" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Subject #5</span>
-              <input type="text" class="form-input subj-name-input" data-id="icgpa-5" value="Algorithms Lab" placeholder="e.g. Practicals" />
-            </td>
-            <td class="td-cgpa-grade" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Letter Grade</span>
-              <select class="form-select subj-grade-select" data-id="icgpa-5">
-                <option value="O" selected>O (Outstanding - 10)</option>
-                <option value="A+">A+ (Excellent - 9)</option>
-                <option value="A">A (Very Good - 8)</option>
-                <option value="B+">B+ (Good - 7)</option>
-                <option value="B">B (Above Average - 6)</option>
-                <option value="C">C (Average - 5)</option>
-                <option value="P">P (Pass - 4)</option>
-                <option value="F">F (Fail - 0)</option>
-              </select>
-            </td>
-            <td class="td-cgpa-point" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Grade Point</span>
-              <input type="number" step="0.5" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="icgpa-5" value="10" placeholder="10" />
-            </td>
-            <td class="td-cgpa-credits" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Credits</span>
-              <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="icgpa-5" value="2" placeholder="Credits" />
-            </td>
-            <td class="td-cgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
-              <span class="mobile-input-label">Credit Points</span>
-              <span>20.0</span>
-            </td>
-            <td class="td-cgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
-              <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="icgpa-5" title="Remove subject" aria-label="Remove subject">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </button>
-            </td>
-          </tr>
-          <tr class="mobile-card-row cgpa-card-row" style="border-bottom: 1px solid var(--color-hairline);">
-            <td class="td-cgpa-name" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Subject #6</span>
-              <input type="text" class="form-input subj-name-input" data-id="icgpa-6" value="Communication Skills" placeholder="e.g. English" />
-            </td>
-            <td class="td-cgpa-grade" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Letter Grade</span>
-              <select class="form-select subj-grade-select" data-id="icgpa-6">
-                <option value="O">O (Outstanding - 10)</option>
-                <option value="A+">A+ (Excellent - 9)</option>
-                <option value="A">A (Very Good - 8)</option>
-                <option value="B+" selected>B+ (Good - 7)</option>
-                <option value="B">B (Above Average - 6)</option>
-                <option value="C">C (Average - 5)</option>
-                <option value="P">P (Pass - 4)</option>
-                <option value="F">F (Fail - 0)</option>
-              </select>
-            </td>
-            <td class="td-cgpa-point" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Grade Point</span>
-              <input type="number" step="0.5" min="0" max="10" class="form-input form-input-mono subj-point-input" data-id="icgpa-6" value="7" placeholder="7" />
-            </td>
-            <td class="td-cgpa-credits" style="padding: 0.5rem 0.75rem;">
-              <span class="mobile-input-label">Credits</span>
-              <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="icgpa-6" value="2" placeholder="Credits" />
-            </td>
-            <td class="td-cgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
-              <span class="mobile-input-label">Credit Points</span>
-              <span>14.0</span>
-            </td>
-            <td class="td-cgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
-              <button type="button" class="btn btn-ghost btn-icon delete-subj-btn" data-id="icgpa-6" title="Remove subject" aria-label="Remove subject">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Footer summary in table -->
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--color-hairline);">
-      <button id={`${idPrefix}-add-subject-bottom-btn`} type="button" class="btn btn-secondary" style="font-weight: 600;">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-        Add Another Subject
-      </button>
-
-      <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.8125rem;">
-        <span style="color: var(--color-mute);">Total Credits: <strong id={`${idPrefix}-footer-credits`} style="color: var(--color-ink); font-family: var(--font-mono);">0</strong></span>
-        <span style="color: var(--color-mute);">Weighted Points: <strong id={`${idPrefix}-footer-points`} style="color: var(--color-ink); font-family: var(--font-mono);">0.0</strong></span>
+    <!-- Quick Breakdown Card -->
+    <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem; background: var(--color-canvas-subtle);">
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+        <span class="badge badge-green">CGPA Breakdown</span>
+        <h4 class="heading-md" style="font-size: 1rem;">Calculation Breakdown</h4>
+      </div>
+      <div id={`${idPrefix}-quick-breakdown-text`} style="font-size: 0.875rem; color: var(--color-body); line-height: 1.6;">
+        Enter your semester SGPAs above to see the calculation breakdown.
       </div>
     </div>
   </div>
 
-  <!-- Detailed Calculation Breakdown Card -->
-  <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem; background: var(--color-canvas-subtle);">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <span class="badge badge-blue">Formula Breakdown</span>
-        <h4 class="heading-md" style="font-size: 1rem;">Mathematical Step-by-Step Verification</h4>
+  <!-- VIEW 3: Calculate CGPA from Subjects (Intact Logic) -->
+  <div id={`${idPrefix}-view-detailed`} class="cgpa-view-container" style="display: none;">
+    <!-- Navigation Bar -->
+    <div class="cgpa-mode-bar">
+      <button type="button" class="btn btn-ghost btn-sm cgpa-back-btn" id={`${idPrefix}-detailed-back-btn`}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Choose Calculation Method
+      </button>
+
+      <div class="cgpa-mode-pills">
+        <button type="button" class="cgpa-mode-pill" id={`${idPrefix}-detailed-pill-quick`}>Quick CGPA</button>
+        <button type="button" class="cgpa-mode-pill active" id={`${idPrefix}-detailed-pill-detailed`}>From Subjects</button>
       </div>
     </div>
 
-    <div id={`${idPrefix}-breakdown-text`} style="font-size: 0.875rem; color: var(--color-body); line-height: 1.6;">
-      Enter your subjects and credits above to see the calculation breakdown.
+    <!-- Live Result Summary Card -->
+    <div class="geist-card geist-card-floating" style="padding: 1.5rem; margin-bottom: 1.5rem; background: linear-gradient(180deg, var(--color-canvas-elevated) 0%, var(--color-canvas-subtle) 100%);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.25rem; align-items: center;">
+        <div>
+          <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;">Cumulative GPA (10.0 Scale)</span>
+          <div style="display: flex; align-items: baseline; gap: 0.75rem;">
+            <span id={`${idPrefix}-result-cgpa`} class="display-xl" style="font-feature-settings: 'tnum';">8.94</span>
+            <span id={`${idPrefix}-standing-badge`} class="badge badge-green">First Class with Distinction</span>
+          </div>
+          <p style="font-size: 0.875rem; color: var(--color-mute); margin-top: 0.25rem;">
+            Approx. Percentage: <strong style="color: var(--color-ink);" id={`${idPrefix}-result-pct`}>84.93%</strong>
+            <span style="font-size: 0.75rem;">(AICTE &times; 9.5)</span>
+          </p>
+        </div>
+
+        <!-- Credits & Points Breakdown -->
+        <div class="responsive-col-divider" style="border-left: 1px solid var(--color-hairline); padding-left: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.35rem;">
+            <span style="color: var(--color-mute);">Total Earned Credits:</span>
+            <span id={`${idPrefix}-total-credits`} style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">18.0</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.5rem;">
+            <span style="color: var(--color-mute);">Total Quality Points:</span>
+            <span id={`${idPrefix}-total-points`} style="font-weight: 600; color: var(--color-ink); font-family: var(--font-mono);">161.0</span>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-mute); background: var(--color-canvas-subtle); padding: 0.35rem 0.5rem; border-radius: var(--radius-xs); border: 1px solid var(--color-hairline);">
+            CGPA = &Sigma;(Grade Point &times; Credits) &divide; &Sigma;Credits
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; justify-content: center;">
+          <button id={`${idPrefix}-sample-btn`} type="button" class="btn btn-secondary btn-pill" style="font-size: 0.8125rem;">
+            Load Realistic Sample
+          </button>
+          <button id={`${idPrefix}-reset-btn`} type="button" class="btn btn-ghost" style="font-size: 0.8125rem; color: var(--color-mute);">
+            Reset to Blank
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Subject Table Card -->
+    <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem;">
+        <div>
+          <h3 class="heading-md">Subjects & Credit Hours</h3>
+          <p style="font-size: 0.875rem; color: var(--color-mute);">
+            Enter subject names, UGC letter grades (or grade points), and course credit weighting.
+          </p>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <button id={`${idPrefix}-add-subject-btn`} type="button" class="btn btn-secondary" style="font-weight: 600; font-size: 0.8125rem;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Add Subject
+          </button>
+        </div>
+      </div>
+
+      <!-- Subjects Table -->
+      <div class="mobile-table-card-wrap" style="width: 100%; overflow-x: auto; margin-bottom: 1rem;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--color-hairline); text-align: left; font-size: 0.8125rem; color: var(--color-mute);">
+              <th style="padding: 0.5rem 0.75rem; font-weight: 500;">Subject / Course Title</th>
+              <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 170px;">Letter Grade</th>
+              <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 120px;">Grade Point</th>
+              <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 110px;">Credits</th>
+              <th style="padding: 0.5rem 0.75rem; font-weight: 500; width: 130px; text-align: right;">Credit Points</th>
+              <th style="padding: 0.5rem 0.75rem; width: 44px;"></th>
+            </tr>
+          </thead>
+          <tbody id={`${idPrefix}-tbody`}>
+            <!-- Rendered dynamically by script -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Footer summary in table -->
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--color-hairline);">
+        <button id={`${idPrefix}-add-subject-bottom-btn`} type="button" class="btn btn-secondary" style="font-weight: 600;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Add Another Subject
+        </button>
+
+        <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.8125rem;">
+          <span style="color: var(--color-mute);">Total Credits: <strong id={`${idPrefix}-footer-credits`} style="color: var(--color-ink); font-family: var(--font-mono);">0</strong></span>
+          <span style="color: var(--color-mute);">Weighted Points: <strong id={`${idPrefix}-footer-points`} style="color: var(--color-ink); font-family: var(--font-mono);">0.0</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detailed Calculation Breakdown Card -->
+    <div class="geist-card" style="padding: 1.5rem; margin-bottom: 1.5rem; background: var(--color-canvas-subtle);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span class="badge badge-blue">Formula Breakdown</span>
+          <h4 class="heading-md" style="font-size: 1rem;">Mathematical Step-by-Step Verification</h4>
+        </div>
+      </div>
+
+      <div id={`${idPrefix}-breakdown-text`} style="font-size: 0.875rem; color: var(--color-body); line-height: 1.6;">
+        Enter your subjects and credits above to see the calculation breakdown.
+      </div>
     </div>
   </div>
 </div>
 
+<style>
+  /* Compact Near-Square Cards Grid */
+  .cgpa-choice-wrapper {
+    margin: 1rem auto 2.5rem auto;
+    max-width: 620px;
+  }
+  .cgpa-choice-header-text {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .cgpa-square-cards-grid {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    align-items: stretch;
+  }
+  .cgpa-square-card {
+    flex: 0 1 260px;
+    width: 260px;
+    height: 260px;
+    box-sizing: border-box;
+    background: var(--color-canvas-elevated);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-md);
+    padding: 1.5rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: var(--shadow-whisper);
+  }
+  .cgpa-square-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-hairline-strong);
+    box-shadow: var(--shadow-floating);
+  }
+  .cgpa-square-card:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+  .cgpa-card-icon-box {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-sm);
+    background: var(--color-canvas-subtle);
+    border: 1px solid var(--color-hairline);
+    color: var(--color-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.85rem;
+    flex-shrink: 0;
+    transition: border-color var(--transition-fast);
+  }
+  .cgpa-square-card:hover .cgpa-card-icon-box {
+    border-color: var(--color-hairline-strong);
+  }
+  .cgpa-card-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+    margin: 0 0 0.45rem 0;
+  }
+  .cgpa-card-desc {
+    font-size: 0.8125rem;
+    color: var(--color-mute);
+    line-height: 1.45;
+    margin: 0 0 1.15rem 0;
+    max-width: 220px;
+  }
+  .cgpa-card-btn-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .cgpa-card-btn {
+    pointer-events: none;
+    width: 100%;
+    max-width: 150px;
+    justify-content: center;
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+  .cgpa-square-card:hover .cgpa-card-btn {
+    color: var(--color-ink);
+    border-color: var(--color-hairline-strong);
+  }
+
+  /* Text link button inside paragraph */
+  .cgpa-text-link-btn {
+    display: inline;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 600;
+    color: var(--color-ink);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .cgpa-text-link-btn:hover {
+    color: var(--color-blue);
+  }
+
+  /* Navigation Bar */
+  .cgpa-mode-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+  .cgpa-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-mute);
+    padding: 0.4rem 0.75rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+  }
+  .cgpa-back-btn:hover {
+    color: var(--color-ink);
+    background: var(--color-canvas-subtle);
+  }
+  .cgpa-mode-pills {
+    display: inline-flex;
+    background: var(--color-canvas-subtle);
+    padding: 3px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-hairline);
+    gap: 3px;
+  }
+  .cgpa-mode-pill {
+    padding: 0.35rem 0.85rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-mute);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+  }
+  .cgpa-mode-pill:hover {
+    color: var(--color-ink);
+  }
+  .cgpa-mode-pill.active {
+    background: var(--color-canvas-elevated);
+    color: var(--color-ink);
+    font-weight: 600;
+    box-shadow: var(--shadow-whisper);
+  }
+
+  @media (max-width: 640px) {
+    .cgpa-square-cards-grid {
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .cgpa-square-card {
+      width: 100%;
+      max-width: 270px;
+      height: 270px;
+      padding: 1.5rem 1.25rem;
+    }
+    .cgpa-mode-bar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .cgpa-mode-pills {
+      width: 100%;
+      justify-content: center;
+    }
+    .cgpa-mode-pill {
+      flex: 1;
+      text-align: center;
+    }
+  }
+</style>
+
 <script define:vars={{ idPrefix }}>
   (function() {
+    // -------------------------------------------------------------
+    // Common Constants & Helper Functions
+    // -------------------------------------------------------------
     const UGC_GRADES = [
       { letter: 'O', point: 10, label: 'O (Outstanding - 10)' },
       { letter: 'A+', point: 9, label: 'A+ (Excellent - 9)' },
@@ -352,6 +532,310 @@ const { idPrefix = 'cgpa' } = Astro.props;
 
     const uid = () => Math.random().toString(36).substring(2, 9);
 
+    function getStanding(cgpa) {
+      if (cgpa >= 8.5) return { text: 'First Class with Distinction', class: 'badge-green' };
+      if (cgpa >= 6.75) return { text: 'First Class', class: 'badge-blue' };
+      if (cgpa >= 5.75) return { text: 'Higher Second Class', class: 'badge-amber' };
+      if (cgpa >= 5.0) return { text: 'Second Class', class: 'badge-amber' };
+      if (cgpa >= 4.0) return { text: 'Pass Class', class: 'badge-blue' };
+      return { text: 'Remedial / Fail', class: 'badge-red' };
+    }
+
+    // -------------------------------------------------------------
+    // View Switcher (Selector, Quick, Detailed)
+    // -------------------------------------------------------------
+    const viewSelector = document.getElementById(`${idPrefix}-view-selector`);
+    const viewQuick = document.getElementById(`${idPrefix}-view-quick`);
+    const viewDetailed = document.getElementById(`${idPrefix}-view-detailed`);
+
+    let currentView = 'selector';
+
+    function setView(viewName) {
+      currentView = viewName;
+      if (viewSelector) viewSelector.style.display = viewName === 'selector' ? 'block' : 'none';
+      if (viewQuick) viewQuick.style.display = viewName === 'quick' ? 'block' : 'none';
+      if (viewDetailed) viewDetailed.style.display = viewName === 'detailed' ? 'block' : 'none';
+
+      if (viewName === 'quick') {
+        renderQuickSemesters();
+      } else if (viewName === 'detailed') {
+        renderRows();
+      }
+    }
+
+    // Choice Cards & Buttons Clicks
+    const cardQuick = document.getElementById(`${idPrefix}-card-quick`);
+    const cardDetailed = document.getElementById(`${idPrefix}-card-detailed`);
+
+    const openQuick = (e) => {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      setView('quick');
+    };
+
+    const openDetailed = (e) => {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      setView('detailed');
+    };
+
+    cardQuick?.addEventListener('click', openQuick);
+    cardQuick?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openQuick(); }
+    });
+
+    cardDetailed?.addEventListener('click', openDetailed);
+    cardDetailed?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDetailed(); }
+    });
+
+    // Link inside Quick CGPA explanation text to switch to subjects
+    document.getElementById(`${idPrefix}-quick-switch-to-detailed`)?.addEventListener('click', openDetailed);
+
+    // Back Buttons
+    document.getElementById(`${idPrefix}-quick-back-btn`)?.addEventListener('click', () => setView('selector'));
+    document.getElementById(`${idPrefix}-detailed-back-btn`)?.addEventListener('click', () => setView('selector'));
+
+    // Mode Switch Pills
+    document.getElementById(`${idPrefix}-quick-pill-quick`)?.addEventListener('click', () => setView('quick'));
+    document.getElementById(`${idPrefix}-quick-pill-detailed`)?.addEventListener('click', () => setView('detailed'));
+    document.getElementById(`${idPrefix}-detailed-pill-quick`)?.addEventListener('click', () => setView('quick'));
+    document.getElementById(`${idPrefix}-detailed-pill-detailed`)?.addEventListener('click', () => setView('detailed'));
+
+    // -------------------------------------------------------------
+    // QUICK CGPA CALCULATOR LOGIC (Semester-Based)
+    // -------------------------------------------------------------
+    const sampleSemesters = [
+      { id: uid(), name: 'Semester 1', sgpa: 8.50, credits: 22 },
+      { id: uid(), name: 'Semester 2', sgpa: 8.80, credits: 22 },
+      { id: uid(), name: 'Semester 3', sgpa: 8.60, credits: 22 },
+      { id: uid(), name: 'Semester 4', sgpa: 8.90, credits: 22 },
+      { id: uid(), name: 'Semester 5', sgpa: 8.70, credits: 22 },
+      { id: uid(), name: 'Semester 6', sgpa: 9.10, credits: 22 },
+      { id: uid(), name: 'Semester 7', sgpa: 8.65, credits: 22 },
+      { id: uid(), name: 'Semester 8', sgpa: 8.75, credits: 22 },
+    ];
+
+    function createBlankSemesters() {
+      return [
+        { id: uid(), name: 'Semester 1', sgpa: null, credits: null },
+        { id: uid(), name: 'Semester 2', sgpa: null, credits: null },
+        { id: uid(), name: 'Semester 3', sgpa: null, credits: null },
+        { id: uid(), name: 'Semester 4', sgpa: null, credits: null },
+        { id: uid(), name: 'Semester 5', sgpa: null, credits: null },
+        { id: uid(), name: 'Semester 6', sgpa: null, credits: null },
+        { id: uid(), name: 'Semester 7', sgpa: null, credits: null },
+        { id: uid(), name: 'Semester 8', sgpa: null, credits: null },
+      ];
+    }
+
+    let semesters = createBlankSemesters();
+
+    const quickTbody = document.getElementById(`${idPrefix}-quick-tbody`);
+    const qCgpaEl = document.getElementById(`${idPrefix}-quick-result-cgpa`);
+    const qPctEl = document.getElementById(`${idPrefix}-quick-result-pct`);
+    const qStandingBadge = document.getElementById(`${idPrefix}-quick-standing-badge`);
+    const qDispSems = document.getElementById(`${idPrefix}-quick-disp-sems`);
+    const qDispCredits = document.getElementById(`${idPrefix}-quick-disp-credits`);
+    const qFooterCount = document.getElementById(`${idPrefix}-quick-footer-count`);
+    const qBreakdownEl = document.getElementById(`${idPrefix}-quick-breakdown-text`);
+
+    function renderQuickSemesters() {
+      if (!quickTbody) return;
+      quickTbody.innerHTML = '';
+
+      semesters.forEach((sem, idx) => {
+        const trRow = document.createElement('tr');
+        trRow.className = 'mobile-card-row';
+        trRow.style.borderBottom = '1px solid var(--color-hairline)';
+
+        trRow.innerHTML = `
+          <td style="padding: 0.5rem 0.75rem; font-weight: 500; color: var(--color-ink);">
+            <span class="mobile-input-label">Semester</span>
+            <span>${sem.name || `Semester ${idx + 1}`}</span>
+          </td>
+          <td style="padding: 0.5rem 0.75rem;">
+            <span class="mobile-input-label">Semester SGPA (0 - 10)</span>
+            <input type="number" step="0.01" min="0" max="10" class="form-input form-input-mono sem-sgpa-input" data-id="${sem.id}" value="${sem.sgpa !== null ? sem.sgpa : ''}" placeholder="e.g. 8.50" style="max-width: 180px;" />
+          </td>
+          <td style="padding: 0.5rem 0.75rem;">
+            <span class="mobile-input-label">Semester Credits (Optional)</span>
+            <input type="number" step="0.5" min="0" max="40" class="form-input form-input-mono sem-credits-input" data-id="${sem.id}" value="${sem.credits !== null && sem.credits !== '' ? sem.credits : ''}" placeholder="Optional (e.g. 22)" style="max-width: 180px;" />
+          </td>
+          <td style="padding: 0.5rem 0.75rem; text-align: right;">
+            ${semesters.length > 1 ? `
+              <button type="button" class="btn btn-ghost btn-icon delete-sem-btn" data-id="${sem.id}" title="Remove semester" aria-label="Remove semester">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            ` : ''}
+          </td>
+        `;
+
+        quickTbody.appendChild(trRow);
+      });
+
+      calcQuickCgpa();
+    }
+
+    function calcQuickCgpa() {
+      const validSems = [];
+
+      semesters.forEach((sem, idx) => {
+        const sgpaNum = sem.sgpa !== null && !isNaN(sem.sgpa) && sem.sgpa !== '' ? parseFloat(sem.sgpa) : null;
+        const creditsNum = sem.credits !== null && !isNaN(sem.credits) && sem.credits !== '' ? parseFloat(sem.credits) : null;
+
+        if (sgpaNum !== null && sgpaNum >= 0 && sgpaNum <= 10) {
+          validSems.push({
+            name: sem.name || `Semester ${idx + 1}`,
+            sgpa: sgpaNum,
+            credits: creditsNum
+          });
+        }
+      });
+
+      if (qFooterCount) qFooterCount.textContent = validSems.length.toString();
+
+      if (validSems.length > 0) {
+        // Check if credits are used
+        const semsWithCredits = validSems.filter(s => s.credits !== null && s.credits > 0);
+        const hasCredits = semsWithCredits.length > 0;
+
+        // Check if all entered credits are identical
+        const allCreditsEqual = hasCredits && validSems.every(s => s.credits !== null && s.credits === validSems[0].credits);
+
+        let finalCgpa = 0;
+        let totalCredits = 0;
+        let totalWeightedPoints = 0;
+        let isWeighted = false;
+
+        if (hasCredits && !allCreditsEqual) {
+          isWeighted = true;
+          // If some semesters have credits entered and some are blank, default blank ones to average of entered credits
+          const avgCredit = semsWithCredits.reduce((acc, s) => acc + s.credits, 0) / semsWithCredits.length;
+
+          validSems.forEach(s => {
+            const c = (s.credits !== null && s.credits > 0) ? s.credits : avgCredit;
+            totalCredits += c;
+            totalWeightedPoints += (s.sgpa * c);
+          });
+          finalCgpa = totalCredits > 0 ? (totalWeightedPoints / totalCredits) : 0;
+        } else {
+          // Equal credit weighting: simple average of entered semester SGPAs
+          const sumSgpa = validSems.reduce((acc, s) => acc + s.sgpa, 0);
+          finalCgpa = sumSgpa / validSems.length;
+          totalCredits = hasCredits ? (validSems.length * (validSems[0].credits || 20)) : (validSems.length * 20);
+        }
+
+        const approxPct = finalCgpa * 9.5;
+        const standing = getStanding(finalCgpa);
+
+        if (qCgpaEl) qCgpaEl.textContent = finalCgpa.toFixed(2);
+        if (qPctEl) qPctEl.textContent = `${approxPct.toFixed(2)}%`;
+        if (qStandingBadge) {
+          qStandingBadge.textContent = standing.text;
+          qStandingBadge.className = `badge ${standing.class}`;
+        }
+        if (qDispSems) qDispSems.textContent = validSems.length.toString();
+        if (qDispCredits) {
+          qDispCredits.textContent = isWeighted ? `${totalCredits.toFixed(1)} Credits` : 'Equal Weight';
+        }
+
+        if (qBreakdownEl) {
+          if (isWeighted) {
+            qBreakdownEl.innerHTML = `
+              <p style="margin-bottom: 0.5rem; color: var(--color-ink);">
+                <strong>Weighted CGPA</strong> = Total Quality Points (${totalWeightedPoints.toFixed(1)}) &divide; Total Semester Credits (${totalCredits.toFixed(1)}) = <strong>${finalCgpa.toFixed(2)}</strong>
+              </p>
+              <p style="margin-bottom: 0.5rem; color: var(--color-ink);">
+                <strong>Approx. Percentage</strong> = CGPA (${finalCgpa.toFixed(2)}) &times; 9.5 = <strong>${approxPct.toFixed(2)}%</strong>
+              </p>
+              <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-mute); background: var(--color-canvas); padding: 0.4rem 0.6rem; border-radius: var(--radius-xs); border: 1px solid var(--color-hairline);">
+                Formula: CGPA = &Sigma;(SGPA<sub>i</sub> &times; Credits<sub>i</sub>) &divide; &Sigma;Credits<sub>i</sub>
+              </div>
+            `;
+          } else {
+            const semSgpaList = validSems.map(s => s.sgpa.toFixed(2)).join(' + ');
+            qBreakdownEl.innerHTML = `
+              <p style="margin-bottom: 0.5rem; color: var(--color-ink);">
+                <strong>Equal-Weight CGPA</strong> = (${semSgpaList}) &divide; ${validSems.length} Semesters = <strong>${finalCgpa.toFixed(2)}</strong>
+              </p>
+              <p style="margin-bottom: 0.5rem; color: var(--color-ink);">
+                <strong>Approx. Percentage</strong> = CGPA (${finalCgpa.toFixed(2)}) &times; 9.5 = <strong>${approxPct.toFixed(2)}%</strong>
+              </p>
+              <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-mute); background: var(--color-canvas); padding: 0.4rem 0.6rem; border-radius: var(--radius-xs); border: 1px solid var(--color-hairline);">
+                Formula: CGPA = (&Sigma;SGPA<sub>i</sub>) &divide; N (${allCreditsEqual ? `all semesters have equal credits: ${validSems[0].credits} credits each` : 'equal credit weighting across all semesters'})
+              </div>
+            `;
+          }
+        }
+      } else {
+        if (qCgpaEl) qCgpaEl.textContent = '--';
+        if (qPctEl) qPctEl.textContent = '--%';
+        if (qStandingBadge) {
+          qStandingBadge.textContent = 'Awaiting Input';
+          qStandingBadge.className = 'badge badge-blue';
+        }
+        if (qDispSems) qDispSems.textContent = '0';
+        if (qDispCredits) qDispCredits.textContent = 'Equal Weight';
+        if (qBreakdownEl) {
+          qBreakdownEl.textContent = 'Enter your semester SGPAs above to see the calculation breakdown.';
+        }
+      }
+    }
+
+    quickTbody?.addEventListener('input', (e) => {
+      const target = e.target;
+      const id = target.getAttribute('data-id');
+      if (!id) return;
+      const sem = semesters.find(x => x.id === id);
+      if (!sem) return;
+
+      if (target.classList.contains('sem-sgpa-input')) {
+        sem.sgpa = target.value === '' ? null : Math.min(10, Math.max(0, parseFloat(target.value) || 0));
+      } else if (target.classList.contains('sem-credits-input')) {
+        sem.credits = target.value === '' ? null : Math.max(0, parseFloat(target.value) || 0);
+      }
+
+      calcQuickCgpa();
+    });
+
+    quickTbody?.addEventListener('click', (e) => {
+      const btn = e.target.closest('.delete-sem-btn');
+      if (!btn) return;
+      const id = btn.getAttribute('data-id');
+      if (!id) return;
+      semesters = semesters.filter(x => x.id !== id);
+      // Re-number remaining default semester names
+      semesters.forEach((s, idx) => {
+        if (!s.name || s.name.startsWith('Semester ')) {
+          s.name = `Semester ${idx + 1}`;
+        }
+      });
+      renderQuickSemesters();
+    });
+
+    document.getElementById(`${idPrefix}-quick-add-sem-btn`)?.addEventListener('click', () => {
+      const nextNum = semesters.length + 1;
+      semesters.push({
+        id: uid(),
+        name: `Semester ${nextNum}`,
+        sgpa: null,
+        credits: null
+      });
+      renderQuickSemesters();
+    });
+
+    document.getElementById(`${idPrefix}-quick-sample-btn`)?.addEventListener('click', () => {
+      semesters = JSON.parse(JSON.stringify(sampleSemesters));
+      renderQuickSemesters();
+    });
+
+    document.getElementById(`${idPrefix}-quick-reset-btn`)?.addEventListener('click', () => {
+      semesters = createBlankSemesters();
+      renderQuickSemesters();
+    });
+
+    // -------------------------------------------------------------
+    // CALCULATE CGPA FROM SUBJECTS LOGIC (Preserved & Intact)
+    // -------------------------------------------------------------
     const defaultSubjects = [
       { id: uid(), name: 'Engineering Mathematics', grade: 'O', point: 10, credits: 4 },
       { id: uid(), name: 'Data Structures & Algorithms', grade: 'A+', point: 9, credits: 4 },
@@ -371,15 +855,6 @@ const { idPrefix = 'cgpa' } = Astro.props;
     const footerCreditsEl = document.getElementById(`${idPrefix}-footer-credits`);
     const footerPointsEl = document.getElementById(`${idPrefix}-footer-points`);
     const breakdownEl = document.getElementById(`${idPrefix}-breakdown-text`);
-
-    function getStanding(cgpa) {
-      if (cgpa >= 8.5) return { text: 'First Class with Distinction', class: 'badge-green' };
-      if (cgpa >= 6.75) return { text: 'First Class', class: 'badge-blue' };
-      if (cgpa >= 5.75) return { text: 'Higher Second Class', class: 'badge-amber' };
-      if (cgpa >= 5.0) return { text: 'Second Class', class: 'badge-amber' };
-      if (cgpa >= 4.0) return { text: 'Pass Class', class: 'badge-blue' };
-      return { text: 'Remedial / Fail', class: 'badge-red' };
-    }
 
     function renderRows() {
       if (!tbody) return;
@@ -411,10 +886,10 @@ const { idPrefix = 'cgpa' } = Astro.props;
           </td>
           <td class="td-cgpa-credits" style="padding: 0.5rem 0.75rem;">
             <span class="mobile-input-label">Credits</span>
-            <input type="number" step="0.5" min="0" max="12" class="form-input form-input-mono subj-credits-input" data-id="${subj.id}" value="${subj.credits || ''}" placeholder="Credits" />
+            <input type="number" step="0.5" min="0" max="15" class="form-input form-input-mono subj-credits-input" data-id="${subj.id}" value="${subj.credits || ''}" placeholder="Credits" />
           </td>
           <td class="td-cgpa-pts-earned" style="padding: 0.5rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--color-ink);">
-            <span class="mobile-input-label">Weighted Pts</span>
+            <span class="mobile-input-label">Credit Points</span>
             <span>${ptsEarned}</span>
           </td>
           <td class="td-cgpa-del" style="padding: 0.5rem 0.75rem; text-align: right;">
@@ -536,7 +1011,6 @@ const { idPrefix = 'cgpa' } = Astro.props;
         s.name = target.value;
       } else if (target.classList.contains('subj-point-input')) {
         s.point = target.value === '' ? null : Math.min(10, Math.max(0, parseFloat(target.value) || 0));
-        // Match grade dropdown
         const matched = UGC_GRADES.find(g => g.point === s.point);
         s.grade = matched ? matched.letter : 'custom';
         const select = tbody.querySelector(`.subj-grade-select[data-id="${id}"]`);
@@ -545,7 +1019,6 @@ const { idPrefix = 'cgpa' } = Astro.props;
         s.credits = target.value === '' ? null : parseFloat(target.value) || 0;
       }
 
-      // Update row points earned text
       const ptsCell = target.closest('tr')?.querySelector('.td-cgpa-pts-earned span:not(.mobile-input-label)');
       if (ptsCell) {
         ptsCell.textContent = ((s.point || 0) * (s.credits || 0)).toFixed(1);
@@ -617,7 +1090,12 @@ const { idPrefix = 'cgpa' } = Astro.props;
       renderRows();
     });
 
-    // Initial load
-    renderRows();
+    // Listen for tab switch to reset to initial option selector view
+    window.addEventListener('gradecalc:cgpa-reset-view', () => {
+      setView('selector');
+    });
+
+    // Initial load starts at Selector view
+    setView('selector');
   })();
 </script>
