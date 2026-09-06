@@ -81,7 +81,10 @@ const ogLocales: Record<string, string> = {
 
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+		<link rel="icon" type="image/png" sizes="192x192" href="/web-app-manifest-192x192.png" />
+		<link rel="icon" type="image/png" sizes="512x512" href="/web-app-manifest-512x512.png" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="shortcut icon" href="/favicon.ico" />
 		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -100,27 +103,39 @@ const ogLocales: Record<string, string> = {
 			<link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
 		))}
 		
-		<!-- Open Graph / Social Sharing (WhatsApp, Instagram, Telegram, Facebook) -->
+		<!-- Open Graph / Social Sharing (WhatsApp, Instagram, Telegram, Facebook, iMessage) -->
 		<meta property="og:type" content="website" />
-		<meta property="og:site_name" content="GradeCalculatorFinalX" />
+		<meta property="og:site_name" content="Final Grade Calculator" />
 		<meta property="og:url" content={canonicalUrl} />
 		<meta property="og:locale" content={ogLocales[currentLang] || 'en_US'} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
+
+		<!-- Landscape Social Preview (1200x630) -->
 		<meta property="og:image" content="https://gradecalculatorfinalx.com/og-image.png" />
 		<meta property="og:image:secure_url" content="https://gradecalculatorfinalx.com/og-image.png" />
 		<meta property="og:image:width" content="1200" />
 		<meta property="og:image:height" content="630" />
 		<meta property="og:image:type" content="image/png" />
-		<meta property="og:image:alt" content="GradeCalculatorFinalX - Free Academic Grade Planner" />
-		<link rel="image_src" href="https://gradecalculatorfinalx.com/og-image.png" />
+		<meta property="og:image:alt" content="Final Grade Calculator - Weighted Grades, Final Exam & GPA" />
+
+		<!-- Dedicated Square Thumbnail for WhatsApp / Telegram / Chat Previews (600x600) -->
+		<meta property="og:image" content="https://gradecalculatorfinalx.com/og-image-square.png" />
+		<meta property="og:image:secure_url" content="https://gradecalculatorfinalx.com/og-image-square.png" />
+		<meta property="og:image:width" content="600" />
+		<meta property="og:image:height" content="600" />
+		<meta property="og:image:type" content="image/png" />
+		<meta property="og:image:alt" content="Final Grade Calculator" />
+
+		<!-- Mobile & Scraper Thumbnail Fallback -->
+		<link rel="image_src" href="https://gradecalculatorfinalx.com/og-image-square.png" />
 		
 		<!-- Twitter Card -->
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content="https://gradecalculatorfinalx.com/og-image.png" />
-		<meta name="twitter:image:alt" content="GradeCalculatorFinalX - Free Academic Grade Planner" />
+		<meta name="twitter:image:alt" content="Final Grade Calculator - Weighted Grades, Final Exam & GPA" />
 
 		<!-- JSON-LD Structured Data -->
 		<script type="application/ld+json" is:inline set:html={JSON.stringify({
