@@ -58,7 +58,7 @@ export function getAlternateUrls(pathOrUrl: string, baseUrl = 'https://gradecalc
   }
 
   // Strip any existing language prefix
-  const segments = path.split('/').filter(Boolean);
+  const segments = path.toLowerCase().split('/').filter(Boolean);
   if (segments[0] && segments[0] in languages) {
     segments.shift();
   }

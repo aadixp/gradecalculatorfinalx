@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://gradecalculatorfinalx.com',
+  trailingSlash: 'always',
   integrations: [
     sitemap({
       filter: (page) =>

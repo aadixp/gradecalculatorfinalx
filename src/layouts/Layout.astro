@@ -35,9 +35,9 @@ const {
 	softwareSchema
 } = Astro.props;
 
-const canonicalUrl = canonical || (currentLang === 'en'
-	? `https://gradecalculatorfinalx.com${Astro.url.pathname === '/' ? '/' : (Astro.url.pathname.endsWith('/') ? Astro.url.pathname : Astro.url.pathname + '/')}`
-	: `https://gradecalculatorfinalx.com${Astro.url.pathname.endsWith('/') ? Astro.url.pathname : Astro.url.pathname + '/'}`);
+const rawPath = Astro.url.pathname.toLowerCase();
+const canonicalPath = rawPath === '/' ? '/' : (rawPath.endsWith('/') ? rawPath : rawPath + '/');
+const canonicalUrl = canonical || `https://gradecalculatorfinalx.com${canonicalPath}`;
 const alternateUrls = getAlternateUrls(canonicalUrl);
 
 const ogLocales: Record<string, string> = {
@@ -153,12 +153,18 @@ const ogLocales: Record<string, string> = {
 				},
 				...(breadcrumbs && breadcrumbs.length > 0 ? [{
 					"@type": "BreadcrumbList",
-					"itemListElement": breadcrumbs.map((b, idx) => ({
-						"@type": "ListItem",
-						"position": idx + 1,
-						"name": b.name,
-						"item": b.item.startsWith('http') ? b.item : `https://gradecalculatorfinalx.com${b.item === '/' ? '/' : (b.item.endsWith('/') ? b.item : b.item)}`
-					}))
+					"itemListElement": breadcrumbs.map((b, idx) => {
+						const cleanItem = b.item.toLowerCase();
+						const formattedItem = cleanItem.startsWith('http')
+							? cleanItem
+							: `https://gradecalculatorfinalx.com${cleanItem === '/' ? '/' : (cleanItem.endsWith('/') ? cleanItem : cleanItem + '/')}`;
+						return {
+							"@type": "ListItem",
+							"position": idx + 1,
+							"name": b.name,
+							"item": formattedItem
+						};
+					})
 				}] : []),
 				...(faqSchema && faqSchema.length > 0 ? [{
 					"@type": "FAQPage",
