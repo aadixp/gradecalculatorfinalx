@@ -8,7 +8,9 @@ const __dirname = path.dirname(__filename);
 const publicDir = path.resolve(__dirname, '../public');
 const iconPath = path.join(publicDir, 'web-app-manifest-512x512.png');
 const ogBannerPath = path.join(publicDir, 'og-image.png');
+const ogBannerV2Path = path.join(publicDir, 'og-image-v2.png');
 const ogSquarePath = path.join(publicDir, 'og-image-square.png');
+const ogSquareV2Path = path.join(publicDir, 'og-image-square-v2.png');
 const fav32Path = path.join(publicDir, 'favicon-32x32.png');
 
 async function generateSocialAssets() {
@@ -98,7 +100,7 @@ async function generateSocialAssets() {
   </svg>
   `;
 
-  await sharp(Buffer.from(bannerSvg))
+  const bannerBuffer = await sharp(Buffer.from(bannerSvg))
     .composite([
       {
         input: bannerIconBuffer,
@@ -107,8 +109,11 @@ async function generateSocialAssets() {
       }
     ])
     .png({ quality: 95, compressionLevel: 8 })
-    .toFile(ogBannerPath);
-  console.log('✅ Generated public/og-image.png (1200x630)');
+    .toBuffer();
+
+  fs.writeFileSync(ogBannerPath, bannerBuffer);
+  fs.writeFileSync(ogBannerV2Path, bannerBuffer);
+  console.log('✅ Generated public/og-image.png and public/og-image-v2.png (1200x630)');
 
   // 4. Create 600x600 Dedicated Square OG Image for WhatsApp / Telegram / iMessage
   const squareIconBuffer = await sharp(iconPath)
@@ -170,7 +175,7 @@ async function generateSocialAssets() {
   </svg>
   `;
 
-  await sharp(Buffer.from(squareSvg))
+  const squareBuffer = await sharp(Buffer.from(squareSvg))
     .composite([
       {
         input: squareIconBuffer,
@@ -179,8 +184,11 @@ async function generateSocialAssets() {
       }
     ])
     .png({ quality: 95, compressionLevel: 8 })
-    .toFile(ogSquarePath);
-  console.log('✅ Generated public/og-image-square.png (600x600)');
+    .toBuffer();
+
+  fs.writeFileSync(ogSquarePath, squareBuffer);
+  fs.writeFileSync(ogSquareV2Path, squareBuffer);
+  console.log('✅ Generated public/og-image-square.png and public/og-image-square-v2.png (600x600)');
 }
 
 generateSocialAssets().catch(console.error);
