@@ -38,14 +38,14 @@ const faqSchema = [
 ---
 
 <Layout
-  title={t('targetgpa.title')}
-  description={t('targetgpa.desc')}
+  title={t('targetgpa.pageTitle') || t('targetgpa.title')}
+  description={t('targetgpa.pageDesc') || t('targetgpa.desc')}
   breadcrumbs={breadcrumbs}
   faqSchema={faqSchema}
   lang={lang}
   softwareSchema={{
-    name: t('menu.target_gpa'),
-    description: t('targetgpa.desc'),
+    name: t('targetgpa.h1') || t('menu.target_gpa'),
+    description: t('targetgpa.pageDesc') || t('targetgpa.desc'),
     applicationCategory: "EducationalApplication"
   }}
 >
@@ -55,7 +55,7 @@ const faqSchema = [
       <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
         <a href={translatePath('/')} style="color: var(--color-mute); text-decoration: none;" data-i18n="nav.home">{t('nav.home')}</a>
         <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
-        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="menu.target_gpa">{t('menu.target_gpa')}</span>
+        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="targetgpa.h1">{t('targetgpa.h1')}</span>
       </nav>
       <div style="display: flex; gap: 0.5rem;">
         <a href={translatePath('/target-cgpa-calculator')} class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;">
@@ -67,8 +67,8 @@ const faqSchema = [
     <!-- Header Section -->
     <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.5rem;">
       <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;" data-i18n="targetgpa.eyebrow">{t('targetgpa.eyebrow')}</span>
-      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="targetgpa.title">
-        {t('targetgpa.title')}
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="targetgpa.h1">
+        {t('targetgpa.h1')}
       </h1>
       <p style="font-size: 1.05rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6; max-width: 780px;" data-i18n="targetgpa.desc">
         {t('targetgpa.desc')}

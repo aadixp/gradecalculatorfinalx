@@ -16,6 +16,25 @@ const breadcrumbs = [
   { name: t('page.home'), item: translatePath('/') },
   { name: t('sgpa.h1'), item: translatePath('/semester-gpa-calculator') }
 ];
+
+const faqSchema = [
+  {
+    question: "What is the difference between Semester GPA and Cumulative GPA?",
+    answer: "Semester GPA (also called Term GPA) measures your academic performance solely during a single academic term (fall, spring, or summer). Cumulative GPA represents the credit-weighted average of all courses completed throughout your entire college or university career."
+  },
+  {
+    question: "What Semester GPA do I need to make the Dean's List?",
+    answer: "At most US colleges and universities, making the Dean's List requires earning a minimum Semester GPA between 3.50 and 3.75 on a 4.0 scale, while being enrolled in at least 12 graded credit hours (full-time status) with no failing or incomplete grades."
+  },
+  {
+    question: "How do Pass/Fail or Withdrawn (W) classes affect my Semester GPA?",
+    answer: "Courses taken on a Pass/Fail or Credit/No Credit basis award credits toward graduation but carry zero grade point value, so they do not impact your GPA. Withdrawn (W) courses carry neither credits nor quality points and have zero impact on your semester GPA."
+  },
+  {
+    question: "Can one bad semester ruin my overall college GPA?",
+    answer: "A difficult semester lowers your cumulative GPA more significantly early in college when your total completed credits are low. As you accumulate 60+ credit hours, each individual term has a smaller proportional mathematical impact. You can use our Target GPA Calculator to plan your academic recovery."
+  }
+];
 ---
 
 <Layout
@@ -23,6 +42,7 @@ const breadcrumbs = [
   description={t('sgpa.pageDesc')}
   lang={lang}
   breadcrumbs={breadcrumbs}
+  faqSchema={faqSchema}
   softwareSchema={{
     name: t('sgpa.h1'),
     description: t('sgpa.pageDesc'),
@@ -157,6 +177,67 @@ const breadcrumbs = [
       </div>
     </div>
 
+    <!-- Educational Guide & Formula Section -->
+    <article class="geist-card" style="padding: 2.25rem 2rem; line-height: 1.75; color: var(--color-body); margin-bottom: 2rem;">
+      <h2 class="heading-md" style="color: var(--color-ink); font-size: 1.35rem; margin-bottom: 1rem;">
+        How Semester GPA is Calculated
+      </h2>
+      <p style="margin-bottom: 1rem;">
+        Semester GPA (also called Term GPA) reflects your academic standing for a single term. It is determined by calculating the <strong>quality points</strong> earned in each course, adding them together, and dividing by your total attempted semester credits:
+      </p>
+
+      <div style="background: var(--color-canvas-subtle); padding: 1rem 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline); font-family: var(--font-mono); font-size: 0.875rem; margin-bottom: 1.25rem; color: var(--color-blue);">
+        Semester GPA = &Sigma;(Course Credit Hours &times; Grade Points) &divide; &Sigma;(Total Attempted Term Credits)
+      </div>
+
+      <h3 class="heading-md" style="font-size: 1.15rem; color: var(--color-ink); margin-bottom: 0.75rem;">
+        Step-by-Step Semester GPA Calculation Example
+      </h3>
+      <p style="margin-bottom: 1rem;">
+        Suppose a full-time university student completes 4 courses during the fall semester:
+      </p>
+
+      <ul style="padding-left: 1.25rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.35rem;">
+        <li><strong>Linear Algebra (4 credits):</strong> Grade A (4.00) &rarr; 4 &times; 4.00 = <strong>16.0 quality points</strong></li>
+        <li><strong>Physics I (4 credits):</strong> Grade A- (3.70) &rarr; 4 &times; 3.70 = <strong>14.8 quality points</strong></li>
+        <li><strong>Computer Architecture (3 credits):</strong> Grade A (4.00) &rarr; 3 &times; 4.00 = <strong>12.0 quality points</strong></li>
+        <li><strong>Academic Writing (3 credits):</strong> Grade B+ (3.30) &rarr; 3 &times; 3.30 = <strong>9.9 quality points</strong></li>
+      </ul>
+
+      <p style="margin-bottom: 1.25rem;">
+        <strong>Total Quality Points:</strong> 16.0 + 14.8 + 12.0 + 9.9 = <strong>52.7 points</strong><br />
+        <strong>Total Completed Term Credits:</strong> 4 + 4 + 3 + 3 = <strong>14 credit hours</strong><br />
+        <strong>Resulting Semester GPA:</strong> 52.7 &divide; 14 = <strong style="color: var(--color-ink);">3.76</strong> (Dean's List Standing)
+      </p>
+
+      <h3 class="heading-md" style="font-size: 1.15rem; color: var(--color-ink); margin-bottom: 0.75rem;">
+        Dean's List & Academic Standing Benchmarks
+      </h3>
+      <p style="margin-bottom: 0.75rem;">
+        Colleges classify term academic standing into standard performance tiers based on semester GPA:
+      </p>
+      <ul style="padding-left: 1.25rem; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.35rem;">
+        <li><strong>Dean's List / High Honors:</strong> 3.50 – 4.00 Semester GPA (requires full-time enrollment of at least 12 graded credit hours).</li>
+        <li><strong>Good Academic Standing:</strong> 2.00 – 3.49 Semester GPA.</li>
+        <li><strong>Academic Warning / Probation:</strong> Below 2.00 Semester GPA (requires academic advising and GPA recovery plan).</li>
+      </ul>
+    </article>
+
+    <!-- FAQs -->
+    <section class="faq-card" style="margin-bottom: 3rem;">
+      <h2 class="heading-md" style="margin-bottom: 1.25rem; color: var(--color-ink);">
+        Frequently Asked Questions
+      </h2>
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        {faqSchema.map((faq) => (
+          <div class="faq-item">
+            <div class="faq-question">{faq.question}</div>
+            <div class="faq-answer">{faq.answer}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+
     <!-- Related Links -->
     <section>
       <h3 class="heading-md" style="margin-bottom: 1rem; color: var(--color-ink);" data-i18n="page.relatedCalculators">{t('page.relatedCalculators')}</h3>
@@ -168,6 +249,10 @@ const breadcrumbs = [
         <a href={translatePath('/target-gpa-calculator')} class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
           <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="targetgpa.h1">{t('targetgpa.h1')}</h4>
           <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;" data-i18n="targetgpa.lead">{t('targetgpa.lead')}</p>
+        </a>
+        <a href={translatePath('/weighted-grade-calculator')} class="geist-card" style="padding: 1.25rem; text-decoration: none; display: block;">
+          <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;" data-i18n="menu.weightedGrade">{t('menu.weightedGrade')}</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-mute); line-height: 1.4;">Calculate weighted coursework standing and individual assignment scores.</p>
         </a>
       </div>
     </section>

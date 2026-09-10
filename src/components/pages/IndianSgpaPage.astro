@@ -38,14 +38,14 @@ const faqSchema = [
 ---
 
 <Layout
-  title={t('isgpa.title')}
-  description={t('isgpa.desc')}
+  title={t('isgpa.pageTitle') || t('isgpa.title')}
+  description={t('isgpa.pageDesc') || t('isgpa.desc')}
   breadcrumbs={breadcrumbs}
   faqSchema={faqSchema}
   lang={lang}
   softwareSchema={{
-    name: t('menu.isgpa'),
-    description: t('isgpa.desc'),
+    name: t('isgpa.h1') || t('menu.isgpa'),
+    description: t('isgpa.pageDesc') || t('isgpa.desc'),
     applicationCategory: "EducationalApplication"
   }}
 >
@@ -55,7 +55,7 @@ const faqSchema = [
       <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
         <a href={translatePath('/')} style="color: var(--color-mute); text-decoration: none;" data-i18n="nav.home">{t('nav.home')}</a>
         <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
-        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="menu.isgpa">{t('menu.isgpa')}</span>
+        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="isgpa.h1">{t('isgpa.h1')}</span>
       </nav>
       <div style="display: flex; gap: 0.5rem;">
         <a href={translatePath('/indian-cgpa-calculator')} class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;">
@@ -70,8 +70,8 @@ const faqSchema = [
     <!-- Header Section -->
     <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.5rem;">
       <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;" data-i18n="isgpa.eyebrow">{t('isgpa.eyebrow')}</span>
-      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="isgpa.title">
-        {t('isgpa.title')}
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="isgpa.h1">
+        {t('isgpa.h1')}
       </h1>
       <p style="font-size: 1.05rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6; max-width: 780px;" data-i18n="isgpa.desc">
         {t('isgpa.desc')}
@@ -105,6 +105,36 @@ const faqSchema = [
         <li><strong data-i18n="isgpa.c1_label">{t('isgpa.c1_label')}</strong></li>
         <li><strong data-i18n="isgpa.g1_label">{t('isgpa.g1_label')}</strong></li>
       </ul>
+
+      <h3 class="heading-md" style="font-size: 1.15rem; color: var(--color-ink); margin-top: 1.5rem; margin-bottom: 0.75rem;">
+        Standard UGC 10-Point CBCS Grading Scale
+      </h3>
+      <p style="margin-bottom: 1rem; font-size: 0.9375rem;">
+        The University Grants Commission (UGC) Choice Based Credit System (CBCS) prescribes the following standard 10-point letter grade and grade point structure:
+      </p>
+      <div style="overflow-x: auto; margin-bottom: 1.5rem;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem; text-align: left;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--color-hairline); color: var(--color-ink);">
+              <th style="padding: 0.5rem 0.75rem;">Letter Grade</th>
+              <th style="padding: 0.5rem 0.75rem;">Grade Point (10.0)</th>
+              <th style="padding: 0.5rem 0.75rem;">Marks Percentage Range</th>
+              <th style="padding: 0.5rem 0.75rem;">Performance Description</th>
+            </tr>
+          </thead>
+          <tbody style="font-family: var(--font-mono); font-size: 0.8125rem;">
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);"><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-ink);">O</td><td style="padding: 0.45rem 0.75rem;">10</td><td style="padding: 0.45rem 0.75rem;">90% – 100%</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-green); font-weight: 600;">Outstanding</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);"><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-ink);">A+</td><td style="padding: 0.45rem 0.75rem;">9</td><td style="padding: 0.45rem 0.75rem;">80% – 89%</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-green);">Excellent</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);"><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-ink);">A</td><td style="padding: 0.45rem 0.75rem;">8</td><td style="padding: 0.45rem 0.75rem;">70% – 79%</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-blue);">Very Good</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);"><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-ink);">B+</td><td style="padding: 0.45rem 0.75rem;">7</td><td style="padding: 0.45rem 0.75rem;">60% – 69%</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-blue);">Good (First Class Cutoff)</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);"><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-ink);">B</td><td style="padding: 0.45rem 0.75rem;">6</td><td style="padding: 0.45rem 0.75rem;">55% – 59%</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-amber);">Above Average</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);"><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-ink);">C</td><td style="padding: 0.45rem 0.75rem;">5</td><td style="padding: 0.45rem 0.75rem;">50% – 54%</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-amber);">Average</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);"><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-ink);">P</td><td style="padding: 0.45rem 0.75rem;">4</td><td style="padding: 0.45rem 0.75rem;">40% – 49%</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-mute);">Pass</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);"><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-red);">F</td><td style="padding: 0.45rem 0.75rem;">0</td><td style="padding: 0.45rem 0.75rem;">Below 40%</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-red);">Fail (Arrear / Backlog)</td></tr>
+            <tr><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-red);">Ab</td><td style="padding: 0.45rem 0.75rem;">0</td><td style="padding: 0.45rem 0.75rem;">--</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-red);">Absent</td></tr>
+          </tbody>
+        </table>
+      </div>
 
       <h3 class="heading-md" style="font-size: 1.15rem; color: var(--color-ink); margin-bottom: 0.75rem;" data-i18n="isgpa.impact_heading">
         {t('isgpa.impact_heading')}

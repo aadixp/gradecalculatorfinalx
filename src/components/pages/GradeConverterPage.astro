@@ -38,14 +38,14 @@ const faqSchema = [
 ---
 
 <Layout
-  title={t('converter.title')}
-  description={t('converter.desc')}
+  title={t('converter.pageTitle') || t('converter.title')}
+  description={t('converter.pageDesc') || t('converter.desc')}
   breadcrumbs={breadcrumbs}
   faqSchema={faqSchema}
   lang={lang}
   softwareSchema={{
-    name: t('menu.converter'),
-    description: t('converter.desc'),
+    name: t('converter.h1') || t('menu.converter'),
+    description: t('converter.pageDesc') || t('converter.desc'),
     applicationCategory: "EducationalApplication"
   }}
 >
@@ -55,7 +55,7 @@ const faqSchema = [
       <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
         <a href={translatePath('/')} style="color: var(--color-mute); text-decoration: none;" data-i18n="nav.home">{t('nav.home')}</a>
         <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
-        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="menu.converter">{t('menu.converter')}</span>
+        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="converter.h1">{t('converter.h1')}</span>
       </nav>
       <div style="display: flex; gap: 0.5rem;">
         <a href={translatePath('/cgpa-to-percentage')} class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;">
@@ -67,8 +67,8 @@ const faqSchema = [
     <!-- Header Section -->
     <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.5rem;">
       <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.35rem;" data-i18n="converter.eyebrow">{t('converter.eyebrow')}</span>
-      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="converter.title">
-        {t('converter.title')}
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="converter.h1">
+        {t('converter.h1')}
       </h1>
       <p style="font-size: 1.05rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6; max-width: 780px;" data-i18n="converter.desc">
         {t('converter.desc')}

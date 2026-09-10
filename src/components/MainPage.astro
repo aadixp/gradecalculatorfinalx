@@ -502,96 +502,176 @@ const pageDescription = description || t('site.description');
     </div>
   </section>
 
-  <!-- Platform Resources & Trust Center Section (Visible on Homepage) -->
-  <section class="container trust-section" style="max-width: 1040px; margin-bottom: 4rem;">
-    <div style="text-align: center; margin-bottom: 1.75rem;">
-      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;" data-i18n="trust.eyebrow">{t('trust.eyebrow')}</span>
-      <h2 class="heading-lg" style="margin-top: 0.25rem; font-size: 1.5rem;" data-i18n="trust.title">
-        {t('trust.title')}
+  <!-- Academic Calculators Suite Directory (High-Value Internal Linking Architecture) -->
+  <section class="container" style="max-width: 1040px; margin-bottom: 4rem;">
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <span class="mono-eyebrow" style="color: var(--color-blue); margin-bottom: 0.25rem;">Academic Toolkit Directory</span>
+      <h2 class="heading-lg" style="margin-top: 0.25rem; font-size: clamp(1.4rem, 3vw, 1.85rem); color: var(--color-ink);">
+        All Academic Calculators & Planning Tools
       </h2>
-      <p style="font-size: 0.875rem; color: var(--color-mute); max-width: 600px; margin: 0.35rem auto 0;" data-i18n="trust.subtitle">
-        {t('trust.subtitle')}
+      <p style="font-size: 0.875rem; color: var(--color-mute); max-width: 680px; margin: 0.35rem auto 0; line-height: 1.5;">
+        Access our complete suite of dedicated, standalone calculators for coursework weighting, final exam targets, collegiate GPA, and Indian UGC CBCS degree classification.
       </p>
     </div>
 
-    <div class="trust-cards-grid">
-      <!-- About GradeCalc Card -->
-      <a href={translatePath('/about')} class="geist-card trust-card">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+      <!-- 1. Weighted Grade Calculator -->
+      <a href={translatePath('/weighted-grade-calculator')} class="geist-card trust-card" style="text-decoration: none; display: flex; flex-direction: column; justify-content: space-between;">
         <div>
           <div class="trust-card-icon" style="color: var(--color-blue);">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="16" x2="12" y2="12"></line>
-              <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
           </div>
-          <h3 class="trust-card-title" data-i18n="nav.about">{t('nav.about')}</h3>
-          <p class="trust-card-desc" data-i18n="trust.aboutDesc">
-            {t('trust.aboutDesc')}
-          </p>
+          <h3 class="trust-card-title">{t('menu.weightedGrade')}</h3>
+          <p class="trust-card-desc">Calculate course standing by weighting syllabus assignments, homework, and midterm categories.</p>
         </div>
-        <span class="trust-card-link" data-i18n="trust.readStory">
-          {t('trust.readStory')}
-        </span>
+        <span class="trust-card-link">Open Calculator &rarr;</span>
       </a>
 
-      <!-- Privacy Policy Card -->
-      <a href={translatePath('/privacy-policy')} class="geist-card trust-card">
+      <!-- 2. Final Exam Calculator -->
+      <a href={translatePath('/final-exam-calculator')} class="geist-card trust-card" style="text-decoration: none; display: flex; flex-direction: column; justify-content: space-between;">
         <div>
           <div class="trust-card-icon" style="color: var(--color-emerald);">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-            </svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
           </div>
-          <h3 class="trust-card-title" data-i18n="nav.privacy">{t('nav.privacy')}</h3>
-          <p class="trust-card-desc" data-i18n="trust.privacyDesc">
-            {t('trust.privacyDesc')}
-          </p>
+          <h3 class="trust-card-title">{t('menu.finalExam')}</h3>
+          <p class="trust-card-desc">Determine the exact score required on your final exam to secure your desired course letter grade.</p>
         </div>
-        <span class="trust-card-link" data-i18n="trust.viewPrivacy">
-          {t('trust.viewPrivacy')}
-        </span>
+        <span class="trust-card-link">Open Calculator &rarr;</span>
       </a>
 
-      <!-- Terms & Conditions Card -->
-      <a href={translatePath('/terms-and-conditions')} class="geist-card trust-card">
+      <!-- 3. College GPA Calculator -->
+      <a href={translatePath('/gpa-calculator')} class="geist-card trust-card" style="text-decoration: none; display: flex; flex-direction: column; justify-content: space-between;">
         <div>
-          <div class="trust-card-icon" style="color: var(--color-amber);">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-              <polyline points="10 9 9 9 8 9"></polyline>
-            </svg>
+          <div class="trust-card-icon" style="color: var(--color-cyan);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
           </div>
-          <h3 class="trust-card-title" data-i18n="nav.terms">{t('nav.terms')}</h3>
-          <p class="trust-card-desc" data-i18n="trust.termsDesc">
-            {t('trust.termsDesc')}
-          </p>
+          <h3 class="trust-card-title">{t('menu.gpa')}</h3>
+          <p class="trust-card-desc">Calculate cumulative college GPA on 4.0 and 5.0 scales with Honors (+0.5) and AP (+1.0) quality points.</p>
         </div>
-        <span class="trust-card-link" data-i18n="trust.reviewTerms">
-          {t('trust.reviewTerms')}
-        </span>
+        <span class="trust-card-link">Open Calculator &rarr;</span>
       </a>
 
-      <!-- Contact Us Card -->
-      <a href={translatePath('/contact')} class="geist-card trust-card">
+      <!-- 4. Semester GPA Calculator -->
+      <a href={translatePath('/semester-gpa-calculator')} class="geist-card trust-card" style="text-decoration: none; display: flex; flex-direction: column; justify-content: space-between;">
         <div>
           <div class="trust-card-icon" style="color: var(--color-violet);">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-            </svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           </div>
-          <h3 class="trust-card-title" data-i18n="nav.contact">{t('nav.contact')}</h3>
-          <p class="trust-card-desc" data-i18n="trust.contactDesc">
-            {t('trust.contactDesc')}
-          </p>
+          <h3 class="trust-card-title">{t('menu.semesterGpa')}</h3>
+          <p class="trust-card-desc">Compute single-term semester GPA, quality points, and verify Dean's List academic standing.</p>
         </div>
-        <span class="trust-card-link" data-i18n="trust.getInTouch">
-          {t('trust.getInTouch')}
-        </span>
+        <span class="trust-card-link">Open Calculator &rarr;</span>
       </a>
+
+      <!-- 5. Target GPA Calculator -->
+      <a href={translatePath('/target-gpa-calculator')} class="geist-card trust-card" style="text-decoration: none; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div class="trust-card-icon" style="color: var(--color-amber);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          </div>
+          <h3 class="trust-card-title">{t('menu.targetGpa')}</h3>
+          <p class="trust-card-desc">Calculate the future GPA required across remaining credit hours to raise your cumulative GPA to your goal.</p>
+        </div>
+        <span class="trust-card-link">Open Calculator &rarr;</span>
+      </a>
+
+      <!-- 6. Target CGPA Planner -->
+      <a href={translatePath('/target-cgpa-calculator')} class="geist-card trust-card" style="text-decoration: none; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div class="trust-card-icon" style="color: var(--color-rose);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
+          </div>
+          <h3 class="trust-card-title">{t('menu.targetCgpa')}</h3>
+          <p class="trust-card-desc">Plan required future semester SGPAs on a 10.0 scale to graduate with your target CGPA benchmark.</p>
+        </div>
+        <span class="trust-card-link">Open Calculator &rarr;</span>
+      </a>
+
+      <!-- 7. Indian CGPA Calculator (UGC 10.0) -->
+      <a href={translatePath('/indian-cgpa-calculator')} class="geist-card trust-card" style="text-decoration: none; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div class="trust-card-icon" style="color: var(--color-blue);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+          <h3 class="trust-card-title">{t('menu.indianCgpa')}</h3>
+          <p class="trust-card-desc">Calculate Indian university CGPA under official UGC and AICTE Choice Based Credit System (CBCS) rules.</p>
+        </div>
+        <span class="trust-card-link">Open Calculator &rarr;</span>
+      </a>
+
+      <!-- 8. Indian SGPA Calculator -->
+      <a href={translatePath('/indian-sgpa-calculator')} class="geist-card trust-card" style="text-decoration: none; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div class="trust-card-icon" style="color: var(--color-emerald);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <h3 class="trust-card-title">{t('menu.indianSgpa')}</h3>
+          <p class="trust-card-desc">Calculate single-semester SGPA using standard 10-point letter grades (O, A+, A, B+, B, C, P, F).</p>
+        </div>
+        <span class="trust-card-link">Open Calculator &rarr;</span>
+      </a>
+
+      <!-- 9. Semester-Wise CGPA Calculator -->
+      <a href={translatePath('/semester-cgpa-calculator')} class="geist-card trust-card" style="text-decoration: none; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div class="trust-card-icon" style="color: var(--color-violet);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <h3 class="trust-card-title">{t('menu.semesterCgpa')}</h3>
+          <p class="trust-card-desc">Enter SGPAs and credit hours across semesters 1 to 8 to calculate cumulative multi-term progression.</p>
+        </div>
+        <span class="trust-card-link">Open Calculator &rarr;</span>
+      </a>
+
+      <!-- 10. CGPA to Percentage Calculator -->
+      <a href={translatePath('/cgpa-to-percentage')} class="geist-card trust-card" style="text-decoration: none; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div class="trust-card-icon" style="color: var(--color-cyan);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+          </div>
+          <h3 class="trust-card-title">{t('menu.cgpaToPercentage')}</h3>
+          <p class="trust-card-desc">Convert 10.0 CGPA to percentage using AICTE 9.5x standard, VTU, Mumbai University, and CBSE rules.</p>
+        </div>
+        <span class="trust-card-link">Open Calculator &rarr;</span>
+      </a>
+
+      <!-- 11. Percentage to CGPA Calculator -->
+      <a href={translatePath('/percentage-to-cgpa')} class="geist-card trust-card" style="text-decoration: none; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div class="trust-card-icon" style="color: var(--color-amber);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7 1 3 5 7 9"/><path d="M21 11V9a4 4 0 0 0-4-4H3"/><polyline points="17 23 21 19 17 15"/><path d="M3 13v2a4 4 0 0 0 4 4h14"/></svg>
+          </div>
+          <h3 class="trust-card-title">{t('menu.percentageToCgpa')}</h3>
+          <p class="trust-card-desc">Convert aggregate percentage marks into equivalent 10-point CGPA with reference equivalence tables.</p>
+        </div>
+        <span class="trust-card-link">Open Calculator &rarr;</span>
+      </a>
+
+      <!-- 12. Grade Conversion Matrix -->
+      <a href={translatePath('/grade-converter')} class="geist-card trust-card" style="text-decoration: none; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div class="trust-card-icon" style="color: var(--color-rose);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+          </div>
+          <h3 class="trust-card-title">{t('menu.gradeConverter')}</h3>
+          <p class="trust-card-desc">Compare and convert grades across US 4.0, Canadian, Indian 10.0 UGC, UK Honours, and ECTS systems.</p>
+        </div>
+        <span class="trust-card-link">Open Calculator &rarr;</span>
+      </a>
+    </div>
+
+    <!-- Platform Information & Trust Notice (Compact & Secondary) -->
+    <div style="margin-top: 2rem; padding: 1.25rem 1.5rem; background: var(--color-canvas-subtle); border: 1px solid var(--color-hairline); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <span style="font-weight: 600; font-size: 0.875rem; color: var(--color-ink);">{t('site.title')}</span>
+        <p style="font-size: 0.8125rem; color: var(--color-mute); margin-top: 0.2rem;">All calculations run 100% locally in your browser. No grades, coursework, or academic profiles are ever uploaded or stored externally.</p>
+      </div>
+      <div style="display: flex; gap: 1rem; font-size: 0.8125rem;">
+        <a href={translatePath('/about')} style="color: var(--color-body); text-decoration: none;">{t('nav.about')}</a>
+        <a href={translatePath('/privacy-policy')} style="color: var(--color-body); text-decoration: none;">{t('nav.privacy')}</a>
+        <a href={translatePath('/terms-and-conditions')} style="color: var(--color-body); text-decoration: none;">{t('nav.terms')}</a>
+        <a href={translatePath('/contact')} style="color: var(--color-body); text-decoration: none;">{t('nav.contact')}</a>
+      </div>
     </div>
   </section>
 </Layout>

@@ -5,10 +5,48 @@ import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/util
 const currentLang = getLangFromUrl(Astro.url);
 const t = useTranslations(currentLang);
 const translatePath = useTranslatedPath(currentLang);
+
+const calculatorGroups = [
+  {
+    category: t('menu.coreCalculators'),
+    items: [
+      { name: t('menu.weightedGrade'), path: '/weighted-grade-calculator' },
+      { name: t('menu.finalExam'), path: '/final-exam-calculator' },
+      { name: t('menu.gpa'), path: '/gpa-calculator' },
+      { name: t('menu.semesterGpa'), path: '/semester-gpa-calculator' },
+    ]
+  },
+  {
+    category: t('menu.indianGrading'),
+    items: [
+      { name: t('menu.indianCgpa'), path: '/indian-cgpa-calculator' },
+      { name: t('menu.indianSgpa'), path: '/indian-sgpa-calculator' },
+      { name: t('menu.cgpaToPercentage'), path: '/cgpa-to-percentage' },
+      { name: t('menu.percentageToCgpa'), path: '/percentage-to-cgpa' },
+      { name: t('menu.semesterCgpa'), path: '/semester-cgpa-calculator' },
+    ]
+  },
+  {
+    category: t('menu.planningEquivalences'),
+    items: [
+      { name: t('menu.targetCgpa'), path: '/target-cgpa-calculator' },
+      { name: t('menu.targetGpa'), path: '/target-gpa-calculator' },
+      { name: t('menu.gradeConverter'), path: '/grade-converter' },
+    ]
+  }
+];
 ---
 
-<div class="calc-menu-wrap">
-  <div class="calc-menu-inner" title={t('nav.calculators')}>
+<div class="calc-menu-wrap" id="calc-menu-wrap">
+  <button
+    type="button"
+    class="calc-menu-inner"
+    id="calc-menu-btn"
+    aria-haspopup="true"
+    aria-expanded="false"
+    aria-controls="calc-menu-popover"
+    title={t('nav.calculators')}
+  >
     <!-- Grid/Menu Icon -->
     <svg class="calc-menu-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <rect x="3" y="3" width="7" height="7"></rect>
@@ -24,40 +62,66 @@ const translatePath = useTranslatedPath(currentLang);
     <svg class="calc-menu-chevron" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <polyline points="6 9 12 15 18 9"></polyline>
     </svg>
+  </button>
 
-    <!-- Accessible Native Dropdown Overlay -->
-    <select id="site-calculators-select" class="calc-menu-select-overlay" aria-label="Browse all calculators">
-      <option value="" disabled selected data-i18n="nav.selectCalculator">{t('nav.selectCalculator')}</option>
-      <optgroup label={t('menu.coreCalculators')} data-i18n-label="menu.coreCalculators">
-        <option value={translatePath('/weighted-grade-calculator')} data-i18n="menu.weightedGrade">{t('menu.weightedGrade')}</option>
-        <option value={translatePath('/final-exam-calculator')} data-i18n="menu.finalExam">{t('menu.finalExam')}</option>
-        <option value={translatePath('/gpa-calculator')} data-i18n="menu.gpa">{t('menu.gpa')}</option>
-        <option value={translatePath('/semester-gpa-calculator')} data-i18n="menu.semesterGpa">{t('menu.semesterGpa')}</option>
-      </optgroup>
-      <optgroup label={t('menu.indianGrading')} data-i18n-label="menu.indianGrading">
-        <option value={translatePath('/indian-cgpa-calculator')} data-i18n="menu.indianCgpa">{t('menu.indianCgpa')}</option>
-        <option value={translatePath('/indian-sgpa-calculator')} data-i18n="menu.indianSgpa">{t('menu.indianSgpa')}</option>
-        <option value={translatePath('/cgpa-to-percentage')} data-i18n="menu.cgpaToPercentage">{t('menu.cgpaToPercentage')}</option>
-        <option value={translatePath('/percentage-to-cgpa')} data-i18n="menu.percentageToCgpa">{t('menu.percentageToCgpa')}</option>
-        <option value={translatePath('/semester-cgpa-calculator')} data-i18n="menu.semesterCgpa">{t('menu.semesterCgpa')}</option>
-      </optgroup>
-      <optgroup label={t('menu.planningEquivalences')} data-i18n-label="menu.planningEquivalences">
-        <option value={translatePath('/target-cgpa-calculator')} data-i18n="menu.targetCgpa">{t('menu.targetCgpa')}</option>
-        <option value={translatePath('/target-gpa-calculator')} data-i18n="menu.targetGpa">{t('menu.targetGpa')}</option>
-        <option value={translatePath('/grade-converter')} data-i18n="menu.gradeConverter">{t('menu.gradeConverter')}</option>
-      </optgroup>
-    </select>
+  <!-- Semantic HTML Popover Menu (Direct crawlable <a> links for search engines) -->
+  <div class="calc-menu-popover" id="calc-menu-popover" role="menu" aria-label={t('nav.calculators')}>
+    <div class="calc-menu-popover-inner">
+      {calculatorGroups.map(group => (
+        <div class="calc-group-block">
+          <div class="calc-group-title">{group.category}</div>
+          <div class="calc-group-items">
+            {group.items.map(item => (
+              <a
+                href={translatePath(item.path)}
+                class="calc-dropdown-link"
+                role="menuitem"
+              >
+                {item.name}
+              </a>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
   </div>
 </div>
 
 <script>
-  const calcSelect = document.getElementById('site-calculators-select') as HTMLSelectElement | null;
-  calcSelect?.addEventListener('change', (e) => {
-    const target = e.target as HTMLSelectElement;
-    if (target && target.value) {
-      window.location.href = target.value;
+  const wrap = document.getElementById('calc-menu-wrap');
+  const btn = document.getElementById('calc-menu-btn');
+  const popover = document.getElementById('calc-menu-popover');
+
+  if (wrap && btn && popover) {
+    function toggleMenu(open?: boolean) {
+      const willOpen = open !== undefined ? open : !wrap?.classList.contains('is-open');
+      if (willOpen) {
+        wrap?.classList.add('is-open');
+        btn?.setAttribute('aria-expanded', 'true');
+      } else {
+        wrap?.classList.remove('is-open');
+        btn?.setAttribute('aria-expanded', 'false');
+      }
     }
-  });
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMenu();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!wrap.contains(e.target as Node)) {
+        toggleMenu(false);
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && wrap.classList.contains('is-open')) {
+        toggleMenu(false);
+        btn.focus();
+      }
+    });
+  }
 </script>
 
 <style>
@@ -77,14 +141,16 @@ const translatePath = useTranslatedPath(currentLang);
     background: var(--color-canvas-subtle);
     border: 1px solid var(--color-hairline);
     border-radius: var(--radius-sm);
-    padding: 0 0.5rem;
+    padding: 0 0.55rem;
     gap: 0.35rem;
     cursor: pointer;
     box-sizing: border-box;
+    font-family: inherit;
     transition: border-color var(--transition-fast), background-color var(--transition-fast);
   }
 
-  .calc-menu-inner:hover {
+  .calc-menu-inner:hover,
+  .calc-menu-wrap.is-open .calc-menu-inner {
     border-color: var(--color-hairline-strong);
     background: var(--color-canvas-elevated);
   }
@@ -92,7 +158,6 @@ const translatePath = useTranslatedPath(currentLang);
   .calc-menu-icon {
     color: var(--color-mute);
     flex-shrink: 0;
-    pointer-events: none;
   }
 
   .calc-menu-text {
@@ -101,41 +166,97 @@ const translatePath = useTranslatedPath(currentLang);
     font-weight: 500;
     color: var(--color-ink);
     white-space: nowrap;
-    pointer-events: none;
     line-height: 1;
   }
 
   .calc-menu-chevron {
     color: var(--color-mute);
     flex-shrink: 0;
-    pointer-events: none;
+    transition: transform var(--transition-fast);
   }
 
-  .calc-menu-select-overlay {
+  .calc-menu-wrap.is-open .calc-menu-chevron {
+    transform: rotate(180deg);
+  }
+
+  .calc-menu-popover {
+    display: none;
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-    border: none;
-    background: transparent;
-    -webkit-appearance: none;
-    appearance: none;
-    z-index: 2;
+    top: calc(100% + 6px);
+    right: 0;
+    width: 280px;
+    max-width: 90vw;
+    background: var(--color-canvas-elevated);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-floating);
+    z-index: 50;
+    padding: 0.5rem 0;
+    animation: menuFadeIn 120ms ease-out;
   }
 
-  .calc-menu-select-overlay optgroup {
-    font-weight: 700;
+  .calc-menu-wrap.is-open .calc-menu-popover {
+    display: block;
+  }
+
+  @keyframes menuFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .calc-menu-popover-inner {
+    max-height: 75vh;
+    overflow-y: auto;
+  }
+
+  .calc-group-block {
+    padding: 0.25rem 0.5rem;
+  }
+
+  .calc-group-block + .calc-group-block {
+    border-top: 1px solid var(--color-hairline-soft);
+    margin-top: 0.25rem;
+    padding-top: 0.35rem;
+  }
+
+  .calc-group-title {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     color: var(--color-mute);
-    background: var(--color-canvas-elevated, #111111);
+    padding: 0.35rem 0.5rem 0.2rem;
   }
 
-  .calc-menu-select-overlay option {
-    font-weight: normal;
-    background: var(--color-canvas-elevated, #111111);
-    color: var(--color-ink, #ffffff);
-    padding: 6px;
+  .calc-group-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .calc-dropdown-link {
+    display: block;
+    padding: 0.38rem 0.55rem;
+    font-size: 0.8125rem;
+    color: var(--color-ink);
+    text-decoration: none;
+    border-radius: var(--radius-xs);
+    line-height: 1.35;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  .calc-dropdown-link:hover,
+  .calc-dropdown-link:focus {
+    background: var(--color-canvas-subtle);
+    color: var(--color-blue);
+    outline: none;
   }
 
   @media (max-width: 600px) {
@@ -144,8 +265,12 @@ const translatePath = useTranslatedPath(currentLang);
     }
     .calc-menu-inner {
       height: 30px;
-      padding: 0 0.35rem;
+      padding: 0 0.4rem;
       gap: 0.25rem;
+    }
+    .calc-menu-popover {
+      right: -40px;
+      width: 270px;
     }
   }
 </style>

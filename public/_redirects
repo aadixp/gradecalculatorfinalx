@@ -2,3 +2,10 @@
 /index.html / 301!
 /index.htm / 301!
 /index.php / 301!
+
+# Canonical URL normalization redirects
+/privacy /privacy-policy/ 301!
+/privacy/ /privacy-policy/ 301!
+/terms /terms-and-conditions/ 301!
+/terms/ /terms-and-conditions/ 301!
+/sitemap.xml /sitemap-index.xml 301!

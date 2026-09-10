@@ -24,9 +24,7 @@ export function getStaticPaths() {
   const slugs = [
     'about',
     'privacy-policy',
-    'privacy',
     'terms-and-conditions',
-    'terms',
     'contact',
     'weighted-grade-calculator',
     'final-exam-calculator',
@@ -59,8 +57,8 @@ const { lang, slug } = Astro.props as { lang: Lang; slug: string };
 ---
 
 {slug === 'about' && <AboutPage lang={lang} />}
-{(slug === 'privacy-policy' || slug === 'privacy') && <PrivacyPage lang={lang} />}
-{(slug === 'terms-and-conditions' || slug === 'terms') && <TermsPage lang={lang} />}
+{slug === 'privacy-policy' && <PrivacyPage lang={lang} />}
+{slug === 'terms-and-conditions' && <TermsPage lang={lang} />}
 {slug === 'contact' && <ContactPage lang={lang} />}
 {slug === 'weighted-grade-calculator' && <WeightedPage lang={lang} />}
 {slug === 'final-exam-calculator' && <FinalExamPage lang={lang} />}

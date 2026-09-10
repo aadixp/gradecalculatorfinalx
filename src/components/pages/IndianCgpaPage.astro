@@ -42,14 +42,14 @@ const faqSchema = [
 ---
 
 <Layout
-  title={t('icgpa.title')}
-  description={t('icgpa.desc')}
+  title={t('icgpa.pageTitle') || t('icgpa.title')}
+  description={t('icgpa.pageDesc') || t('icgpa.desc')}
   breadcrumbs={breadcrumbs}
   faqSchema={faqSchema}
   lang={lang}
   softwareSchema={{
-    name: t('menu.icgpa'),
-    description: t('icgpa.desc'),
+    name: t('icgpa.h1') || t('menu.icgpa'),
+    description: t('icgpa.pageDesc') || t('icgpa.desc'),
     applicationCategory: "EducationalApplication"
   }}
 >
@@ -59,7 +59,7 @@ const faqSchema = [
       <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
         <a href={translatePath('/')} style="color: var(--color-mute); text-decoration: none;" data-i18n="nav.home">{t('nav.home')}</a>
         <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
-        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="menu.icgpa">{t('menu.icgpa')}</span>
+        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="icgpa.h1">{t('icgpa.h1')}</span>
       </nav>
       <div style="display: flex; gap: 0.5rem;">
         <a href={translatePath('/indian-sgpa-calculator')} class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;">
@@ -74,8 +74,8 @@ const faqSchema = [
     <!-- Header Section -->
     <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.5rem;">
       <span class="mono-eyebrow" style="color: var(--color-emerald); margin-bottom: 0.35rem;" data-i18n="icgpa.eyebrow">{t('icgpa.eyebrow')}</span>
-      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="icgpa.title">
-        {t('icgpa.title')}
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="icgpa.h1">
+        {t('icgpa.h1')}
       </h1>
       <p style="font-size: 1.05rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6; max-width: 780px;" data-i18n="icgpa.desc">
         {t('icgpa.desc')}

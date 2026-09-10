@@ -39,5 +39,4 @@ Allow: /
 
 # XML Sitemap
 Sitemap: https://gradecalculatorfinalx.com/sitemap-index.xml
-Sitemap: https://gradecalculatorfinalx.com/sitemap.xml
 

@@ -38,14 +38,14 @@ const faqSchema = [
 ---
 
 <Layout
-  title={t('pcttocgpa.title')}
-  description={t('pcttocgpa.desc')}
+  title={t('pcttocgpa.pageTitle') || t('pcttocgpa.title')}
+  description={t('pcttocgpa.pageDesc') || t('pcttocgpa.desc')}
   breadcrumbs={breadcrumbs}
   faqSchema={faqSchema}
   lang={lang}
   softwareSchema={{
-    name: t('menu.pct_cgpa'),
-    description: t('pcttocgpa.desc'),
+    name: t('pcttocgpa.h1') || t('menu.pct_cgpa'),
+    description: t('pcttocgpa.pageDesc') || t('pcttocgpa.desc'),
     applicationCategory: "EducationalApplication"
   }}
 >
@@ -55,7 +55,7 @@ const faqSchema = [
       <nav aria-label="Breadcrumb" style="font-size: 0.8125rem; color: var(--color-mute);">
         <a href={translatePath('/')} style="color: var(--color-mute); text-decoration: none;" data-i18n="nav.home">{t('nav.home')}</a>
         <span style="margin: 0 0.5rem; color: var(--color-hairline);">&gt;</span>
-        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="menu.pct_cgpa">{t('menu.pct_cgpa')}</span>
+        <span style="color: var(--color-ink); font-weight: 500;" data-i18n="pcttocgpa.h1">{t('pcttocgpa.h1')}</span>
       </nav>
       <div style="display: flex; gap: 0.5rem;">
         <a href={translatePath('/cgpa-to-percentage')} class="btn btn-secondary btn-pill" style="font-size: 0.8125rem; text-decoration: none;">
@@ -67,8 +67,8 @@ const faqSchema = [
     <!-- Header Section -->
     <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--color-hairline); padding-bottom: 1.5rem;">
       <span class="mono-eyebrow" style="color: var(--color-cyan); margin-bottom: 0.35rem;" data-i18n="pcttocgpa.eyebrow">{t('pcttocgpa.eyebrow')}</span>
-      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="pcttocgpa.title">
-        {t('pcttocgpa.title')}
+      <h1 class="heading-lg" style="color: var(--color-ink); font-size: clamp(1.85rem, 4vw, 2.5rem); letter-spacing: -0.02em; margin-top: 0.25rem;" data-i18n="pcttocgpa.h1">
+        {t('pcttocgpa.h1')}
       </h1>
       <p style="font-size: 1.05rem; color: var(--color-body); margin-top: 0.75rem; line-height: 1.6; max-width: 780px;" data-i18n="pcttocgpa.desc">
         {t('pcttocgpa.desc')}
@@ -97,6 +97,39 @@ const faqSchema = [
       <p style="font-family: var(--font-mono); margin-bottom: 1.25rem; color: var(--color-ink);" data-i18n="pcttocgpa.example_res">
         {t('pcttocgpa.example_res')}
       </p>
+
+      <h3 class="heading-md" style="font-size: 1.15rem; color: var(--color-ink); margin-top: 1.5rem; margin-bottom: 0.75rem;">
+        Percentage to 10-Point CGPA Conversion Matrix
+      </h3>
+      <p style="margin-bottom: 1rem; font-size: 0.9375rem;">
+        Quick reference benchmark table comparing standard AICTE/CBSE (&divide; 9.5), Direct Scale (&divide; 10), and VTU/Mumbai University formulas:
+      </p>
+      <div style="overflow-x: auto; margin-bottom: 1.5rem;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem; text-align: left;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--color-hairline); color: var(--color-ink);">
+              <th style="padding: 0.5rem 0.75rem;">Percentage (%)</th>
+              <th style="padding: 0.5rem 0.75rem;">AICTE / CBSE (&divide; 9.5)</th>
+              <th style="padding: 0.5rem 0.75rem;">Direct Scale (&divide; 10)</th>
+              <th style="padding: 0.5rem 0.75rem;">VTU / Mumbai University</th>
+              <th style="padding: 0.5rem 0.75rem;">Division / Honors</th>
+            </tr>
+          </thead>
+          <tbody style="font-family: var(--font-mono); font-size: 0.8125rem;">
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);"><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-ink);">95%</td><td style="padding: 0.45rem 0.75rem;">10.00</td><td style="padding: 0.45rem 0.75rem;">9.50</td><td style="padding: 0.45rem 0.75rem;">10.00</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-green); font-weight: 600;">First Class with Distinction</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);"><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-ink);">90%</td><td style="padding: 0.45rem 0.75rem;">9.47</td><td style="padding: 0.45rem 0.75rem;">9.00</td><td style="padding: 0.45rem 0.75rem;">9.75</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-green);">First Class with Distinction</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);"><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-ink);">85%</td><td style="padding: 0.45rem 0.75rem;">8.95</td><td style="padding: 0.45rem 0.75rem;">8.50</td><td style="padding: 0.45rem 0.75rem;">9.25</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-green);">First Class with Distinction</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);"><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-ink);">80%</td><td style="padding: 0.45rem 0.75rem;">8.42</td><td style="padding: 0.45rem 0.75rem;">8.00</td><td style="padding: 0.45rem 0.75rem;">8.75</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-green);">First Class with Distinction</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);"><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-ink);">75%</td><td style="padding: 0.45rem 0.75rem;">7.89</td><td style="padding: 0.45rem 0.75rem;">7.50</td><td style="padding: 0.45rem 0.75rem;">8.25</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-blue); font-weight: 600;">First Class</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);"><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-ink);">70%</td><td style="padding: 0.45rem 0.75rem;">7.37</td><td style="padding: 0.45rem 0.75rem;">7.00</td><td style="padding: 0.45rem 0.75rem;">7.75</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-blue);">First Class</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);"><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-ink);">65%</td><td style="padding: 0.45rem 0.75rem;">6.84</td><td style="padding: 0.45rem 0.75rem;">6.50</td><td style="padding: 0.45rem 0.75rem;">7.25</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-blue);">First Class</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);"><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-ink);">60%</td><td style="padding: 0.45rem 0.75rem;">6.32</td><td style="padding: 0.45rem 0.75rem;">6.00</td><td style="padding: 0.45rem 0.75rem;">6.75</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-blue);">First Class (Cutoff)</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);"><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-ink);">55%</td><td style="padding: 0.45rem 0.75rem;">5.79</td><td style="padding: 0.45rem 0.75rem;">5.50</td><td style="padding: 0.45rem 0.75rem;">6.25</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-amber);">Higher Second Class</td></tr>
+            <tr style="border-bottom: 1px solid var(--color-hairline-soft);"><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-ink);">50%</td><td style="padding: 0.45rem 0.75rem;">5.26</td><td style="padding: 0.45rem 0.75rem;">5.00</td><td style="padding: 0.45rem 0.75rem;">5.75</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-amber);">Second Class</td></tr>
+            <tr><td style="padding: 0.45rem 0.75rem; font-weight: 600; color: var(--color-ink);">40%</td><td style="padding: 0.45rem 0.75rem;">4.21</td><td style="padding: 0.45rem 0.75rem;">4.00</td><td style="padding: 0.45rem 0.75rem;">4.75</td><td style="padding: 0.45rem 0.75rem; font-family: var(--font-sans); color: var(--color-mute);">Pass Division</td></tr>
+          </tbody>
+        </table>
+      </div>
 
       <h3 class="heading-md" style="font-size: 1.15rem; color: var(--color-ink); margin-bottom: 0.75rem;" data-i18n="pcttocgpa.caveat_heading">
         {t('pcttocgpa.caveat_heading')}

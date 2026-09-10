@@ -28,6 +28,22 @@ export default {
       shouldRedirect = true;
     }
 
+    // 3b. Normalize sitemap.xml to authoritative sitemap-index.xml
+    if (targetPath.toLowerCase() === "/sitemap.xml") {
+      targetPath = "/sitemap-index.xml";
+      shouldRedirect = true;
+    }
+
+    // 3c. Normalize duplicate utility paths (/privacy -> /privacy-policy/, /terms -> /terms-and-conditions/)
+    if (/(^|\/)privacy\/?$/i.test(targetPath)) {
+      targetPath = targetPath.replace(/privacy\/?$/i, "privacy-policy/");
+      shouldRedirect = true;
+    }
+    if (/(^|\/)terms\/?$/i.test(targetPath)) {
+      targetPath = targetPath.replace(/terms\/?$/i, "terms-and-conditions/");
+      shouldRedirect = true;
+    }
+
     // Check if request is for a static asset (has a file extension or is under /_astro/ or /styles/)
     const hasFileExtension = /\.[a-zA-Z0-9]+$/.test(targetPath);
     const isStaticAsset = hasFileExtension || targetPath.startsWith("/_astro/") || targetPath.startsWith("/styles/");

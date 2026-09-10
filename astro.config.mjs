@@ -9,11 +9,7 @@ export default defineConfig({
     sitemap({
       filter: (page) =>
         !page.includes('/404') &&
-        !page.includes('/500') &&
-        !page.endsWith('/privacy/') &&
-        !page.endsWith('/privacy') &&
-        !page.endsWith('/terms/') &&
-        !page.endsWith('/terms'),
+        !page.includes('/500'),
     }),
   ],
   i18n: {

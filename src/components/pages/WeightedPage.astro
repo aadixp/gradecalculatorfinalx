@@ -16,6 +16,21 @@ const breadcrumbs = [
   { name: t('page.home'), item: translatePath('/') },
   { name: t('wgc.h1'), item: translatePath('/weighted-grade-calculator') }
 ];
+
+const faqSchema = [
+  {
+    question: "What happens if my syllabus weights do not sum up to 100%?",
+    answer: "If weights sum to less than 100% (such as during mid-semester), our calculator normalizes your score by dividing accumulated weighted points by the sum of completed weights. Alternatively, click 'Normalize Weights to 100%' to proportionally upscale each category weight."
+  },
+  {
+    question: "How do I calculate a points-based grading system?",
+    answer: "In a total points system, divide your total earned points across all assignments by the total possible points available in the course, then multiply by 100. Weights are inherently determined by the point value assigned to each task."
+  },
+  {
+    question: "How does dropping the lowest score work in weighted classes?",
+    answer: "When a professor drops your lowest quiz or homework score, the assignment with the lowest percentage grade within that category is omitted, and the category's weight is distributed equally among the remaining assignments."
+  }
+];
 ---
 
 <Layout
@@ -23,6 +38,7 @@ const breadcrumbs = [
   description={t('wgc.pageDesc')}
   lang={lang}
   breadcrumbs={breadcrumbs}
+  faqSchema={faqSchema}
   softwareSchema={{
     name: t('wgc.h1'),
     description: t('wgc.pageDesc'),
@@ -283,9 +299,41 @@ const breadcrumbs = [
       <h3 class="heading-md" style="font-size: 1.15rem; color: var(--color-ink); margin-bottom: 0.75rem;" data-i18n="wgc.midsemTitle">
         {t('wgc.midsemTitle')}
       </h3>
-      <p style="margin-bottom: 1rem;" data-i18n="wgc.midsemP1">
+      <p style="margin-bottom: 1.25rem;" data-i18n="wgc.midsemP1">
         {t('wgc.midsemP1')}
       </p>
+
+      <h3 style="font-size: 1.15rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.75rem;">Step-by-Step Calculation Example</h3>
+      <p style="margin-bottom: 1rem; font-size: 0.9375rem;">
+        Suppose your syllabus specifies 4 categories: Homework (20%), Quizzes (15%), Midterm Exam (25%), and Final Project (40%). If your scores are 92% on Homework, 80% on Quizzes, and 75% on the Midterm:
+      </p>
+      <div style="background: var(--color-canvas-subtle); padding: 1rem 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline); font-family: var(--font-mono); font-size: 0.8125rem; margin-bottom: 1.5rem; line-height: 1.6;">
+        <div>1. Homework: 92 &times; 0.20 = 18.40 weighted points</div>
+        <div>2. Quizzes: 80 &times; 0.15 = 12.00 weighted points</div>
+        <div>3. Midterm: 75 &times; 0.25 = 18.75 weighted points</div>
+        <div style="margin-top: 0.5rem; border-top: 1px solid var(--color-hairline); padding-top: 0.5rem; color: var(--color-ink); font-weight: 600;">
+          Sum of points = 49.15 | Active weight = 60% (0.60)<br/>
+          Current Weighted Average = 49.15 &divide; 0.60 = 81.92% (Grade B / Satisfactory)
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid var(--color-hairline); padding-top: 1.5rem; margin-top: 1.5rem;">
+        <h3 style="font-size: 1.15rem; font-weight: 600; color: var(--color-ink); margin-bottom: 1rem;">Frequently Asked Questions</h3>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div>
+            <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">What happens if my syllabus weights do not sum up to 100%?</h4>
+            <p style="font-size: 0.875rem; color: var(--color-body); margin: 0;">If weights sum to less than 100% (such as during mid-semester), our calculator normalizes your score by dividing accumulated weighted points by the sum of completed weights. Alternatively, click 'Normalize Weights to 100%' to proportionally upscale each category weight.</p>
+          </div>
+          <div>
+            <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">How do I calculate a points-based grading system?</h4>
+            <p style="font-size: 0.875rem; color: var(--color-body); margin: 0;">In a total points system, divide your total earned points across all assignments by the total possible points available in the course, then multiply by 100. Weights are inherently determined by the point value assigned to each task.</p>
+          </div>
+          <div>
+            <h4 style="font-size: 0.9375rem; font-weight: 600; color: var(--color-ink); margin-bottom: 0.25rem;">How does dropping the lowest score work in weighted classes?</h4>
+            <p style="font-size: 0.875rem; color: var(--color-body); margin: 0;">When a professor drops your lowest quiz or homework score, the assignment with the lowest percentage grade within that category is omitted, and the category's weight is distributed equally among the remaining assignments.</p>
+          </div>
+        </div>
+      </div>
     </article>
 
     <!-- Related Links -->
